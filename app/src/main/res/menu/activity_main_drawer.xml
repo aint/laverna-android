@@ -2,66 +2,46 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_all_notes"
+            android:id="@+id/nav_item_all_notes"
             android:icon="@drawable/ic_menu_file_black_24dp"
             android:title="All notes" />
+
         <item
-            android:id="@+id/nav_favourites"
+            android:id="@+id/nav_item_favorites"
             android:icon="@drawable/ic_menu_star_black_24dp"
             android:title="Favourites" />
+
         <item
-            android:id="@+id/nav_trash"
+            android:id="@+id/nav_item_trash"
             android:icon="@drawable/ic_menu_delete_black_24dp"
             android:title="Trash" />
+
         <item
-            android:id="@+id/nav_notebooks"
+            android:id="@+id/nav_item_notebooks"
             android:icon="@drawable/ic_menu_book_black_24dp"
             android:title="Notebooks" />
+
         <item
-            android:id="@+id/nav_open_tasks"
+            android:id="@+id/nav_item_open_tasks"
             android:icon="@drawable/ic_menu_done_black_24dp"
             android:title="Open tasks" />
+
+        <item
+            android:id="@+id/nav_item_tags"
+            android:icon="@drawable/ic_tag_black_24dp"
+            android:title="Tags" />
+
+        <item
+            android:id="@+id/nav_item_profiles"
+            android:icon="@drawable/ic_menu_people_black_24dp"
+            android:title="Profiles" />
+
+        <item
+            android:id="@+id/nav_item_sync"
+            android:icon="@drawable/ic_stat_sync_black_24dp"
+            android:title="Synchronization" />
+
     </group>
-
-    <item android:title="Notebooks">
-        <menu
-            android:id="@+id/nav_menu_notebooks">
-            <!--TODO: Temporary items, remove later-->
-            <item
-                android:icon="@drawable/ic_menu_book_black_24dp"
-                android:title="Temp notebook 1" />
-            <item
-                android:icon="@drawable/ic_menu_book_black_24dp"
-                android:title="Temp notebook 2" />
-        </menu>
-    </item>
-
-    <item android:title="Profiles">
-        <menu
-            android:id="@+id/nav_menu_profiles">
-            <!--TODO: Temporary items, remove later-->
-            <item
-                android:title="Temp profile 1" />
-            <item
-                android:title="Temp profile 2" />
-        </menu>
-    </item>
-
-    <item android:title="Other">
-        <menu
-            android:id="@+id/nav_menu_other">
-            <item
-                android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_settings_black_24dp"
-                android:title="Settings" />
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_info_black_24dp"
-                android:title="About" />
-        </menu>
-    </item>
-
-
-
 </menu>
