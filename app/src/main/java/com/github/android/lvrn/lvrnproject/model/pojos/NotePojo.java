@@ -1,8 +1,7 @@
 package com.github.android.lvrn.lvrnproject.model.pojos;
 
-
-import com.github.android.lvrn.lvrnproject.model.TrashStatusEnum;
-import com.github.android.lvrn.lvrnproject.model.TypeEnum;
+import com.github.android.lvrn.lvrnproject.model.enums.TrashStatusEnum;
+import com.github.android.lvrn.lvrnproject.model.enums.TypeEnum;
 
 import java.util.Set;
 
@@ -33,9 +32,10 @@ public class NotePojo extends GeneralPojo {
     private int taskCompleted;
 
     /**
-     * An id of notebook, which the note is belonged.
+     * An id of a notebook, which the note is belonged. In case, if the note doesn't belong to any
+     * notebook, then notebookId equals to "0".
      */
-    private String notebookId;
+    private String notebookId = "0";
 
     /**
      * A set of tag's name contained in the note.
@@ -155,13 +155,8 @@ public class NotePojo extends GeneralPojo {
 
     @Override
     public String toString() {
-        return "NotePojo{" +
-                "id='" + super.getId() + '\'' +
-                ", type=" + super.getType() +
-                ", trash=" + super.getTrash() +
-                ", created=" + super.getCreated() +
-                ", updated=" + super.getUpdated() +
-                ", title='" + title + '\'' +
+        return "NotePojo{" + super.toString() +
+                "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", taskAll=" + taskAll +
                 ", taskCompleted=" + taskCompleted +

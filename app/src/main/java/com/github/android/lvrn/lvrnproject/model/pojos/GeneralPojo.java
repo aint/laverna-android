@@ -1,46 +1,51 @@
 package com.github.android.lvrn.lvrnproject.model.pojos;
 
 
-import com.github.android.lvrn.lvrnproject.model.TrashStatusEnum;
-import com.github.android.lvrn.lvrnproject.model.TypeEnum;
+
+import com.github.android.lvrn.lvrnproject.model.enums.TrashStatusEnum;
+import com.github.android.lvrn.lvrnproject.model.enums.TypeEnum;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-abstract class GeneralPojo {
+abstract class GeneralPojo extends RealmObject {
 
     /**
      * An id of the model
      */
+    @PrimaryKey
     private String id;
 
     /**
      * A type of the model
      */
-    private TypeEnum type;
+    private String type;
 
     /**
      * A status of the model's existence
      */
-    private TrashStatusEnum trash;
+    private int trash;
 
     /**
      * A date of the model's creation
-     * TODO: write format of time
+     * TODO: find out format of time
      */
     private long created;
 
     /**
      * A date of of the model's last update
-     * TODO: write format of time
+     * TODO: find out format of time
      */
     private long updated;
 
     GeneralPojo(String id, TypeEnum type, TrashStatusEnum trash, long created, long updated) {
         this.id = id;
-        this.type = type;
-        this.trash = trash;
+        this.type = type.toString();
+        this.trash = trash.getStatus();
         this.created = created;
         this.updated = updated;
     }
@@ -54,19 +59,19 @@ abstract class GeneralPojo {
     }
 
     public TypeEnum getType() {
-        return type;
+        return TypeEnum.valueOf(type);
     }
 
     public void setType(TypeEnum type) {
-        this.type = type;
+        this.type = type.toString();
     }
 
     public TrashStatusEnum getTrash() {
-        return trash;
+        return TrashStatusEnum.valueOf(trash);
     }
 
     public void setTrash(TrashStatusEnum trash) {
-        this.trash = trash;
+        this.trash = trash.getStatus();
     }
 
     public long getCreated() {

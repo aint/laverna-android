@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.model;
+package com.github.android.lvrn.lvrnproject.model.enums;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
