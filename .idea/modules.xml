@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Lvrnproject.iml" filepath="$PROJECT_DIR$/Lvrnproject.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/laverna-android.iml" filepath="$PROJECT_DIR$/laverna-android.iml" />
     </modules>
   </component>
 </project>

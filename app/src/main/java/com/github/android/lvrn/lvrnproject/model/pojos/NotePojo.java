@@ -1,7 +1,8 @@
 package com.github.android.lvrn.lvrnproject.model.pojos;
 
-import com.github.android.lvrn.lvrnproject.model.enums.TrashStatusEnum;
-import com.github.android.lvrn.lvrnproject.model.enums.TypeEnum;
+
+import com.github.android.lvrn.lvrnproject.model.TrashStatusEnum;
+import com.github.android.lvrn.lvrnproject.model.TypeEnum;
 
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteModel extends GeneralModel {
+public class NotePojo extends GeneralPojo {
 
     /**
      * A title of the note.
@@ -54,20 +55,20 @@ public class NoteModel extends GeneralModel {
      */
     private Set<String> task;
 
-    public NoteModel(String id,
-                     TypeEnum type,
-                     TrashStatusEnum trash,
-                     long created,
-                     long updated,
-                     String title,
-                     String content,
-                     int taskAll,
-                     int taskCompleted,
-                     String notebookId,
-                     Set<String> tags,
-                     boolean isFavorite,
-                     int files,
-                     Set<String> task) {
+    public NotePojo(String id,
+                    TypeEnum type,
+                    TrashStatusEnum trash,
+                    long created,
+                    long updated,
+                    String title,
+                    String content,
+                    int taskAll,
+                    int taskCompleted,
+                    String notebookId,
+                    Set<String> tags,
+                    boolean isFavorite,
+                    int files,
+                    Set<String> task) {
         super(id, type, trash, created, updated);
         this.title = title;
         this.content = content;
@@ -154,7 +155,7 @@ public class NoteModel extends GeneralModel {
 
     @Override
     public String toString() {
-        return "NoteModel{" +
+        return "NotePojo{" +
                 "id='" + super.getId() + '\'' +
                 ", type=" + super.getType() +
                 ", trash=" + super.getTrash() +

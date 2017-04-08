@@ -1,13 +1,14 @@
 package com.github.android.lvrn.lvrnproject.model.pojos;
 
-import com.github.android.lvrn.lvrnproject.model.enums.TrashStatusEnum;
-import com.github.android.lvrn.lvrnproject.model.enums.TypeEnum;
+
+import com.github.android.lvrn.lvrnproject.model.TrashStatusEnum;
+import com.github.android.lvrn.lvrnproject.model.TypeEnum;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-abstract class GeneralModel {
+abstract class GeneralPojo {
 
     /**
      * An id of the model
@@ -36,7 +37,7 @@ abstract class GeneralModel {
      */
     private long updated;
 
-    GeneralModel(String id, TypeEnum type, TrashStatusEnum trash, long created, long updated) {
+    GeneralPojo(String id, TypeEnum type, TrashStatusEnum trash, long created, long updated) {
         this.id = id;
         this.type = type;
         this.trash = trash;
@@ -86,7 +87,7 @@ abstract class GeneralModel {
 
     @Override
     public String toString() {
-        return "GeneralModel{" +
+        return "GeneralPojo{" +
                 "id='" + id + '\'' +
                 ", type=" + type +
                 ", trash=" + trash +
