@@ -2,10 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.github.android.lvrn.lvrnproject.view.mainactivity.MainActivity"
+    tools:context=".view.activities.mainactivity.MainActivity"
     tools:showIn="@layout/activity_main">
 
 </android.support.constraint.ConstraintLayout>
