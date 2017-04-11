@@ -1,16 +1,33 @@
 package com.github.android.lvrn.lvrnproject.model.persistententities;
 
 import java.util.List;
+
+import io.realm.RealmModel;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TagEntity extends GeneralEntity {
+@RealmClass
+public class TagEntity implements RealmModel {
 
     /**
-     * A date of the model's creation
+     * An id of the tag.
+     */
+    @PrimaryKey
+    @Required
+    private String id;
+
+    /**
+     * A name of the tag.
+     */
+    @Required
+    private String name;
+    /**
+     * A date of the model's creation.
      * TODO: find out format of time
      */
     @Required
@@ -29,10 +46,27 @@ public class TagEntity extends GeneralEntity {
                      long createdTime,
                      int count,
                      List<NoteEntity> noteEntities) {
-        super(id, name);
+        this.id = id;
+        this.name = name;
         this.createdTime = createdTime;
         this.count = count;
         this.noteEntities = noteEntities;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getCreatedTime() {
@@ -61,7 +95,9 @@ public class TagEntity extends GeneralEntity {
 
     @Override
     public String toString() {
-        return "TagEntity{" + super.toString() +
+        return "TagEntity{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", createdTime=" + createdTime +
                 ", count=" + count +
                 ", noteEntities=" + noteEntities +

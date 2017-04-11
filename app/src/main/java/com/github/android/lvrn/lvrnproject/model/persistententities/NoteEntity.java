@@ -1,16 +1,32 @@
 package com.github.android.lvrn.lvrnproject.model.persistententities;
 
 import io.realm.RealmList;
+import io.realm.RealmModel;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteEntity extends GeneralEntity {
+@RealmClass
+public class NoteEntity implements RealmModel {
 
     /**
-     * A date of the model's creation
+     * An id of the note.
+     */
+    @PrimaryKey
+    @Required
+    private String id;
+
+    /**
+     * A name or a title of the entity.
+     */
+    @Required
+    private String title;
+    /**
+     * A date of the model's creation.
      * TODO: find out format of time
      */
     @Required
@@ -33,7 +49,7 @@ public class NoteEntity extends GeneralEntity {
     private RealmList<TagEntity> tagEntities;
 
     /**
-     * A status of the note's belonging to favorites notes
+     * A status of the note's belonging to favorites notes.
      */
     private boolean isFavorite = false;
 
@@ -51,7 +67,7 @@ public class NoteEntity extends GeneralEntity {
     private NotebookEntity notebookEntity;
 
     public NoteEntity(String id,
-                      String name,
+                      String title,
                       long createdTime,
                       String content,
                       String notebookId,
@@ -60,7 +76,8 @@ public class NoteEntity extends GeneralEntity {
                       int files,
                       RealmList<TaskEntity> taskEntities,
                       NotebookEntity notebookEntity) {
-        super(id, name);
+        this.id = id;
+        this.title = title;
         this.createdTime = createdTime;
         this.content = content;
         this.notebookId = notebookId;
@@ -69,6 +86,22 @@ public class NoteEntity extends GeneralEntity {
         this.files = files;
         this.taskEntities = taskEntities;
         this.notebookEntity = notebookEntity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public long getCreatedTime() {
@@ -137,7 +170,9 @@ public class NoteEntity extends GeneralEntity {
 
     @Override
     public String toString() {
-        return "NoteEntity{" + super.toString() +
+        return "NoteEntity{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", createdTime=" + createdTime +
                 ", content='" + content + '\'' +
                 ", notebookId='" + notebookId + '\'' +

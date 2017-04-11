@@ -1,17 +1,33 @@
 package com.github.android.lvrn.lvrnproject.model.persistententities;
 
 import io.realm.RealmList;
+import io.realm.RealmModel;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookEntity extends GeneralEntity {
+@RealmClass
+public class NotebookEntity implements RealmModel {
 
     /**
-     * A date of the model's creation
+     * An id of the notebook.
+     */
+    @PrimaryKey
+    @Required
+    private String id;
+
+    /**
+     * A name of the notebook.
+     */
+    @Required
+    private String name;
+
+    /**
+     * A date of the model's creation.
      * TODO: find out format of time
      */
     @Required
@@ -37,11 +53,28 @@ public class NotebookEntity extends GeneralEntity {
                           String parentId,
                           int count,
                           RealmList<NoteEntity> noteEntities) {
-        super(id, name);
+        this.id = id;
+        this.name = name;
         this.createdTime = createdTime;
         this.parentId = parentId;
         this.count = count;
         this.noteEntities = noteEntities;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getCreatedTime() {
@@ -78,7 +111,9 @@ public class NotebookEntity extends GeneralEntity {
 
     @Override
     public String toString() {
-        return "NotebookEntity{" + super.toString() +
+        return "NotebookEntity{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", createdTime=" + createdTime +
                 ", parentId='" + parentId + '\'' +
                 ", count=" + count +

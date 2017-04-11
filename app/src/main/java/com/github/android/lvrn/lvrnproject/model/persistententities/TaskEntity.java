@@ -1,13 +1,29 @@
 package com.github.android.lvrn.lvrnproject.model.persistententities;
 
+import io.realm.RealmModel;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-class TaskEntity extends GeneralEntity {
+@RealmClass
+class TaskEntity implements RealmModel {
 
+    /**
+     * An id of the task.
+     */
+    @PrimaryKey
+    @Required
+    private String id;
+
+    /**
+     * A description of the task.
+     */
+    @Required
+    private String description;
     /**
      * A status of the task's completion.
      */
@@ -19,10 +35,30 @@ class TaskEntity extends GeneralEntity {
     @Required
     private NoteEntity noteEntity;
 
-    public TaskEntity(String id, String name, boolean isCompleted, NoteEntity noteEntity) {
-        super(id, name);
+    public TaskEntity(String id,
+                      String description,
+                      boolean isCompleted,
+                      NoteEntity noteEntity) {
+        this.id = id;
+        this.description = description;
         this.isCompleted = isCompleted;
         this.noteEntity = noteEntity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isCompleted() {
@@ -43,7 +79,9 @@ class TaskEntity extends GeneralEntity {
 
     @Override
     public String toString() {
-        return "TaskEntity{" + super.toString() +
+        return "TaskEntity{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
                 ", isCompleted=" + isCompleted +
                 ", noteEntity=" + noteEntity +
                 '}';
