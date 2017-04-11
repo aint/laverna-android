@@ -16,13 +16,11 @@ public class ProfileEntity implements RealmModel {
      * An id of the profile.
      */
     @PrimaryKey
-    @Required
     private String id;
 
     /**
      * A name of the profile.
      */
-    @Required
     private String name;
     /**
      * A list of profile's {@link NoteEntity} objects.
@@ -43,6 +41,8 @@ public class ProfileEntity implements RealmModel {
      * A list of profile's {@link TaskEntity} objects.
      */
     private RealmList<TaskEntity> taskEntities;
+
+    public ProfileEntity() {}
 
     public ProfileEntity(String id,
                          String name,

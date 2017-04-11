@@ -17,19 +17,16 @@ public class NoteEntity implements RealmModel {
      * An id of the note.
      */
     @PrimaryKey
-    @Required
     private String id;
 
     /**
      * A name or a title of the entity.
      */
-    @Required
     private String title;
     /**
      * A date of the model's creation.
      * TODO: find out format of time
      */
-    @Required
     private long createdTime;
 
     /**
@@ -65,6 +62,8 @@ public class NoteEntity implements RealmModel {
      * A {@link NotebookEntity} object which the note belong to.
      */
     private NotebookEntity notebookEntity;
+
+    public NoteEntity() {}
 
     public NoteEntity(String id,
                       String title,

@@ -10,30 +10,30 @@ import io.realm.annotations.Required;
  */
 
 @RealmClass
-class TaskEntity implements RealmModel {
+public class TaskEntity implements RealmModel {
 
     /**
      * An id of the task.
      */
     @PrimaryKey
-    @Required
     private String id;
 
     /**
      * A description of the task.
      */
-    @Required
     private String description;
     /**
-     * A status of the task's completion.
+     * A status of the task's completion.m1e2g3a4d5e6t7h8
+     *
      */
     private boolean isCompleted = false;
 
     /**
      * A {@link NoteEntity} object which the task belong to.
      */
-    @Required
     private NoteEntity noteEntity;
+
+    public TaskEntity() {}
 
     public TaskEntity(String id,
                       String description,
