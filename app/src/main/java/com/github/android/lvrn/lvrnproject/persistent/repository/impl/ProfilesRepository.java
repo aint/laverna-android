@@ -1,17 +1,16 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.profilesrepository;
+package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.Repository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.RepositoryAbstractImpl;
-import com.github.android.lvrn.lvrnproject.persistent.specification.Specification;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.github.android.lvrn.lvrnproject.persistent.LavernaContract.LavernaBaseTable.COLUMN_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.LavernaContract.ProfilesTable.*;
 
 /**
@@ -19,7 +18,6 @@ import static com.github.android.lvrn.lvrnproject.persistent.LavernaContract.Pro
  */
 
 public class ProfilesRepository extends RepositoryAbstractImpl<Profile> implements Repository<Profile> {
-
 
     public ProfilesRepository() {
         super(TABLE_NAME);
@@ -50,11 +48,21 @@ public class ProfilesRepository extends RepositoryAbstractImpl<Profile> implemen
     }
 
     @Override
-    public void remove(Specification specification) {}
+    public Profile get(String id) {
+        return toItem(super.getFromDb(id));
+    }
 
     @Override
-    public List<Profile> query(Specification specification) {
-        return null;
+    public List<Profile> get(int from, int amount) {
+        List<Profile> profiles = new ArrayList<>();
+        Cursor cursor = super.getFromDb(from, amount);
+        if (cursor != null && cursor.moveToFirst()) {
+            while (cursor.moveToNext()) {
+                profiles.add(toItem(cursor));
+            }
+            cursor.close();
+        }
+        return profiles;
     }
 
     @Override
@@ -67,6 +75,8 @@ public class ProfilesRepository extends RepositoryAbstractImpl<Profile> implemen
 
     @Override
     protected Profile toItem(Cursor cursor) {
-        return null;
+        return new Profile(
+                cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_NAME)));
     }
 }

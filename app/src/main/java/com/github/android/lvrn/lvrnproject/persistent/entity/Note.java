@@ -13,6 +13,9 @@ public class Note {
      */
     private String id;
 
+    /**
+     * An id of the profile, which the note is belonged.
+     */
     private String profileId;
 
     /**
@@ -34,7 +37,7 @@ public class Note {
 
     /**
      * A date of the model's creation.
-     * TODO: find out format of time
+     * TODO: find out format of times
      */
     private long updateTime;
 
@@ -43,11 +46,28 @@ public class Note {
      */
     private String content;
 
-
     /**
      * A status of the note's belonging to favorites notes.
      */
     private boolean isFavorite = false;
+
+    public Note(String id,
+                String profileId,
+                String notebookId,
+                String title,
+                long creationTime,
+                long updateTime,
+                String content,
+                boolean isFavorite) {
+        this.id = id;
+        this.profileId = profileId;
+        this.notebookId = notebookId;
+        this.title = title;
+        this.creationTime = creationTime;
+        this.updateTime = updateTime;
+        this.content = content;
+        this.isFavorite = isFavorite;
+    }
 
     public String getId() {
         return id;

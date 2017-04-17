@@ -10,17 +10,15 @@ import com.github.android.lvrn.lvrnproject.persistent.LavernaDbHelper;
 
 public class LavernaApplication extends Application {
 
-    private static LavernaDbHelper lavernaDbHelper;
+    private static LavernaDbHelper sLavernaDbHelper;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        lavernaDbHelper = new LavernaDbHelper(this);
+        sLavernaDbHelper = new LavernaDbHelper(this);
     }
 
     public static LavernaDbHelper getLavernaDbHelper() {
-        return lavernaDbHelper;
+        return sLavernaDbHelper;
     }
-
-
 }

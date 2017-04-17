@@ -1,6 +1,5 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
-import com.github.android.lvrn.lvrnproject.persistent.specification.Specification;
 
 import java.util.List;
 
@@ -18,7 +17,8 @@ public interface Repository<T> {
 
     void remove(T item);
 
-    void remove(Specification specification);
+    T get(String id);
 
-    List<T> query(Specification specification);
+    List<T> get(int from, int amount);
 }
+

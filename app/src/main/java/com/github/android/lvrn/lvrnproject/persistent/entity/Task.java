@@ -11,6 +11,9 @@ public class Task {
      */
     private String id;
 
+    /**
+     * An id of the note, which the task is belonged.
+     */
     private String noteId;
 
     /**
@@ -23,6 +26,16 @@ public class Task {
      *
      */
     private boolean isCompleted = false;
+
+    public Task(String id,
+                String noteId,
+                String description,
+                boolean isCompleted) {
+        this.id = id;
+        this.noteId = noteId;
+        this.description = description;
+        this.isCompleted = isCompleted;
+    }
 
     public String getId() {
         return id;
