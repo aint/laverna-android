@@ -43,7 +43,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_below="@+id/tv_title_note"
                 android:textSize="12sp"
-                android:textColor="@color/colorDateCreatedNote"
+                android:textColor="@color/main_green_themes_app"
                 android:text="@string/date_of_created_all_note"/>
 
             <TextView

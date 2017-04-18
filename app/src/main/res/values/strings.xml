@@ -10,4 +10,5 @@
     <string name="title_all_notes">Title</string>
     <string name="date_of_created_all_note">Date of Created</string>
     <string name="tv_prompt_ext_note">Prompt Text</string>
+    <string name="item_note_title_note">Title notes</string>
 </resources>

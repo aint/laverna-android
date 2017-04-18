@@ -35,4 +35,5 @@ public class AllNotesFragment extends Fragment {
         return rootView;
     }
 
+
 }
