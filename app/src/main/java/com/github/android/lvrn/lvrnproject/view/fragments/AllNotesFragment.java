@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.adapters.AllNotesFragmentRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
 
 
 /**

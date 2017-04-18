@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.adapters;
+package com.github.android.lvrn.lvrnproject.view.adapters;
 
 
 import android.content.Context;
@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.model.persistententities.NoteEntity;
 
 import java.util.ArrayList;
 import java.util.List;
