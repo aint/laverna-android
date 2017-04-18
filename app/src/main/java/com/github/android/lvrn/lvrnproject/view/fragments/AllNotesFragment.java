@@ -28,7 +28,7 @@ public class AllNotesFragment extends Fragment {
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_all_notes);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter=new AllNotesFragmentRecyclerViewAdapter();
+        mAdapter=new AllNotesFragmentRecyclerViewAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
