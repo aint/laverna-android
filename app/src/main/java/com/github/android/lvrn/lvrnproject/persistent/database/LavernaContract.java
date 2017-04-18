@@ -1,10 +1,9 @@
-package com.github.android.lvrn.lvrnproject.persistent;
+package com.github.android.lvrn.lvrnproject.persistent.database;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-//TODO: write correct doc.
 public class LavernaContract {
 
     public LavernaContract() {}
@@ -41,14 +40,14 @@ public class LavernaContract {
         public static final String COLUMN_COUNT = "count";
 
         public static final String SQL_CREATE_NOTEBOOKS_TABLE =
-                "CREATE TABLE" + TABLE_NAME + " ("
-                        + COLUMN_ID + "TEXT PRIMARY KEY,"
+                "CREATE TABLE " + TABLE_NAME + " ("
+                        + COLUMN_ID + " TEXT PRIMARY KEY,"
                         + COLUMN_PROFILE_ID + " TEXT,"
                         + COLUMN_PARENT_ID + " TEXT,"
                         + COLUMN_NAME + " TEXT,"
                         + COLUMN_CREATED_TIME + " INTEGER,"
                         + COLUMN_UPDATE_TIME + " INTEGER,"
-                        + COLUMN_COUNT + " INTEGER"
+                        + COLUMN_COUNT + " INTEGER,"
                         + "INDEX (" + COLUMN_PROFILE_ID + "),"
                         + "INDEX (" + COLUMN_PARENT_ID + "));";
 
@@ -110,7 +109,7 @@ public class LavernaContract {
     }
 
     /**
-     *
+     * A junction table of a many-to-many relationship between the notes table and the tags table.
      */
     public static class NotesTagsTable extends LavernaBaseTable {
         public static final String TABLE_NAME = "notes_tags_table";
@@ -130,6 +129,10 @@ public class LavernaContract {
 
     }
 
+
+    /**
+     * A table of tasks.
+     */
     public static class TasksTable extends LavernaBaseTable {
         public static final String TABLE_NAME = "tasks";
         public static final String COLUMN_NOTE_ID = "note_id";

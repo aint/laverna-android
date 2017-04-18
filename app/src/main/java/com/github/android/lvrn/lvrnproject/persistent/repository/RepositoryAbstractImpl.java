@@ -4,8 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import static com.github.android.lvrn.lvrnproject.LavernaApplication.getLavernaDbHelper;
-import static com.github.android.lvrn.lvrnproject.persistent.LavernaContract.LavernaBaseTable.COLUMN_ID;
+import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -14,8 +15,25 @@ import static com.github.android.lvrn.lvrnproject.persistent.LavernaContract.Lav
 public abstract class RepositoryAbstractImpl<T>  {
     private final String mTableName;
 
+    private SQLiteDatabase mDatabase;
+
     public RepositoryAbstractImpl(String mTableName) {
         this.mTableName = mTableName;
+    }
+
+    public void openDatabase() {
+        if (mDatabase != null) {
+            throw new IllegalStateException("Database is already opened. Call closeDb() method first.");
+        }
+        mDatabase = DatabaseManager.getInstance().openDatabase();
+    }
+
+    public void closeDatabase() {
+        if (mDatabase == null) {
+            throw new IllegalStateException("Database is already closed.");
+        }
+        DatabaseManager.getInstance().closeDatabase();
+        mDatabase = null;
     }
 
     /**
@@ -23,15 +41,14 @@ public abstract class RepositoryAbstractImpl<T>  {
      * @param contentValues
      */
     protected void addToDb(Iterable<ContentValues> contentValues) {
-        final SQLiteDatabase database = getLavernaDbHelper().getWritableDatabase();
-        database.beginTransaction();
+        mDatabase.beginTransaction();
         try {
             for (ContentValues values : contentValues) {
-                database.insert(mTableName, null, values);
+                mDatabase.insert(mTableName, null, values);
             }
-            database.setTransactionSuccessful();
+            mDatabase.setTransactionSuccessful();
         } finally {
-            database.endTransaction();
+            mDatabase.endTransaction();
         }
     }
 
@@ -40,13 +57,12 @@ public abstract class RepositoryAbstractImpl<T>  {
      * @param contentValues
      */
     protected void updateInDb(ContentValues contentValues) {
-        final SQLiteDatabase database = getLavernaDbHelper().getWritableDatabase();
-        database.beginTransaction();
+        mDatabase.beginTransaction();
         try {
-            database.update(mTableName, contentValues, null, null);
-            database.setTransactionSuccessful();
+            mDatabase.update(mTableName, contentValues, null, null);
+            mDatabase.setTransactionSuccessful();
         } finally {
-            database.endTransaction();
+            mDatabase.endTransaction();
         }
     }
 
@@ -55,24 +71,22 @@ public abstract class RepositoryAbstractImpl<T>  {
      * @param id
      */
     protected void removeFromDb(String id) {
-        final SQLiteDatabase database = getLavernaDbHelper().getWritableDatabase();
-        database.beginTransaction();
+        mDatabase.beginTransaction();
         try {
-            database.delete(mTableName, COLUMN_ID + "=" + id, null);
-            database.setTransactionSuccessful();
+            mDatabase.delete(mTableName, COLUMN_ID + "=" + id, null);
+            mDatabase.setTransactionSuccessful();
         } finally {
-            database.endTransaction();
+            mDatabase.endTransaction();
         }
     }
 
     /**
      * A method which retrieves an object from the data base by id.
      * @param id
-     * @return Cursor with a result of the query.
+     * @return
      */
     protected Cursor getFromDb(String id) {
-        final SQLiteDatabase database = getLavernaDbHelper().getReadableDatabase();
-        return database.rawQuery(
+        return mDatabase.rawQuery(
                 "SELECT * FROM " + mTableName
                         + " WHERE " + COLUMN_ID + "=" + id,
                 new String[]{});
@@ -85,8 +99,7 @@ public abstract class RepositoryAbstractImpl<T>  {
      * @return Cursor with a result of the query.
      */
     protected Cursor getFromDb(int from, int amount) {
-        final SQLiteDatabase database = getLavernaDbHelper().getReadableDatabase();
-        return database.rawQuery(
+        return mDatabase.rawQuery(
                 "SELECT * FROM " + mTableName
                         + " LIMIT " + amount
                         + " OFFSET " + (from - 1),

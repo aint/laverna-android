@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.github.android.lvrn.lvrnproject.persistent.LavernaContract.LavernaBaseTable.COLUMN_ID;
-import static com.github.android.lvrn.lvrnproject.persistent.LavernaContract.ProfilesTable.*;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.ProfilesTable.*;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
