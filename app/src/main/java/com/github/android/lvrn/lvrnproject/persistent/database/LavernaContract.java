@@ -48,9 +48,10 @@ public class LavernaContract {
                         + COLUMN_CREATED_TIME + " INTEGER,"
                         + COLUMN_UPDATE_TIME + " INTEGER,"
                         + COLUMN_COUNT + " INTEGER,"
-                        + "INDEX (" + COLUMN_PROFILE_ID + "),"
-                        + "INDEX (" + COLUMN_PARENT_ID + "));";
-
+                        + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
+                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + "),"
+                        + "FOREIGN KEY (" + COLUMN_PARENT_ID + ") REFERENCES "
+                        + TABLE_NAME + "(" + COLUMN_ID + "))";
         public static final String SQL_DELETE_NOTEBOOKS_TABLE = "DROP TABLE IF EXISTS "
                 + TABLE_NAME;
     }
@@ -77,10 +78,11 @@ public class LavernaContract {
                         + COLUMN_CREATED_TIME + " INTEGER,"
                         + COLUMN_UPDATE_TIME + " INTEGER,"
                         + COLUMN_CONTENT + " TEXT,"
-                        + COLUMN_IS_FAVORITE + " BOOLEAN"
-                        + "INDEX (" + COLUMN_PROFILE_ID +"),"
-                        + "INDEX (" + COLUMN_NOTEBOOK_ID +"))";
-
+                        + COLUMN_IS_FAVORITE + " BOOLEAN,"
+                        + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
+                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + "),"
+                        + "FOREIGN KEY (" + COLUMN_NOTEBOOK_ID + ") REFERENCES "
+                        + NotebooksTable.TABLE_NAME + "(" + COLUMN_ID + "))";
         public static final String SQL_DELETE_NOTES_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
@@ -102,8 +104,9 @@ public class LavernaContract {
                         + COLUMN_NAME + " TEXT,"
                         + COLUMN_CREATED_TIME + " INTEGER,"
                         + COLUMN_UPDATE_TIME + " INTEGER,"
-                        + COLUMN_COUNT + " INTEGER "
-                        + "INDEX (" + COLUMN_PROFILE_ID+ "))";
+                        + COLUMN_COUNT + " INTEGER,"
+                        + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
+                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + "))";
 
         public static final String SQL_DELETE_TAGS_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
@@ -121,9 +124,9 @@ public class LavernaContract {
                         + COLUMN_NOTE_ID + " TEXT,"
                         + COLUMN_TAG_ID + " TEXT,"
                         + "FOREIGN KEY (" + COLUMN_NOTE_ID + ") REFERENCES "
-                        + NotesTable.TABLE_NAME +"(" + NotesTable.COLUMN_ID + "),"
+                        + NotesTable.TABLE_NAME +"(" + COLUMN_ID + "),"
                         + "FOREIGN KEY (" + COLUMN_TAG_ID + ") REFERENCES "
-                        + TagsTable.TABLE_NAME +"(" + TagsTable.COLUMN_ID + "))";
+                        + TagsTable.TABLE_NAME +"(" + COLUMN_ID + "))";
         public static final String SQL_DELETE_NOTES_TAGS_TABLE = "DROP TABLE IF EXISTS "
                 + TABLE_NAME;
 
@@ -146,7 +149,7 @@ public class LavernaContract {
                         + COLUMN_DESCRIPTION + " TEXT,"
                         + COLUMN_IS_COMPLETED  + " BOOLEAN,"
                         + "FOREIGN KEY (" + COLUMN_NOTE_ID + ") REFERENCES "
-                        + NotesTable.TABLE_NAME +"(" + NotesTable.COLUMN_ID + "))";
+                        + NotesTable.TABLE_NAME +"(" + COLUMN_ID + "))";
 
         public static final String SQL_DELETE_TASKS_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }

@@ -49,7 +49,11 @@ public class ProfilesRepository extends RepositoryAbstractImpl<Profile> implemen
 
     @Override
     public Profile get(String id) {
-        return toItem(super.getFromDb(id));
+        Cursor cursor = super.getFromDb(id);
+        if (cursor != null & cursor.moveToFirst()) {
+            return toItem(cursor);
+        }
+        throw new NullPointerException("Cursor is null!");
     }
 
     @Override
@@ -57,12 +61,13 @@ public class ProfilesRepository extends RepositoryAbstractImpl<Profile> implemen
         List<Profile> profiles = new ArrayList<>();
         Cursor cursor = super.getFromDb(from, amount);
         if (cursor != null && cursor.moveToFirst()) {
-            while (cursor.moveToNext()) {
+            do {
                 profiles.add(toItem(cursor));
-            }
+            } while (cursor.moveToNext());
             cursor.close();
+            return profiles;
         }
-        return profiles;
+        throw new NullPointerException("Cursor is null!");
     }
 
     @Override

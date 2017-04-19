@@ -17,18 +17,7 @@ public class LavernaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.v("On create", "yeah!!!!!!!!!!!!!!!!");
         DatabaseManager.initializeInstance(this);
-
-        ProfilesRepository profilesRepository = new ProfilesRepository();
-        profilesRepository.openDatabase();
-        profilesRepository.add(new Profile("0", "Lol"));
-        profilesRepository.closeDatabase();
-
-        profilesRepository.openDatabase();
-        Profile profile = profilesRepository.get("0");
-        Log.v("!!!!!!!!!!!!!!!!Id = ", profile.getId());
-        Log.v("!!!!!!!!!!!name = ", profile.getName());
-        profilesRepository.closeDatabase();
     }
+
 }
