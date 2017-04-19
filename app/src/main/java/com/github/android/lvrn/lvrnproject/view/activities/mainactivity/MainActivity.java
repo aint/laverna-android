@@ -39,11 +39,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startAllNotesFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         AllNotesFragment allNotesFragment =new AllNotesFragment();
-        fragmentTransaction.add(R.id.constraint_container,allNotesFragment);
-        fragmentTransaction.commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager
+                .beginTransaction()
+                .add(R.id.constraint_container,allNotesFragment)
+                .commit();
     }
 
 

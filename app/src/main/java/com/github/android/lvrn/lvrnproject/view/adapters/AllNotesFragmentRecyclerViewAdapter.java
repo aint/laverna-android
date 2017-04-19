@@ -1,8 +1,14 @@
 package com.github.android.lvrn.lvrnproject.view.adapters;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.view.activities.mainactivity.MainActivity;
+import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
+import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +61,7 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
         return mDataSet.size();
     }
 
-    static class AllNotesViewHolder extends RecyclerView.ViewHolder {
+    static class AllNotesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvTitle;
         TextView tvDate;
         TextView tvPromptText;
@@ -61,11 +70,24 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
 
         public AllNotesViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title_note);
             tvDate = (TextView) itemView.findViewById(R.id.tv_date_created_note);
             tvPromptText = (TextView) itemView.findViewById(R.id.tv_prompt_text_note);
             tvTag1 = (TextView) itemView.findViewById(R.id.tv_tags1_note);
             imBtnFavorite = (ImageButton) itemView.findViewById(R.id.im_btn_favorite);
+        }
+
+        @Override
+        public void onClick(View v) {
+            AppCompatActivity activity = (AppCompatActivity)itemView.getContext();
+            SingleNoteFragment singleNoteFragment = new SingleNoteFragment();
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.constraint_container,singleNoteFragment)
+                    .addToBackStack(null)
+                    .commit();
+
         }
     }
 
