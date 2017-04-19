@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface Repository<T> {
 
-    void add(T item);
+    void add(T entity);
 
-    void add(Iterable<T> items);
+    void add(Iterable<T> entities);
 
-    void update(T item);
+    void update(T entities);
 
-    void remove(T item);
+    void remove(String id);
 
     T get(String id);
 

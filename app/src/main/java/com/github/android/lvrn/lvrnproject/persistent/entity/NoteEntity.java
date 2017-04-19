@@ -6,12 +6,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Note {
-
-    /**
-     * An id of the note.
-     */
-    private String id;
+public class NoteEntity extends BasicEntity {
 
     /**
      * An id of the profile, which the note is belonged.
@@ -51,14 +46,14 @@ public class Note {
      */
     private boolean isFavorite = false;
 
-    public Note(String id,
-                String profileId,
-                String notebookId,
-                String title,
-                long creationTime,
-                long updateTime,
-                String content,
-                boolean isFavorite) {
+    public NoteEntity(String id,
+                      String profileId,
+                      String notebookId,
+                      String title,
+                      long creationTime,
+                      long updateTime,
+                      String content,
+                      boolean isFavorite) {
         this.id = id;
         this.profileId = profileId;
         this.notebookId = notebookId;

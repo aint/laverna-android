@@ -6,26 +6,15 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Notebook {
+public class TagEntity extends BasicEntity {
 
     /**
-     * An id of the notebook.
-     */
-    private String id;
-
-    /**
-     * An id of the profile, which the notebook is belonged.
+     * An id of the profile, which the tag is belonged.
      */
     private String profileId;
 
     /**
-     * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't
-     * belong to any parent notebook, then parentId equals to "0".
-     */
-    private String parentId;
-
-    /**
-     * A name of the notebook.
+     * A name of the tag.
      */
     private String name;
 
@@ -44,16 +33,14 @@ public class Notebook {
     //TODO: unknown field. Find out what to do with it
     private int count;
 
-    public Notebook(String id,
-                    String profileId,
-                    String parentId,
-                    String name,
-                    long creationTime,
-                    long updateTime,
-                    int count) {
+    public TagEntity(String id,
+                     String profileId,
+                     String name,
+                     long creationTime,
+                     long updateTime,
+                     int count) {
         this.id = id;
         this.profileId = profileId;
-        this.parentId = parentId;
         this.name = name;
         this.creationTime = creationTime;
         this.updateTime = updateTime;
@@ -74,14 +61,6 @@ public class Notebook {
 
     public void setProfileId(String profileId) {
         this.profileId = profileId;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
     }
 
     public String getName() {

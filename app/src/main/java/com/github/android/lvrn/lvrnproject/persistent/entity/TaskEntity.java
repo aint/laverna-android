@@ -4,12 +4,7 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Task {
-
-    /**
-     * An id of the task.
-     */
-    private String id;
+public class TaskEntity extends BasicEntity {
 
     /**
      * An id of the note, which the task is belonged.
@@ -23,14 +18,13 @@ public class Task {
 
     /**
      * A status of the task's completion.
-     *
      */
     private boolean isCompleted = false;
 
-    public Task(String id,
-                String noteId,
-                String description,
-                boolean isCompleted) {
+    public TaskEntity(String id,
+                      String noteId,
+                      String description,
+                      boolean isCompleted) {
         this.id = id;
         this.noteId = noteId;
         this.description = description;

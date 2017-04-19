@@ -6,19 +6,14 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Profile {
-
-    /**
-     * An id of the profile.
-     */
-    private String id;
+public class ProfileEntity extends BasicEntity {
 
     /**
      * A name of the profile.
      */
     private String name;
 
-    public Profile(String id, String name) {
+    public ProfileEntity(String id, String name) {
         this.id = id;
         this.name = name;
     }

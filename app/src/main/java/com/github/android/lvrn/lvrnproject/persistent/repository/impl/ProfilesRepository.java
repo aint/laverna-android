@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
+import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.Repository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.RepositoryAbstractImpl;
 
@@ -17,61 +17,14 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class ProfilesRepository extends RepositoryAbstractImpl<Profile> implements Repository<Profile> {
+public class ProfilesRepository extends RepositoryAbstractImpl<ProfileEntity> {
 
     public ProfilesRepository() {
         super(TABLE_NAME);
     }
 
     @Override
-    public void add(Profile item) {
-        add(Collections.singletonList(item));
-    }
-
-    @Override
-    public void add(Iterable<Profile> items) {
-        List<ContentValues> contentValues = new ArrayList<>();
-        for (Profile profile : items) {
-            contentValues.add(toContentValues(profile));
-        }
-        super.addToDb(contentValues);
-    }
-
-    @Override
-    public void update(Profile item) {
-        super.updateInDb(toContentValues(item));
-    }
-
-    @Override
-    public void remove(Profile item) {
-        super.removeFromDb(item.getId());
-    }
-
-    @Override
-    public Profile get(String id) {
-        Cursor cursor = super.getFromDb(id);
-        if (cursor != null & cursor.moveToFirst()) {
-            return toItem(cursor);
-        }
-        throw new NullPointerException("Cursor is null!");
-    }
-
-    @Override
-    public List<Profile> get(int from, int amount) {
-        List<Profile> profiles = new ArrayList<>();
-        Cursor cursor = super.getFromDb(from, amount);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                profiles.add(toItem(cursor));
-            } while (cursor.moveToNext());
-            cursor.close();
-            return profiles;
-        }
-        throw new NullPointerException("Cursor is null!");
-    }
-
-    @Override
-    protected ContentValues toContentValues(Profile item) {
+    protected ContentValues toContentValues(ProfileEntity item) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, item.getId());
         contentValues.put(COLUMN_PROFILE_NAME, item.getName());
@@ -79,8 +32,8 @@ public class ProfilesRepository extends RepositoryAbstractImpl<Profile> implemen
     }
 
     @Override
-    protected Profile toItem(Cursor cursor) {
-        return new Profile(
+    protected ProfileEntity toEntity(Cursor cursor) {
+        return new ProfileEntity(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_NAME)));
     }
