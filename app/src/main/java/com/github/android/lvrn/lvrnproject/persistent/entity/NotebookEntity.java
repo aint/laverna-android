@@ -8,6 +8,8 @@ import java.util.List;
 
 public class NotebookEntity extends BasicEntity {
 
+
+
     /**
      * An id of the profile, which the notebook is belonged.
      */
