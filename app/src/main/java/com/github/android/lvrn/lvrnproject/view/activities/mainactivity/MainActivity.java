@@ -1,8 +1,10 @@
-package com.github.android.lvrn.lvrnproject.view.mainactivity;
+package com.github.android.lvrn.lvrnproject.view.activities.mainactivity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 
 
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,6 +35,15 @@ public class MainActivity extends AppCompatActivity
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();
         ((NavigationView) findViewById(R.id.nav_view)).setNavigationItemSelectedListener(this);
+        startAllNotesFragment();
+    }
+
+    private void startAllNotesFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        AllNotesFragment allNotesFragment =new AllNotesFragment();
+        fragmentTransaction.add(R.id.constraint_container,allNotesFragment);
+        fragmentTransaction.commit();
     }
 
 
