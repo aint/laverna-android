@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.constraint_container,allNotesFragment)
                 .commit();
     }
-
-
+    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
