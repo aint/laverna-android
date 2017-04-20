@@ -8,13 +8,15 @@ import android.database.sqlite.SQLiteDatabase;
  */
 
 public class DatabaseManager {
-    private int mOpenCounter;
+    private int mOpenCounter = 0;
 
     private static DatabaseManager sInstance;
 
     private static LavernaDbHelper mDatabaseHelper;
-    
+
     private SQLiteDatabase mDatabase;
+
+    private DatabaseManager() {}
 
     public static synchronized void initializeInstance(Context context) {
         if (sInstance == null) {
@@ -25,12 +27,13 @@ public class DatabaseManager {
 
     public static synchronized DatabaseManager getInstance() {
         if (sInstance == null) {
-            throw new IllegalStateException("DatabaseManager is not initialized, call initializeInstance(..) method first.");
+            throw new IllegalStateException("DatabaseManager is not initialized, " +
+                    "call initializeInstance(..) method first.");
         }
         return sInstance;
     }
 
-    public synchronized SQLiteDatabase openDatabase() {
+    public synchronized SQLiteDatabase openConnection() {
         mOpenCounter++;
         if (mOpenCounter == 1) {
             mDatabase = mDatabaseHelper.getWritableDatabase();
@@ -38,11 +41,22 @@ public class DatabaseManager {
         return mDatabase;
     }
 
-    public synchronized void closeDatabase() {
-        mOpenCounter--;
-        if (mOpenCounter == 0) {
+    public synchronized void closeConnection() {
+        if (mOpenCounter  == 1) {
             mDatabase.close();
         }
+        mOpenCounter = mOpenCounter > 0 ? mOpenCounter - 1 : 0;
+    }
+
+    public synchronized void closeAllConnections() {
+        if (mDatabase != null && mDatabase.isOpen()) {
+            mDatabase.close();
+            mOpenCounter = 0;
+        }
+    }
+
+    public int getConnectionsCount() {
+        return mOpenCounter;
     }
 }
 

@@ -15,5 +15,4 @@ public class LavernaApplication extends Application {
         super.onCreate();
         DatabaseManager.initializeInstance(this);
     }
-
 }

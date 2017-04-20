@@ -30,7 +30,7 @@ public class NoteTextParserTest {
     private Map<String, Boolean> falseTasks;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         textExample = "Check tags\n"
                 + "============\n"
                 + "#test #laverna #android\n"

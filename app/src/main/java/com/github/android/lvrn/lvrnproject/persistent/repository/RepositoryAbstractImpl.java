@@ -131,7 +131,7 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
         if (mDatabase != null) {
             throw new IllegalStateException("Database is already opened. Call closeDb() method first.");
         }
-        mDatabase = DatabaseManager.getInstance().openDatabase();
+        mDatabase = DatabaseManager.getInstance().openConnection();
     }
 
     /**
@@ -141,7 +141,7 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
         if (mDatabase == null) {
             throw new IllegalStateException("Database is already closed.");
         }
-        DatabaseManager.getInstance().closeDatabase();
+        DatabaseManager.getInstance().closeConnection();
         mDatabase = null;
     }
 
