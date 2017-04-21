@@ -12,7 +12,7 @@ public class DatabaseManager {
 
     private static DatabaseManager sInstance;
 
-    private static LavernaDbHelper mDatabaseHelper;
+    private static LavernaDbHelper sDatabaseHelper;
 
     private SQLiteDatabase mDatabase;
 
@@ -21,8 +21,14 @@ public class DatabaseManager {
     public static synchronized void initializeInstance(Context context) {
         if (sInstance == null) {
             sInstance = new DatabaseManager();
-            mDatabaseHelper = new LavernaDbHelper(context);
+            sDatabaseHelper = new LavernaDbHelper(context);
         }
+    }
+
+    public static void removeInstance() {
+        sInstance = null;
+        sDatabaseHelper.deleteDatabase();
+        sDatabaseHelper = null;
     }
 
     public static synchronized DatabaseManager getInstance() {
@@ -36,7 +42,7 @@ public class DatabaseManager {
     public synchronized SQLiteDatabase openConnection() {
         mOpenCounter++;
         if (mOpenCounter == 1) {
-            mDatabase = mDatabaseHelper.getWritableDatabase();
+            mDatabase = sDatabaseHelper.getWritableDatabase();
         }
         return mDatabase;
     }

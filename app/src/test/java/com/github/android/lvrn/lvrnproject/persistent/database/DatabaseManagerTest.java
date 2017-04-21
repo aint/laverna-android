@@ -1,52 +1,48 @@
 package com.github.android.lvrn.lvrnproject.persistent.database;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
 
-import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.BuildConfig;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(AndroidJUnit4.class)
-@LargeTest
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class DatabaseManagerTest {
 
     private DatabaseManager mDataBaseManager;
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
+        DatabaseManager.initializeInstance(RuntimeEnvironment.application);
         mDataBaseManager = DatabaseManager.getInstance();
     }
 
     @Test
     public void databaseManagerShouldBeInitialized() {
-        assertNotNull(mDataBaseManager);
+        assertThat(mDataBaseManager).isNotNull();
     }
 
     @Test
     public void databaseConnectionShouldBeOpenedAndThenClosed() {
         SQLiteDatabase database = mDataBaseManager.openConnection();
-        assertTrue(database.isOpen());
-        if (database.isOpen()) {
-            database.close();
-        }
-        assertFalse(database.isOpen());
+        assertThat(database.isOpen()).isTrue();
+
+        database.close();
+        assertThat(database.isOpen()).isFalse();
     }
 
     @Test
@@ -54,8 +50,7 @@ public class DatabaseManagerTest {
         for (int i = 0; i < 5; i++) {
             mDataBaseManager.openConnection();
         }
-        assertEquals(5, mDataBaseManager.getConnectionsCount());
-        assertNotEquals(6, mDataBaseManager.getConnectionsCount());
+        assertThat(mDataBaseManager.getConnectionsCount()).isEqualTo(5);
     }
 
     @Test
@@ -64,12 +59,13 @@ public class DatabaseManagerTest {
             mDataBaseManager.closeConnection();
         }
         SQLiteDatabase database = mDataBaseManager.openConnection();
-        assertTrue("Opened connections" + mDataBaseManager.getConnectionsCount() ,database.isOpen());
+        assertThat(database.isOpen()).isTrue();
     }
 
     @After
     public void finish() {
         mDataBaseManager.closeAllConnections();
         mDataBaseManager = null;
+        DatabaseManager.removeInstance();
     }
 }

@@ -10,6 +10,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
 
@@ -32,7 +33,6 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
     public RepositoryAbstractImpl(String mTableName) {
         this.mTableName = mTableName;
     }
-
 
     /**
      * A method which receives an entity to save in the database.
@@ -83,7 +83,7 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
     public void remove(String id) {
         mDatabase.beginTransaction();
         try {
-            mDatabase.delete(mTableName, COLUMN_ID + "=" + id, null);
+            mDatabase.delete(mTableName, COLUMN_ID + "= '" + id + "'", null);
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
@@ -127,22 +127,24 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
     /**
      * A method which tries to open a database connection, if the one is not opened.
      */
-    public void openDatabase() {
+    public Boolean openDatabaseConnection() {
         if (mDatabase != null) {
-            throw new IllegalStateException("Database is already opened. Call closeDb() method first.");
+            return false;
         }
         mDatabase = DatabaseManager.getInstance().openConnection();
+        return true;
     }
 
     /**
      * A method which tries to close a database connection, if the one is opened.
      */
-    public void closeDatabase() {
+    public Boolean closeDatabaseConnection() {
         if (mDatabase == null) {
-            throw new IllegalStateException("Database is already closed.");
+            return false;
         }
         DatabaseManager.getInstance().closeConnection();
         mDatabase = null;
+        return true;
     }
 
     /**
@@ -166,8 +168,8 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
      */
     private Cursor getSingleEntityQuery(String id) {
         return mDatabase.rawQuery(
-                "SELECT * FROM " + mTableName
-                        + " WHERE " + COLUMN_ID + "=" + id,
+                "SELECT * FRO M " + mTableName
+                        + " WHERE " + COLUMN_ID + " = '" + id + "'",
                 new String[]{});
     }
 

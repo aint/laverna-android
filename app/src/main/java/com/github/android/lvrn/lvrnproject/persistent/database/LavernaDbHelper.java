@@ -12,8 +12,11 @@ public class LavernaDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Laverna.db";
 
+    private Context mContext;
+
     public LavernaDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
     }
 
     @Override
@@ -35,5 +38,9 @@ public class LavernaDbHelper extends SQLiteOpenHelper {
         db.execSQL(LavernaContract.NotesTagsTable.SQL_DELETE_NOTES_TAGS_TABLE);
         db.execSQL(LavernaContract.TasksTable.SQL_DELETE_TASKS_TABLE);
         onCreate(db);
+    }
+
+    public void deleteDatabase() {
+        mContext.deleteDatabase(DATABASE_NAME);
     }
 }
