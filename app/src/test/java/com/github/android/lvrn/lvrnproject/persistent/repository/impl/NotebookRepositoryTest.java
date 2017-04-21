@@ -1,10 +1,10 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
-import android.database.Cursor;
-
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.NotebookEntity;
+import com.google.common.base.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.After;
@@ -28,13 +28,13 @@ public class NotebookRepositoryTest {
 
     private NotebooksRepository notebooksRepository;
 
-    private NotebookEntity notebookEntity1;
+    private NotebookEntity notebook1;
 
-    private NotebookEntity notebookEntity2;
+    private NotebookEntity notebook2;
 
-    private NotebookEntity notebookEntity3;
+    private NotebookEntity notebook3;
 
-    private List<NotebookEntity> notebookEntities;
+    private List<NotebookEntity> notebooks;
 
     @Before
     public void setUp() {
@@ -42,7 +42,7 @@ public class NotebookRepositoryTest {
 
         notebooksRepository = new NotebooksRepository();
 
-        notebookEntity1 = new NotebookEntity(
+        notebook1 = new NotebookEntity(
                 "id_1",
                 "profile_id_1",
                 "parent_id_1",
@@ -52,7 +52,7 @@ public class NotebookRepositoryTest {
                 0
         );
 
-        notebookEntity2 = new NotebookEntity(
+        notebook2 = new NotebookEntity(
                 "id_2",
                 "profile_id_2",
                 "parent_id_2",
@@ -62,7 +62,7 @@ public class NotebookRepositoryTest {
                 0
         );
 
-        notebookEntity3 = new NotebookEntity(
+        notebook3 = new NotebookEntity(
                 "id_3",
                 "profile_id_3",
                 "parent_id_3",
@@ -72,60 +72,53 @@ public class NotebookRepositoryTest {
                 0
         );
 
-        notebookEntities = new ArrayList<>();
-        notebookEntities.add(notebookEntity1);
-        notebookEntities.add(notebookEntity2);
-        notebookEntities.add(notebookEntity3);
+        notebooks = new ArrayList<>();
+        notebooks.add(notebook1);
+        notebooks.add(notebook2);
+        notebooks.add(notebook3);
 
         notebooksRepository.openDatabaseConnection();
     }
 
     @Test
     public void repositoryShouldAddAndGetEntityById() {
-        notebooksRepository.add(notebookEntity1);
-        NotebookEntity notebookEntity11 = notebooksRepository.get(notebookEntity1.getId());
-        assertThat(notebookEntity1).isEqualToComparingFieldByField(notebookEntity11);
-
-        notebooksRepository.add(notebookEntity2);
-        NotebookEntity notebookEntity22 = notebooksRepository.get(notebookEntity2.getId());
-        assertThat(notebookEntity2).isEqualToComparingFieldByField(notebookEntity22);
-
-        notebooksRepository.add(notebookEntity3);
-        NotebookEntity notebookEntity33 = notebooksRepository.get(notebookEntity3.getId());
-        assertThat(notebookEntity3).isEqualToComparingFieldByField(notebookEntity33);
+        notebooksRepository.add(notebook1);
+        Optional<NotebookEntity> notebookOptional = notebooksRepository.get(notebook1.getId());
+        assertThat(notebookOptional.isPresent()).isTrue();
+        assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
     }
 
     @Test
     public void repositoryShouldAddAndGetEntities() {
-        notebooksRepository.add(notebookEntities);
+        notebooksRepository.add(notebooks);
 
         List<NotebookEntity> notebookEntities1 = notebooksRepository.get(1, 3);
 
-        assertThat(notebookEntities).hasSameSizeAs(notebookEntities1);
-        assertThat((Object) notebookEntities)
+        assertThat(notebooks).hasSameSizeAs(notebookEntities1);
+        assertThat((Object) notebooks)
                 .isEqualToComparingFieldByFieldRecursively(notebookEntities1);
     }
 
     @Test
     public void repositoryShouldUpdateEntity() {
-        notebooksRepository.add(notebookEntity1);
+        notebooksRepository.add(notebook1);
 
-        notebookEntity1.setName("new name");
+        notebook1.setName("new name");
 
-        notebooksRepository.update(notebookEntity1);
+        notebooksRepository.update(notebook1);
 
-        NotebookEntity notebookEntity = notebooksRepository.get(notebookEntity1.getId());
-        assertThat(notebookEntity).isEqualToComparingFieldByField(notebookEntity1);
+        Optional<NotebookEntity> notebookOptional = notebooksRepository.get(notebook1.getId());
+        assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
 
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void repositoryShouldRemoveEntity() {
-        notebooksRepository.add(notebookEntity1);
+        notebooksRepository.add(notebook1);
 
-        notebooksRepository.remove(notebookEntity1.getId());
+        notebooksRepository.remove(notebook1.getId());
 
-        notebooksRepository.get(notebookEntity1.getId());
+        assertThat(notebooksRepository.get(notebook1.getId()).isPresent()).isFalse();
     }
 
     @After

@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.TaskEntity;
+import com.google.common.base.Optional;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,101 +26,94 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Config(constants = BuildConfig.class)
 public class TasksRepositoryTest {
 
-    private TasksRepository TasksRepository;
+    private TasksRepository tasksRepository;
 
-    private TaskEntity taskEntity1;
+    private TaskEntity task1;
 
-    private TaskEntity taskEntity2;
+    private TaskEntity task2;
 
-    private TaskEntity taskEntity3;
+    private TaskEntity task3;
 
-    private List<TaskEntity> taskEntities;
+    private List<TaskEntity> tasks;
 
     @Before
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        TasksRepository = new TasksRepository();
+        tasksRepository = new TasksRepository();
 
-        taskEntity1 = new TaskEntity(
+        task1 = new TaskEntity(
                 "id_1",
                 "note_id_1",
                 "description_1",
                 true
         );
 
-        taskEntity2 = new TaskEntity(
+        task2 = new TaskEntity(
                 "id_2",
                 "note_id_2",
                 "description_2",
                 true
         );
 
-        taskEntity3 = new TaskEntity(
+        task3 = new TaskEntity(
                 "id_3",
                 "note_id_3",
                 "description_3",
                 true
         );
 
-        taskEntities = new ArrayList<>();
-        taskEntities.add(taskEntity1);
-        taskEntities.add(taskEntity2);
-        taskEntities.add(taskEntity3);
+        tasks = new ArrayList<>();
+        tasks.add(task1);
+        tasks.add(task2);
+        tasks.add(task3);
 
-        TasksRepository.openDatabaseConnection();
+        tasksRepository.openDatabaseConnection();
     }
 
     @Test
     public void repositoryShouldAddAndGetEntityById() {
-        TasksRepository.add(taskEntity1);
-        TaskEntity TaskEntity11 = TasksRepository.get(taskEntity1.getId());
-        assertThat(taskEntity1).isEqualToComparingFieldByField(TaskEntity11);
-
-        TasksRepository.add(taskEntity2);
-        TaskEntity TaskEntity22 = TasksRepository.get(taskEntity2.getId());
-        assertThat(taskEntity2).isEqualToComparingFieldByField(TaskEntity22);
-
-        TasksRepository.add(taskEntity3);
-        TaskEntity TaskEntity33 = TasksRepository.get(taskEntity3.getId());
-        assertThat(taskEntity3).isEqualToComparingFieldByField(TaskEntity33);
+        tasksRepository.add(task1);
+        Optional<TaskEntity> taskOptional = tasksRepository.get(task1.getId());
+        assertThat(taskOptional.isPresent()).isTrue();
+        assertThat(taskOptional.get()).isEqualToComparingFieldByField(task1);
     }
 
     @Test
     public void repositoryShouldAddAndGetEntities() {
-        TasksRepository.add(taskEntities);
+        tasksRepository.add(tasks);
 
-        List<TaskEntity> notebookEntities1 = TasksRepository.get(1, 3);
+        List<TaskEntity> notebookEntities1 = tasksRepository.get(1, 3);
 
-        assertThat(taskEntities).hasSameSizeAs(notebookEntities1);
-        assertThat((Object) taskEntities)
+        assertThat(tasks).hasSameSizeAs(notebookEntities1);
+        assertThat((Object) tasks)
                 .isEqualToComparingFieldByFieldRecursively(notebookEntities1);
     }
 
     @Test
     public void repositoryShouldUpdateEntity() {
-        TasksRepository.add(taskEntity1);
+        tasksRepository.add(task1);
 
-        taskEntity1.setDescription("new description");
+        task1.setDescription("new description");
 
-        TasksRepository.update(taskEntity1);
+        tasksRepository.update(task1);
 
-        TaskEntity TaskEntity = TasksRepository.get(taskEntity1.getId());
-        assertThat(TaskEntity).isEqualToComparingFieldByField(taskEntity1);
+        Optional<TaskEntity> taskOptional = tasksRepository.get(task1.getId());
+        assertThat(taskOptional.get()).isEqualToComparingFieldByField(task1);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void repositoryShouldRemoveEntity() {
-        TasksRepository.add(taskEntity1);
+        tasksRepository.add(task1);
 
-        TasksRepository.remove(taskEntity1.getId());
+        tasksRepository.remove(task1.getId());
 
-        TasksRepository.get(taskEntity1.getId());
+        assertThat(tasksRepository.get(task1.getId()).isPresent()).isFalse();
     }
 
     @After
     public void finish() {
-        TasksRepository.closeDatabaseConnection();
+        tasksRepository.closeDatabaseConnection();
         DatabaseManager.removeInstance();
     }
 }

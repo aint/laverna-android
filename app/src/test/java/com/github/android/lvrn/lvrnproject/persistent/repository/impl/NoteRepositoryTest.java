@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.NoteEntity;
+import com.google.common.base.Optional;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,13 +28,13 @@ public class NoteRepositoryTest {
 
     private NotesRepository noteRepository;
 
-    private NoteEntity noteEntity1;
+    private NoteEntity note1;
 
-    private NoteEntity noteEntity2;
+    private NoteEntity note2;
 
-    private NoteEntity noteEntity3;
+    private NoteEntity note3;
 
-    private List<NoteEntity> noteEntities;
+    private List<NoteEntity> notes;
 
     @Before
     public void setUp() {
@@ -41,7 +42,7 @@ public class NoteRepositoryTest {
 
         noteRepository = new NotesRepository();
 
-        noteEntity1 = new NoteEntity(
+        note1 = new NoteEntity(
                 "id_1",
                 "profile_id_1",
                 "notebook_id_1",
@@ -52,7 +53,7 @@ public class NoteRepositoryTest {
                 false
         );
 
-        noteEntity2 = new NoteEntity(
+        note2 = new NoteEntity(
                 "id_2",
                 "profile_id_2",
                 "notebook_id_2",
@@ -63,7 +64,7 @@ public class NoteRepositoryTest {
                 false
         );
 
-        noteEntity3 = new NoteEntity(
+        note3 = new NoteEntity(
                 "id_3",
                 "profile_id_3",
                 "notebook_id_3",
@@ -74,60 +75,53 @@ public class NoteRepositoryTest {
                 false
         );
 
-        noteEntities = new ArrayList<>();
-        noteEntities.add(noteEntity1);
-        noteEntities.add(noteEntity2);
-        noteEntities.add(noteEntity3);
+        notes = new ArrayList<>();
+        notes.add(note1);
+        notes.add(note2);
+        notes.add(note3);
 
         noteRepository.openDatabaseConnection();
     }
 
     @Test
     public void repositoryShouldAddAndGetEntityById() {
-        noteRepository.add(noteEntity1);
-        NoteEntity noteEntity11 = noteRepository.get(noteEntity1.getId());
-        assertThat(noteEntity1).isEqualToComparingFieldByField(noteEntity11);
-
-        noteRepository.add(noteEntity2);
-        NoteEntity noteEntity22 = noteRepository.get(noteEntity2.getId());
-        assertThat(noteEntity2).isEqualToComparingFieldByField(noteEntity22);
-
-        noteRepository.add(noteEntity3);
-        NoteEntity noteEntity33 = noteRepository.get(noteEntity3.getId());
-        assertThat(noteEntity3).isEqualToComparingFieldByField(noteEntity33);
+        noteRepository.add(note1);
+        Optional<NoteEntity> noteOptional = noteRepository.get(note1.getId());
+        assertThat(noteOptional.get());
+        assertThat(noteOptional.get()).isEqualToComparingFieldByField(note1);
     }
 
     @Test
     public void repositoryShouldAddAndGetEntities() {
-        noteRepository.add(noteEntities);
+        noteRepository.add(notes);
 
         List<NoteEntity> notebookEntities1 = noteRepository.get(1, 3);
 
-        assertThat(noteEntities).hasSameSizeAs(notebookEntities1);
-        assertThat((Object) noteEntities)
+        assertThat(notes).hasSameSizeAs(notebookEntities1);
+        assertThat((Object) notes)
                 .isEqualToComparingFieldByFieldRecursively(notebookEntities1);
     }
 
     @Test
     public void repositoryShouldUpdateEntity() {
-        noteRepository.add(noteEntity1);
+        noteRepository.add(note1);
 
-        noteEntity1.setTitle("new title");
+        note1.setTitle("new title");
 
-        noteRepository.update(noteEntity1);
+        noteRepository.update(note1);
 
-        NoteEntity noteEntity = noteRepository.get(noteEntity1.getId());
-        assertThat(noteEntity).isEqualToComparingFieldByField(noteEntity1);
+        Optional<NoteEntity> noteOptional = noteRepository.get(note1.getId());
+        assertThat(noteOptional.get()).isEqualToComparingFieldByField(note1);
 
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void repositoryShouldRemoveEntity() {
-        noteRepository.add(noteEntity1);
+        noteRepository.add(note1);
 
-        noteRepository.remove(noteEntity1.getId());
+        noteRepository.remove(note1.getId());
 
-        noteRepository.get(noteEntity1.getId());
+        assertThat(noteRepository.get(note1.getId()).isPresent()).isFalse();
     }
 
     @After

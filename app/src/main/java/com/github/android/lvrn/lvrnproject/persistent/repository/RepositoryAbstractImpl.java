@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
+import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
 
@@ -96,12 +96,12 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
      * @return a {@code BasicEntity} extended object
      */
     @Override
-    public T get(String id) {
+    public Optional<T> get(String id) {
         Cursor cursor = getSingleEntityQuery(id);
         if (cursor != null && cursor.moveToFirst()) {
-            return toEntity(cursor);
+            return Optional.of(toEntity(cursor));
         }
-        throw new NullPointerException("Cursor is null!");
+        return Optional.absent();
     }
 
     /**
@@ -119,9 +119,8 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
                 entities.add(toEntity(cursor));
             } while (cursor.moveToNext());
             cursor.close();
-            return entities;
         }
-        throw new NullPointerException("Cursor is null!");
+        return entities;
     }
 
     /**
@@ -168,7 +167,7 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
      */
     private Cursor getSingleEntityQuery(String id) {
         return mDatabase.rawQuery(
-                "SELECT * FRO M " + mTableName
+                "SELECT * FROM " + mTableName
                         + " WHERE " + COLUMN_ID + " = '" + id + "'",
                 new String[]{});
     }

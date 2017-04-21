@@ -1,8 +1,9 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 
+import com.google.common.base.Optional;
+
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -18,7 +19,7 @@ public interface Repository<T> {
 
     void remove(String id);
 
-    T get(String id);
+    Optional<T> get(String id);
 
     List<T> get(int from, int amount);
 }

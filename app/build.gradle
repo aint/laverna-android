@@ -36,6 +36,7 @@ dependencies {
     compile 'com.android.support:design:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'us.feras.mdv:markdownview:1.1.0'
+    compile 'com.google.guava:guava:20.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:2.6.0'
     testCompile 'org.robolectric:robolectric:3.3.2'

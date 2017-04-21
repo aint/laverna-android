@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.TagEntity;
+import com.google.common.base.Optional;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,23 +26,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Config(constants = BuildConfig.class)
 public class TagsRepositoryTest {
 
-    private TagsRepository TagsRepository;
+    private TagsRepository tagsRepository;
 
-    private TagEntity tagEntity1;
+    private TagEntity tag1;
 
-    private TagEntity tagEntity2;
+    private TagEntity tag2;
 
-    private TagEntity tagEntity3;
+    private TagEntity tag3;
 
-    private List<TagEntity> tagEntities;
+    private List<TagEntity> tags;
 
     @Before
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        TagsRepository = new TagsRepository();
+        tagsRepository = new TagsRepository();
 
-        tagEntity1 = new TagEntity(
+        tag1 = new TagEntity(
                 "id_1",
                 "profile_id_1",
                 "name_1",
@@ -50,7 +51,7 @@ public class TagsRepositoryTest {
                 0
         );
 
-        tagEntity2 = new TagEntity(
+        tag2 = new TagEntity(
                 "id_2",
                 "profile_id_2",
                 "name_2",
@@ -59,7 +60,7 @@ public class TagsRepositoryTest {
                 0
         );
 
-        tagEntity3 = new TagEntity(
+        tag3 = new TagEntity(
                 "id_3",
                 "profile_id_3",
                 "name_3",
@@ -68,64 +69,57 @@ public class TagsRepositoryTest {
                 0
         );
 
-        tagEntities = new ArrayList<>();
-        tagEntities.add(tagEntity1);
-        tagEntities.add(tagEntity2);
-        tagEntities.add(tagEntity3);
+        tags = new ArrayList<>();
+        tags.add(tag1);
+        tags.add(tag2);
+        tags.add(tag3);
 
-        TagsRepository.openDatabaseConnection();
+        tagsRepository.openDatabaseConnection();
     }
 
     @Test
     public void repositoryShouldAddAndGetEntityById() {
-        TagsRepository.add(tagEntity1);
-        TagEntity TagEntity11 = TagsRepository.get(tagEntity1.getId());
-        assertThat(tagEntity1).isEqualToComparingFieldByField(TagEntity11);
-
-        TagsRepository.add(tagEntity2);
-        TagEntity TagEntity22 = TagsRepository.get(tagEntity2.getId());
-        assertThat(tagEntity2).isEqualToComparingFieldByField(TagEntity22);
-
-        TagsRepository.add(tagEntity3);
-        TagEntity TagEntity33 = TagsRepository.get(tagEntity3.getId());
-        assertThat(tagEntity3).isEqualToComparingFieldByField(TagEntity33);
+        tagsRepository.add(tag1);
+        Optional<TagEntity> tagOptional = tagsRepository.get(tag1.getId());
+        assertThat(tagOptional.isPresent()).isTrue();
+        assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
 
     @Test
     public void repositoryShouldAddAndGetEntities() {
-        TagsRepository.add(tagEntities);
+        tagsRepository.add(tags);
 
-        List<TagEntity> notebookEntities1 = TagsRepository.get(1, 3);
+        List<TagEntity> notebookEntities1 = tagsRepository.get(1, 3);
 
-        assertThat(tagEntities).hasSameSizeAs(notebookEntities1);
-        assertThat((Object) tagEntities)
+        assertThat(tags).hasSameSizeAs(notebookEntities1);
+        assertThat((Object) tags)
                 .isEqualToComparingFieldByFieldRecursively(notebookEntities1);
     }
 
     @Test
     public void repositoryShouldUpdateEntity() {
-        TagsRepository.add(tagEntity1);
+        tagsRepository.add(tag1);
 
-        tagEntity1.setName("new name");
+        tag1.setName("new name");
 
-        TagsRepository.update(tagEntity1);
+        tagsRepository.update(tag1);
 
-        TagEntity TagEntity = TagsRepository.get(tagEntity1.getId());
-        assertThat(TagEntity).isEqualToComparingFieldByField(tagEntity1);
+        Optional<TagEntity> tagOptional = tagsRepository.get(tag1.getId());
+        assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void repositoryShouldRemoveEntity() {
-        TagsRepository.add(tagEntity1);
+        tagsRepository.add(tag1);
 
-        TagsRepository.remove(tagEntity1.getId());
+        tagsRepository.remove(tag1.getId());
 
-        TagsRepository.get(tagEntity1.getId());
+        assertThat(tagsRepository.get(tag1.getId()).isPresent()).isFalse();
     }
 
     @After
     public void finish() {
-        TagsRepository.closeDatabaseConnection();
+        tagsRepository.closeDatabaseConnection();
         DatabaseManager.removeInstance();
     }
 }

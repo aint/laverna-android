@@ -3,7 +3,9 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileEntity;
+import com.google.common.base.Optional;
 
+import org.apache.maven.artifact.ant.Profile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +16,8 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,13 +31,13 @@ public class ProfilesRepositoryTest {
 
     private ProfilesRepository profilesRepository;
 
-    private ProfileEntity profileEntity1;
+    private ProfileEntity profile1;
 
-    private ProfileEntity profileEntity2;
+    private ProfileEntity profile2;
 
-    private ProfileEntity profileEntity3;
+    private ProfileEntity profile3;
 
-    private List<ProfileEntity> profilesEntities;
+    private List<ProfileEntity> profiles;
 
     @Before
     public void setUp() {
@@ -41,74 +45,67 @@ public class ProfilesRepositoryTest {
 
         profilesRepository = new ProfilesRepository();
 
-        profileEntity1 = new ProfileEntity(
+        profile1 = new ProfileEntity(
                 "id_1",
                 "name_1"
         );
 
-        profileEntity2 = new ProfileEntity(
+        profile2 = new ProfileEntity(
                 "id_2",
                 "name_2"
         );
 
-        profileEntity3 = new ProfileEntity(
+        profile3 = new ProfileEntity(
                 "id_3",
                 "name_3"
         );
 
-        profilesEntities = new ArrayList<>();
-        profilesEntities.add(profileEntity1);
-        profilesEntities.add(profileEntity2);
-        profilesEntities.add(profileEntity3);
+        profiles = new ArrayList<>();
+        profiles.add(profile1);
+        profiles.add(profile2);
+        profiles.add(profile3);
 
         profilesRepository.openDatabaseConnection();
     }
 
     @Test
     public void repositoryShouldAddAndGetEntityById() {
-        profilesRepository.add(profileEntity1);
-        ProfileEntity profileEntity11 = profilesRepository.get(profileEntity1.getId());
-        assertThat(profileEntity1).isEqualToComparingFieldByField(profileEntity11);
-
-        profilesRepository.add(profileEntity2);
-        ProfileEntity profileEntity22 = profilesRepository.get(profileEntity2.getId());
-        assertThat(profileEntity2).isEqualToComparingFieldByField(profileEntity22);
-
-        profilesRepository.add(profileEntity3);
-        ProfileEntity profileEntity33 = profilesRepository.get(profileEntity3.getId());
-        assertThat(profileEntity3).isEqualToComparingFieldByField(profileEntity33);
+        profilesRepository.add(profile1);
+        Optional<ProfileEntity> profileOptional = profilesRepository.get(profile1.getId());
+        assertThat(profileOptional.isPresent()).isTrue();
+        assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
     }
 
     @Test
     public void repositoryShouldAddAndGetEntities() {
-        profilesRepository.add(profilesEntities);
+        profilesRepository.add(profiles);
 
-        List<ProfileEntity> notebookEntities1 = profilesRepository.get(1, 3);
+        List<ProfileEntity> profiles1 = profilesRepository.get(1, 3);
 
-        assertThat(profilesEntities).hasSameSizeAs(notebookEntities1);
-        assertThat((Object) profilesEntities)
-                .isEqualToComparingFieldByFieldRecursively(notebookEntities1);
+        assertThat(profiles).hasSameSizeAs(profiles1);
+        assertThat((Object) profiles)
+                .isEqualToComparingFieldByFieldRecursively(profiles1);
     }
 
     @Test
     public void repositoryShouldUpdateEntity() {
-        profilesRepository.add(profileEntity1);
+        profilesRepository.add(profile1);
 
-        profileEntity1.setName("new name");
+        profile1.setName("new name");
 
-        profilesRepository.update(profileEntity1);
+        profilesRepository.update(profile1);
 
-        ProfileEntity profileEntity = profilesRepository.get(profileEntity1.getId());
-        assertThat(profileEntity).isEqualToComparingFieldByField(profileEntity1);
+        Optional<ProfileEntity> profileOptional = profilesRepository.get(profile1.getId());
+        assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void repositoryShouldRemoveEntity() {
-        profilesRepository.add(profileEntity1);
+        profilesRepository.add(profile1);
 
-        profilesRepository.remove(profileEntity1.getId());
+        profilesRepository.remove(profile1.getId());
 
-        profilesRepository.get(profileEntity1.getId());
+        assertThat(profilesRepository.get(profile1.getId()).isPresent()).isFalse();
     }
 
     @After
