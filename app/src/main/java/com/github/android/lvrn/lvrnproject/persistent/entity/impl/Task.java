@@ -1,10 +1,12 @@
-package com.github.android.lvrn.lvrnproject.persistent.entity;
+package com.github.android.lvrn.lvrnproject.persistent.entity.impl;
+
+import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TaskEntity extends BasicEntity {
+public class Task extends BasicEntity {
 
     /**
      * An id of the note, which the task is belonged.
@@ -21,14 +23,24 @@ public class TaskEntity extends BasicEntity {
      */
     private boolean isCompleted = false;
 
-    public TaskEntity(String id,
-                      String noteId,
-                      String description,
-                      boolean isCompleted) {
+    public Task(String id,
+                String profileId,
+                String noteId,
+                String description,
+                boolean isCompleted) {
+        this.profileId = profileId;
         this.id = id;
         this.noteId = noteId;
         this.description = description;
         this.isCompleted = isCompleted;
+    }
+
+    public String getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(String profileId) {
+        this.profileId = profileId;
     }
 
     public String getId() {

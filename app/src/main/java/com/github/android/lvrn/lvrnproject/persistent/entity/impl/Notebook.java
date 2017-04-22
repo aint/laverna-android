@@ -1,19 +1,12 @@
-package com.github.android.lvrn.lvrnproject.persistent.entity;
+package com.github.android.lvrn.lvrnproject.persistent.entity.impl;
 
-import java.util.List;
+import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookEntity extends BasicEntity {
-
-
-
-    /**
-     * An id of the profile, which the notebook is belonged.
-     */
-    private String profileId;
+public class Notebook extends BasicEntity {
 
     /**
      * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't
@@ -41,13 +34,13 @@ public class NotebookEntity extends BasicEntity {
     //TODO: unknown field. Find out what to do with it
     private int count;
 
-    public NotebookEntity(String id,
-                          String profileId,
-                          String parentId,
-                          String name,
-                          long creationTime,
-                          long updateTime,
-                          int count) {
+    public Notebook(String id,
+                    String profileId,
+                    String parentId,
+                    String name,
+                    long creationTime,
+                    long updateTime,
+                    int count) {
         this.id = id;
         this.profileId = profileId;
         this.parentId = parentId;

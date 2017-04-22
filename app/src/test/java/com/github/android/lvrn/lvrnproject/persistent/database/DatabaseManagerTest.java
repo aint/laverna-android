@@ -3,8 +3,6 @@ package com.github.android.lvrn.lvrnproject.persistent.database;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**

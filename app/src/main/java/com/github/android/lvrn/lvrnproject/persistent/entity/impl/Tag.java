@@ -1,17 +1,12 @@
-package com.github.android.lvrn.lvrnproject.persistent.entity;
+package com.github.android.lvrn.lvrnproject.persistent.entity.impl;
 
-import java.util.List;
+import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TagEntity extends BasicEntity {
-
-    /**
-     * An id of the profile, which the tag is belonged.
-     */
-    private String profileId;
+public class Tag extends BasicEntity {
 
     /**
      * A name of the tag.
@@ -33,12 +28,12 @@ public class TagEntity extends BasicEntity {
     //TODO: unknown field. Find out what to do with it
     private int count;
 
-    public TagEntity(String id,
-                     String profileId,
-                     String name,
-                     long creationTime,
-                     long updateTime,
-                     int count) {
+    public Tag(String id,
+               String profileId,
+               String name,
+               long creationTime,
+               long updateTime,
+               int count) {
         this.id = id;
         this.profileId = profileId;
         this.name = name;

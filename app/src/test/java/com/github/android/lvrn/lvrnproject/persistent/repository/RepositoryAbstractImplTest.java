@@ -1,13 +1,12 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import android.content.ContentValues;
-import android.database.Cursor;;
-import static org.assertj.core.api.Assertions.assertThat;
-
+import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,8 +16,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+
+;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -35,12 +35,12 @@ public class RepositoryAbstractImplTest {
         repository = new RepositoryAbstractImpl("test_table") {
 
             @Override
-            protected ContentValues toContentValues(BasicEntity entity) {
+            protected ContentValues toContentValues(Entity entity) {
                 return null;
             }
 
             @Override
-            protected BasicEntity toEntity(Cursor cursor) {
+            protected Entity toEntity(Cursor cursor) {
                 return null;
             }
         };

@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.NoteEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -26,23 +26,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Config(constants = BuildConfig.class)
 public class NoteRepositoryTest {
 
-    private NotesRepository noteRepository;
+    private NotesRepository notesRepository;
 
-    private NoteEntity note1;
+    private Note note1;
 
-    private NoteEntity note2;
+    private Note note2;
 
-    private NoteEntity note3;
+    private Note note3;
 
-    private List<NoteEntity> notes;
+    private List<Note> notes;
 
     @Before
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        noteRepository = new NotesRepository();
+        notesRepository = new NotesRepository();
 
-        note1 = new NoteEntity(
+        note1 = new Note(
                 "id_1",
                 "profile_id_1",
                 "notebook_id_1",
@@ -53,10 +53,10 @@ public class NoteRepositoryTest {
                 false
         );
 
-        note2 = new NoteEntity(
+        note2 = new Note(
                 "id_2",
-                "profile_id_2",
-                "notebook_id_2",
+                "profile_id_1",
+                "notebook_id_1",
                 "title_2",
                 1111,
                 2222,
@@ -64,10 +64,10 @@ public class NoteRepositoryTest {
                 false
         );
 
-        note3 = new NoteEntity(
+        note3 = new Note(
                 "id_3",
-                "profile_id_3",
-                "notebook_id_3",
+                "profile_id_2",
+                "notebook_id_2",
                 "title_3",
                 1111,
                 2222,
@@ -80,53 +80,71 @@ public class NoteRepositoryTest {
         notes.add(note2);
         notes.add(note3);
 
-        noteRepository.openDatabaseConnection();
+        notesRepository.openDatabaseConnection();
     }
 
     @Test
-    public void repositoryShouldAddAndGetEntityById() {
-        noteRepository.add(note1);
-        Optional<NoteEntity> noteOptional = noteRepository.get(note1.getId());
+    public void repositoryShouldGetEntityById() {
+        notesRepository.add(note1);
+        Optional<Note> noteOptional = notesRepository.get(note1.getId());
         assertThat(noteOptional.get());
         assertThat(noteOptional.get()).isEqualToComparingFieldByField(note1);
     }
 
     @Test
-    public void repositoryShouldAddAndGetEntities() {
-        noteRepository.add(notes);
+    public void repositoryShouldGetEntitiesByProfileId() {
+        notesRepository.add(notes);
 
-        List<NoteEntity> notebookEntities1 = noteRepository.get(1, 3);
+        List<Note> noteEntities1 = notesRepository
+                .getNotesByProfileId(note1.getProfileId(), 1, 3);
 
-        assertThat(notes).hasSameSizeAs(notebookEntities1);
-        assertThat((Object) notes)
-                .isEqualToComparingFieldByFieldRecursively(notebookEntities1);
+        assertThat(noteEntities1.size()).isNotEqualTo(notes.size());
+        assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
+
+        notes.remove(note3);
+        assertThat((Object) noteEntities1).isEqualToComparingFieldByFieldRecursively(notes);
     }
 
     @Test
+    public void repositoryShouldGetEntitiesByNotebookId() {
+        notesRepository.add(notes);
+
+        List<Note> noteEntities1 = notesRepository
+                .getNotesByNotebookId(note1.getNotebookId(), 1, 3);
+
+        assertThat(noteEntities1.size()).isNotEqualTo(notes.size());
+        assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
+
+        notes.remove(note3);
+        assertThat((Object) noteEntities1).isEqualToComparingFieldByFieldRecursively(notes);
+    }
+
+
+    @Test
     public void repositoryShouldUpdateEntity() {
-        noteRepository.add(note1);
+        notesRepository.add(note1);
 
         note1.setTitle("new title");
 
-        noteRepository.update(note1);
+        notesRepository.update(note1);
 
-        Optional<NoteEntity> noteOptional = noteRepository.get(note1.getId());
+        Optional<Note> noteOptional = notesRepository.get(note1.getId());
         assertThat(noteOptional.get()).isEqualToComparingFieldByField(note1);
 
     }
 
     @Test
     public void repositoryShouldRemoveEntity() {
-        noteRepository.add(note1);
+        notesRepository.add(note1);
 
-        noteRepository.remove(note1.getId());
+        notesRepository.remove(note1.getId());
 
-        assertThat(noteRepository.get(note1.getId()).isPresent()).isFalse();
+        assertThat(notesRepository.get(note1.getId()).isPresent()).isFalse();
     }
 
     @After
     public void finish() {
-        noteRepository.closeDatabaseConnection();
+        notesRepository.closeDatabaseConnection();
         DatabaseManager.removeInstance();
     }
 }

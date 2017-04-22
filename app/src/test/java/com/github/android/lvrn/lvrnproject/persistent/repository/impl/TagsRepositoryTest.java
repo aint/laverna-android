@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.TagEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -28,13 +28,13 @@ public class TagsRepositoryTest {
 
     private TagsRepository tagsRepository;
 
-    private TagEntity tag1;
+    private Tag tag1;
 
-    private TagEntity tag2;
+    private Tag tag2;
 
-    private TagEntity tag3;
+    private Tag tag3;
 
-    private List<TagEntity> tags;
+    private List<Tag> tags;
 
     @Before
     public void setUp() {
@@ -42,7 +42,7 @@ public class TagsRepositoryTest {
 
         tagsRepository = new TagsRepository();
 
-        tag1 = new TagEntity(
+        tag1 = new Tag(
                 "id_1",
                 "profile_id_1",
                 "name_1",
@@ -51,18 +51,18 @@ public class TagsRepositoryTest {
                 0
         );
 
-        tag2 = new TagEntity(
+        tag2 = new Tag(
                 "id_2",
-                "profile_id_2",
+                "profile_id_1",
                 "name_2",
                 1111,
                 2222,
                 0
         );
 
-        tag3 = new TagEntity(
+        tag3 = new Tag(
                 "id_3",
-                "profile_id_3",
+                "profile_id_2",
                 "name_3",
                 1111,
                 2222,
@@ -78,22 +78,25 @@ public class TagsRepositoryTest {
     }
 
     @Test
-    public void repositoryShouldAddAndGetEntityById() {
+    public void repositoryShouldGetEntityById() {
         tagsRepository.add(tag1);
-        Optional<TagEntity> tagOptional = tagsRepository.get(tag1.getId());
+        Optional<Tag> tagOptional = tagsRepository.get(tag1.getId());
         assertThat(tagOptional.isPresent()).isTrue();
         assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
 
     @Test
-    public void repositoryShouldAddAndGetEntities() {
+    public void repositoryShouldGetEntitiesByProfileId() {
         tagsRepository.add(tags);
 
-        List<TagEntity> notebookEntities1 = tagsRepository.get(1, 3);
+        List<Tag> tagEntities1 = tagsRepository
+                .getTagsByProfileId(tag1.getProfileId(), 1, 3);
 
-        assertThat(tags).hasSameSizeAs(notebookEntities1);
-        assertThat((Object) tags)
-                .isEqualToComparingFieldByFieldRecursively(notebookEntities1);
+        assertThat(tagEntities1.size()).isNotEqualTo(tags.size());
+        assertThat(tagEntities1.size()).isEqualTo(tags.size() - 1);
+
+        tags.remove(tag3);
+        assertThat((Object) tagEntities1).isEqualToComparingFieldByFieldRecursively(tags);
     }
 
     @Test
@@ -104,7 +107,7 @@ public class TagsRepositoryTest {
 
         tagsRepository.update(tag1);
 
-        Optional<TagEntity> tagOptional = tagsRepository.get(tag1.getId());
+        Optional<Tag> tagOptional = tagsRepository.get(tag1.getId());
         assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
 

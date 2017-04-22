@@ -1,19 +1,24 @@
-package com.github.android.lvrn.lvrnproject.persistent.entity;
+package com.github.android.lvrn.lvrnproject.persistent.entity.impl;
 
-import java.util.List;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class ProfileEntity extends BasicEntity {
+public class Profile implements Entity {
+
+    /**
+     * An id of the entity.
+     */
+    protected String id;
 
     /**
      * A name of the profile.
      */
     private String name;
 
-    public ProfileEntity(String id, String name) {
+    public Profile(String id, String name) {
         this.id = id;
         this.name = name;
     }

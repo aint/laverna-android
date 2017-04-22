@@ -2,10 +2,9 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.google.common.base.Optional;
 
-import org.apache.maven.artifact.ant.Profile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +15,6 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,13 +28,13 @@ public class ProfilesRepositoryTest {
 
     private ProfilesRepository profilesRepository;
 
-    private ProfileEntity profile1;
+    private Profile profile1;
 
-    private ProfileEntity profile2;
+    private Profile profile2;
 
-    private ProfileEntity profile3;
+    private Profile profile3;
 
-    private List<ProfileEntity> profiles;
+    private List<Profile> profiles;
 
     @Before
     public void setUp() {
@@ -45,17 +42,17 @@ public class ProfilesRepositoryTest {
 
         profilesRepository = new ProfilesRepository();
 
-        profile1 = new ProfileEntity(
+        profile1 = new Profile(
                 "id_1",
                 "name_1"
         );
 
-        profile2 = new ProfileEntity(
+        profile2 = new Profile(
                 "id_2",
                 "name_2"
         );
 
-        profile3 = new ProfileEntity(
+        profile3 = new Profile(
                 "id_3",
                 "name_3"
         );
@@ -69,18 +66,18 @@ public class ProfilesRepositoryTest {
     }
 
     @Test
-    public void repositoryShouldAddAndGetEntityById() {
+    public void repositoryShouldGetEntityById() {
         profilesRepository.add(profile1);
-        Optional<ProfileEntity> profileOptional = profilesRepository.get(profile1.getId());
+        Optional<Profile> profileOptional = profilesRepository.get(profile1.getId());
         assertThat(profileOptional.isPresent()).isTrue();
         assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
     }
 
     @Test
-    public void repositoryShouldAddAndGetEntities() {
+    public void repositoryShouldGetAllEntities() {
         profilesRepository.add(profiles);
 
-        List<ProfileEntity> profiles1 = profilesRepository.get(1, 3);
+        List<Profile> profiles1 = profilesRepository.getAllProfiles();
 
         assertThat(profiles).hasSameSizeAs(profiles1);
         assertThat((Object) profiles)
@@ -95,7 +92,7 @@ public class ProfilesRepositoryTest {
 
         profilesRepository.update(profile1);
 
-        Optional<ProfileEntity> profileOptional = profilesRepository.get(profile1.getId());
+        Optional<Profile> profileOptional = profilesRepository.get(profile1.getId());
         assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
     }
 

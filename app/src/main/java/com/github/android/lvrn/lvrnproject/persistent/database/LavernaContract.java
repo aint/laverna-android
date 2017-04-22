@@ -13,13 +13,15 @@ public class LavernaContract {
      */
     public static abstract class LavernaBaseTable {
         public static final String COLUMN_ID = "id";
+        public static final String COLUMN_PROFILE_ID = "profile_id";
     }
 
     /**
      * A table of profiles.
      */
-    public static class ProfilesTable extends LavernaBaseTable {
+    public static class ProfilesTable {
         public static final String TABLE_NAME = "profiles";
+        public static final String COLUMN_ID = "id";
         public static final String COLUMN_PROFILE_NAME = "profile_name";
 
         static final String SQL_CREATE_PROFILES_TABLE =
@@ -35,7 +37,6 @@ public class LavernaContract {
      */
     public static class NotebooksTable extends LavernaBaseTable {
         public static final String TABLE_NAME = "notebooks";
-        public static final String COLUMN_PROFILE_ID = "profile_id";
         public static final String COLUMN_PARENT_ID = "parent_id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_CREATION_TIME = "creation_time";
@@ -64,7 +65,6 @@ public class LavernaContract {
      */
     public static class NotesTable extends LavernaBaseTable {
         public static final String TABLE_NAME = "notes";
-        public static final String COLUMN_PROFILE_ID = "profile_id";
         public static final String COLUMN_NOTEBOOK_ID = "notebook_id";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_CREATION_TIME = "creation_time";
@@ -94,7 +94,6 @@ public class LavernaContract {
      */
     public static class TagsTable extends LavernaBaseTable {
         public static final String TABLE_NAME = "tags";
-        public static final String COLUMN_PROFILE_ID = "profile_id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_CREATION_TIME = "creation_time";
         public static final String COLUMN_UPDATE_TIME = "update_time";
@@ -117,7 +116,7 @@ public class LavernaContract {
     /**
      * A junction table of a many-to-many relationship between the notes table and the tags table.
      */
-    public static class NotesTagsTable extends LavernaBaseTable {
+    public static class NotesTagsTable {
         public static final String TABLE_NAME = "notes_tags_table";
         public static final String COLUMN_NOTE_ID = "note_id";
         public static final String COLUMN_TAG_ID = "tag_id";
@@ -127,9 +126,9 @@ public class LavernaContract {
                         + COLUMN_NOTE_ID + " TEXT,"
                         + COLUMN_TAG_ID + " TEXT,"
                         + "FOREIGN KEY (" + COLUMN_NOTE_ID + ") REFERENCES "
-                        + NotesTable.TABLE_NAME +"(" + COLUMN_ID + "),"
+                        + NotesTable.TABLE_NAME +"(" + LavernaBaseTable.COLUMN_ID + "),"
                         + "FOREIGN KEY (" + COLUMN_TAG_ID + ") REFERENCES "
-                        + TagsTable.TABLE_NAME +"(" + COLUMN_ID + "))";
+                        + TagsTable.TABLE_NAME +"(" + LavernaBaseTable.COLUMN_ID + "))";
         static final String SQL_DELETE_NOTES_TAGS_TABLE = "DROP TABLE IF EXISTS "
                 + TABLE_NAME;
 
@@ -147,6 +146,7 @@ public class LavernaContract {
         static final String SQL_CREATE_TASKS_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ("
                         + COLUMN_ID + " TEXT PRIMARY KEY,"
+                        + COLUMN_PROFILE_ID + " TEXT,"
                         + COLUMN_NOTE_ID + " TEXT,"
                         + COLUMN_DESCRIPTION + " TEXT,"
                         + COLUMN_IS_COMPLETED  + " BOOLEAN,"

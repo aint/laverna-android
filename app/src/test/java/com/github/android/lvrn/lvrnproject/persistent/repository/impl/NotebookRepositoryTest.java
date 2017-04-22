@@ -2,10 +2,8 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.NotebookEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.google.common.base.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +16,8 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -28,13 +28,13 @@ public class NotebookRepositoryTest {
 
     private NotebooksRepository notebooksRepository;
 
-    private NotebookEntity notebook1;
+    private Notebook notebook1;
 
-    private NotebookEntity notebook2;
+    private Notebook notebook2;
 
-    private NotebookEntity notebook3;
+    private Notebook notebook3;
 
-    private List<NotebookEntity> notebooks;
+    private List<Notebook> notebooks;
 
     @Before
     public void setUp() {
@@ -42,7 +42,7 @@ public class NotebookRepositoryTest {
 
         notebooksRepository = new NotebooksRepository();
 
-        notebook1 = new NotebookEntity(
+        notebook1 = new Notebook(
                 "id_1",
                 "profile_id_1",
                 "parent_id_1",
@@ -52,9 +52,9 @@ public class NotebookRepositoryTest {
                 0
         );
 
-        notebook2 = new NotebookEntity(
+        notebook2 = new Notebook(
                 "id_2",
-                "profile_id_2",
+                "profile_id_1",
                 "parent_id_2",
                 "notebook_name_2",
                 1111,
@@ -62,9 +62,9 @@ public class NotebookRepositoryTest {
                 0
         );
 
-        notebook3 = new NotebookEntity(
+        notebook3 = new Notebook(
                 "id_3",
-                "profile_id_3",
+                "profile_id_2",
                 "parent_id_3",
                 "notebook_name_3",
                 1111,
@@ -81,22 +81,25 @@ public class NotebookRepositoryTest {
     }
 
     @Test
-    public void repositoryShouldAddAndGetEntityById() {
+    public void repositoryShouldGetEntityById() {
         notebooksRepository.add(notebook1);
-        Optional<NotebookEntity> notebookOptional = notebooksRepository.get(notebook1.getId());
+        Optional<Notebook> notebookOptional = notebooksRepository.get(notebook1.getId());
         assertThat(notebookOptional.isPresent()).isTrue();
         assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
     }
 
     @Test
-    public void repositoryShouldAddAndGetEntities() {
+    public void repositoryShouldGetEntitiesByProfileId() {
         notebooksRepository.add(notebooks);
 
-        List<NotebookEntity> notebookEntities1 = notebooksRepository.get(1, 3);
+        List<Notebook> notebookEntities1 = notebooksRepository
+                .getNotebooksByProfileId(notebook1.getProfileId(), 1, 3);
 
-        assertThat(notebooks).hasSameSizeAs(notebookEntities1);
-        assertThat((Object) notebooks)
-                .isEqualToComparingFieldByFieldRecursively(notebookEntities1);
+        assertThat(notebookEntities1.size()).isNotEqualTo(notebooks.size());
+        assertThat(notebookEntities1.size()).isEqualTo(notebooks.size() - 1);
+
+        notebooks.remove(notebook3);
+        assertThat((Object) notebookEntities1).isEqualToComparingFieldByFieldRecursively(notebooks);
     }
 
     @Test
@@ -107,7 +110,7 @@ public class NotebookRepositoryTest {
 
         notebooksRepository.update(notebook1);
 
-        Optional<NotebookEntity> notebookOptional = notebooksRepository.get(notebook1.getId());
+        Optional<Notebook> notebookOptional = notebooksRepository.get(notebook1.getId());
         assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
 
     }

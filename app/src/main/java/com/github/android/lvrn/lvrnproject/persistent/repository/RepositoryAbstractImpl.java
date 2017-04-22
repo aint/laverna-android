@@ -5,10 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.google.common.base.Optional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements Repository<T> {
+public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repository<T> {
 
     /**
      * A name of a table represented by the repository.
@@ -28,7 +29,7 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
     /**
      * A {@code SQLiteDatabase object} object.
      */
-    private SQLiteDatabase mDatabase;
+    protected SQLiteDatabase mDatabase;
 
     public RepositoryAbstractImpl(String mTableName) {
         this.mTableName = mTableName;
@@ -48,12 +49,11 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
      * @param entities {@code BasicEntity} extended objects to save.
      */
     @Override
-    public void add(Iterable<T> entities) {
+    public void add(Collection<T> entities) {
         mDatabase.beginTransaction();
         try {
-            for (ContentValues values : toContentValuesList(entities)) {
-                mDatabase.insert(mTableName, null, values);
-            }
+            toContentValuesList(entities)
+                    .forEach(values -> mDatabase.insert(mTableName, null, values));
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
@@ -97,22 +97,33 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
      */
     @Override
     public Optional<T> get(String id) {
-        Cursor cursor = getSingleEntityQuery(id);
+        Cursor cursor = mDatabase.rawQuery(
+                "SELECT * FROM " + mTableName
+                        + " WHERE " + COLUMN_ID + " = '" + id + "'",
+                new String[]{});
         if (cursor != null && cursor.moveToFirst()) {
             return Optional.of(toEntity(cursor));
         }
         return Optional.absent();
     }
 
-    /**
-     * A method which retrieves objects from the database.
-     * @param from a start position.
-     * @param amount an int value of objects' amount to retrieve.
-     * @return a list of entities.
-     */
+//    /**
+//     * A method which retrieves objects from the database.
+//     * @param from a start position.
+//     * @param amount an int value of objects' amount to retrieve.
+//     * @return a list of entities.
+//     */
+//    @Override
+//    public List<T> get(int from, int amount) {
+//        String query = "SELECT * FROM " + mTableName
+//                + " LIMIT " + amount
+//                + " OFFSET " + (from - 1);
+//        return getByRawQuery(query);
+//    }
+
     @Override
-    public List<T> get(int from, int amount) {
-        Cursor cursor = getListOfEntitiesQuery(from, amount);
+    public List<T> getByRawQuery(String query) {
+        Cursor cursor = mDatabase.rawQuery(query, new String[]{});
         List<T> entities = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -152,39 +163,10 @@ public abstract class RepositoryAbstractImpl<T extends BasicEntity>  implements 
      * @param entities objects to convert.
      * @return a list of converted into a {@code ContentValues} entities.
      */
-    private List<ContentValues> toContentValuesList(Iterable<T> entities) {
+    private List<ContentValues> toContentValuesList(Collection<T> entities) {
         List<ContentValues> contentValuesList = new ArrayList<>();
-        for (T entity : entities) {
-            contentValuesList.add(toContentValues(entity));
-        }
+        entities.forEach(entity -> contentValuesList.add(toContentValues(entity)));
         return contentValuesList;
-    }
-
-    /**
-     * A method which creates a SELECT query for an entity by id.
-     * @param id a {@code String} object with id value.
-     * @return a {@code Cursor} with a result of the query.
-     */
-    private Cursor getSingleEntityQuery(String id) {
-        return mDatabase.rawQuery(
-                "SELECT * FROM " + mTableName
-                        + " WHERE " + COLUMN_ID + " = '" + id + "'",
-                new String[]{});
-    }
-
-    /**
-     * A method which creates a SELECT query for an amount of entities from the received start
-     * position.
-     * @param from a start position.
-     * @param amount an int value of objects' amount to retrieve.
-     * @return a {@code Cursor} with a result of the query.
-     */
-    private Cursor getListOfEntitiesQuery(int from, int amount) {
-        return mDatabase.rawQuery(
-                "SELECT * FROM " + mTableName
-                        + " LIMIT " + amount
-                        + " OFFSET " + (from - 1),
-                new String[]{});
     }
 
     /**

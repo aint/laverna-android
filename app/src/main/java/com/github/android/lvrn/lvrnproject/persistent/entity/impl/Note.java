@@ -1,17 +1,12 @@
-package com.github.android.lvrn.lvrnproject.persistent.entity;
+package com.github.android.lvrn.lvrnproject.persistent.entity.impl;
 
-import java.util.List;
+import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteEntity extends BasicEntity {
-
-    /**
-     * An id of the profile, which the note is belonged.
-     */
-    private String profileId;
+public class Note extends BasicEntity {
 
     /**
      * An id of a notebook, which the note is belonged. In case, if the note doesn't belong to any
@@ -46,14 +41,14 @@ public class NoteEntity extends BasicEntity {
      */
     private boolean isFavorite = false;
 
-    public NoteEntity(String id,
-                      String profileId,
-                      String notebookId,
-                      String title,
-                      long creationTime,
-                      long updateTime,
-                      String content,
-                      boolean isFavorite) {
+    public Note(String id,
+                String profileId,
+                String notebookId,
+                String title,
+                long creationTime,
+                long updateTime,
+                String content,
+                boolean isFavorite) {
         this.id = id;
         this.profileId = profileId;
         this.notebookId = notebookId;
