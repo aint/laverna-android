@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -14,6 +15,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,12 +42,19 @@ public class NotebooksRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
+
+        ProfilesRepository profilesRepository = new ProfilesRepository();
+        profilesRepository.openDatabaseConnection();
+        profilesRepository.add(new Profile("profile_id_1", "first profile"));
+        profilesRepository.add(new Profile("profile_id_2", "second profile"));
+        profilesRepository.closeDatabaseConnection();
+
         notebooksRepository = new NotebooksRepository();
 
         notebook1 = new Notebook(
                 "id_1",
                 "profile_id_1",
-                "parent_id_1",
+                null,
                 "notebook_name_1",
                 1111,
                 2222,
@@ -55,7 +64,7 @@ public class NotebooksRepositoryTest {
         notebook2 = new Notebook(
                 "id_2",
                 "profile_id_1",
-                "parent_id_2",
+                null,
                 "notebook_name_2",
                 1111,
                 2222,
@@ -65,7 +74,7 @@ public class NotebooksRepositoryTest {
         notebook3 = new Notebook(
                 "id_3",
                 "profile_id_2",
-                "parent_id_3",
+                "profile_id_1",
                 "notebook_name_3",
                 1111,
                 2222,
@@ -73,17 +82,9 @@ public class NotebooksRepositoryTest {
         );
 
         notebooks = new ArrayList<>();
-        notebooks.add(notebook1);
-        notebooks.add(notebook2);
-        notebooks.add(notebook3);
+        Arrays.asList(notebook1, notebook2, notebook3).forEach(notebook -> notebooks.add(notebook));
 
         notebooksRepository.openDatabaseConnection();
-
-//        ProfilesRepository profilesRepository = new ProfilesRepository();
-//        profilesRepository.openDatabaseConnection();
-//        profilesRepository.add(new Profile("profile_id_1", "first profile"));
-//        profilesRepository.add(new Profile("profile_id_2", "second profile"));
-//        profilesRepository.closeDatabaseConnection();
     }
 
     @Test

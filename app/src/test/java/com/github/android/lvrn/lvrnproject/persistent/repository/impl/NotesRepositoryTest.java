@@ -4,6 +4,7 @@ import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.google.common.base.Optional;
 
@@ -46,14 +47,25 @@ public class NotesRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
+        ProfilesRepository profilesRepository = new ProfilesRepository();
+        profilesRepository.openDatabaseConnection();
+        profilesRepository.add(new Profile("profile_id_1", "first profile"));
+        profilesRepository.add(new Profile("profile_id_2", "second profile"));
+        profilesRepository.closeDatabaseConnection();
+
+
         notesRepository = new NotesRepository();
 
-        notebook = new Notebook("notebook_id_1", "profile_id_1", "0", "notebook1", 1111, 2222, 0);
+        notebook = new Notebook("notebook_id_1", "profile_id_1", null, "notebook1", 1111, 2222, 0);
+        NotebooksRepository notebooksRepository = new NotebooksRepository();
+        notebooksRepository.openDatabaseConnection();
+        notebooksRepository.add(notebook);
+        notebooksRepository.closeDatabaseConnection();
 
         note1 = new Note(
-                "id_1",
+                "note_id_1",
                 "profile_id_1",
-                notebook.getId(),
+                "notebook_id_1",
                 "title_1",
                 1111,
                 2222,
@@ -62,7 +74,7 @@ public class NotesRepositoryTest {
         );
 
         note2 = new Note(
-                "id_2",
+                "note_id_2",
                 "profile_id_1",
                 "notebook_id_1",
                 "title_2",
@@ -73,7 +85,7 @@ public class NotesRepositoryTest {
         );
 
         note3 = new Note(
-                "id_3",
+                "note_id_3",
                 "profile_id_2",
                 "notebook_id_2",
                 "title_3",
@@ -93,7 +105,7 @@ public class NotesRepositoryTest {
     public void repositoryShouldGetEntityById() {
         notesRepository.add(note1);
         Optional<Note> noteOptional = notesRepository.get(note1.getId());
-        assertThat(noteOptional.get());
+        assertThat(noteOptional.isPresent()).isTrue();
         assertThat(noteOptional.get()).isEqualToComparingFieldByField(note1);
     }
 
@@ -128,6 +140,10 @@ public class NotesRepositoryTest {
     @Test
     public void repositoryShouldGetNotesByTagId() {
         Tag tag = new Tag("tag_id_1", "profile_id_1", "tag1", 1111, 2222, 0);
+        TagsRepository tagsRepository = new TagsRepository();
+        tagsRepository.openDatabaseConnection();
+        tagsRepository.add(tag);
+        tagsRepository.closeDatabaseConnection();
 
         notesRepository.add(note1);
         notesRepository.add(note2);
@@ -147,6 +163,12 @@ public class NotesRepositoryTest {
     @Test
     public void repositoryShouldRemoveTagsOfNote() {
         Tag tag = new Tag("tag_id_1", "profile_id_1", "tag1", 1111, 2222, 0);
+        TagsRepository tagsRepository = new TagsRepository();
+        tagsRepository.openDatabaseConnection();
+        tagsRepository.add(tag);
+        tagsRepository.closeDatabaseConnection();
+
+
 
         notesRepository.add(note1);
         notesRepository.add(note2);

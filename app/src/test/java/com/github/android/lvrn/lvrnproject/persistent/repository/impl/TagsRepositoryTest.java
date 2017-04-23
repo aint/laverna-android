@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.google.common.base.Optional;
 
@@ -15,6 +16,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,6 +42,13 @@ public class TagsRepositoryTest {
     @Before
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
+
+        ProfilesRepository profilesRepository = new ProfilesRepository();
+        profilesRepository.openDatabaseConnection();
+        profilesRepository.add(new Profile("profile_id_1", "first profile"));
+        profilesRepository.add(new Profile("profile_id_2", "second profile"));
+        profilesRepository.closeDatabaseConnection();
+
 
         tagsRepository = new TagsRepository();
 
@@ -114,19 +123,21 @@ public class TagsRepositoryTest {
 
     @Test
     public void repositoryShoudGetTagsByNote() {
+        tagsRepository.add(tags);
+
         NotesRepository notesRepository = new NotesRepository();
         notesRepository.openDatabaseConnection();
-        Note note1 = new Note("id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
+        Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
         notesRepository.add(note1);
-        notesRepository.addTagsToNote(note1, tags);
+        notesRepository.addTagsToNote(note1, Arrays.asList(tag1, tag2));
         notesRepository.closeDatabaseConnection();
-
-        tagsRepository.add(tags);
 
         List<Tag> tags1 = tagsRepository.getByNote(note1);
 
-        assertThat(tags1).hasSameSizeAs(tags);
+        assertThat(tags1.size()).isNotEqualTo(tags.size());
+        assertThat(tags1.size()).isEqualTo(tags.size() - 1);
 
+        tags.remove(tag3);
         assertThat((Object) tags1).isEqualToComparingFieldByFieldRecursively(tags);
     }
 

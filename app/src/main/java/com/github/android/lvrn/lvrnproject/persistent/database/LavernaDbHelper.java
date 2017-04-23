@@ -19,10 +19,18 @@ public class LavernaDbHelper extends SQLiteOpenHelper {
         mContext = context;
     }
 
+
+//    @Override
+//    public void onOpen(SQLiteDatabase db) {
+//        super.onOpen(db);
+//        db.execSQL("PRAGMA foreign_keys=ON;");
+//    }
+
+
     @Override
     public void onConfigure(SQLiteDatabase db) {
-        //TODO: find out how to implement cascade rmoving
-//        db.execSQL("PRAGMA foreign_keys=ON");
+//        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
     }
 
     @Override

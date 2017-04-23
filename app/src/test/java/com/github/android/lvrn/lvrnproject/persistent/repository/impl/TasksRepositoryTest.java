@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
 import com.google.common.base.Optional;
@@ -43,22 +44,34 @@ public class TasksRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
+        profile = new Profile("profile_id_1", "profile1");
+
+        ProfilesRepository profilesRepository = new ProfilesRepository();
+        profilesRepository.openDatabaseConnection();
+        profilesRepository.add(profile);
+        profilesRepository.add(new Profile("profile_id_2", "second profile"));
+        profilesRepository.closeDatabaseConnection();
+
+        NotesRepository notesRepository = new NotesRepository();
+        notesRepository.openDatabaseConnection();
+        notesRepository.add(new Note("node_id_1", profile.getId(), null, "title", 1111, 2222, "dfsdf", true));
+        notesRepository.closeDatabaseConnection();
+
         tasksRepository = new TasksRepository();
 
-        profile = new Profile("profile_id_1", "profile1");
 
         task1 = new Task(
                 "id_1",
                 profile.getId(),
-                "note_id_1",
+                "node_id_1",
                 "description_1",
                 false
         );
 
         task2 = new Task(
                 "id_2",
-                "profile_id_1",
-                "note_id_2",
+                profile.getId(),
+                "node_id_1",
                 "description_2",
                 true
         );
@@ -66,7 +79,7 @@ public class TasksRepositoryTest {
         task3 = new Task(
                 "id_3",
                 "profile_id_2",
-                "note_id_3",
+                "note_id_1",
                 "description_3",
                 true
         );
