@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
 import com.google.common.base.Optional;
 
@@ -34,6 +35,8 @@ public class TasksRepositoryTest {
 
     private Task task3;
 
+    private Profile profile;
+
     private List<Task> tasks;
 
     @Before
@@ -42,9 +45,11 @@ public class TasksRepositoryTest {
 
         tasksRepository = new TasksRepository();
 
+        profile = new Profile("profile_id_1", "profile1");
+
         task1 = new Task(
                 "id_1",
-                "profile_id_1",
+                profile.getId(),
                 "note_id_1",
                 "description_1",
                 false
@@ -87,7 +92,7 @@ public class TasksRepositoryTest {
         tasksRepository.add(tasks);
 
         List<Task> taskEntities1 = tasksRepository
-                .getTasksByProfileId(task1.getProfileId(), 1, 3);
+                .getByProfileId(task1.getProfileId(), 1, 3);
 
         assertThat(taskEntities1.size()).isNotEqualTo(tasks.size());
         assertThat(taskEntities1.size()).isEqualTo(tasks.size() - 1);
@@ -101,7 +106,7 @@ public class TasksRepositoryTest {
         tasksRepository.add(tasks);
 
         List<Task> taskEntities1 = tasksRepository
-                .getUncompletedTasksByProfileId(task1.getProfileId(), 1, 3);
+                .getUncompletedByProfile(profile, 1, 3);
 
         assertThat(taskEntities1.size()).isNotEqualTo(tasks.size());
         assertThat(taskEntities1.size()).isEqualTo(tasks.size() - 2);
@@ -127,7 +132,7 @@ public class TasksRepositoryTest {
     public void repositoryShouldRemoveEntity() {
         tasksRepository.add(task1);
 
-        tasksRepository.remove(task1.getId());
+        tasksRepository.remove(task1);
 
         assertThat(tasksRepository.get(task1.getId()).isPresent()).isFalse();
     }

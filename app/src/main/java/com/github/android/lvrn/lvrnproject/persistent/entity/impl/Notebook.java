@@ -1,12 +1,12 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity.impl;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Notebook extends BasicEntity {
+public class Notebook extends ProfileDependedEntity {
 
     /**
      * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't

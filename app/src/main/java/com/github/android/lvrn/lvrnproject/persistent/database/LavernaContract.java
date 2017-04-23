@@ -53,7 +53,7 @@ public class LavernaContract {
                         + COLUMN_UPDATE_TIME + " INTEGER,"
                         + COLUMN_COUNT + " INTEGER,"
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
-                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + "),"
+                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE,"
                         + "FOREIGN KEY (" + COLUMN_PARENT_ID + ") REFERENCES "
                         + TABLE_NAME + "(" + COLUMN_ID + "))";
         static final String SQL_DELETE_NOTEBOOKS_TABLE = "DROP TABLE IF EXISTS "
@@ -83,7 +83,7 @@ public class LavernaContract {
                         + COLUMN_CONTENT + " TEXT,"
                         + COLUMN_IS_FAVORITE + " BOOLEAN,"
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
-                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + "),"
+                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE,"
                         + "FOREIGN KEY (" + COLUMN_NOTEBOOK_ID + ") REFERENCES "
                         + NotebooksTable.TABLE_NAME + "(" + COLUMN_ID + "))";
         static final String SQL_DELETE_NOTES_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -108,7 +108,7 @@ public class LavernaContract {
                         + COLUMN_UPDATE_TIME + " INTEGER,"
                         + COLUMN_COUNT + " INTEGER,"
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
-                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + "))";
+                        + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE)";
 
         static final String SQL_DELETE_TAGS_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
@@ -117,7 +117,7 @@ public class LavernaContract {
      * A junction table of a many-to-many relationship between the notes table and the tags table.
      */
     public static class NotesTagsTable {
-        public static final String TABLE_NAME = "notes_tags_table";
+        public static final String TABLE_NAME = "notes_tags";
         public static final String COLUMN_NOTE_ID = "note_id";
         public static final String COLUMN_TAG_ID = "tag_id";
 
@@ -126,9 +126,9 @@ public class LavernaContract {
                         + COLUMN_NOTE_ID + " TEXT,"
                         + COLUMN_TAG_ID + " TEXT,"
                         + "FOREIGN KEY (" + COLUMN_NOTE_ID + ") REFERENCES "
-                        + NotesTable.TABLE_NAME +"(" + LavernaBaseTable.COLUMN_ID + "),"
+                        + NotesTable.TABLE_NAME +"(" + LavernaBaseTable.COLUMN_ID + ") ON DELETE CASCADE,"
                         + "FOREIGN KEY (" + COLUMN_TAG_ID + ") REFERENCES "
-                        + TagsTable.TABLE_NAME +"(" + LavernaBaseTable.COLUMN_ID + "))";
+                        + TagsTable.TABLE_NAME +"(" + LavernaBaseTable.COLUMN_ID + ") ON DELETE CASCADE)";
         static final String SQL_DELETE_NOTES_TAGS_TABLE = "DROP TABLE IF EXISTS "
                 + TABLE_NAME;
 
@@ -151,7 +151,7 @@ public class LavernaContract {
                         + COLUMN_DESCRIPTION + " TEXT,"
                         + COLUMN_IS_COMPLETED  + " BOOLEAN,"
                         + "FOREIGN KEY (" + COLUMN_NOTE_ID + ") REFERENCES "
-                        + NotesTable.TABLE_NAME +"(" + COLUMN_ID + "))";
+                        + NotesTable.TABLE_NAME +"(" + COLUMN_ID + ") ON DELETE CASCADE)";
 
         static final String SQL_DELETE_TASKS_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }

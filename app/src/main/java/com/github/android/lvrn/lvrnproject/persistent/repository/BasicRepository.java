@@ -19,25 +19,25 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repository<T> {
+public abstract class BasicRepository<T extends Entity>  implements Repository<T> {
 
     /**
      * A name of a table represented by the repository.
      */
-    private final String mTableName;
+    protected final String mTableName;
 
     /**
      * A {@code SQLiteDatabase object} object.
      */
     protected SQLiteDatabase mDatabase;
 
-    public RepositoryAbstractImpl(String mTableName) {
+    public BasicRepository(String mTableName) {
         this.mTableName = mTableName;
     }
 
     /**
      * A method which receives an entity to save in the database.
-     * @param entity a {@code BasicEntity} extended object to save.
+     * @param entity a {@code ProfileDependedEntity} extended object to save.
      */
     @Override
     public void add(T entity) {
@@ -46,7 +46,7 @@ public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repos
 
     /**
      * A method which receives a {@code Iterable<T>} of entities to save in the database.
-     * @param entities {@code BasicEntity} extended objects to save.
+     * @param entities {@code ProfileDependedEntity} extended objects to save.
      */
     @Override
     public void add(Collection<T> entities) {
@@ -62,7 +62,7 @@ public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repos
 
     /**
      * A method which receives an entity to update in the database.
-     * @param entity an {@code BasicEntity} extended object to update.
+     * @param entity an {@code ProfileDependedEntity} extended object to update.
      */
     @Override
     public void update(T entity) {
@@ -77,13 +77,13 @@ public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repos
 
     /**
      * A method which removes an object from the database by received id.
-     * @param id a {@code String} object with id value.
+     * @param entity an object to remove.
      */
     @Override
-    public void remove(String id) {
+    public void remove(T entity) {
         mDatabase.beginTransaction();
         try {
-            mDatabase.delete(mTableName, COLUMN_ID + "= '" + id + "'", null);
+            mDatabase.delete(mTableName, COLUMN_ID + "= '" + entity.getId() + "'", null);
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
@@ -93,7 +93,7 @@ public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repos
     /**
      * A method which retrieves an object from the database by id.
      * @param id a {@code String} object with id value.
-     * @return a {@code BasicEntity} extended object
+     * @return a {@code ProfileDependedEntity} extended object
      */
     @Override
     public Optional<T> get(String id) {
@@ -106,20 +106,6 @@ public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repos
         }
         return Optional.absent();
     }
-
-//    /**
-//     * A method which retrieves objects from the database.
-//     * @param from a start position.
-//     * @param amount an int value of objects' amount to retrieve.
-//     * @return a list of entities.
-//     */
-//    @Override
-//    public List<T> get(int from, int amount) {
-//        String query = "SELECT * FROM " + mTableName
-//                + " LIMIT " + amount
-//                + " OFFSET " + (from - 1);
-//        return getByRawQuery(query);
-//    }
 
     @Override
     public List<T> getByRawQuery(String query) {
@@ -171,7 +157,7 @@ public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repos
 
     /**
      * A method which converts a received entity into a ContentValues object.
-     * @param entity a {@code BasicEntity} extended object to convert.
+     * @param entity a {@code ProfileDependedEntity} extended object to convert.
      * @return a {@code ContentValues} object.
      */
     protected abstract ContentValues toContentValues(T entity);
@@ -179,7 +165,7 @@ public abstract class RepositoryAbstractImpl<T extends Entity>  implements Repos
     /**
      * A method which parse a received cursor result of a query into an entity.
      * @param cursor a {@code Cursor} with a data to convert into entity.
-     * @return a {@code BasicEntity} object.
+     * @return a {@code ProfileDependedEntity} object.
      */
     protected abstract T toEntity(Cursor cursor);
 }

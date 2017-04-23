@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 
 import org.junit.After;
@@ -26,13 +26,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class RepositoryAbstractImplTest {
-    private RepositoryAbstractImpl repository;
+    private BasicRepository repository;
 
     @Before
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        repository = new RepositoryAbstractImpl("test_table") {
+        repository = new BasicRepository("test_table") {
 
             @Override
             protected ContentValues toContentValues(Entity entity) {
@@ -62,7 +62,7 @@ public class RepositoryAbstractImplTest {
 
     @Test(expected = NullPointerException.class)
     public void repositoryShoudThrowNullPointerException() {
-        repository.add(new BasicEntity() {
+        repository.add(new ProfileDependedEntity() {
 
             @Override
             public String getId() {

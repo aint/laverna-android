@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.google.common.base.Optional;
 
@@ -90,7 +91,7 @@ public class TagsRepositoryTest {
         tagsRepository.add(tags);
 
         List<Tag> tagEntities1 = tagsRepository
-                .getTagsByProfileId(tag1.getProfileId(), 1, 3);
+                .getByProfileId(tag1.getProfileId(), 1, 3);
 
         assertThat(tagEntities1.size()).isNotEqualTo(tags.size());
         assertThat(tagEntities1.size()).isEqualTo(tags.size() - 1);
@@ -112,10 +113,29 @@ public class TagsRepositoryTest {
     }
 
     @Test
+    public void repositoryShoudGetTagsByNote() {
+        NotesRepository notesRepository = new NotesRepository();
+        notesRepository.openDatabaseConnection();
+        Note note1 = new Note("id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
+        notesRepository.add(note1);
+        notesRepository.addTagsToNote(note1, tags);
+        notesRepository.closeDatabaseConnection();
+
+        tagsRepository.add(tags);
+
+        List<Tag> tags1 = tagsRepository.getByNote(note1);
+
+        assertThat(tags1).hasSameSizeAs(tags);
+
+        assertThat((Object) tags1).isEqualToComparingFieldByFieldRecursively(tags);
+    }
+
+
+    @Test
     public void repositoryShouldRemoveEntity() {
         tagsRepository.add(tag1);
 
-        tagsRepository.remove(tag1.getId());
+        tagsRepository.remove(tag1);
 
         assertThat(tagsRepository.get(tag1.getId()).isPresent()).isFalse();
     }

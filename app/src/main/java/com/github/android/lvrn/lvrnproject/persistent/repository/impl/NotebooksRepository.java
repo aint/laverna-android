@@ -4,9 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
-import com.github.android.lvrn.lvrnproject.persistent.repository.RepositoryAbstractImpl;
-
-import java.util.List;
+import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_COUNT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_CREATION_TIME;
@@ -21,7 +19,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebooksRepository extends RepositoryAbstractImpl<Notebook> {
+public class NotebooksRepository extends ProfileDependedRepository<Notebook> {
 
     public NotebooksRepository() {
         super(TABLE_NAME);
@@ -50,13 +48,5 @@ public class NotebooksRepository extends RepositoryAbstractImpl<Notebook> {
                 cursor.getLong(cursor.getColumnIndex(COLUMN_CREATION_TIME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)),
                 cursor.getInt(cursor.getColumnIndex(COLUMN_COUNT)));
-    }
-
-    public List<Notebook> getNotebooksByProfileId(String profileId, int from, int amount) {
-        String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "'"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
-        return getByRawQuery(query);
     }
 }

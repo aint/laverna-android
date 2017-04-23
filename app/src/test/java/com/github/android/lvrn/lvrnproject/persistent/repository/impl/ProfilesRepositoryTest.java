@@ -100,7 +100,7 @@ public class ProfilesRepositoryTest {
     public void repositoryShouldRemoveEntity() {
         profilesRepository.add(profile1);
 
-        profilesRepository.remove(profile1.getId());
+        profilesRepository.remove(profile1);
 
         assertThat(profilesRepository.get(profile1.getId()).isPresent()).isFalse();
     }

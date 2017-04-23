@@ -1,12 +1,12 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity.impl;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.BasicEntity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Task extends BasicEntity {
+public class Task extends ProfileDependedEntity {
 
     /**
      * An id of the note, which the task is belonged.

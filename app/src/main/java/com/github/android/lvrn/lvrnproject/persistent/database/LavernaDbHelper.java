@@ -20,6 +20,12 @@ public class LavernaDbHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onConfigure(SQLiteDatabase db) {
+        //TODO: find out how to implement cascade rmoving
+//        db.execSQL("PRAGMA foreign_keys=ON");
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(LavernaContract.ProfilesTable.SQL_CREATE_PROFILES_TABLE);
         db.execSQL(LavernaContract.NotebooksTable.SQL_CREATE_NOTEBOOKS_TABLE);

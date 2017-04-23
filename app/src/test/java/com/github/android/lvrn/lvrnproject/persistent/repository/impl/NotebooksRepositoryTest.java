@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-public class NotebookRepositoryTest {
+public class NotebooksRepositoryTest {
 
     private NotebooksRepository notebooksRepository;
 
@@ -78,6 +78,12 @@ public class NotebookRepositoryTest {
         notebooks.add(notebook3);
 
         notebooksRepository.openDatabaseConnection();
+
+//        ProfilesRepository profilesRepository = new ProfilesRepository();
+//        profilesRepository.openDatabaseConnection();
+//        profilesRepository.add(new Profile("profile_id_1", "first profile"));
+//        profilesRepository.add(new Profile("profile_id_2", "second profile"));
+//        profilesRepository.closeDatabaseConnection();
     }
 
     @Test
@@ -93,7 +99,7 @@ public class NotebookRepositoryTest {
         notebooksRepository.add(notebooks);
 
         List<Notebook> notebookEntities1 = notebooksRepository
-                .getNotebooksByProfileId(notebook1.getProfileId(), 1, 3);
+                .getByProfileId(notebook1.getProfileId(), 1, 3);
 
         assertThat(notebookEntities1.size()).isNotEqualTo(notebooks.size());
         assertThat(notebookEntities1.size()).isEqualTo(notebooks.size() - 1);
@@ -119,7 +125,7 @@ public class NotebookRepositoryTest {
     public void repositoryShouldRemoveEntity() {
         notebooksRepository.add(notebook1);
 
-        notebooksRepository.remove(notebook1.getId());
+        notebooksRepository.remove(notebook1);
 
         assertThat(notebooksRepository.get(notebook1.getId()).isPresent()).isFalse();
     }

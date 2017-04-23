@@ -3,8 +3,9 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
-import com.github.android.lvrn.lvrnproject.persistent.repository.RepositoryAbstractImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TasksRepository extends RepositoryAbstractImpl<Task> {
+public class TasksRepository extends ProfileDependedRepository<Task> {
 
     public TasksRepository() {
         super(TABLE_NAME);
@@ -46,17 +47,9 @@ public class TasksRepository extends RepositoryAbstractImpl<Task> {
                 cursor.getInt(cursor.getColumnIndex(COLUMN_IS_COMPLETED)) > 0);
     }
 
-    public List<Task> getTasksByProfileId(String profileId, int from, int amount) {
+    public List<Task> getUncompletedByProfile(Profile profile, int from, int amount) {
         String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "'"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
-        return getByRawQuery(query);
-    }
-
-    public List<Task> getUncompletedTasksByProfileId(String profileId, int from, int amount) {
-        String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "' AND "
+                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profile.getId() + "' AND "
                 + COLUMN_IS_COMPLETED + " = 0"
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);

@@ -6,12 +6,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Profile implements Entity {
-
-    /**
-     * An id of the entity.
-     */
-    protected String id;
+public class Profile extends Entity {
 
     /**
      * A name of the profile.

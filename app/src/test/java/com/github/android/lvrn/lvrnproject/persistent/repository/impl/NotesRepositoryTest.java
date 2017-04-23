@@ -3,6 +3,8 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -14,6 +16,8 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-public class NoteRepositoryTest {
+public class NotesRepositoryTest {
 
     private NotesRepository notesRepository;
 
@@ -34,6 +38,8 @@ public class NoteRepositoryTest {
 
     private Note note3;
 
+    private Notebook notebook;
+
     private List<Note> notes;
 
     @Before
@@ -42,10 +48,12 @@ public class NoteRepositoryTest {
 
         notesRepository = new NotesRepository();
 
+        notebook = new Notebook("notebook_id_1", "profile_id_1", "0", "notebook1", 1111, 2222, 0);
+
         note1 = new Note(
                 "id_1",
                 "profile_id_1",
-                "notebook_id_1",
+                notebook.getId(),
                 "title_1",
                 1111,
                 2222,
@@ -76,9 +84,7 @@ public class NoteRepositoryTest {
         );
 
         notes = new ArrayList<>();
-        notes.add(note1);
-        notes.add(note2);
-        notes.add(note3);
+        Arrays.asList(note1, note2, note3).forEach(note -> notes.add(note));
 
         notesRepository.openDatabaseConnection();
     }
@@ -96,7 +102,7 @@ public class NoteRepositoryTest {
         notesRepository.add(notes);
 
         List<Note> noteEntities1 = notesRepository
-                .getNotesByProfileId(note1.getProfileId(), 1, 3);
+                .getByProfileId(note1.getProfileId(), 1, 3);
 
         assertThat(noteEntities1.size()).isNotEqualTo(notes.size());
         assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
@@ -110,7 +116,7 @@ public class NoteRepositoryTest {
         notesRepository.add(notes);
 
         List<Note> noteEntities1 = notesRepository
-                .getNotesByNotebookId(note1.getNotebookId(), 1, 3);
+                .getByNotebook(notebook, 1, 3);
 
         assertThat(noteEntities1.size()).isNotEqualTo(notes.size());
         assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
@@ -119,6 +125,46 @@ public class NoteRepositoryTest {
         assertThat((Object) noteEntities1).isEqualToComparingFieldByFieldRecursively(notes);
     }
 
+    @Test
+    public void repositoryShouldGetNotesByTagId() {
+        Tag tag = new Tag("tag_id_1", "profile_id_1", "tag1", 1111, 2222, 0);
+
+        notesRepository.add(note1);
+        notesRepository.add(note2);
+
+        notesRepository.addTagsToNote(note1, Collections.singletonList(tag));
+        notesRepository.addTagsToNote(note2, Collections.singletonList(tag));
+
+        List<Note> notes1 = notesRepository.getByTag(tag);
+
+        assertThat(notes1.size()).isNotEqualTo(notes.size());
+        assertThat(notes1.size()).isEqualTo(notes.size() - 1);
+
+        notes.remove(note3);
+        assertThat((Object) notes1).isEqualToComparingFieldByFieldRecursively(notes);
+    }
+
+    @Test
+    public void repositoryShouldRemoveTagsOfNote() {
+        Tag tag = new Tag("tag_id_1", "profile_id_1", "tag1", 1111, 2222, 0);
+
+        notesRepository.add(note1);
+        notesRepository.add(note2);
+
+        notesRepository.addTagsToNote(note1, Collections.singletonList(tag));
+        notesRepository.addTagsToNote(note2, Collections.singletonList(tag));
+
+        notesRepository.removeTagsFromNote(note1, Collections.singletonList(tag));
+
+        List<Note> notes1 = notesRepository.getByTag(tag);
+
+        assertThat(notes1.size()).isNotEqualTo(notes.size());
+        assertThat(notes1.size()).isEqualTo(notes.size() - 2);
+
+        notes.remove(note1);
+        notes.remove(note3);
+        assertThat((Object) notes1).isEqualToComparingFieldByFieldRecursively(notes);
+    }
 
     @Test
     public void repositoryShouldUpdateEntity() {
@@ -137,7 +183,7 @@ public class NoteRepositoryTest {
     public void repositoryShouldRemoveEntity() {
         notesRepository.add(note1);
 
-        notesRepository.remove(note1.getId());
+        notesRepository.remove(note1);
 
         assertThat(notesRepository.get(note1.getId()).isPresent()).isFalse();
     }

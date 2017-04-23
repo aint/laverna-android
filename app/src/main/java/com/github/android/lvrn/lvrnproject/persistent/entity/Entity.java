@@ -4,5 +4,19 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface Entity {
+public abstract class Entity {
+
+    /**
+     * An id of the entity.
+     */
+    protected String id;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -4,8 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
-import com.github.android.lvrn.lvrnproject.persistent.repository.RepositoryAbstractImpl;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
+import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
+import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
@@ -17,12 +20,13 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_TITLE;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_UPDATE_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.TABLE_NAME;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTagsTable;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotesRepository extends RepositoryAbstractImpl<Note> {
+public class NotesRepository extends ProfileDependedRepository<Note> {
 
     public NotesRepository() {
         super(TABLE_NAME);
@@ -55,30 +59,58 @@ public class NotesRepository extends RepositoryAbstractImpl<Note> {
                 cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE)) > 0);
     }
 
-    public List<Note> getNotesByProfileId(String profileId, int from, int amount) {
+    public void addTagsToNote(Note note, List<Tag> tags) {
+        mDatabase.beginTransaction();
+        try {
+            List<ContentValues> values = toNoteTagsContentValues(note, tags);
+            values.forEach(value -> {
+                mDatabase.insert(NotesTagsTable.TABLE_NAME, null, value);
+            });
+            mDatabase.setTransactionSuccessful();
+        } finally {
+            mDatabase.endTransaction();
+        }
+    }
+
+    public void removeTagsFromNote(Note note, List<Tag> tags) {
+        mDatabase.beginTransaction();
+        try {
+            tags.forEach(tag -> mDatabase.delete(NotesTagsTable.TABLE_NAME,
+                    NotesTagsTable.COLUMN_TAG_ID + " = '" + tag.getId() + "' AND "
+                            + NotesTagsTable.COLUMN_NOTE_ID + " = '" + note.getId() + "'", null));
+            mDatabase.setTransactionSuccessful();
+        } finally {
+            mDatabase.endTransaction();
+        }
+    }
+
+    public List<Note> getByNotebook(Notebook notebook, int from, int amount) {
         String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "'"
+                + " WHERE " + COLUMN_NOTEBOOK_ID + " = '" + notebook.getId() + "'"
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);
     }
 
-    public List<Note> getNotesByNotebookId(String notebookId, int from, int amount) {
-        String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_NOTEBOOK_ID + " = '" + notebookId + "'"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
+    public List<Note> getByTag(Tag tag) {
+        String query = "SELECT *"
+                + " FROM " + TABLE_NAME
+                + " INNER JOIN " + NotesTagsTable.TABLE_NAME
+                + " ON " + TABLE_NAME + "." + COLUMN_ID
+                + "=" + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
+                + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
+                + "='" + tag.getId() + "'";
         return getByRawQuery(query);
     }
 
-    //TODO: find out what to do.
-//    public List<Note> getNotesByTagId(String id) {
-//        String query = "SELECT * FROM " + TABLE_NAME
-//                + " INNER JOIN " + NotesTagsTable.TABLE_NAME
-//                + " ON " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
-//                + " = " + TABLE_NAME + "." + COLUMN_ID
-//                + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
-//                + " = '" + id + "'";
-//        return getByRawQuery(query);
-//    }
+    private List<ContentValues> toNoteTagsContentValues(Note note, List<Tag> tags) {
+        List<ContentValues> contentValuesList = new ArrayList<>();
+        tags.forEach(tag -> {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(NotesTagsTable.COLUMN_NOTE_ID, note.getId());
+            contentValues.put(NotesTagsTable.COLUMN_TAG_ID, tag.getId());
+            contentValuesList.add(contentValues);
+        });
+        return contentValuesList;
+    }
 }
