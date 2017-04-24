@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
-import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.ProfileDependedRepository;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_COUNT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_CREATION_TIME;

@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class LavernaDbHelper extends SQLiteOpenHelper {
+
     public static final int DATABASE_VERSION = 1;
+
     public static final String DATABASE_NAME = "Laverna.db";
 
     private Context mContext;
@@ -19,17 +21,8 @@ public class LavernaDbHelper extends SQLiteOpenHelper {
         mContext = context;
     }
 
-
-//    @Override
-//    public void onOpen(SQLiteDatabase db) {
-//        super.onOpen(db);
-//        db.execSQL("PRAGMA foreign_keys=ON;");
-//    }
-
-
     @Override
     public void onConfigure(SQLiteDatabase db) {
-//        super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
     }
 

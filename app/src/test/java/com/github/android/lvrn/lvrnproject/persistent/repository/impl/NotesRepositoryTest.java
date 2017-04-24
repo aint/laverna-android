@@ -41,6 +41,8 @@ public class NotesRepositoryTest {
 
     private Notebook notebook;
 
+    private Profile profile;
+
     private List<Note> notes;
 
     @Before
@@ -49,7 +51,8 @@ public class NotesRepositoryTest {
 
         ProfilesRepository profilesRepository = new ProfilesRepository();
         profilesRepository.openDatabaseConnection();
-        profilesRepository.add(new Profile("profile_id_1", "first profile"));
+        profile = new Profile("profile_id_1", "first profile");
+        profilesRepository.add(profile);
         profilesRepository.add(new Profile("profile_id_2", "second profile"));
         profilesRepository.closeDatabaseConnection();
 
@@ -114,7 +117,7 @@ public class NotesRepositoryTest {
         notesRepository.add(notes);
 
         List<Note> noteEntities1 = notesRepository
-                .getByProfileId(note1.getProfileId(), 1, 3);
+                .getByProfile(profile, 1, 3);
 
         assertThat(noteEntities1.size()).isNotEqualTo(notes.size());
         assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
@@ -151,7 +154,7 @@ public class NotesRepositoryTest {
         notesRepository.addTagsToNote(note1, Collections.singletonList(tag));
         notesRepository.addTagsToNote(note2, Collections.singletonList(tag));
 
-        List<Note> notes1 = notesRepository.getByTag(tag);
+        List<Note> notes1 = notesRepository.getByTag(tag, 1, 5);
 
         assertThat(notes1.size()).isNotEqualTo(notes.size());
         assertThat(notes1.size()).isEqualTo(notes.size() - 1);
@@ -178,7 +181,7 @@ public class NotesRepositoryTest {
 
         notesRepository.removeTagsFromNote(note1, Collections.singletonList(tag));
 
-        List<Note> notes1 = notesRepository.getByTag(tag);
+        List<Note> notes1 = notesRepository.getByTag(tag, 1, 5);
 
         assertThat(notes1.size()).isNotEqualTo(notes.size());
         assertThat(notes1.size()).isEqualTo(notes.size() - 2);

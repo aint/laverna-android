@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
-import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.ProfileDependedRepository;
 
 import java.util.List;
 
@@ -47,6 +47,13 @@ public class TasksRepository extends ProfileDependedRepository<Task> {
                 cursor.getInt(cursor.getColumnIndex(COLUMN_IS_COMPLETED)) > 0);
     }
 
+    /**
+     * A method which retrieves an amount of uncompleted tags from received position by a profile.
+     * @param profile
+     * @param from a position to start from
+     * @param amount a number of objects to retrieve.
+     * @return list of tasks.
+     */
     public List<Task> getUncompletedByProfile(Profile profile, int from, int amount) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profile.getId() + "' AND "

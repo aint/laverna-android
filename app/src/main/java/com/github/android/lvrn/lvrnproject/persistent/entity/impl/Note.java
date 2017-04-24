@@ -20,14 +20,12 @@ public class Note extends ProfileDependedEntity {
     private String title;
 
     /**
-     * A date of the model's creation.
-     * TODO: find out format of time
+     * A date of the model's creation in milliseconds.
      */
     private long creationTime;
 
     /**
-     * A date of the model's creation.
-     * TODO: find out format of times
+     * A date of the model's creation in milliseconds.
      */
     private long updateTime;
 

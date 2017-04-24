@@ -20,14 +20,12 @@ public class Notebook extends ProfileDependedEntity {
     private String name;
 
     /**
-     * A date of the model's creation.
-     * TODO: find out format of time
+     * A date of the model's creation in milliseconds.
      */
     private long creationTime;
 
     /**
-     * A date of the model's update.
-     * TODO: find out format of time
+     * A date of the model's update in milliseconds.
      */
     private long updateTime;
 

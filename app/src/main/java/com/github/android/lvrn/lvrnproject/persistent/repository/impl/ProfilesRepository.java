@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.BasicRepository;
 
 import java.util.List;
 
@@ -37,6 +37,10 @@ public class ProfilesRepository extends BasicRepository<Profile> {
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_NAME)));
     }
 
+    /**
+     * A method which retrieves all profiles.
+     * @return a list of profiles.
+     */
     public List<Profile> getAllProfiles() {
         String query = "SELECT * FROM " + TABLE_NAME;
         return getByRawQuery(query);

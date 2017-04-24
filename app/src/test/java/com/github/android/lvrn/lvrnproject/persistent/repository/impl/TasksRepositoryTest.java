@@ -105,7 +105,7 @@ public class TasksRepositoryTest {
         tasksRepository.add(tasks);
 
         List<Task> taskEntities1 = tasksRepository
-                .getByProfileId(task1.getProfileId(), 1, 3);
+                .getByProfile(profile, 1, 3);
 
         assertThat(taskEntities1.size()).isNotEqualTo(tasks.size());
         assertThat(taskEntities1.size()).isEqualTo(tasks.size() - 1);

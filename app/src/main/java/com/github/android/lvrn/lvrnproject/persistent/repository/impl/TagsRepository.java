@@ -6,7 +6,7 @@ import android.database.Cursor;
 import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTagsTable;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.ProfileDependedRepository;
 
 import java.util.List;
 
@@ -22,7 +22,6 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  */
 
 public class TagsRepository extends ProfileDependedRepository<Tag> {
-
 
     public TagsRepository() {
         super(TABLE_NAME);
@@ -51,13 +50,22 @@ public class TagsRepository extends ProfileDependedRepository<Tag> {
                 cursor.getInt(cursor.getColumnIndex(COLUMN_COUNT)));
     }
 
-    public List<Tag> getByNote(Note note) {
+    /**
+     * A method which retrieves an amount of tags from received position by a note.
+     * @param note
+     * @param from a position to start from
+     * @param amount a number of objects to retrieve.
+     * @return list of tags.
+     */
+    public List<Tag> getByNote(Note note, int from, int amount) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
                 + " ON " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
                 + " = " + TABLE_NAME + "." + COLUMN_ID
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
-                + " = '" + note.getId() + "'";
+                + " = '" + note.getId() + "'"
+                + " LIMIT " + amount
+                + " OFFSET " + (from - 1);
         return getByRawQuery(query);
     }
 }

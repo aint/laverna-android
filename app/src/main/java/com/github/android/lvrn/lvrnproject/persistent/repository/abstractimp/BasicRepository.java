@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository;
+package com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
+import com.github.android.lvrn.lvrnproject.persistent.repository.Repository;
 import com.google.common.base.Optional;
 
 import java.util.ArrayList;
@@ -107,6 +108,11 @@ public abstract class BasicRepository<T extends Entity>  implements Repository<T
         return Optional.absent();
     }
 
+    /**
+     * A method which retrieves objects from the database by a raw SQL query.
+     * @param query a {@code String} object of a raw SQL query
+     * @return a {@code List<T>} of objects.
+     */
     @Override
     public List<T> getByRawQuery(String query) {
         Cursor cursor = mDatabase.rawQuery(query, new String[]{});

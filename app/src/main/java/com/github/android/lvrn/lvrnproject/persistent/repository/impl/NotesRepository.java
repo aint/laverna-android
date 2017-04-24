@@ -6,7 +6,7 @@ import android.database.Cursor;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.ProfileDependedRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,19 +59,27 @@ public class NotesRepository extends ProfileDependedRepository<Note> {
                 cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE)) > 0);
     }
 
+    /**
+     * A method which creates relationships between a note and tags.
+     * @param note
+     * @param tags
+     */
     public void addTagsToNote(Note note, List<Tag> tags) {
         mDatabase.beginTransaction();
         try {
             List<ContentValues> values = toNoteTagsContentValues(note, tags);
-            values.forEach(value -> {
-                mDatabase.insert(NotesTagsTable.TABLE_NAME, null, value);
-            });
+            values.forEach(value -> mDatabase.insert(NotesTagsTable.TABLE_NAME, null, value));
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
         }
     }
 
+    /**
+     * A method which removes relationships between a note and tags.
+     * @param note
+     * @param tags
+     */
     public void removeTagsFromNote(Note note, List<Tag> tags) {
         mDatabase.beginTransaction();
         try {
@@ -84,25 +92,44 @@ public class NotesRepository extends ProfileDependedRepository<Note> {
         }
     }
 
+    /**
+     * A method which retrieves an amount of notes from start position by a profile id.
+     * @param notebook
+     * @param from a position to start from
+     * @param amount a number of objects to retrieve.
+     * @return a {@code List<Note>} of note entities.
+     */
     public List<Note> getByNotebook(Notebook notebook, int from, int amount) {
-        String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_NOTEBOOK_ID + " = '" + notebook.getId() + "'"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
-        return getByRawQuery(query);
+        return getBy(COLUMN_NOTEBOOK_ID, notebook.getId(), from, amount);
     }
 
-    public List<Note> getByTag(Tag tag) {
+    /**
+     * A method which retrieves an amount of notes from start position by a profile id.
+     * @param tag
+     * @param from a position to start from
+     * @param amount a number of objects to retrieve.
+     * @return
+     */
+    public List<Note> getByTag(Tag tag, int from, int amount) {
         String query = "SELECT *"
                 + " FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
                 + " ON " + TABLE_NAME + "." + COLUMN_ID
                 + "=" + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
-                + "='" + tag.getId() + "'";
+                + "='" + tag.getId() + "' "
+                + " LIMIT " + amount
+                + " OFFSET " + (from - 1);
         return getByRawQuery(query);
     }
 
+    /**
+     * A method which converts received tags and a note into a {@code ContentValues} for
+     * a NotesTags table.
+     * @param note
+     * @param tags
+     * @return a list of ContentValues.
+     */
     private List<ContentValues> toNoteTagsContentValues(Note note, List<Tag> tags) {
         List<ContentValues> contentValuesList = new ArrayList<>();
         tags.forEach(tag -> {

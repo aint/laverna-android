@@ -12,7 +12,7 @@ public class DatabaseManager {
 
     private static DatabaseManager sInstance;
 
-    private static LavernaDbHelper sDatabaseHelper;
+    private LavernaDbHelper sDatabaseHelper;
 
     private SQLiteDatabase mDatabase;
 
@@ -21,20 +21,19 @@ public class DatabaseManager {
     public static synchronized void initializeInstance(Context context) {
         if (sInstance == null) {
             sInstance = new DatabaseManager();
-            sDatabaseHelper = new LavernaDbHelper(context);
+            sInstance.sDatabaseHelper = new LavernaDbHelper(context);
         }
     }
 
     public static void removeInstance() {
+        sInstance.sDatabaseHelper.deleteDatabase();
         sInstance = null;
-        sDatabaseHelper.deleteDatabase();
-        sDatabaseHelper = null;
     }
 
     public static synchronized DatabaseManager getInstance() {
         if (sInstance == null) {
-            throw new IllegalStateException("DatabaseManager is not initialized, " +
-                    "call initializeInstance(..) method first.");
+            throw new IllegalStateException("DatabaseManager is not initialized, "
+                    + "call initializeInstance(..) method first.");
         }
         return sInstance;
     }

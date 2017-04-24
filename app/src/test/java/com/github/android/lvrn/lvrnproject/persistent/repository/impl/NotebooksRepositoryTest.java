@@ -38,6 +38,8 @@ public class NotebooksRepositoryTest {
 
     private List<Notebook> notebooks;
 
+    private Profile profile;
+
     @Before
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
@@ -45,7 +47,8 @@ public class NotebooksRepositoryTest {
 
         ProfilesRepository profilesRepository = new ProfilesRepository();
         profilesRepository.openDatabaseConnection();
-        profilesRepository.add(new Profile("profile_id_1", "first profile"));
+        profile = new Profile("profile_id_1", "first profile");
+        profilesRepository.add(profile);
         profilesRepository.add(new Profile("profile_id_2", "second profile"));
         profilesRepository.closeDatabaseConnection();
 
@@ -100,7 +103,7 @@ public class NotebooksRepositoryTest {
         notebooksRepository.add(notebooks);
 
         List<Notebook> notebookEntities1 = notebooksRepository
-                .getByProfileId(notebook1.getProfileId(), 1, 3);
+                .getByProfile(profile, 1, 3);
 
         assertThat(notebookEntities1.size()).isNotEqualTo(notebooks.size());
         assertThat(notebookEntities1.size()).isEqualTo(notebooks.size() - 1);

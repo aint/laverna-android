@@ -37,6 +37,8 @@ public class TagsRepositoryTest {
 
     private Tag tag3;
 
+    private Profile profile;
+
     private List<Tag> tags;
 
     @Before
@@ -45,7 +47,8 @@ public class TagsRepositoryTest {
 
         ProfilesRepository profilesRepository = new ProfilesRepository();
         profilesRepository.openDatabaseConnection();
-        profilesRepository.add(new Profile("profile_id_1", "first profile"));
+        profile = new Profile("profile_id_1", "first profile");
+        profilesRepository.add(profile);
         profilesRepository.add(new Profile("profile_id_2", "second profile"));
         profilesRepository.closeDatabaseConnection();
 
@@ -100,7 +103,7 @@ public class TagsRepositoryTest {
         tagsRepository.add(tags);
 
         List<Tag> tagEntities1 = tagsRepository
-                .getByProfileId(tag1.getProfileId(), 1, 3);
+                .getByProfile(profile, 1, 3);
 
         assertThat(tagEntities1.size()).isNotEqualTo(tags.size());
         assertThat(tagEntities1.size()).isEqualTo(tags.size() - 1);
@@ -132,7 +135,7 @@ public class TagsRepositoryTest {
         notesRepository.addTagsToNote(note1, Arrays.asList(tag1, tag2));
         notesRepository.closeDatabaseConnection();
 
-        List<Tag> tags1 = tagsRepository.getByNote(note1);
+        List<Tag> tags1 = tagsRepository.getByNote(note1, 1, 4);
 
         assertThat(tags1.size()).isNotEqualTo(tags.size());
         assertThat(tags1.size()).isEqualTo(tags.size() - 1);
