@@ -56,7 +56,7 @@
         android:background="@drawable/ic_alarm_on_black_24dp"/>
 
     <View
-        android:id="@+id/view_separator_line"
+        android:id="@+id/view_separator_line_first"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="8dp"
@@ -67,7 +67,7 @@
         android:id="@+id/edit_text_main_content_for_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view_separator_line"
+        android:layout_below="@+id/view_separator_line_first"
         android:layout_marginTop="16sp"
         android:hint="This is Prompt Text"
         android:background="@color/color_edit_text_title_note"/>

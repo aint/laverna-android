@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp">
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        >
 
     <EditText
         android:id="@+id/edit_text_title_single_note"
@@ -31,6 +53,7 @@
         android:layout_below="@+id/edit_text_title_single_note"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="16dp"
+        android:transitionName="inform"
         android:background="@drawable/ic_info_black_24dp"/>
 
     <TextView
@@ -56,7 +79,7 @@
         android:background="@drawable/ic_alarm_on_black_24dp"/>
 
     <View
-        android:id="@+id/view_separator_line"
+        android:id="@+id/view_separator_line_first"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="8dp"
@@ -67,9 +90,13 @@
         android:id="@+id/edit_text_main_content_for_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view_separator_line"
+        android:layout_below="@+id/view_separator_line_first"
         android:layout_marginTop="16sp"
         android:hint="This is Prompt Text"
         android:background="@color/color_edit_text_title_note"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+    </LinearLayout>
+
+

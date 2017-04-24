@@ -5,4 +5,14 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fragment_detail_title_text_size">14sp</dimen>
+    <dimen name="fragment_detail_create_update_text_size">16sp</dimen>
+    <dimen name="fragment_detail_create_update_margin_left">8dp</dimen>
+    <dimen name="fragment_detail_create_update_margin_top">2sp</dimen>
+    <dimen name="fragment_detail_create_separator_line_margin_left">8dp</dimen>
+    <dimen name="fragment_detail_create_separator_line_margin_top">16dp</dimen>
+    <dimen name="fragment_detail_create_separator_line_height">1dp</dimen>
+    <dimen name="frament_detail_image_with_text_margin_top">16sp</dimen>
+    <dimen name="frament_detail_image_with_text_text_size">16sp</dimen>
+
 </resources>
