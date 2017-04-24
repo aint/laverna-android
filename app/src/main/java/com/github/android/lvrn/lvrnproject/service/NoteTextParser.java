@@ -5,15 +5,10 @@ import android.support.v4.util.Pair;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-
 import java.util.regex.Pattern;
 
 import io.reactivex.Flowable;
-
-
-import static io.reactivex.internal.operators.flowable.FlowableBlockingSubscribe.subscribe;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>

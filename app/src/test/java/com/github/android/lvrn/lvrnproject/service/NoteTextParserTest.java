@@ -1,7 +1,5 @@
 package com.github.android.lvrn.lvrnproject.service;
 
-import static org.assertj.core.api.Assertions.assertThat;  // main one
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +9,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
@@ -30,7 +30,7 @@ public class NoteTextParserTest {
     private Map<String, Boolean> falseTasks;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         textExample = "Check tags\n"
                 + "============\n"
                 + "#test #laverna #android\n"
