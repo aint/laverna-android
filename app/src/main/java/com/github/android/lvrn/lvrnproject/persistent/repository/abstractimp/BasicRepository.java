@@ -97,7 +97,7 @@ public abstract class BasicRepository<T extends Entity>  implements Repository<T
      * @return a {@code ProfileDependedEntity} extended object
      */
     @Override
-    public Optional<T> get(String id) {
+    public Optional<T> getById(String id) {
         Cursor cursor = mDatabase.rawQuery(
                 "SELECT * FROM " + mTableName
                         + " WHERE " + COLUMN_ID + " = '" + id + "'",

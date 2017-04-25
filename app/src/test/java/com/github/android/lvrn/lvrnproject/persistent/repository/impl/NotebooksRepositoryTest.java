@@ -93,7 +93,7 @@ public class NotebooksRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         notebooksRepository.add(notebook1);
-        Optional<Notebook> notebookOptional = notebooksRepository.get(notebook1.getId());
+        Optional<Notebook> notebookOptional = notebooksRepository.getById(notebook1.getId());
         assertThat(notebookOptional.isPresent()).isTrue();
         assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
     }
@@ -120,7 +120,7 @@ public class NotebooksRepositoryTest {
 
         notebooksRepository.update(notebook1);
 
-        Optional<Notebook> notebookOptional = notebooksRepository.get(notebook1.getId());
+        Optional<Notebook> notebookOptional = notebooksRepository.getById(notebook1.getId());
         assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
 
     }
@@ -131,7 +131,7 @@ public class NotebooksRepositoryTest {
 
         notebooksRepository.remove(notebook1);
 
-        assertThat(notebooksRepository.get(notebook1.getId()).isPresent()).isFalse();
+        assertThat(notebooksRepository.getById(notebook1.getId()).isPresent()).isFalse();
     }
 
     @After

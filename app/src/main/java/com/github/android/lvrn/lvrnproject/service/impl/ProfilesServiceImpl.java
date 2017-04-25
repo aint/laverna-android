@@ -1,5 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
+import com.github.android.lvrn.lvrnproject.dagger.DaggerComponentsContainer;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepository;
 import com.github.android.lvrn.lvrnproject.service.ProfilesService;
@@ -14,11 +15,22 @@ import javax.inject.Inject;
  */
 
 public class ProfilesServiceImpl implements ProfilesService {
-    private final ProfilesRepository profilesRepository;
+
+    @Inject ProfilesRepository profilesRepository;
 
     @Inject
-    ProfilesServiceImpl(ProfilesRepository profilesRepository) {
-        this.profilesRepository = profilesRepository;
+    public ProfilesServiceImpl() {
+        DaggerComponentsContainer.getRepositoryComponent().injectProfilesService(this);
+    }
+
+    @Override
+    public void openConnection() {
+        profilesRepository.openDatabaseConnection();
+    }
+
+    @Override
+    public void closeConnection() {
+        profilesRepository.closeDatabaseConnection();
     }
 
     @Override
@@ -34,7 +46,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public Optional<Profile> getById(String id) {
-        return profilesRepository.get(id);
+        return profilesRepository.getById(id);
     }
 
     @Override

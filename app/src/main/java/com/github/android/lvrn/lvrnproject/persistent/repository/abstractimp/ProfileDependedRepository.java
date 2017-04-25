@@ -5,7 +5,6 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 
 import java.util.List;
 
-import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_PROFILE_ID;
 
 /**

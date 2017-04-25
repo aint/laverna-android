@@ -95,7 +95,7 @@ public class TasksRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         tasksRepository.add(task1);
-        Optional<Task> taskOptional = tasksRepository.get("id_1");
+        Optional<Task> taskOptional = tasksRepository.getById("id_1");
         assertThat(taskOptional.isPresent()).isTrue();
         assertThat(taskOptional.get()).isEqualToComparingFieldByField(task1);
     }
@@ -137,7 +137,7 @@ public class TasksRepositoryTest {
 
         tasksRepository.update(task1);
 
-        Optional<Task> taskOptional = tasksRepository.get(task1.getId());
+        Optional<Task> taskOptional = tasksRepository.getById(task1.getId());
         assertThat(taskOptional.get()).isEqualToComparingFieldByField(task1);
     }
 
@@ -147,7 +147,7 @@ public class TasksRepositoryTest {
 
         tasksRepository.remove(task1);
 
-        assertThat(tasksRepository.get(task1.getId()).isPresent()).isFalse();
+        assertThat(tasksRepository.getById(task1.getId()).isPresent()).isFalse();
     }
 
     @After

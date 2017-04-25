@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
-import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.google.common.base.Optional;
 
 /**
@@ -9,6 +8,10 @@ import com.google.common.base.Optional;
  */
 
 public interface BasicService<T extends Entity> {
+
+    void openConnection();
+
+    void closeConnection();
 
     void remove(T entity);
 

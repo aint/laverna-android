@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject;
 
 import android.app.Application;
 
+import com.github.android.lvrn.lvrnproject.dagger.DaggerComponentsContainer;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 
 /**
@@ -14,5 +15,6 @@ public class LavernaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         DatabaseManager.initializeInstance(this);
+        DaggerComponentsContainer.initComponents();
     }
 }

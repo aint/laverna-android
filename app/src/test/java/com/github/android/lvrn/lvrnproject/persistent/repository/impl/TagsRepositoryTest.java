@@ -93,7 +93,7 @@ public class TagsRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         tagsRepository.add(tag1);
-        Optional<Tag> tagOptional = tagsRepository.get(tag1.getId());
+        Optional<Tag> tagOptional = tagsRepository.getById(tag1.getId());
         assertThat(tagOptional.isPresent()).isTrue();
         assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
@@ -120,7 +120,7 @@ public class TagsRepositoryTest {
 
         tagsRepository.update(tag1);
 
-        Optional<Tag> tagOptional = tagsRepository.get(tag1.getId());
+        Optional<Tag> tagOptional = tagsRepository.getById(tag1.getId());
         assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
 
@@ -151,7 +151,7 @@ public class TagsRepositoryTest {
 
         tagsRepository.remove(tag1);
 
-        assertThat(tagsRepository.get(tag1.getId()).isPresent()).isFalse();
+        assertThat(tagsRepository.getById(tag1.getId()).isPresent()).isFalse();
     }
 
     @After

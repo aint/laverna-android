@@ -21,7 +21,7 @@ public interface Repository<T extends Entity> {
 
     void remove(T entity);
 
-    Optional<T> get(String id);
+    Optional<T> getById(String id);
 
     List<T> getByRawQuery(String query);
 }

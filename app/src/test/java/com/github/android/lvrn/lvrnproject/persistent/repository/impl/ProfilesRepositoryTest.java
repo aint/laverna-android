@@ -68,7 +68,7 @@ public class ProfilesRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         profilesRepository.add(profile1);
-        Optional<Profile> profileOptional = profilesRepository.get(profile1.getId());
+        Optional<Profile> profileOptional = profilesRepository.getById(profile1.getId());
         assertThat(profileOptional.isPresent()).isTrue();
         assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
     }
@@ -92,7 +92,7 @@ public class ProfilesRepositoryTest {
 
         profilesRepository.update(profile1);
 
-        Optional<Profile> profileOptional = profilesRepository.get(profile1.getId());
+        Optional<Profile> profileOptional = profilesRepository.getById(profile1.getId());
         assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
     }
 
@@ -102,7 +102,7 @@ public class ProfilesRepositoryTest {
 
         profilesRepository.remove(profile1);
 
-        assertThat(profilesRepository.get(profile1.getId()).isPresent()).isFalse();
+        assertThat(profilesRepository.getById(profile1.getId()).isPresent()).isFalse();
     }
 
     @After
