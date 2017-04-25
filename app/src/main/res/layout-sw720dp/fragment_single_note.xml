@@ -61,7 +61,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:layout_below="@+id/tv_name_note_book"
-        android:background="@color/view_separator_line"/>
+        android:background="@color/single_note_fragment_view_separator_line"/>
 
     <EditText
         android:id="@+id/edit_text_main_content_for_note"

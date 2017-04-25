@@ -1,18 +1,20 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- nav header-->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
+    <!-- main activity  -->
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="fragment_detail_title_text_size">14sp</dimen>
-    <dimen name="fragment_detail_create_update_text_size">16sp</dimen>
-    <dimen name="fragment_detail_create_update_margin_left">8dp</dimen>
-    <dimen name="fragment_detail_create_update_margin_top">2sp</dimen>
-    <dimen name="fragment_detail_create_separator_line_margin_left">8dp</dimen>
-    <dimen name="fragment_detail_create_separator_line_margin_top">16dp</dimen>
-    <dimen name="fragment_detail_create_separator_line_height">1dp</dimen>
-    <dimen name="frament_detail_image_with_text_margin_top">16sp</dimen>
-    <dimen name="frament_detail_image_with_text_text_size">16sp</dimen>
-
+     <!--fragment note detail -->
+    <dimen name="fragment_detail_title_text_size">16sp</dimen>
+    <dimen name="fragment_detail_update_text_size">20sp</dimen>
+    <dimen name="fragment_detail_update_margin_left">16dp</dimen>
+    <dimen name="fragment_detail_update_margin_top">2sp</dimen>
+    <dimen name="fragment_detail_separator_line_margin_left">16dp</dimen>
+    <dimen name="fragment_detail_separator_line_margin_top">22dp</dimen>
+    <dimen name="fragment_detail_separator_line_height">2dp</dimen>
+    <dimen name="fragment_detail_image_with_text_margin_top">22sp</dimen>
+    <dimen name="fragment_detail_image_with_text_text_size">20sp</dimen>
+    <dimen name="fragment_detail_image_with_text_image_padding">16dp</dimen>
 </resources>
