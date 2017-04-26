@@ -7,6 +7,7 @@ import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.N
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImp;
 
 import java.util.List;
 

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TasksRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImp;
 
 import java.util.List;
 

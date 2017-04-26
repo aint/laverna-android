@@ -7,6 +7,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.NotesRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImp;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository.core.impl;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
-import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.BasicRepository;
 import com.google.common.base.Optional;
 
 import java.util.ArrayList;

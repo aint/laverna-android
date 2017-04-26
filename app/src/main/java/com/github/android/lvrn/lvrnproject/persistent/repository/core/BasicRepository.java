@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository;
+package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;

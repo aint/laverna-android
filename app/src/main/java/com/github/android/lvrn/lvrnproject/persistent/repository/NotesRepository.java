@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileDependedRepository;
 
 import java.util.List;
 

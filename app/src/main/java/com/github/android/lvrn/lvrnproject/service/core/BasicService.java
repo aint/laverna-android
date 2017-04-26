@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.service;
+package com.github.android.lvrn.lvrnproject.service.core;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.google.common.base.Optional;

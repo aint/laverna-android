@@ -16,10 +16,8 @@ import javax.inject.Inject;
 
 public class ProfilesServiceImpl implements ProfilesService {
 
-    @Inject
-    ProfilesRepositoryImp profilesRepository;
+    @Inject ProfilesRepositoryImp profilesRepository;
 
-    @Inject
     public ProfilesServiceImpl() {
         DaggerComponentsContainer.getRepositoryComponent().injectProfilesService(this);
     }
