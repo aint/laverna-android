@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
@@ -6,6 +6,11 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
+import com.github.android.lvrn.lvrnproject.persistent.repository.NotesRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImp;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -49,7 +54,7 @@ public class NotesRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        ProfilesRepository profilesRepository = new ProfilesRepository();
+        ProfilesRepositoryImp profilesRepository = new ProfilesRepositoryImp();
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
@@ -57,10 +62,10 @@ public class NotesRepositoryTest {
         profilesRepository.closeDatabaseConnection();
 
 
-        notesRepository = new NotesRepository();
+        notesRepository = new NotesRepositoryImp();
 
         notebook = new Notebook("notebook_id_1", "profile_id_1", null, "notebook1", 1111, 2222, 0);
-        NotebooksRepository notebooksRepository = new NotebooksRepository();
+        NotebooksRepositoryImp notebooksRepository = new NotebooksRepositoryImp();
         notebooksRepository.openDatabaseConnection();
         notebooksRepository.add(notebook);
         notebooksRepository.closeDatabaseConnection();
@@ -143,7 +148,7 @@ public class NotesRepositoryTest {
     @Test
     public void repositoryShouldGetNotesByTagId() {
         Tag tag = new Tag("tag_id_1", "profile_id_1", "tag1", 1111, 2222, 0);
-        TagsRepository tagsRepository = new TagsRepository();
+        TagsRepositoryImp tagsRepository = new TagsRepositoryImp();
         tagsRepository.openDatabaseConnection();
         tagsRepository.add(tag);
         tagsRepository.closeDatabaseConnection();
@@ -166,7 +171,7 @@ public class NotesRepositoryTest {
     @Test
     public void repositoryShouldRemoveTagsOfNote() {
         Tag tag = new Tag("tag_id_1", "profile_id_1", "tag1", 1111, 2222, 0);
-        TagsRepository tagsRepository = new TagsRepository();
+        TagsRepositoryImp tagsRepository = new TagsRepositoryImp();
         tagsRepository.openDatabaseConnection();
         tagsRepository.add(tag);
         tagsRepository.closeDatabaseConnection();

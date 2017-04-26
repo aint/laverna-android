@@ -1,10 +1,14 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
+import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImp;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -45,7 +49,7 @@ public class TagsRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        ProfilesRepository profilesRepository = new ProfilesRepository();
+        ProfilesRepositoryImp profilesRepository = new ProfilesRepositoryImp();
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
@@ -53,7 +57,7 @@ public class TagsRepositoryTest {
         profilesRepository.closeDatabaseConnection();
 
 
-        tagsRepository = new TagsRepository();
+        tagsRepository = new TagsRepositoryImp();
 
         tag1 = new Tag(
                 "id_1",
@@ -128,7 +132,7 @@ public class TagsRepositoryTest {
     public void repositoryShoudGetTagsByNote() {
         tagsRepository.add(tags);
 
-        NotesRepository notesRepository = new NotesRepository();
+        NotesRepositoryImp notesRepository = new NotesRepositoryImp();
         notesRepository.openDatabaseConnection();
         Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
         notesRepository.add(note1);

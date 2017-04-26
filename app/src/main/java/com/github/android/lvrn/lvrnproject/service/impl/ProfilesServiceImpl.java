@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.service.impl;
 
 import com.github.android.lvrn.lvrnproject.dagger.DaggerComponentsContainer;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
 import com.github.android.lvrn.lvrnproject.service.ProfilesService;
 import com.google.common.base.Optional;
 
@@ -16,7 +16,8 @@ import javax.inject.Inject;
 
 public class ProfilesServiceImpl implements ProfilesService {
 
-    @Inject ProfilesRepository profilesRepository;
+    @Inject
+    ProfilesRepositoryImp profilesRepository;
 
     @Inject
     public ProfilesServiceImpl() {

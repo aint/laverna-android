@@ -7,7 +7,7 @@ import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
-import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.BasicRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.BasicRepositoryImp;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,13 +27,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class RepositoryAbstractImplTest {
-    private BasicRepository repository;
+    private BasicRepositoryImp repository;
 
     @Before
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        repository = new BasicRepository("test_table") {
+        repository = new BasicRepositoryImp("test_table") {
 
             @Override
             protected ContentValues toContentValues(Entity entity) {

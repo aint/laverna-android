@@ -1,6 +1,5 @@
 package com.github.android.lvrn.lvrnproject.service;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
@@ -9,12 +8,7 @@ import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface NotesService extends ProfileDependedService<Note> {
+public interface NotebooksService extends ProfileDependedService<Notebook> {
 
-    void create(Profile profile,
-                Notebook notebook,
-                String title,
-                String content,
-                boolean isFavorite);
-
+    void create(Profile profile, Notebook parentNotebook, String name);
 }

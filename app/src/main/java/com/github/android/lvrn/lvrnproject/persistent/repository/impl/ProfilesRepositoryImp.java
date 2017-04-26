@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.BasicRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.ProfilesRepository;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class ProfilesRepository extends BasicRepository<Profile> {
+public class ProfilesRepositoryImp extends BasicRepositoryImp<Profile> implements ProfilesRepository {
 
-    public ProfilesRepository() {
+    public ProfilesRepositoryImp() {
         super(TABLE_NAME);
     }
 
@@ -41,6 +41,7 @@ public class ProfilesRepository extends BasicRepository<Profile> {
      * A method which retrieves all profiles.
      * @return a list of profiles.
      */
+    @Override
     public List<Profile> getAllProfiles() {
         String query = "SELECT * FROM " + TABLE_NAME;
         return getByRawQuery(query);

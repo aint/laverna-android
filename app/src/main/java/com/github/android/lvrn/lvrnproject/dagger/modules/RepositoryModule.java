@@ -1,10 +1,10 @@
 package com.github.android.lvrn.lvrnproject.dagger.modules;
 
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TasksRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TasksRepositoryImp;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,27 +17,27 @@ import dagger.Provides;
 public class RepositoryModule {
 
     @Provides
-    public ProfilesRepository provideProfilesRepository() {
-        return new ProfilesRepository();
+    public ProfilesRepositoryImp provideProfilesRepository() {
+        return new ProfilesRepositoryImp();
     }
 
     @Provides
-    public NotesRepository provideNotesRepository() {
-        return new NotesRepository();
+    public NotesRepositoryImp provideNotesRepository() {
+        return new NotesRepositoryImp();
     }
 
     @Provides
-    public NotebooksRepository provideNotebooksRepository() {
-        return new NotebooksRepository();
+    public NotebooksRepositoryImp provideNotebooksRepository() {
+        return new NotebooksRepositoryImp();
     }
 
     @Provides
-    public TagsRepository provideTagsRepository() {
-        return new TagsRepository();
+    public TagsRepositoryImp provideTagsRepository() {
+        return new TagsRepositoryImp();
     }
 
     @Provides
-    public TasksRepository provideTaskRepository() {
-        return new TasksRepository();
+    public TasksRepositoryImp provideTaskRepository() {
+        return new TasksRepositoryImp();
     }
 }

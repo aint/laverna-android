@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
-import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.TasksRepository;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TasksRepository extends ProfileDependedRepository<Task> {
+public class TasksRepositoryImp extends ProfileDependedRepositoryImp<Task> implements TasksRepository {
 
-    public TasksRepository() {
+    public TasksRepositoryImp() {
         super(TABLE_NAME);
     }
 
@@ -54,6 +54,7 @@ public class TasksRepository extends ProfileDependedRepository<Task> {
      * @param amount a number of objects to retrieve.
      * @return list of tasks.
      */
+    @Override
     public List<Task> getUncompletedByProfile(Profile profile, int from, int amount) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profile.getId() + "' AND "

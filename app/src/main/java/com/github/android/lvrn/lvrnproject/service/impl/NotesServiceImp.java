@@ -4,7 +4,7 @@ import com.github.android.lvrn.lvrnproject.dagger.DaggerComponentsContainer;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImp;
 import com.github.android.lvrn.lvrnproject.service.NotesService;
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 import com.google.common.base.Optional;
@@ -21,7 +21,8 @@ import javax.inject.Inject;
 public class NotesServiceImp implements NotesService {
     //TODO: implement builder pattern for adding new Notes.
 
-    @Inject NotesRepository notesRepository;
+    @Inject
+    NotesRepositoryImp notesRepository;
 
     public NotesServiceImp() {
         DaggerComponentsContainer.getRepositoryComponent().injectNotesService(this);
@@ -33,8 +34,9 @@ public class NotesServiceImp implements NotesService {
                        String title,
                        String content,
                        boolean isFavorite) {
-        //TODO: if profile is null, thrown exception.
-        //TODO: if title is null or equals "", thrown exception.
+        //TODO: throw exception if profile is null, or not exist.
+        //TODO: throw exception if notebook is not exist.
+        //TODO: throw exception if title is null or equals "".
 
 
         //TODO: find out way to generate id

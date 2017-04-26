@@ -1,9 +1,12 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
+import com.github.android.lvrn.lvrnproject.persistent.repository.NotebooksRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -45,14 +48,14 @@ public class NotebooksRepositoryTest {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
 
-        ProfilesRepository profilesRepository = new ProfilesRepository();
+        ProfilesRepositoryImp profilesRepository = new ProfilesRepositoryImp();
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
         profilesRepository.add(new Profile("profile_id_2", "second profile"));
         profilesRepository.closeDatabaseConnection();
 
-        notebooksRepository = new NotebooksRepository();
+        notebooksRepository = new NotebooksRepositoryImp();
 
         notebook1 = new Notebook(
                 "id_1",

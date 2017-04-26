@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.dagger.components;
 
 import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
+import com.github.android.lvrn.lvrnproject.service.NotebooksService;
 import com.github.android.lvrn.lvrnproject.service.NotesService;
 import com.github.android.lvrn.lvrnproject.service.ProfilesService;
 
@@ -19,5 +20,7 @@ public interface RepositoryComponent {
     void injectProfilesService(ProfilesService profilesService);
 
     void injectNotesService(NotesService notesService);
+
+    void injectNotebooksService(NotebooksService notebooksService);
 }
 

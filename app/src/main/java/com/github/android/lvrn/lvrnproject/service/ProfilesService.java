@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
+import com.github.android.lvrn.lvrnproject.service.BasicService;
 
 import java.util.List;
 

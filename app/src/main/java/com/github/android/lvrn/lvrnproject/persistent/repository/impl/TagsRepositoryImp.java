@@ -6,7 +6,7 @@ import android.database.Cursor;
 import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTagsTable;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TagsRepository extends ProfileDependedRepository<Tag> {
+public class TagsRepositoryImp extends ProfileDependedRepositoryImp<Tag> implements TagsRepository {
 
-    public TagsRepository() {
+    public TagsRepositoryImp() {
         super(TABLE_NAME);
     }
 
@@ -57,6 +57,7 @@ public class TagsRepository extends ProfileDependedRepository<Tag> {
      * @param amount a number of objects to retrieve.
      * @return list of tags.
      */
+    @Override
     public List<Tag> getByNote(Note note, int from, int amount) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME

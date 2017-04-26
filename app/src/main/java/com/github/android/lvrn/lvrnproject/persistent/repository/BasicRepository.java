@@ -11,7 +11,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface Repository<T extends Entity> {
+public interface BasicRepository<T extends Entity> {
 
     void add(T entity);
 
@@ -24,5 +24,9 @@ public interface Repository<T extends Entity> {
     Optional<T> getById(String id);
 
     List<T> getByRawQuery(String query);
+
+    boolean openDatabaseConnection();
+
+    boolean closeDatabaseConnection();
 }
 
