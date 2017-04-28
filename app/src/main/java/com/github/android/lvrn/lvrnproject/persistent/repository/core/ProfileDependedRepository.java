@@ -9,8 +9,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface ProfileDependedRepository<T1 extends ProfileDependedEntity> extends BasicRepository<T1> {
+public interface ProfileDependedRepository<T extends ProfileDependedEntity> extends BasicRepository<T> {
 
-    List<T1> getByProfile(Profile profile, int from, int amount);
-
+    List<T> getByProfile(Profile profile, int from, int amount);
 }

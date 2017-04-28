@@ -4,6 +4,8 @@ import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.service.NotebooksService;
 import com.github.android.lvrn.lvrnproject.service.NotesService;
 import com.github.android.lvrn.lvrnproject.service.ProfilesService;
+import com.github.android.lvrn.lvrnproject.service.TagsService;
+import com.github.android.lvrn.lvrnproject.service.TasksService;
 
 import javax.inject.Singleton;
 
@@ -22,5 +24,9 @@ public interface RepositoryComponent {
     void injectNotesService(NotesService notesService);
 
     void injectNotebooksService(NotebooksService notebooksService);
+
+    void injectTagsService(TagsService tagsService);
+
+    void injectTasksService(TasksService tasksService);
 }
 

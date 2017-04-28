@@ -1,10 +1,10 @@
 package com.github.android.lvrn.lvrnproject.dagger.modules;
 
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImp;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImp;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImp;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TasksRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TasksRepositoryImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,27 +17,27 @@ import dagger.Provides;
 public class RepositoryModule {
 
     @Provides
-    public ProfilesRepositoryImp provideProfilesRepository() {
-        return new ProfilesRepositoryImp();
+    public ProfilesRepositoryImpl provideProfilesRepository() {
+        return new ProfilesRepositoryImpl();
     }
 
     @Provides
-    public NotesRepositoryImp provideNotesRepository() {
-        return new NotesRepositoryImp();
+    public NotesRepositoryImpl provideNotesRepository() {
+        return new NotesRepositoryImpl();
     }
 
     @Provides
-    public NotebooksRepositoryImp provideNotebooksRepository() {
-        return new NotebooksRepositoryImp();
+    public NotebooksRepositoryImpl provideNotebooksRepository() {
+        return new NotebooksRepositoryImpl();
     }
 
     @Provides
-    public TagsRepositoryImp provideTagsRepository() {
-        return new TagsRepositoryImp();
+    public TagsRepositoryImpl provideTagsRepository() {
+        return new TagsRepositoryImpl();
     }
 
     @Provides
-    public TasksRepositoryImp provideTaskRepository() {
-        return new TasksRepositoryImp();
+    public TasksRepositoryImpl provideTaskRepository() {
+        return new TasksRepositoryImpl();
     }
 }

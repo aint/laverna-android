@@ -3,8 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.ProfilesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -42,7 +41,7 @@ public class ProfilesRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        profilesRepository = new ProfilesRepositoryImp();
+        profilesRepository = new ProfilesRepositoryImpl();
 
         profile1 = new Profile(
                 "id_1",

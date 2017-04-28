@@ -17,7 +17,7 @@ public interface BasicRepository<T extends Entity> {
 
     void add(Collection<T> entities);
 
-    void update(T entities);
+    void update(T entity);
 
     void remove(T entity);
 

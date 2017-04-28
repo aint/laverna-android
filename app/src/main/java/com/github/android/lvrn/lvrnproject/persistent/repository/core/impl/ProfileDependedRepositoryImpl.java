@@ -12,10 +12,10 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class ProfileDependedRepositoryImp<T extends ProfileDependedEntity>
-        extends BasicRepositoryImp<T> implements ProfileDependedRepository<T> {
+public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEntity>
+        extends BasicRepositoryImpl<T> implements ProfileDependedRepository<T> {
 
-    public ProfileDependedRepositoryImp(String mTableName) {
+    public ProfileDependedRepositoryImpl(String mTableName) {
         super(mTableName);
     }
 

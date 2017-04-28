@@ -5,10 +5,9 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImp;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -49,7 +48,7 @@ public class TagsRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        ProfilesRepositoryImp profilesRepository = new ProfilesRepositoryImp();
+        ProfilesRepositoryImpl profilesRepository = new ProfilesRepositoryImpl();
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
@@ -57,7 +56,7 @@ public class TagsRepositoryTest {
         profilesRepository.closeDatabaseConnection();
 
 
-        tagsRepository = new TagsRepositoryImp();
+        tagsRepository = new TagsRepositoryImpl();
 
         tag1 = new Tag(
                 "id_1",
@@ -132,7 +131,7 @@ public class TagsRepositoryTest {
     public void repositoryShoudGetTagsByNote() {
         tagsRepository.add(tags);
 
-        NotesRepositoryImp notesRepository = new NotesRepositoryImp();
+        NotesRepositoryImpl notesRepository = new NotesRepositoryImpl();
         notesRepository.openDatabaseConnection();
         Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
         notesRepository.add(note1);

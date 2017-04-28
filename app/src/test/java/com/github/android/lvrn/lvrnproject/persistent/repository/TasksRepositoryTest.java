@@ -5,10 +5,9 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
-import com.github.android.lvrn.lvrnproject.persistent.repository.TasksRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImp;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImp;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TasksRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TasksRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -50,18 +49,18 @@ public class TasksRepositoryTest {
 
         profile = new Profile("profile_id_1", "profile1");
 
-        ProfilesRepositoryImp profilesRepository = new ProfilesRepositoryImp();
+        ProfilesRepositoryImpl profilesRepository = new ProfilesRepositoryImpl();
         profilesRepository.openDatabaseConnection();
         profilesRepository.add(profile);
         profilesRepository.add(new Profile("profile_id_2", "second profile"));
         profilesRepository.closeDatabaseConnection();
 
-        NotesRepositoryImp notesRepository = new NotesRepositoryImp();
+        NotesRepositoryImpl notesRepository = new NotesRepositoryImpl();
         notesRepository.openDatabaseConnection();
         notesRepository.add(new Note("node_id_1", profile.getId(), null, "title", 1111, 2222, "dfsdf", true));
         notesRepository.closeDatabaseConnection();
 
-        tasksRepository = new TasksRepositoryImp();
+        tasksRepository = new TasksRepositoryImpl();
 
 
         task1 = new Task(

@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.NotebooksRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImpl;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_COUNT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_CREATION_TIME;
@@ -20,9 +20,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebooksRepositoryImp extends ProfileDependedRepositoryImp<Notebook> implements NotebooksRepository {
+public class NotebooksRepositoryImpl extends ProfileDependedRepositoryImpl<Notebook> implements NotebooksRepository {
 
-    public NotebooksRepositoryImp() {
+    public NotebooksRepositoryImpl() {
         super(TABLE_NAME);
     }
 

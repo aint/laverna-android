@@ -7,7 +7,7 @@ import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.N
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImpl;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TagsRepositoryImp extends ProfileDependedRepositoryImp<Tag> implements TagsRepository {
+public class TagsRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implements TagsRepository {
 
-    public TagsRepositoryImp() {
+    public TagsRepositoryImpl() {
         super(TABLE_NAME);
     }
 

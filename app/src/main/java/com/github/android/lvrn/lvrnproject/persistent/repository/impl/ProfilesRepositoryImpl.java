@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfilesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.BasicRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.BasicRepositoryImpl;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class ProfilesRepositoryImp extends BasicRepositoryImp<Profile> implements ProfilesRepository {
+public class ProfilesRepositoryImpl extends BasicRepositoryImpl<Profile> implements ProfilesRepository {
 
-    public ProfilesRepositoryImp() {
+    public ProfilesRepositoryImpl() {
         super(TABLE_NAME);
     }
 

@@ -11,7 +11,13 @@ import java.util.List;
 
 public interface ProfileDependedService<T extends ProfileDependedEntity> extends BasicService<T>  {
 
+    /**
+     * A method which returns an amount of entities from a received position by a profile.
+     * @param profile
+     * @param from a start position.
+     * @param amount a number of entities.
+     * @return a list of entites.
+     */
     List<T> getByProfile(Profile profile, int from, int amount);
 
-    void checkProfileExistence(Profile profile) throws NullPointerException;
 }

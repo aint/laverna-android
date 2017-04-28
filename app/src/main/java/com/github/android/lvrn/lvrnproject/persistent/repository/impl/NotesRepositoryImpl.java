@@ -7,7 +7,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.NotesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +27,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotesRepositoryImp extends ProfileDependedRepositoryImp<Note> implements NotesRepository {
+public class NotesRepositoryImpl extends ProfileDependedRepositoryImpl<Note> implements NotesRepository {
 
-    public NotesRepositoryImp() {
+    public NotesRepositoryImpl() {
         super(TABLE_NAME);
     }
 

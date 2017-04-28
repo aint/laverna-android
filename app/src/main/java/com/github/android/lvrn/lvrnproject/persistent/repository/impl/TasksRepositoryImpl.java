@@ -6,7 +6,7 @@ import android.database.Cursor;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TasksRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImp;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImpl;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TasksRepositoryImp extends ProfileDependedRepositoryImp<Task> implements TasksRepository {
+public class TasksRepositoryImpl extends ProfileDependedRepositoryImpl<Task> implements TasksRepository {
 
-    public TasksRepositoryImp() {
+    public TasksRepositoryImpl() {
         super(TABLE_NAME);
     }
 

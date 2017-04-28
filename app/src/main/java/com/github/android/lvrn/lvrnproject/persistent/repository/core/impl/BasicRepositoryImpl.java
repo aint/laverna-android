@@ -20,7 +20,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class BasicRepositoryImp<T extends Entity>  implements BasicRepository<T> {
+public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRepository<T> {
 
     /**
      * A name of a table represented by the repository.
@@ -32,7 +32,7 @@ public abstract class BasicRepositoryImp<T extends Entity>  implements BasicRepo
      */
     protected SQLiteDatabase mDatabase;
 
-    public BasicRepositoryImp(String mTableName) {
+    public BasicRepositoryImpl(String mTableName) {
         this.mTableName = mTableName;
     }
 
@@ -69,7 +69,7 @@ public abstract class BasicRepositoryImp<T extends Entity>  implements BasicRepo
     public void update(T entity) {
         mDatabase.beginTransaction();
         try {
-            mDatabase.update(mTableName, toContentValues(entity), null, null);
+            mDatabase.update(mTableName, toContentValues(entity), COLUMN_ID + "='" + entity.getId() + "'", null);
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();

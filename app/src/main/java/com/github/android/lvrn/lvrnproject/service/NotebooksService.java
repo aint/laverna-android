@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
-import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileDependedService;
 
 /**
@@ -10,5 +9,5 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileDependedService;
 
 public interface NotebooksService extends ProfileDependedService<Notebook> {
 
-    void create(Profile profile, Notebook parentNotebook, String name);
+    void create(String  profileId, String parentNotebookId, String name) throws NullPointerException;
 }

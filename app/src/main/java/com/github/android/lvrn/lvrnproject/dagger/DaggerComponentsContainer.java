@@ -24,7 +24,4 @@ public class DaggerComponentsContainer {
     public static RepositoryComponent getRepositoryComponent() {
         return repositoryComponent;
     }
-
-
-
 }
