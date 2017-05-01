@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProfilesService extends BasicService<Profile> {
 
-    void create(String name);
+    void create(String name) throws IllegalArgumentException;
 
     List<Profile> getAll();
 }

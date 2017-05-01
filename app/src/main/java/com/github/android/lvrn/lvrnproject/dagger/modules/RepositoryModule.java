@@ -1,5 +1,10 @@
 package com.github.android.lvrn.lvrnproject.dagger.modules;
 
+import com.github.android.lvrn.lvrnproject.persistent.repository.NotebooksRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.NotesRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.ProfilesRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.TasksRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
@@ -17,27 +22,27 @@ import dagger.Provides;
 public class RepositoryModule {
 
     @Provides
-    public ProfilesRepositoryImpl provideProfilesRepository() {
-        return new ProfilesRepositoryImpl();
-    }
-
-    @Provides
-    public NotesRepositoryImpl provideNotesRepository() {
-        return new NotesRepositoryImpl();
-    }
-
-    @Provides
-    public NotebooksRepositoryImpl provideNotebooksRepository() {
+    static NotebooksRepository provideNotebooksRepository() {
         return new NotebooksRepositoryImpl();
     }
 
     @Provides
-    public TagsRepositoryImpl provideTagsRepository() {
+    static NotesRepository provideNotesRepository() {
+        return new NotesRepositoryImpl();
+    }
+
+    @Provides
+    static ProfilesRepository provideProfilesRepository() {
+        return new ProfilesRepositoryImpl();
+    }
+
+    @Provides
+    static TagsRepository provideTagsRepository() {
         return new TagsRepositoryImpl();
     }
 
     @Provides
-    public TasksRepositoryImpl provideTaskRepository() {
+    static TasksRepository provideTasksRepository() {
         return new TasksRepositoryImpl();
     }
 }

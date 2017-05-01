@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface TagsService extends ProfileDependedService<Tag> {
 
-    void create(String profileId, String name);
+    void create(String profileId, String name) throws IllegalArgumentException;
 
     List<Tag> getByNote(Note note, int from, int amount);
 }

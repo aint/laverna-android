@@ -11,7 +11,11 @@ import com.google.common.base.Optional;
 
 public abstract class BasicServiceImpl<T extends Entity> implements BasicService<T> {
 
-    protected BasicRepository<T> basicRepository;
+    private BasicRepository<T> basicRepository;
+
+    public BasicServiceImpl(BasicRepository<T> basicRepository) {
+        this.basicRepository = basicRepository;
+    }
 
     @Override
     public void openConnection() {
@@ -36,11 +40,11 @@ public abstract class BasicServiceImpl<T extends Entity> implements BasicService
     /**
      * A method which checks received string on null or equality to empty string.
      * @param string a text to check.
-     * @throws NullPointerException
+     * @throws IllegalArgumentException
      */
-    protected void checkName(String string) throws NullPointerException {
+    protected void checkName(String string) throws IllegalArgumentException {
         if (string == null || "".equals(string)) {
-            throw new NullPointerException("No name/title/description");
+            throw new IllegalArgumentException("No name/title/description");
         }
     }
 }

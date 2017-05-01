@@ -1,12 +1,12 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
-import com.github.android.lvrn.lvrnproject.dagger.DaggerComponentsContainer;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.NotesRepository;
 import com.github.android.lvrn.lvrnproject.service.NotebooksService;
 import com.github.android.lvrn.lvrnproject.service.NotesService;
+import com.github.android.lvrn.lvrnproject.service.ProfilesService;
 import com.github.android.lvrn.lvrnproject.service.TagsService;
 import com.github.android.lvrn.lvrnproject.service.TasksService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileDependedServiceImpl;
@@ -22,17 +22,26 @@ import javax.inject.Inject;
 
 public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implements NotesService {
 
-    @Inject NotesRepositoryImpl mNotesRepository;
+    private final NotesRepository mNotesRepository;
 
-    private TasksService tasksService;
+    private final TasksService mTasksService;
 
-    private TagsService tagsService;
+    private final TagsService mTagsService;
 
+    private final NotebooksService mNotebooksService;
 
-    public NotesServiceImpl() {
-        DaggerComponentsContainer.getRepositoryComponent().injectNotesService(this);
-        tasksService = new TasksServiceImpl();
-        tagsService = new TagsServiceImpl();
+    @Inject
+    public NotesServiceImpl(NotesRepository notesRepository,
+                            TasksService tasksService,
+                            TagsService tagsService,
+                            ProfilesService profilesService,
+                            NotebooksService notebooksService) {
+
+        super(notesRepository, profilesService);
+        mNotesRepository = notesRepository;
+        mTasksService = tasksService;
+        mTagsService = tagsService;
+        mNotebooksService = notebooksService;
     }
 
     @Override
@@ -40,7 +49,7 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
                        String notebookId,
                        String title,
                        String content,
-                       boolean isFavorite) {
+                       boolean isFavorite) throws IllegalArgumentException {
         validate(profileId, notebookId, title);
 
         //TODO: find out way to generate id
@@ -58,10 +67,10 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
         //TODO: fin out what to do in case of an error.
         NoteTextParser.parseTasks(content)
                 .forEach((description, status) ->
-                        tasksService.create(profileId, noteId, description, status));
+                        mTasksService.create(profileId, noteId, description, status));
 
         NoteTextParser.parseTags(content)
-                .forEach(tagName -> tagsService.create(profileId, tagName));
+                .forEach(tagName -> mTagsService.create(profileId, tagName));
 
     }
 
@@ -76,25 +85,20 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
     }
 
     @Override
-    public void update(Note entity) {
+    public void update(Note entity) throws IllegalArgumentException {
         validate(entity.getProfileId(), entity.getProfileId(), entity.getTitle());
         mNotesRepository.update(entity);
     }
 
-    private void parseTagsAndTasks(String content) {
-
-    }
-
-    private void validate(String profileId, String notebookId, String title) {
+    private void validate(String profileId, String notebookId, String title) throws IllegalArgumentException {
         checkProfileExistence(profileId);
         checkNotebookExistence(notebookId);
         checkName(title);
     }
 
-    private void checkNotebookExistence(String notebookId) throws NullPointerException {
-        NotebooksService notebooksService = new NotebooksServiceImpl();
-        if (notebookId != null && !notebooksService.getById(notebookId).isPresent()) {
-            throw new NullPointerException("The notebook is not found!");
+    private void checkNotebookExistence(String notebookId) throws IllegalArgumentException {
+        if (notebookId != null && !mNotebooksService.getById(notebookId).isPresent()) {
+            throw new IllegalArgumentException("The notebook is not found!");
         }
     }
 }

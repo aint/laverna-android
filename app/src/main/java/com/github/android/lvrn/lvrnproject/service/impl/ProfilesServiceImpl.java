@@ -1,8 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
-import com.github.android.lvrn.lvrnproject.dagger.DaggerComponentsContainer;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.ProfilesRepository;
 import com.github.android.lvrn.lvrnproject.service.ProfilesService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.BasicServiceImpl;
 
@@ -16,28 +15,29 @@ import javax.inject.Inject;
 
 public class ProfilesServiceImpl extends BasicServiceImpl<Profile> implements ProfilesService {
 
-    @Inject
-    ProfilesRepositoryImpl profilesRepository;
+    private final ProfilesRepository mProfilesRepository;
 
-    public ProfilesServiceImpl() {
-        DaggerComponentsContainer.getRepositoryComponent().injectProfilesService(this);
+    @Inject
+    public ProfilesServiceImpl(ProfilesRepository profilesRepository) {
+        super(profilesRepository);
+        mProfilesRepository = profilesRepository;
     }
 
     @Override
-    public void create(String name) {
+    public void create(String name) throws IllegalArgumentException {
         checkName(name);
         //TODO: find out the way to generate ids.
-        profilesRepository.add(new Profile("id" + System.currentTimeMillis(), name));
+        mProfilesRepository.add(new Profile("id" + System.currentTimeMillis(), name));
     }
 
     @Override
     public List<Profile> getAll() {
-        return profilesRepository.getAllProfiles();
+        return mProfilesRepository.getAllProfiles();
     }
 
     @Override
-    public void update(Profile entity) {
+    public void update(Profile entity) throws IllegalArgumentException {
         checkName(entity.getName());
-        profilesRepository.update(entity);
+        mProfilesRepository.update(entity);
     }
 }

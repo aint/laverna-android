@@ -1,9 +1,9 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
-import com.github.android.lvrn.lvrnproject.dagger.DaggerComponentsContainer;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
+import com.github.android.lvrn.lvrnproject.service.ProfilesService;
 import com.github.android.lvrn.lvrnproject.service.TagsService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileDependedServiceImpl;
 
@@ -17,17 +17,19 @@ import javax.inject.Inject;
 
 public class TagsServiceImpl extends ProfileDependedServiceImpl<Tag> implements TagsService {
 
-    @Inject TagsRepository tagsRepository;
+    private final TagsRepository mTagsRepository;
 
-    public TagsServiceImpl() {
-        DaggerComponentsContainer.getRepositoryComponent().injectTagsService(this);
+    @Inject
+    public TagsServiceImpl(TagsRepository tagsRepository, ProfilesService profilesService) {
+        super(tagsRepository, profilesService);
+        mTagsRepository = tagsRepository;
     }
 
     @Override
-    public void create(String profileId, String name) {
+    public void create(String profileId, String name) throws IllegalArgumentException {
         validate(profileId, name);
         //TODO:generate id
-        tagsRepository.add(new Tag("id",
+        mTagsRepository.add(new Tag("id",
                 profileId,
                 name,
                 System.currentTimeMillis(),
@@ -36,14 +38,14 @@ public class TagsServiceImpl extends ProfileDependedServiceImpl<Tag> implements 
     }
 
     @Override
-    public void update(Tag entity) {
+    public void update(Tag entity) throws IllegalArgumentException {
         validate(entity.getProfileId(), entity.getName());
-        tagsRepository.update(entity);
+        mTagsRepository.update(entity);
     }
 
     @Override
     public List<Tag> getByNote(Note note, int from, int amount) {
-        return tagsRepository.getByNote(note, from, amount);
+        return mTagsRepository.getByNote(note, from, amount);
     }
 
     private void validate(String profileId, String name) throws NullPointerException {

@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface TasksService extends ProfileDependedService<Task> {
 
-    void create(String profileId, String noteId, String description, boolean isCompleted);
+    void create(String profileId, String noteId, String description, boolean isCompleted) throws IllegalArgumentException;
 
     List<Task> getUncompletedByProfile(Profile profile, int from, int amount);
 }

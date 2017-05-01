@@ -17,7 +17,7 @@ public interface NotesService extends ProfileDependedService<Note> {
                 String notebookId,
                 String title,
                 String content,
-                boolean isFavorite);
+                boolean isFavorite) throws IllegalArgumentException;
 
     List<Note> getByNotebook(Notebook notebook, int from, int amount);
 

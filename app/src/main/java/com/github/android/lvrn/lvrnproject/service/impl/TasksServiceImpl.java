@@ -1,10 +1,9 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
-import com.github.android.lvrn.lvrnproject.dagger.DaggerComponentsContainer;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TasksRepository;
-import com.github.android.lvrn.lvrnproject.service.NotesService;
+import com.github.android.lvrn.lvrnproject.service.ProfilesService;
 import com.github.android.lvrn.lvrnproject.service.TasksService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileDependedServiceImpl;
 
@@ -18,22 +17,24 @@ import javax.inject.Inject;
 
 public class TasksServiceImpl extends ProfileDependedServiceImpl<Task> implements TasksService {
 
-    @Inject TasksRepository tasksRepository;
+    private final TasksRepository mTasksRepository;
 
-    public TasksServiceImpl() {
-        DaggerComponentsContainer.getRepositoryComponent().injectTasksService(this);
+    @Inject
+    public TasksServiceImpl(TasksRepository tasksRepository, ProfilesService profilesService) {
+        super(tasksRepository, profilesService);
+        mTasksRepository = tasksRepository;
     }
 
     @Override
     public void update(Task entity) {
-        validate(entity.getProfileId(), entity.getNoteId(), entity.getDescription());
-        tasksRepository.update(entity);
+        validate(entity.getProfileId(), entity.getDescription());
+        mTasksRepository.update(entity);
     }
 
     @Override
-    public void create(String profileId, String noteId, String description, boolean isCompleted) {
-        validate(profileId, noteId, description);
-        tasksRepository.add(new Task(
+    public void create(String profileId, String noteId, String description, boolean isCompleted) throws IllegalArgumentException {
+        validate(profileId, description);
+        mTasksRepository.add(new Task(
                 "id",
                 profileId,
                 noteId,
@@ -43,19 +44,11 @@ public class TasksServiceImpl extends ProfileDependedServiceImpl<Task> implement
 
     @Override
     public List<Task> getUncompletedByProfile(Profile profile, int from, int amount) {
-        return tasksRepository.getUncompletedByProfile(profile, from, amount);
+        return mTasksRepository.getUncompletedByProfile(profile, from, amount);
     }
 
-    private void validate(String profileId, String noteId, String description) {
+    private void validate(String profileId, String description) throws IllegalArgumentException {
         checkProfileExistence(profileId);
-        checkNoteExistence(noteId);
         checkName(description);
-    }
-
-    private void checkNoteExistence(String noteId) {
-        NotesService notesService = new NotesServiceImpl();
-        if(noteId == null || notesService.getById(noteId).isPresent()) {
-            throw new NullPointerException("No note ");
-        }
     }
 }
