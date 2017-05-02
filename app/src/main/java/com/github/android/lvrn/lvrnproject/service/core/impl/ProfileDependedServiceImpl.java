@@ -36,7 +36,7 @@ public abstract class ProfileDependedServiceImpl<T extends ProfileDependedEntity
      * @param id an id of profile.
      * @throws IllegalArgumentException
      */
-    protected void checkProfileExistence(String id) throws IllegalArgumentException {
+    protected void checkProfileExistence(String id) {
         if (id == null || !mProfilesService.getById(id).isPresent()) {
             throw new IllegalArgumentException("Profile not found");
         }

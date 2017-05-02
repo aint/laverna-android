@@ -37,6 +37,7 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
                             TagsService tagsService,
                             ProfilesService profilesService,
                             NotebooksService notebooksService) {
+
         super(notesRepository, profilesService);
         mNotesRepository = notesRepository;
         mTasksService = tasksService;
@@ -44,12 +45,21 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
         mNotebooksService = notebooksService;
     }
 
+    /**
+     * @param profileId
+     * @param notebookId
+     * @param title
+     * @param content
+     * @param isFavorite
+     * @throws IllegalArgumentException
+     */
     @Override
     public void create(String profileId,
                        String notebookId,
                        String title,
                        String content,
-                       boolean isFavorite) throws IllegalArgumentException {
+                       boolean isFavorite) {
+
         validate(profileId, notebookId, title);
 
         String noteId = UUID.randomUUID().toString();
@@ -67,7 +77,13 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
         parseTasksAndTags(profileId, noteId, content);
     }
 
-    private void parseTasksAndTags(String profileId, String noteId, String content) throws IllegalArgumentException {
+    /**
+     * @param profileId
+     * @param noteId
+     * @param content
+     * @throws IllegalArgumentException
+     */
+    private void parseTasksAndTags(String profileId, String noteId, String content) {
         NoteTextParser.parseTasks(content)
                 .forEach((description, status) ->
                         mTasksService.create(profileId, noteId, description, status));
@@ -86,19 +102,33 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
         return mNotesRepository.getByTag(tag, from, amount);
     }
 
+    /**
+     * @param entity to update.
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void update(Note entity) throws IllegalArgumentException {
+    public void update(Note entity) {
         validate(entity.getProfileId(), entity.getProfileId(), entity.getTitle());
         mNotesRepository.update(entity);
     }
 
-    private void validate(String profileId, String notebookId, String title) throws IllegalArgumentException {
-        checkProfileExistence(profileId);
+    /**
+     * @param profileId
+     * @param notebookId
+     * @param title
+     * @throws IllegalArgumentException
+     */
+    private void validate(String profileId, String notebookId, String title) {
+        super.checkProfileExistence(profileId);
         checkNotebookExistence(notebookId);
-        checkName(title);
+        super.checkName(title);
     }
 
-    private void checkNotebookExistence(String notebookId) throws IllegalArgumentException {
+    /**
+     * @param notebookId
+     * @throws IllegalArgumentException
+     */
+    private void checkNotebookExistence(String notebookId) {
         if (notebookId != null && !mNotebooksService.getById(notebookId).isPresent()) {
             throw new IllegalArgumentException("The notebook is not found!");
         }

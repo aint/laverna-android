@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.util;
 
 import android.support.v4.util.Pair;
+import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +10,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import io.reactivex.Flowable;
+
+import static java.util.regex.Pattern.matches;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -21,6 +24,10 @@ public class NoteTextParser {
 
     private static final String TASK_COMPLETE_REGEX = "\\[X\\] .+";
 
+    private static final String NEW_LINE_SEPARATOR = "\n";
+
+    private static final String SPACE_SEPARATOR = " ";
+
     /**
      * A method which parse an input text for tags, if any is present.
      *
@@ -28,12 +35,12 @@ public class NoteTextParser {
      * @return a set of tags in string form.
      */
     public static Set<String> parseTags(String text) {
-        text = text == null ? "" : text;
         Set<String> tagsSet = new HashSet<>();
-        Flowable.fromArray(text.split("\n"))
-                .flatMap(line -> Flowable.fromArray(line.split(" ")))
+        Flowable
+                .fromArray(validateText(text).split(NEW_LINE_SEPARATOR))
+                .flatMap(line -> Flowable.fromArray(line.split(SPACE_SEPARATOR)))
                 .map(String::trim)
-                .filter(word -> Pattern.matches(TAG_REGEX, word))
+                .filter(word -> matches(TAG_REGEX, word))
                 .subscribe(tagsSet::add);
         return tagsSet;
     }
@@ -45,10 +52,10 @@ public class NoteTextParser {
      * @return a set of tasks in string form.
      */
     public static Map<String, Boolean> parseTasks(String text) {
-        text = text == null ? "" : text;
         Map<String, Boolean> tasksMap = new HashMap<>();
-        Flowable<String> flowable = getTextFlowable(text);
-        Flowable.merge(getTaskUncompletedFlowable(flowable), getTaskCompletedFlowable(flowable))
+        Flowable<String> flowable = getTextFlowable(validateText(text));
+        Flowable
+                .merge(getTaskUncompletedFlowable(flowable), getTaskCompletedFlowable(flowable))
                 .subscribe(pair -> tasksMap.put(pair.first, pair.second));
         return tasksMap;
     }
@@ -60,7 +67,8 @@ public class NoteTextParser {
      * @return {@link Flowable<String>}
      */
     private static Flowable<String> getTextFlowable(String text) {
-        return Flowable.fromArray(text.split("\n"))
+        return Flowable
+                .fromArray(text.split(NEW_LINE_SEPARATOR))
                 .map(String::trim)
                 .share();
     }
@@ -73,7 +81,8 @@ public class NoteTextParser {
      * @return {@link Flowable<String>}
      */
     private static Flowable<Pair<String, Boolean>> getTaskUncompletedFlowable(Flowable<String> flowable) {
-        return flowable.filter(line -> Pattern.matches(TASK_INCOMPLETE_REGEX, line))
+        return flowable
+                .filter(line -> matches(TASK_INCOMPLETE_REGEX, line))
                 .map(line -> new Pair<>(line.substring(3), false));
     }
 
@@ -85,7 +94,15 @@ public class NoteTextParser {
      * @return {@link Flowable<String>}
      */
     private static Flowable<Pair<String, Boolean>> getTaskCompletedFlowable(Flowable<String> flowable) {
-        return flowable.filter(line -> Pattern.matches(TASK_COMPLETE_REGEX, line))
+        return flowable
+                .filter(line -> matches(TASK_COMPLETE_REGEX, line))
                 .map(line -> new Pair<>(line.substring(4), true));
+    }
+
+    private static String validateText(String text) {
+        if(text == null){
+            text = "";
+        }
+        return text;
     }
 }

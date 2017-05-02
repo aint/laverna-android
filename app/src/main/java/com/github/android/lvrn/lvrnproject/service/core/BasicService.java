@@ -28,8 +28,9 @@ public interface BasicService<T extends Entity> {
     /**
      * A method which updates an entity.
      * @param entity to update.
+     * @throws IllegalArgumentException
      */
-    void update(T entity) throws IllegalArgumentException;
+    void update(T entity);
 
     /**
      * A mthod which returns an entity by an id.

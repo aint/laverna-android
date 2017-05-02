@@ -32,8 +32,15 @@ public class TasksServiceImpl extends ProfileDependedServiceImpl<Task> implement
         mTasksRepository.update(entity);
     }
 
+    /**
+     * @param profileId
+     * @param noteId
+     * @param description
+     * @param isCompleted
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void create(String profileId, String noteId, String description, boolean isCompleted) throws IllegalArgumentException {
+    public void create(String profileId, String noteId, String description, boolean isCompleted) {
         validate(profileId, description);
         mTasksRepository.add(new Task(
                 UUID.randomUUID().toString(),
@@ -48,7 +55,12 @@ public class TasksServiceImpl extends ProfileDependedServiceImpl<Task> implement
         return mTasksRepository.getUncompletedByProfile(profile, from, amount);
     }
 
-    private void validate(String profileId, String description) throws IllegalArgumentException {
+    /**
+     * @param profileId
+     * @param description
+     * @throws IllegalArgumentException
+     */
+    private void validate(String profileId, String description) {
         checkProfileExistence(profileId);
         checkName(description);
     }

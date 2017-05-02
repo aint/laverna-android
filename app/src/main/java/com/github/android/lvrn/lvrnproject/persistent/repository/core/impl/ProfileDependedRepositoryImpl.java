@@ -40,7 +40,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @return a {@code List<T>}
      */
     protected List<T> getBy(String columnName, String id, int from, int amount) {
-        String query = "SELECT * FROM " + mTableName
+        String query = "SELECT * FROM " + super.mTableName
                 + " WHERE " + columnName + " = '" + id + "'"
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);

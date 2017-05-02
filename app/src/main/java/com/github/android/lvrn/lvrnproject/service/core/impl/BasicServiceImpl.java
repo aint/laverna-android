@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.core.impl;
 
+import android.text.TextUtils;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.BasicRepository;
 import com.github.android.lvrn.lvrnproject.service.core.BasicService;
@@ -42,8 +44,8 @@ public abstract class BasicServiceImpl<T extends Entity> implements BasicService
      * @param string a text to check.
      * @throws IllegalArgumentException
      */
-    protected void checkName(String string) throws IllegalArgumentException {
-        if (string == null || "".equals(string)) {
+    protected void checkName(String string) {
+        if (TextUtils.isEmpty(string)) {
             throw new IllegalArgumentException("No name/title/description");
         }
     }

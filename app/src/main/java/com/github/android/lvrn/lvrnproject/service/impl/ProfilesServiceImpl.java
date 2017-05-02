@@ -24,8 +24,12 @@ public class ProfilesServiceImpl extends BasicServiceImpl<Profile> implements Pr
         mProfilesRepository = profilesRepository;
     }
 
+    /**
+     * @param name
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void create(String name) throws IllegalArgumentException {
+    public void create(String name) {
         checkName(name);
         mProfilesRepository.add(new Profile(UUID.randomUUID().toString(), name));
     }
@@ -35,8 +39,12 @@ public class ProfilesServiceImpl extends BasicServiceImpl<Profile> implements Pr
         return mProfilesRepository.getAllProfiles();
     }
 
+    /**
+     * @param entity to update.
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void update(Profile entity) throws IllegalArgumentException {
+    public void update(Profile entity) {
         checkName(entity.getName());
         mProfilesRepository.update(entity);
     }

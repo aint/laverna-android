@@ -26,8 +26,13 @@ public class TagsServiceImpl extends ProfileDependedServiceImpl<Tag> implements 
         mTagsRepository = tagsRepository;
     }
 
+    /**
+     * @param profileId
+     * @param name
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void create(String profileId, String name) throws IllegalArgumentException {
+    public void create(String profileId, String name) {
         validate(profileId, name);
         mTagsRepository.add(new Tag(
                 UUID.randomUUID().toString(),
@@ -38,8 +43,12 @@ public class TagsServiceImpl extends ProfileDependedServiceImpl<Tag> implements 
                 0));
     }
 
+    /**
+     * @param entity to update.
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void update(Tag entity) throws IllegalArgumentException {
+    public void update(Tag entity) {
         validate(entity.getProfileId(), entity.getName());
         mTagsRepository.update(entity);
     }
@@ -49,7 +58,12 @@ public class TagsServiceImpl extends ProfileDependedServiceImpl<Tag> implements 
         return mTagsRepository.getByNote(note, from, amount);
     }
 
-    private void validate(String profileId, String name) throws NullPointerException {
+    /**
+     * @param profileId
+     * @param name
+     * @throws NullPointerException
+     */
+    private void validate(String profileId, String name) {
         checkProfileExistence(profileId);
         checkName(name);
     }

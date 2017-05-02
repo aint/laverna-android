@@ -152,18 +152,6 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     }
 
     /**
-     * A method which converts an {@code Iterable<T>} of entities into a list of a
-     * {@code ContentValues}.
-     * @param entities objects to convert.
-     * @return a list of converted into a {@code ContentValues} entities.
-     */
-    private List<ContentValues> toContentValuesList(Collection<T> entities) {
-        List<ContentValues> contentValuesList = new ArrayList<>();
-        entities.forEach(entity -> contentValuesList.add(toContentValues(entity)));
-        return contentValuesList;
-    }
-
-    /**
      * A method which converts a received entity into a ContentValues object.
      * @param entity a {@code ProfileDependedEntity} extended object to convert.
      * @return a {@code ContentValues} object.
@@ -176,4 +164,16 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      * @return a {@code ProfileDependedEntity} object.
      */
     protected abstract T toEntity(Cursor cursor);
+
+    /**
+     * A method which converts an {@code Iterable<T>} of entities into a list of a
+     * {@code ContentValues}.
+     * @param entities objects to convert.
+     * @return a list of converted into a {@code ContentValues} entities.
+     */
+    private List<ContentValues> toContentValuesList(Collection<T> entities) {
+        List<ContentValues> contentValuesList = new ArrayList<>();
+        entities.forEach(entity -> contentValuesList.add(toContentValues(entity)));
+        return contentValuesList;
+    }
 }

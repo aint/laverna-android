@@ -25,8 +25,14 @@ public class NotebooksServiceImpl extends ProfileDependedServiceImpl<Notebook> i
         mNotebooksRepository = notebooksRepository;
     }
 
+    /**
+     * @param profileId
+     * @param parentNotebookId
+     * @param name
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void create(String profileId, String parentNotebookId, String name) throws IllegalArgumentException {
+    public void create(String profileId, String parentNotebookId, String name) {
         validate(profileId, parentNotebookId, name);
         mNotebooksRepository.add(new Notebook(
                 UUID.randomUUID().toString(),
@@ -38,19 +44,33 @@ public class NotebooksServiceImpl extends ProfileDependedServiceImpl<Notebook> i
                 0));
     }
 
+    /**
+     * @param entity to update.
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void update(Notebook entity) throws IllegalArgumentException {
+    public void update(Notebook entity) {
         validate(entity.getProfileId(), entity.getParentId(), entity.getName());
         mNotebooksRepository.update(entity);
     }
 
-    private void validate(String profileId, String parentNotebookId, String name) throws IllegalArgumentException {
-        checkProfileExistence(profileId);
+    /**
+     * @param profileId
+     * @param parentNotebookId
+     * @param name
+     * @throws IllegalArgumentException
+     */
+    private void validate(String profileId, String parentNotebookId, String name) {
+        super.checkProfileExistence(profileId);
         checkNotebookExistence(parentNotebookId);
-        checkName(name);
+        super.checkName(name);
     }
 
-    private void checkNotebookExistence(String notebookId) throws IllegalArgumentException {
+    /**
+     * @param notebookId
+     * @throws IllegalArgumentException
+     */
+    private void checkNotebookExistence(String notebookId) {
         if (notebookId != null && !getById(notebookId).isPresent()) {
             throw new IllegalArgumentException("The notebook is not found!");
         }

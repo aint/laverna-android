@@ -9,5 +9,11 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileDependedService;
 
 public interface NotebooksService extends ProfileDependedService<Notebook> {
 
-    void create(String  profileId, String parentNotebookId, String name) throws IllegalArgumentException;
+    /**
+     * @param profileId
+     * @param parentNotebookId
+     * @param name
+     * @throws IllegalArgumentException
+     */
+    void create(String  profileId, String parentNotebookId, String name);
 }

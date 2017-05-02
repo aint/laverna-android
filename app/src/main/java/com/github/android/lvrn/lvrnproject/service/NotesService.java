@@ -13,11 +13,19 @@ import java.util.List;
 
 public interface NotesService extends ProfileDependedService<Note> {
 
+    /**
+     * @param profileId
+     * @param notebookId
+     * @param title
+     * @param content
+     * @param isFavorite
+     * @throws IllegalArgumentException
+     */
     void create(String profileId,
                 String notebookId,
                 String title,
                 String content,
-                boolean isFavorite) throws IllegalArgumentException;
+                boolean isFavorite);
 
     List<Note> getByNotebook(Notebook notebook, int from, int amount);
 

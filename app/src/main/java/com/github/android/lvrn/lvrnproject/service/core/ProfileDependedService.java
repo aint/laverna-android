@@ -19,5 +19,4 @@ public interface ProfileDependedService<T extends ProfileDependedEntity> extends
      * @return a list of entites.
      */
     List<T> getByProfile(Profile profile, int from, int amount);
-
 }
