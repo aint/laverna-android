@@ -1,8 +1,9 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -40,7 +41,7 @@ public class ProfilesRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        profilesRepository = new ProfilesRepository();
+        profilesRepository = new ProfilesRepositoryImpl();
 
         profile1 = new Profile(
                 "id_1",
@@ -68,7 +69,7 @@ public class ProfilesRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         profilesRepository.add(profile1);
-        Optional<Profile> profileOptional = profilesRepository.get(profile1.getId());
+        Optional<Profile> profileOptional = profilesRepository.getById(profile1.getId());
         assertThat(profileOptional.isPresent()).isTrue();
         assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
     }
@@ -92,7 +93,7 @@ public class ProfilesRepositoryTest {
 
         profilesRepository.update(profile1);
 
-        Optional<Profile> profileOptional = profilesRepository.get(profile1.getId());
+        Optional<Profile> profileOptional = profilesRepository.getById(profile1.getId());
         assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
     }
 
@@ -102,7 +103,7 @@ public class ProfilesRepositoryTest {
 
         profilesRepository.remove(profile1);
 
-        assertThat(profilesRepository.get(profile1.getId()).isPresent()).isFalse();
+        assertThat(profilesRepository.getById(profile1.getId()).isPresent()).isFalse();
     }
 
     @After

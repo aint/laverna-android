@@ -6,7 +6,8 @@ import android.database.Cursor;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.NotesRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileDependedRepositoryImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +27,9 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotesRepository extends ProfileDependedRepository<Note> {
+public class NotesRepositoryImpl extends ProfileDependedRepositoryImpl<Note> implements NotesRepository {
 
-    public NotesRepository() {
+    public NotesRepositoryImpl() {
         super(TABLE_NAME);
     }
 
@@ -64,6 +65,7 @@ public class NotesRepository extends ProfileDependedRepository<Note> {
      * @param note
      * @param tags
      */
+    @Override
     public void addTagsToNote(Note note, List<Tag> tags) {
         mDatabase.beginTransaction();
         try {
@@ -80,6 +82,7 @@ public class NotesRepository extends ProfileDependedRepository<Note> {
      * @param note
      * @param tags
      */
+    @Override
     public void removeTagsFromNote(Note note, List<Tag> tags) {
         mDatabase.beginTransaction();
         try {
@@ -99,6 +102,7 @@ public class NotesRepository extends ProfileDependedRepository<Note> {
      * @param amount a number of objects to retrieve.
      * @return a {@code List<Note>} of note entities.
      */
+    @Override
     public List<Note> getByNotebook(Notebook notebook, int from, int amount) {
         return getBy(COLUMN_NOTEBOOK_ID, notebook.getId(), from, amount);
     }
@@ -110,6 +114,7 @@ public class NotesRepository extends ProfileDependedRepository<Note> {
      * @param amount a number of objects to retrieve.
      * @return
      */
+    @Override
     public List<Note> getByTag(Tag tag, int from, int amount) {
         String query = "SELECT *"
                 + " FROM " + TABLE_NAME

@@ -1,21 +1,21 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp;
+package com.github.android.lvrn.lvrnproject.persistent.repository.core.impl;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileDependedRepository;
 
 import java.util.List;
 
-import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_PROFILE_ID;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class ProfileDependedRepository<T extends ProfileDependedEntity> extends BasicRepository<T> {
+public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEntity>
+        extends BasicRepositoryImpl<T> implements ProfileDependedRepository<T> {
 
-
-    public ProfileDependedRepository(String mTableName) {
+    public ProfileDependedRepositoryImpl(String mTableName) {
         super(mTableName);
     }
 

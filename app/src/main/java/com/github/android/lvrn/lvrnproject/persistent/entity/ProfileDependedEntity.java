@@ -18,4 +18,11 @@ public abstract class ProfileDependedEntity extends Entity {
     public void setProfileId(String profileId) {
         this.profileId = profileId;
     }
+
+    @Override
+    public String toString() {
+        return "ProfileDependedEntity{" + super.toString() +
+                "profileId='" + profileId + '\'' +
+                '}';
+    }
 }

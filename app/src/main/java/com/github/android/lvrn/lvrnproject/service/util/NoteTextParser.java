@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.service;
+package com.github.android.lvrn.lvrnproject.service.util;
 
 import android.support.v4.util.Pair;
 

@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
@@ -6,6 +6,10 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -49,7 +53,7 @@ public class NotesRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        ProfilesRepository profilesRepository = new ProfilesRepository();
+        ProfilesRepositoryImpl profilesRepository = new ProfilesRepositoryImpl();
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
@@ -57,10 +61,10 @@ public class NotesRepositoryTest {
         profilesRepository.closeDatabaseConnection();
 
 
-        notesRepository = new NotesRepository();
+        notesRepository = new NotesRepositoryImpl();
 
         notebook = new Notebook("notebook_id_1", "profile_id_1", null, "notebook1", 1111, 2222, 0);
-        NotebooksRepository notebooksRepository = new NotebooksRepository();
+        NotebooksRepositoryImpl notebooksRepository = new NotebooksRepositoryImpl();
         notebooksRepository.openDatabaseConnection();
         notebooksRepository.add(notebook);
         notebooksRepository.closeDatabaseConnection();
@@ -107,7 +111,7 @@ public class NotesRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         notesRepository.add(note1);
-        Optional<Note> noteOptional = notesRepository.get(note1.getId());
+        Optional<Note> noteOptional = notesRepository.getById(note1.getId());
         assertThat(noteOptional.isPresent()).isTrue();
         assertThat(noteOptional.get()).isEqualToComparingFieldByField(note1);
     }
@@ -143,7 +147,7 @@ public class NotesRepositoryTest {
     @Test
     public void repositoryShouldGetNotesByTagId() {
         Tag tag = new Tag("tag_id_1", "profile_id_1", "tag1", 1111, 2222, 0);
-        TagsRepository tagsRepository = new TagsRepository();
+        TagsRepositoryImpl tagsRepository = new TagsRepositoryImpl();
         tagsRepository.openDatabaseConnection();
         tagsRepository.add(tag);
         tagsRepository.closeDatabaseConnection();
@@ -166,7 +170,7 @@ public class NotesRepositoryTest {
     @Test
     public void repositoryShouldRemoveTagsOfNote() {
         Tag tag = new Tag("tag_id_1", "profile_id_1", "tag1", 1111, 2222, 0);
-        TagsRepository tagsRepository = new TagsRepository();
+        TagsRepositoryImpl tagsRepository = new TagsRepositoryImpl();
         tagsRepository.openDatabaseConnection();
         tagsRepository.add(tag);
         tagsRepository.closeDatabaseConnection();
@@ -199,7 +203,7 @@ public class NotesRepositoryTest {
 
         notesRepository.update(note1);
 
-        Optional<Note> noteOptional = notesRepository.get(note1.getId());
+        Optional<Note> noteOptional = notesRepository.getById(note1.getId());
         assertThat(noteOptional.get()).isEqualToComparingFieldByField(note1);
 
     }
@@ -210,7 +214,7 @@ public class NotesRepositoryTest {
 
         notesRepository.remove(note1);
 
-        assertThat(notesRepository.get(note1.getId()).isPresent()).isFalse();
+        assertThat(notesRepository.getById(note1.getId()).isPresent()).isFalse();
     }
 
     @After

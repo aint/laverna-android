@@ -1,10 +1,13 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -45,7 +48,7 @@ public class TagsRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        ProfilesRepository profilesRepository = new ProfilesRepository();
+        ProfilesRepositoryImpl profilesRepository = new ProfilesRepositoryImpl();
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
@@ -53,7 +56,7 @@ public class TagsRepositoryTest {
         profilesRepository.closeDatabaseConnection();
 
 
-        tagsRepository = new TagsRepository();
+        tagsRepository = new TagsRepositoryImpl();
 
         tag1 = new Tag(
                 "id_1",
@@ -93,7 +96,7 @@ public class TagsRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         tagsRepository.add(tag1);
-        Optional<Tag> tagOptional = tagsRepository.get(tag1.getId());
+        Optional<Tag> tagOptional = tagsRepository.getById(tag1.getId());
         assertThat(tagOptional.isPresent()).isTrue();
         assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
@@ -120,7 +123,7 @@ public class TagsRepositoryTest {
 
         tagsRepository.update(tag1);
 
-        Optional<Tag> tagOptional = tagsRepository.get(tag1.getId());
+        Optional<Tag> tagOptional = tagsRepository.getById(tag1.getId());
         assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
 
@@ -128,7 +131,7 @@ public class TagsRepositoryTest {
     public void repositoryShoudGetTagsByNote() {
         tagsRepository.add(tags);
 
-        NotesRepository notesRepository = new NotesRepository();
+        NotesRepositoryImpl notesRepository = new NotesRepositoryImpl();
         notesRepository.openDatabaseConnection();
         Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
         notesRepository.add(note1);
@@ -151,7 +154,7 @@ public class TagsRepositoryTest {
 
         tagsRepository.remove(tag1);
 
-        assertThat(tagsRepository.get(tag1.getId()).isPresent()).isFalse();
+        assertThat(tagsRepository.getById(tag1.getId()).isPresent()).isFalse();
     }
 
     @After

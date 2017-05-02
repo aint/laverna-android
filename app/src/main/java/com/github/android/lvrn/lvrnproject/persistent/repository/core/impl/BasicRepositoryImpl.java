@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.abstractimp;
+package com.github.android.lvrn.lvrnproject.persistent.repository.core.impl;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
-import com.github.android.lvrn.lvrnproject.persistent.repository.Repository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.BasicRepository;
 import com.google.common.base.Optional;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class BasicRepository<T extends Entity>  implements Repository<T> {
+public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRepository<T> {
 
     /**
      * A name of a table represented by the repository.
@@ -32,7 +32,7 @@ public abstract class BasicRepository<T extends Entity>  implements Repository<T
      */
     protected SQLiteDatabase mDatabase;
 
-    public BasicRepository(String mTableName) {
+    public BasicRepositoryImpl(String mTableName) {
         this.mTableName = mTableName;
     }
 
@@ -69,7 +69,7 @@ public abstract class BasicRepository<T extends Entity>  implements Repository<T
     public void update(T entity) {
         mDatabase.beginTransaction();
         try {
-            mDatabase.update(mTableName, toContentValues(entity), null, null);
+            mDatabase.update(mTableName, toContentValues(entity), COLUMN_ID + "='" + entity.getId() + "'", null);
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
@@ -97,7 +97,7 @@ public abstract class BasicRepository<T extends Entity>  implements Repository<T
      * @return a {@code ProfileDependedEntity} extended object
      */
     @Override
-    public Optional<T> get(String id) {
+    public Optional<T> getById(String id) {
         Cursor cursor = mDatabase.rawQuery(
                 "SELECT * FROM " + mTableName
                         + " WHERE " + COLUMN_ID + " = '" + id + "'",
@@ -129,7 +129,8 @@ public abstract class BasicRepository<T extends Entity>  implements Repository<T
     /**
      * A method which tries to open a database connection, if the one is not opened.
      */
-    public Boolean openDatabaseConnection() {
+    @Override
+    public boolean openDatabaseConnection() {
         if (mDatabase != null) {
             return false;
         }
@@ -140,7 +141,8 @@ public abstract class BasicRepository<T extends Entity>  implements Repository<T
     /**
      * A method which tries to close a database connection, if the one is opened.
      */
-    public Boolean closeDatabaseConnection() {
+    @Override
+    public boolean closeDatabaseConnection() {
         if (mDatabase == null) {
             return false;
         }

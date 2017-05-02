@@ -1,9 +1,11 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -45,14 +47,14 @@ public class NotebooksRepositoryTest {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
 
-        ProfilesRepository profilesRepository = new ProfilesRepository();
+        ProfilesRepositoryImpl profilesRepository = new ProfilesRepositoryImpl();
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
         profilesRepository.add(new Profile("profile_id_2", "second profile"));
         profilesRepository.closeDatabaseConnection();
 
-        notebooksRepository = new NotebooksRepository();
+        notebooksRepository = new NotebooksRepositoryImpl();
 
         notebook1 = new Notebook(
                 "id_1",
@@ -93,7 +95,7 @@ public class NotebooksRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         notebooksRepository.add(notebook1);
-        Optional<Notebook> notebookOptional = notebooksRepository.get(notebook1.getId());
+        Optional<Notebook> notebookOptional = notebooksRepository.getById(notebook1.getId());
         assertThat(notebookOptional.isPresent()).isTrue();
         assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
     }
@@ -120,7 +122,7 @@ public class NotebooksRepositoryTest {
 
         notebooksRepository.update(notebook1);
 
-        Optional<Notebook> notebookOptional = notebooksRepository.get(notebook1.getId());
+        Optional<Notebook> notebookOptional = notebooksRepository.getById(notebook1.getId());
         assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
 
     }
@@ -131,7 +133,7 @@ public class NotebooksRepositoryTest {
 
         notebooksRepository.remove(notebook1);
 
-        assertThat(notebooksRepository.get(notebook1.getId()).isPresent()).isFalse();
+        assertThat(notebooksRepository.getById(notebook1.getId()).isPresent()).isFalse();
     }
 
     @After

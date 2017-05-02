@@ -1,14 +1,9 @@
 package com.github.android.lvrn.lvrnproject.view.adapters;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +11,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.activities.mainactivity.MainActivity;
-import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragment;
 
 import java.util.ArrayList;

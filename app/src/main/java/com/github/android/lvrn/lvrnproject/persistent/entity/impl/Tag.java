@@ -87,4 +87,14 @@ public class Tag extends ProfileDependedEntity {
     public void setCount(int count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "Tag{" + super.toString() +
+                "name='" + name + '\'' +
+                ", creationTime=" + creationTime +
+                ", updateTime=" + updateTime +
+                ", count=" + count +
+                '}';
+    }
 }

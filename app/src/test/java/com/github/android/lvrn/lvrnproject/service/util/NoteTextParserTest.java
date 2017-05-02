@@ -1,4 +1,6 @@
-package com.github.android.lvrn.lvrnproject.service;
+package com.github.android.lvrn.lvrnproject.service.util;
+
+import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,10 +1,13 @@
-package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
+package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Task;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TasksRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -46,18 +49,18 @@ public class TasksRepositoryTest {
 
         profile = new Profile("profile_id_1", "profile1");
 
-        ProfilesRepository profilesRepository = new ProfilesRepository();
+        ProfilesRepositoryImpl profilesRepository = new ProfilesRepositoryImpl();
         profilesRepository.openDatabaseConnection();
         profilesRepository.add(profile);
         profilesRepository.add(new Profile("profile_id_2", "second profile"));
         profilesRepository.closeDatabaseConnection();
 
-        NotesRepository notesRepository = new NotesRepository();
+        NotesRepositoryImpl notesRepository = new NotesRepositoryImpl();
         notesRepository.openDatabaseConnection();
         notesRepository.add(new Note("node_id_1", profile.getId(), null, "title", 1111, 2222, "dfsdf", true));
         notesRepository.closeDatabaseConnection();
 
-        tasksRepository = new TasksRepository();
+        tasksRepository = new TasksRepositoryImpl();
 
 
         task1 = new Task(
@@ -95,7 +98,7 @@ public class TasksRepositoryTest {
     @Test
     public void repositoryShouldGetEntityById() {
         tasksRepository.add(task1);
-        Optional<Task> taskOptional = tasksRepository.get("id_1");
+        Optional<Task> taskOptional = tasksRepository.getById("id_1");
         assertThat(taskOptional.isPresent()).isTrue();
         assertThat(taskOptional.get()).isEqualToComparingFieldByField(task1);
     }
@@ -137,7 +140,7 @@ public class TasksRepositoryTest {
 
         tasksRepository.update(task1);
 
-        Optional<Task> taskOptional = tasksRepository.get(task1.getId());
+        Optional<Task> taskOptional = tasksRepository.getById(task1.getId());
         assertThat(taskOptional.get()).isEqualToComparingFieldByField(task1);
     }
 
@@ -147,7 +150,7 @@ public class TasksRepositoryTest {
 
         tasksRepository.remove(task1);
 
-        assertThat(tasksRepository.get(task1.getId()).isPresent()).isFalse();
+        assertThat(tasksRepository.getById(task1.getId()).isPresent()).isFalse();
     }
 
     @After
