@@ -8,6 +8,7 @@ import com.github.android.lvrn.lvrnproject.service.TagsService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileDependedServiceImpl;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -28,8 +29,8 @@ public class TagsServiceImpl extends ProfileDependedServiceImpl<Tag> implements 
     @Override
     public void create(String profileId, String name) throws IllegalArgumentException {
         validate(profileId, name);
-        //TODO:generate id
-        mTagsRepository.add(new Tag("id",
+        mTagsRepository.add(new Tag(
+                UUID.randomUUID().toString(),
                 profileId,
                 name,
                 System.currentTimeMillis(),

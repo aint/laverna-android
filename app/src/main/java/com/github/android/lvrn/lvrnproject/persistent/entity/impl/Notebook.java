@@ -103,4 +103,15 @@ public class Notebook extends ProfileDependedEntity {
     public void setCount(int count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "Notebook{" + super.toString() +
+                "parentId='" + parentId + '\'' +
+                ", name='" + name + '\'' +
+                ", creationTime=" + creationTime +
+                ", updateTime=" + updateTime +
+                ", count=" + count +
+                '}';
+    }
 }

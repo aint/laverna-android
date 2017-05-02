@@ -13,6 +13,7 @@ import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileDependedServ
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -36,7 +37,6 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
                             TagsService tagsService,
                             ProfilesService profilesService,
                             NotebooksService notebooksService) {
-
         super(notesRepository, profilesService);
         mNotesRepository = notesRepository;
         mTasksService = tasksService;
@@ -52,8 +52,8 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
                        boolean isFavorite) throws IllegalArgumentException {
         validate(profileId, notebookId, title);
 
-        //TODO: find out way to generate id
-        String noteId = "id";
+        String noteId = UUID.randomUUID().toString();
+
         mNotesRepository.add(new Note(
                 noteId,
                 profileId,
@@ -64,14 +64,16 @@ public class NotesServiceImpl extends ProfileDependedServiceImpl<Note> implement
                 content,
                 isFavorite));
 
-        //TODO: fin out what to do in case of an error.
+        parseTasksAndTags(profileId, noteId, content);
+    }
+
+    private void parseTasksAndTags(String profileId, String noteId, String content) throws IllegalArgumentException {
         NoteTextParser.parseTasks(content)
                 .forEach((description, status) ->
                         mTasksService.create(profileId, noteId, description, status));
 
         NoteTextParser.parseTags(content)
                 .forEach(tagName -> mTagsService.create(profileId, tagName));
-
     }
 
     @Override

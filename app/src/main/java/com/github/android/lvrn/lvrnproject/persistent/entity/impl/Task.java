@@ -74,4 +74,13 @@ public class Task extends ProfileDependedEntity {
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" + super.toString() +
+                "noteId='" + noteId + '\'' +
+                ", description='" + description + '\'' +
+                ", isCompleted=" + isCompleted +
+                '}';
+    }
 }

@@ -6,6 +6,8 @@ import com.github.android.lvrn.lvrnproject.service.NotebooksService;
 import com.github.android.lvrn.lvrnproject.service.ProfilesService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileDependedServiceImpl;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 
 
@@ -26,10 +28,8 @@ public class NotebooksServiceImpl extends ProfileDependedServiceImpl<Notebook> i
     @Override
     public void create(String profileId, String parentNotebookId, String name) throws IllegalArgumentException {
         validate(profileId, parentNotebookId, name);
-
-        //TODO: create way to generate id
         mNotebooksRepository.add(new Notebook(
-                "id" + System.currentTimeMillis(),
+                UUID.randomUUID().toString(),
                 profileId,
                 parentNotebookId,
                 name,

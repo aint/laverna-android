@@ -8,6 +8,7 @@ import com.github.android.lvrn.lvrnproject.service.TasksService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileDependedServiceImpl;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -35,7 +36,7 @@ public class TasksServiceImpl extends ProfileDependedServiceImpl<Task> implement
     public void create(String profileId, String noteId, String description, boolean isCompleted) throws IllegalArgumentException {
         validate(profileId, description);
         mTasksRepository.add(new Task(
-                "id",
+                UUID.randomUUID().toString(),
                 profileId,
                 noteId,
                 description,

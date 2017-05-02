@@ -6,6 +6,7 @@ import com.github.android.lvrn.lvrnproject.service.ProfilesService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.BasicServiceImpl;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -26,8 +27,7 @@ public class ProfilesServiceImpl extends BasicServiceImpl<Profile> implements Pr
     @Override
     public void create(String name) throws IllegalArgumentException {
         checkName(name);
-        //TODO: find out the way to generate ids.
-        mProfilesRepository.add(new Profile("id" + System.currentTimeMillis(), name));
+        mProfilesRepository.add(new Profile(UUID.randomUUID().toString(), name));
     }
 
     @Override

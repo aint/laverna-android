@@ -120,4 +120,16 @@ public class Note extends ProfileDependedEntity {
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
+
+    @Override
+    public String toString() {
+        return "Note{" + super.toString() +
+                "notebookId='" + notebookId + '\'' +
+                ", title='" + title + '\'' +
+                ", creationTime=" + creationTime +
+                ", updateTime=" + updateTime +
+                ", content='" + content + '\'' +
+                ", isFavorite=" + isFavorite +
+                '}';
+    }
 }

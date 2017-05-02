@@ -18,4 +18,11 @@ public abstract class Entity {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "id='" + id + '\'' +
+                '}';
+    }
 }

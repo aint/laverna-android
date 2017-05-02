@@ -33,4 +33,11 @@ public class Profile extends Entity {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Profile{" + super.toString() +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
