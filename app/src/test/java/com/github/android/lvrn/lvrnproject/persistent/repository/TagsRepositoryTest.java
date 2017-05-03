@@ -2,12 +2,13 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Note;
-import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.entity.impl.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TagRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.NoteRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.ProfileRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.TagRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -32,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Config(constants = BuildConfig.class)
 public class TagsRepositoryTest {
 
-    private TagsRepository tagsRepository;
+    private TagRepository tagRepository;
 
     private Tag tag1;
 
@@ -48,7 +49,7 @@ public class TagsRepositoryTest {
     public void setUp() {
         DatabaseManager.initializeInstance(RuntimeEnvironment.application);
 
-        ProfilesRepositoryImpl profilesRepository = new ProfilesRepositoryImpl();
+        ProfileRepositoryImpl profilesRepository = new ProfileRepositoryImpl();
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
@@ -56,7 +57,7 @@ public class TagsRepositoryTest {
         profilesRepository.closeDatabaseConnection();
 
 
-        tagsRepository = new TagsRepositoryImpl();
+        tagRepository = new TagRepositoryImpl();
 
         tag1 = new Tag(
                 "id_1",
@@ -90,22 +91,22 @@ public class TagsRepositoryTest {
         tags.add(tag2);
         tags.add(tag3);
 
-        tagsRepository.openDatabaseConnection();
+        tagRepository.openDatabaseConnection();
     }
 
     @Test
     public void repositoryShouldGetEntityById() {
-        tagsRepository.add(tag1);
-        Optional<Tag> tagOptional = tagsRepository.getById(tag1.getId());
+        tagRepository.add(tag1);
+        Optional<Tag> tagOptional = tagRepository.getById(tag1.getId());
         assertThat(tagOptional.isPresent()).isTrue();
         assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
 
     @Test
     public void repositoryShouldGetEntitiesByProfileId() {
-        tagsRepository.add(tags);
+        tagRepository.add(tags);
 
-        List<Tag> tagEntities1 = tagsRepository
+        List<Tag> tagEntities1 = tagRepository
                 .getByProfile(profile, 1, 3);
 
         assertThat(tagEntities1.size()).isNotEqualTo(tags.size());
@@ -117,28 +118,28 @@ public class TagsRepositoryTest {
 
     @Test
     public void repositoryShouldUpdateEntity() {
-        tagsRepository.add(tag1);
+        tagRepository.add(tag1);
 
         tag1.setName("new name");
 
-        tagsRepository.update(tag1);
+        tagRepository.update(tag1);
 
-        Optional<Tag> tagOptional = tagsRepository.getById(tag1.getId());
+        Optional<Tag> tagOptional = tagRepository.getById(tag1.getId());
         assertThat(tagOptional.get()).isEqualToComparingFieldByField(tag1);
     }
 
     @Test
     public void repositoryShoudGetTagsByNote() {
-        tagsRepository.add(tags);
+        tagRepository.add(tags);
 
-        NotesRepositoryImpl notesRepository = new NotesRepositoryImpl();
+        NoteRepositoryImpl notesRepository = new NoteRepositoryImpl();
         notesRepository.openDatabaseConnection();
         Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
         notesRepository.add(note1);
         notesRepository.addTagsToNote(note1, Arrays.asList(tag1, tag2));
         notesRepository.closeDatabaseConnection();
 
-        List<Tag> tags1 = tagsRepository.getByNote(note1, 1, 4);
+        List<Tag> tags1 = tagRepository.getByNote(note1, 1, 4);
 
         assertThat(tags1.size()).isNotEqualTo(tags.size());
         assertThat(tags1.size()).isEqualTo(tags.size() - 1);
@@ -150,16 +151,31 @@ public class TagsRepositoryTest {
 
     @Test
     public void repositoryShouldRemoveEntity() {
-        tagsRepository.add(tag1);
+        tagRepository.add(tag1);
 
-        tagsRepository.remove(tag1);
+        tagRepository.remove(tag1);
 
-        assertThat(tagsRepository.getById(tag1.getId()).isPresent()).isFalse();
+        assertThat(tagRepository.getById(tag1.getId()).isPresent()).isFalse();
+    }
+
+    @Test
+    public void repositoryShouldGetTagByName() {
+        tagRepository.add(tag1);
+        tag2.setName("name2");
+        tagRepository.add(tag2);
+
+        List<Tag> result1 = tagRepository.getByName("name", 1, 5);
+
+        assertThat(result1).hasSize(2);
+
+        List<Tag> result2 = tagRepository.getByName("name_1", 1, 5);
+
+        assertThat(result2).hasSize(1);
     }
 
     @After
     public void finish() {
-        tagsRepository.closeDatabaseConnection();
+        tagRepository.closeDatabaseConnection();
         DatabaseManager.removeInstance();
     }
 }

@@ -7,7 +7,7 @@ import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.BasicRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.BasicRepositoryImpl;
 
 import org.junit.After;
 import org.junit.Before;

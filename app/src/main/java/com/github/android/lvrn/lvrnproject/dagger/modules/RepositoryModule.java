@@ -1,15 +1,15 @@
 package com.github.android.lvrn.lvrnproject.dagger.modules;
 
-import com.github.android.lvrn.lvrnproject.persistent.repository.NotebooksRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.NotesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.ProfilesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.TasksRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotebooksRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.NotesRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfilesRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TagsRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TasksRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NoteRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.ProfileRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TagRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.NotebookRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.NoteRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.ProfileRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.TagRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.TaskRepositoryImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,27 +22,27 @@ import dagger.Provides;
 public class RepositoryModule {
 
     @Provides
-    static NotebooksRepository provideNotebooksRepository() {
-        return new NotebooksRepositoryImpl();
+    static NotebookRepository provideNotebooksRepository() {
+        return new NotebookRepositoryImpl();
     }
 
     @Provides
-    static NotesRepository provideNotesRepository() {
-        return new NotesRepositoryImpl();
+    static NoteRepository provideNotesRepository() {
+        return new NoteRepositoryImpl();
     }
 
     @Provides
-    static ProfilesRepository provideProfilesRepository() {
-        return new ProfilesRepositoryImpl();
+    static ProfileRepository provideProfilesRepository() {
+        return new ProfileRepositoryImpl();
     }
 
     @Provides
-    static TagsRepository provideTagsRepository() {
-        return new TagsRepositoryImpl();
+    static TagRepository provideTagsRepository() {
+        return new TagRepositoryImpl();
     }
 
     @Provides
-    static TasksRepository provideTasksRepository() {
-        return new TasksRepositoryImpl();
+    static TaskRepository provideTasksRepository() {
+        return new TaskRepositoryImpl();
     }
 }

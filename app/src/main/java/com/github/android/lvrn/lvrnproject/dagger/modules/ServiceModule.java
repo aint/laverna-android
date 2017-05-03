@@ -1,20 +1,20 @@
 package com.github.android.lvrn.lvrnproject.dagger.modules;
 
-import com.github.android.lvrn.lvrnproject.persistent.repository.NotebooksRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.NotesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.ProfilesRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.TagsRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.TasksRepository;
-import com.github.android.lvrn.lvrnproject.service.NotebooksService;
-import com.github.android.lvrn.lvrnproject.service.NotesService;
-import com.github.android.lvrn.lvrnproject.service.ProfilesService;
-import com.github.android.lvrn.lvrnproject.service.TagsService;
-import com.github.android.lvrn.lvrnproject.service.TasksService;
-import com.github.android.lvrn.lvrnproject.service.impl.NotebooksServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.impl.NotesServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.impl.ProfilesServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.impl.TagsServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.impl.TasksServiceImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NoteRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.ProfileRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TagRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
+import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
+import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
+import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.extension.TagService;
+import com.github.android.lvrn.lvrnproject.service.extension.TaskService;
+import com.github.android.lvrn.lvrnproject.service.extension.impl.NotebookServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.extension.impl.NoteServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.extension.impl.ProfileServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.extension.impl.TagServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.extension.impl.TaskServiceImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -27,31 +27,31 @@ import dagger.Provides;
 public class ServiceModule {
 
     @Provides
-    static NotebooksService provideNotebooksService(NotebooksRepository notebooksRepository, ProfilesService profilesService) {
-        return new NotebooksServiceImpl(notebooksRepository, profilesService);
+    static NotebookService provideNotebooksService(NotebookRepository notebookRepository, ProfileService profileService) {
+        return new NotebookServiceImpl(notebookRepository, profileService);
     }
 
     @Provides
-    static NotesService provideNoteService(NotesRepository notesRepository,
-                                           TasksService tasksService,
-                                           TagsService tagsService,
-                                           ProfilesService profilesService,
-                                           NotebooksService notebooksService) {
-        return new NotesServiceImpl(notesRepository, tasksService, tagsService, profilesService, notebooksService);
+    static NoteService provideNoteService(NoteRepository noteRepository,
+                                          TaskService taskService,
+                                          TagService tagService,
+                                          ProfileService profileService,
+                                          NotebookService notebookService) {
+        return new NoteServiceImpl(noteRepository, taskService, tagService, profileService, notebookService);
     }
 
     @Provides
-    static ProfilesService provideProfilesService(ProfilesRepository profilesRepository) {
-        return new ProfilesServiceImpl(profilesRepository);
+    static ProfileService provideProfilesService(ProfileRepository profileRepository) {
+        return new ProfileServiceImpl(profileRepository);
     }
 
     @Provides
-    static TagsService provideTagsService(TagsRepository tagsRepository, ProfilesService profilesService) {
-        return new TagsServiceImpl(tagsRepository, profilesService);
+    static TagService provideTagsService(TagRepository tagRepository, ProfileService profileService) {
+        return new TagServiceImpl(tagRepository, profileService);
     }
 
     @Provides
-    static TasksService provideTasksService(TasksRepository tasksRepository, ProfilesService profilesService) {
-        return new TasksServiceImpl(tasksRepository, profilesService);
+    static TaskService provideTasksService(TaskRepository taskRepository, ProfileService profileService) {
+        return new TaskServiceImpl(taskRepository, profileService);
     }
 }
