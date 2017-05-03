@@ -43,8 +43,8 @@ public class ProfileServiceImplTest {
 
     @Test
     public void serviceShouldCreateProfiles() {
-        profileService.create(firstProfileName);
-        profileService.create(secondProfileName);
+//        profileService.create(firstProfileName);
+//        profileService.create(secondProfileName);
 
         List<Profile> profileList = profileService.getAll();
 
@@ -55,7 +55,7 @@ public class ProfileServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void serviceShouldNotCreateProfileWithEmptyName() {
-        profileService.create("");
+//        profileService.create("");
     }
 
     @Test(expected = IllegalArgumentException.class)

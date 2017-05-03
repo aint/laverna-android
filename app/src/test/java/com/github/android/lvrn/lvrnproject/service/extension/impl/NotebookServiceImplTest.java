@@ -36,7 +36,7 @@ public class NotebookServiceImplTest {
 
         profileService = new ProfileServiceImpl(new ProfileRepositoryImpl());
         profileService.openConnection();
-        profileService.create("Temp profile");
+//        profileService.create("Temp profile");
         profile = profileService.getAll().get(0);
         profileService.closeConnection();
 

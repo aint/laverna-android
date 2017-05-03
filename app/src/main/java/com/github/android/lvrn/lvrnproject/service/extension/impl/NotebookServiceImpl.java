@@ -4,6 +4,8 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.form.Form;
+import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 
 import java.util.List;
@@ -11,12 +13,14 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import static android.R.attr.name;
+
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook> implements NotebookService {
+public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, NotebookForm> implements NotebookService {
 
     private final NotebookRepository mNotebookRepository;
 
@@ -26,23 +30,22 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook> im
         mNotebookRepository = notebookRepository;
     }
 
-    /**
-     * @param profileId
-     * @param parentNotebookId
-     * @param name
-     * @throws IllegalArgumentException
-     */
     @Override
-    public void create(String profileId, String parentNotebookId, String name) {
-        validate(profileId, parentNotebookId, name);
-        mNotebookRepository.add(new Notebook(
-                UUID.randomUUID().toString(),
-                profileId,
-                parentNotebookId,
-                name,
-                System.currentTimeMillis(),
-                System.currentTimeMillis(),
-                0));
+    public void create(NotebookForm notebookForm) {
+
+        validate(notebookForm.getProfileId(), notebookForm.getParentNotebookId(), notebookForm.getName());
+
+        mNotebookRepository.add(
+                new Notebook(
+                        UUID.randomUUID().toString(),
+                        notebookForm.getProfileId(),
+                        notebookForm.getParentNotebookId(),
+                        notebookForm.getName(),
+                        System.currentTimeMillis(),
+                        System.currentTimeMillis(),
+                        0
+                )
+        );
     }
 
     @Override
@@ -55,9 +58,12 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook> im
      * @throws IllegalArgumentException
      */
     @Override
-    public void update(Notebook entity) {
-        validate(entity.getProfileId(), entity.getParentId(), entity.getName());
-        mNotebookRepository.update(entity);
+    public void update(String id, NotebookForm notebookForm) {
+        //TODO: change date of update.
+        //TODO: Write what fields to update in database.
+//        validate(entity.getProfileId(), entity.getParentId(), entity.getName());
+//
+//        mNotebookRepository.update();
     }
 
     /**

@@ -5,6 +5,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TagRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.extension.TagService;
+import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 
 import java.util.List;
@@ -12,11 +13,13 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import static android.R.attr.name;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TagServiceImpl extends ProfileDependedServiceImpl<Tag> implements TagService {
+public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> implements TagService {
 
     private final TagRepository mTagRepository;
 
@@ -32,12 +35,12 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag> implements T
      * @throws IllegalArgumentException
      */
     @Override
-    public void create(String profileId, String name) {
-        validate(profileId, name);
+    public void create(TagForm tagForm) {
+        validate(tagForm.getProfileId(),tagForm.getName());
         mTagRepository.add(new Tag(
                 UUID.randomUUID().toString(),
-                profileId,
-                name,
+                tagForm.getProfileId(),
+                tagForm.getName(),
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
                 0));
@@ -48,9 +51,11 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag> implements T
      * @throws IllegalArgumentException
      */
     @Override
-    public void update(Tag entity) {
-        validate(entity.getProfileId(), entity.getName());
-        mTagRepository.update(entity);
+    public void update(String id, TagForm tagForm) {
+        //TODO: change date of update.
+        //TODO: Write what fields to update in database(not to update creation time)
+//        validate(entity.getProfileId(), entity.getName());
+//        mTagRepository.update(entity);
     }
 
     @Override

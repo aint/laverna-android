@@ -4,6 +4,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
+import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 
 import java.util.List;
 
@@ -11,21 +12,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface NoteService extends ProfileDependedService<Note> {
-
-    /**
-     * @param profileId
-     * @param notebookId
-     * @param title
-     * @param content
-     * @param isFavorite
-     * @throws IllegalArgumentException
-     */
-    void create(String profileId,
-                String notebookId,
-                String title,
-                String content,
-                boolean isFavorite);
+public interface NoteService extends ProfileDependedService<Note, NoteForm> {
 
     List<Note> getByTitle(String title, int from, int amount);
 

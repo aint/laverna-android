@@ -9,6 +9,9 @@ import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.extension.TagService;
 import com.github.android.lvrn.lvrnproject.service.extension.TaskService;
+import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
+import com.github.android.lvrn.lvrnproject.service.form.TagForm;
+import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 
@@ -21,7 +24,7 @@ import javax.inject.Inject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteServiceImpl extends ProfileDependedServiceImpl<Note> implements NoteService {
+public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> implements NoteService {
 
     private final NoteRepository mNoteRepository;
 
@@ -54,27 +57,23 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note> implements
      * @throws IllegalArgumentException
      */
     @Override
-    public void create(String profileId,
-                       String notebookId,
-                       String title,
-                       String content,
-                       boolean isFavorite) {
+    public void create(NoteForm noteForm) {
 
-        validate(profileId, notebookId, title);
+        validate(noteForm.getProfileId(), noteForm.getNotebookId(), noteForm.getTitle());
 
         String noteId = UUID.randomUUID().toString();
 
         mNoteRepository.add(new Note(
                 noteId,
-                profileId,
-                notebookId,
-                title,
+                noteForm.getProfileId(),
+                noteForm.getNotebookId(),
+                noteForm.getTitle(),
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
-                content,
-                isFavorite));
+                noteForm.getContent(),
+                noteForm.isFavorite()));
 
-        parseTasksAndTags(profileId, noteId, content);
+        parseTasksAndTags(noteForm.getProfileId(), noteId, noteForm.getContent());
     }
 
     @Override
@@ -97,9 +96,11 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note> implements
      * @throws IllegalArgumentException
      */
     @Override
-    public void update(Note entity) {
-        validate(entity.getProfileId(), entity.getProfileId(), entity.getTitle());
-        mNoteRepository.update(entity);
+    public void update(String id, NoteForm noteForm) {
+        //TODO: change date of update.
+        //TODO: Write what fields to update in database(not to update creation time)
+//        validate(entity.getProfileId(), entity.getProfileId(), entity.getTitle());
+//        mNoteRepository.update(entity);
     }
 
     /**
@@ -111,10 +112,10 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note> implements
     private void parseTasksAndTags(String profileId, String noteId, String content) {
         NoteTextParser.parseTasks(content)
                 .forEach((description, status) ->
-                        mTaskService.create(profileId, noteId, description, status));
+                        mTaskService.create(new TaskForm(profileId, noteId, description, status)));
 
         NoteTextParser.parseTags(content)
-                .forEach(tagName -> mTagService.create(profileId, tagName));
+                .forEach(tagName -> mTagService.create(new TagForm(profileId, tagName)));
     }
 
     /**

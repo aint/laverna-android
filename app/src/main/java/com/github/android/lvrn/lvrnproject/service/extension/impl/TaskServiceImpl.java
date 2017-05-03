@@ -5,6 +5,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.extension.TaskService;
+import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import javax.inject.Inject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TaskServiceImpl extends ProfileDependedServiceImpl<Task> implements TaskService {
+public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> implements TaskService {
 
     private final TaskRepository mTaskRepository;
 
@@ -24,12 +25,6 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task> implements
     public TaskServiceImpl(TaskRepository taskRepository, ProfileService profileService) {
         super(taskRepository, profileService);
         mTaskRepository = taskRepository;
-    }
-
-    @Override
-    public void update(Task entity) {
-        validate(entity.getProfileId(), entity.getDescription());
-        mTaskRepository.update(entity);
     }
 
     /**
@@ -40,14 +35,22 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task> implements
      * @throws IllegalArgumentException
      */
     @Override
-    public void create(String profileId, String noteId, String description, boolean isCompleted) {
-        validate(profileId, description);
+    public void create(TaskForm taskForm) {
+        validate(taskForm.getProfileId(), taskForm.getDescription());
         mTaskRepository.add(new Task(
                 UUID.randomUUID().toString(),
-                profileId,
-                noteId,
-                description,
-                isCompleted));
+                taskForm.getProfileId(),
+                taskForm.getNoteId(),
+                taskForm.getDescription(),
+                taskForm.isCompleted()));
+    }
+
+    @Override
+    public void update(String id, TaskForm taskForm) {
+        //TODO: change date of update.
+        //TODO: Write what fields to update in database(not to update creation time)
+//        validate(entity.getProfileId(), entity.getDescription());
+//        mTaskRepository.update(entity);
     }
 
     @Override

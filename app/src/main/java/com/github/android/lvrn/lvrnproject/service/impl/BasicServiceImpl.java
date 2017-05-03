@@ -5,17 +5,18 @@ import android.text.TextUtils;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
 import com.github.android.lvrn.lvrnproject.service.BasicService;
+import com.github.android.lvrn.lvrnproject.service.form.Form;
 import com.google.common.base.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class BasicServiceImpl<T extends Entity> implements BasicService<T> {
+public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form> implements BasicService<T1, T2> {
 
-    private BasicRepository<T> basicRepository;
+    private BasicRepository<T1> basicRepository;
 
-    public BasicServiceImpl(BasicRepository<T> basicRepository) {
+    public BasicServiceImpl(BasicRepository<T1> basicRepository) {
         this.basicRepository = basicRepository;
     }
 
@@ -30,12 +31,12 @@ public abstract class BasicServiceImpl<T extends Entity> implements BasicService
     }
 
     @Override
-    public Optional<T> getById(String id) {
+    public Optional<T1> getById(String id) {
         return basicRepository.getById(id);
     }
 
     @Override
-    public void remove(T entity) {
+    public void remove(T1 entity) {
         basicRepository.remove(entity);
     }
 
