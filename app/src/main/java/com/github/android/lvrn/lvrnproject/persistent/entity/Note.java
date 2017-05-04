@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 
 /**
@@ -121,6 +123,7 @@ public class Note extends ProfileDependedEntity {
         isFavorite = favorite;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Note{" + super.toString() +

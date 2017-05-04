@@ -19,11 +19,9 @@ public interface BasicRepository<T extends Entity> {
 
     void update(T entity);
 
-    void remove(T entity);
+    void remove(String id);
 
     Optional<T> getById(String id);
-
-//    List<T> getByRawQuery(String query);
 
     boolean openDatabaseConnection();
 

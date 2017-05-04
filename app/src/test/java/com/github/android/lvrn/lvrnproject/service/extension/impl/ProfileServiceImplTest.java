@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
@@ -29,8 +31,10 @@ public class ProfileServiceImplTest {
 
     private ProfileService profileService;
 
+    @NonNull
     private String firstProfileName = "First profile";
 
+    @NonNull
     private String secondProfileName = "Second profile";
 
 

@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.form;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -12,7 +14,7 @@ public class TaskForm extends ProfileDependedForm {
 
     private boolean isCompleted;
 
-    public TaskForm(String profileId, String noteId, String description, boolean isCompleted) {
+    public TaskForm(@NonNull String profileId, @NonNull String noteId, String description, boolean isCompleted) {
         super(profileId);
         this.noteId = noteId;
         this.description = description;
@@ -23,7 +25,7 @@ public class TaskForm extends ProfileDependedForm {
         return noteId;
     }
 
-    public void setNoteId(String noteId) {
+    public void setNoteId(@NonNull String noteId) {
         this.noteId = noteId;
     }
 

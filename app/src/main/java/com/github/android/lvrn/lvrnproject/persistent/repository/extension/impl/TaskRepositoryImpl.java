@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
@@ -27,8 +28,9 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
         super(TABLE_NAME);
     }
 
+    @NonNull
     @Override
-    protected ContentValues toContentValues(Task entity) {
+    protected ContentValues toContentValues(@NonNull Task entity) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_ID, entity.getProfileId());
@@ -38,8 +40,9 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
         return contentValues;
     }
 
+    @NonNull
     @Override
-    protected Task toEntity(Cursor cursor) {
+    protected Task toEntity(@NonNull Cursor cursor) {
         return new Task(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_ID)),
@@ -55,10 +58,11 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
      * @param amount a number of objects to retrieve.
      * @return list of tasks.
      */
+    @NonNull
     @Override
-    public List<Task> getUncompletedByProfile(Profile profile, int from, int amount) {
+    public List<Task> getUncompletedByProfile(@NonNull String profileId, int from, int amount) {
         String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profile.getId() + "' AND "
+                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "' AND "
                 + COLUMN_IS_COMPLETED + " = 0"
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);

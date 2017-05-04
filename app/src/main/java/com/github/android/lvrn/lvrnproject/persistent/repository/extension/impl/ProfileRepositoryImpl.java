@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.ProfileRepository;
@@ -23,16 +24,18 @@ public class ProfileRepositoryImpl extends BasicRepositoryImpl<Profile> implemen
         super(TABLE_NAME);
     }
 
+    @NonNull
     @Override
-    protected ContentValues toContentValues(Profile entity) {
+    protected ContentValues toContentValues(@NonNull Profile entity) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_NAME, entity.getName());
         return contentValues;
     }
 
+    @NonNull
     @Override
-    protected Profile toEntity(Cursor cursor) {
+    protected Profile toEntity(@NonNull Cursor cursor) {
         return new Profile(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_NAME)));
@@ -42,6 +45,7 @@ public class ProfileRepositoryImpl extends BasicRepositoryImpl<Profile> implemen
      * A method which retrieves all profiles.
      * @return a list of profiles.
      */
+    @NonNull
     @Override
     public List<Profile> getAllProfiles() {
         String query = "SELECT * FROM " + TABLE_NAME;

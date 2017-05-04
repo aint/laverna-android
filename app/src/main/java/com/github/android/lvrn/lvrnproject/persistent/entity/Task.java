@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 
 /**
@@ -75,6 +77,7 @@ public class Task extends ProfileDependedEntity {
         isCompleted = completed;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Task{" + super.toString() +

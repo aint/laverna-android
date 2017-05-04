@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.form;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -9,7 +11,7 @@ public abstract class ProfileDependedForm implements Form {
 
     private String profileId;
 
-    public ProfileDependedForm(String profileId) {
+    public ProfileDependedForm(@NonNull String profileId) {
         this.profileId = profileId;
     }
 
@@ -17,7 +19,7 @@ public abstract class ProfileDependedForm implements Form {
         return profileId;
     }
 
-    public void setProfileId(String profileId) {
+    public void setProfileId(@NonNull String profileId) {
         this.profileId = profileId;
     }
 }

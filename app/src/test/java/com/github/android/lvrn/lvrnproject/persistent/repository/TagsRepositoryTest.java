@@ -107,7 +107,7 @@ public class TagsRepositoryTest {
         tagRepository.add(tags);
 
         List<Tag> tagEntities1 = tagRepository
-                .getByProfile(profile, 1, 3);
+                .getByProfile(profile.getId(), 1, 3);
 
         assertThat(tagEntities1.size()).isNotEqualTo(tags.size());
         assertThat(tagEntities1.size()).isEqualTo(tags.size() - 1);
@@ -136,10 +136,10 @@ public class TagsRepositoryTest {
         notesRepository.openDatabaseConnection();
         Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
         notesRepository.add(note1);
-        notesRepository.addTagsToNote(note1, Arrays.asList(tag1, tag2));
+        notesRepository.addTagsToNote(note1.getId(), Arrays.asList(tag1, tag2));
         notesRepository.closeDatabaseConnection();
 
-        List<Tag> tags1 = tagRepository.getByNote(note1, 1, 4);
+        List<Tag> tags1 = tagRepository.getByNote(note1.getId(), 1, 4);
 
         assertThat(tags1.size()).isNotEqualTo(tags.size());
         assertThat(tags1.size()).isEqualTo(tags.size() - 1);
@@ -153,7 +153,7 @@ public class TagsRepositoryTest {
     public void repositoryShouldRemoveEntity() {
         tagRepository.add(tag1);
 
-        tagRepository.remove(tag1);
+        tagRepository.remove(tag1.getId());
 
         assertThat(tagRepository.getById(tag1.getId()).isPresent()).isFalse();
     }

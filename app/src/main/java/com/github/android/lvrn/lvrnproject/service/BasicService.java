@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.service.form.Form;
 import com.google.common.base.Optional;
@@ -14,7 +16,7 @@ public interface BasicService<T1 extends Entity, T2 extends Form> {
      * A method which create am entity by received form
      * @param form
      */
-    void create(T2 form);
+    void create(@NonNull T2 form);
 
     /**
      * A method which opens a connection to a repository.
@@ -28,21 +30,21 @@ public interface BasicService<T1 extends Entity, T2 extends Form> {
 
     /**
      * A method which removes an entity.
-     * @param entity to remove.
+     * @param id
      */
-    void remove(T1 entity);
+    void remove(@NonNull String id);
 
     /**
      * A method which updates an entity.
      * @param entity to update.
      * @throws IllegalArgumentException
      */
-    void update(String id, T2 form);
+    void update(@NonNull String id, @NonNull T2 form);
 
     /**
-     * A mthod which returns an entity by an id.
+     * A method which returns an entity by an id.
      * @param id an id of a required entity
      * @return a required entity.
      */
-    Optional<T1> getById(String id);
+    Optional<T1> getById(@NonNull String id);
 }

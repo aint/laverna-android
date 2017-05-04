@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
@@ -22,7 +24,7 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
     private final TaskRepository mTaskRepository;
 
     @Inject
-    public TaskServiceImpl(TaskRepository taskRepository, ProfileService profileService) {
+    public TaskServiceImpl(@NonNull TaskRepository taskRepository, @NonNull ProfileService profileService) {
         super(taskRepository, profileService);
         mTaskRepository = taskRepository;
     }
@@ -35,7 +37,7 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
      * @throws IllegalArgumentException
      */
     @Override
-    public void create(TaskForm taskForm) {
+    public void create(@NonNull TaskForm taskForm) {
         validate(taskForm.getProfileId(), taskForm.getDescription());
         mTaskRepository.add(new Task(
                 UUID.randomUUID().toString(),
@@ -46,16 +48,17 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
     }
 
     @Override
-    public void update(String id, TaskForm taskForm) {
+    public void update(@NonNull String id, @NonNull TaskForm taskForm) {
         //TODO: change date of update.
         //TODO: Write what fields to update in database(not to update creation time)
 //        validate(entity.getProfileId(), entity.getDescription());
 //        mTaskRepository.update(entity);
     }
 
+    @NonNull
     @Override
-    public List<Task> getUncompletedByProfile(Profile profile, int from, int amount) {
-        return mTaskRepository.getUncompletedByProfile(profile, from, amount);
+    public List<Task> getUncompletedByProfile(@NonNull String profileId, int from, int amount) {
+        return mTaskRepository.getUncompletedByProfile(profileId, from, amount);
     }
 
     /**

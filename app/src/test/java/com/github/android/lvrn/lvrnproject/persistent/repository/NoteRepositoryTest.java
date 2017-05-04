@@ -122,7 +122,7 @@ public class NoteRepositoryTest {
         noteRepository.add(notes);
 
         List<Note> noteEntities1 = noteRepository
-                .getByProfile(profile, 1, 3);
+                .getByProfile(profile.getId(), 1, 3);
 
         assertThat(noteEntities1.size()).isNotEqualTo(notes.size());
         assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
@@ -136,7 +136,7 @@ public class NoteRepositoryTest {
         noteRepository.add(notes);
 
         List<Note> noteEntities1 = noteRepository
-                .getByNotebook(notebook, 1, 3);
+                .getByNotebook(notebook.getId(), 1, 3);
 
         assertThat(noteEntities1.size()).isNotEqualTo(notes.size());
         assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
@@ -156,10 +156,10 @@ public class NoteRepositoryTest {
         noteRepository.add(note1);
         noteRepository.add(note2);
 
-        noteRepository.addTagsToNote(note1, Collections.singletonList(tag));
-        noteRepository.addTagsToNote(note2, Collections.singletonList(tag));
+        noteRepository.addTagsToNote(note1.getId(), Collections.singletonList(tag));
+        noteRepository.addTagsToNote(note2.getId(), Collections.singletonList(tag));
 
-        List<Note> notes1 = noteRepository.getByTag(tag, 1, 5);
+        List<Note> notes1 = noteRepository.getByTag(tag.getId(), 1, 5);
 
         assertThat(notes1.size()).isNotEqualTo(notes.size());
         assertThat(notes1.size()).isEqualTo(notes.size() - 1);
@@ -181,12 +181,12 @@ public class NoteRepositoryTest {
         noteRepository.add(note1);
         noteRepository.add(note2);
 
-        noteRepository.addTagsToNote(note1, Collections.singletonList(tag));
-        noteRepository.addTagsToNote(note2, Collections.singletonList(tag));
+        noteRepository.addTagsToNote(note1.getId(), Collections.singletonList(tag));
+        noteRepository.addTagsToNote(note2.getId(), Collections.singletonList(tag));
 
-        noteRepository.removeTagsFromNote(note1, Collections.singletonList(tag));
+        noteRepository.removeTagsFromNote(note1.getId(), Collections.singletonList(tag));
 
-        List<Note> notes1 = noteRepository.getByTag(tag, 1, 5);
+        List<Note> notes1 = noteRepository.getByTag(tag.getId(), 1, 5);
 
         assertThat(notes1.size()).isNotEqualTo(notes.size());
         assertThat(notes1.size()).isEqualTo(notes.size() - 2);
@@ -213,7 +213,7 @@ public class NoteRepositoryTest {
     public void repositoryShouldRemoveEntity() {
         noteRepository.add(note1);
 
-        noteRepository.remove(note1);
+        noteRepository.remove(note1.getId());
 
         assertThat(noteRepository.getById(note1.getId()).isPresent()).isFalse();
     }

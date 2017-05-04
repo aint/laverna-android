@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.ProfileRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
@@ -20,7 +22,7 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
     private final ProfileRepository mProfileRepository;
 
     @Inject
-    public ProfileServiceImpl(ProfileRepository profileRepository) {
+    public ProfileServiceImpl(@NonNull ProfileRepository profileRepository) {
         super(profileRepository);
         mProfileRepository = profileRepository;
     }
@@ -30,11 +32,12 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
      * @throws IllegalArgumentException
      */
     @Override
-    public void create(ProfileForm profileForm) {
+    public void create(@NonNull ProfileForm profileForm) {
         checkName(profileForm.getName());
         mProfileRepository.add(new Profile(UUID.randomUUID().toString(), profileForm.getName()));
     }
 
+    @NonNull
     @Override
     public List<Profile> getAll() {
         return mProfileRepository.getAllProfiles();
@@ -45,7 +48,7 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
      * @throws IllegalArgumentException
      */
     @Override
-    public void update(String id, ProfileForm profileForm) {
+    public void update(@NonNull String id, @NonNull ProfileForm profileForm) {
         //TODO: change date of update.
         //TODO: Write what fields to update in database(not to update creation time)
 //        checkName(entity.getName());

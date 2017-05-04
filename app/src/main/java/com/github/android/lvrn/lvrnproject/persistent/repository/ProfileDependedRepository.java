@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 
@@ -11,5 +13,6 @@ import java.util.List;
 
 public interface ProfileDependedRepository<T extends ProfileDependedEntity> extends BasicRepository<T> {
 
-    List<T> getByProfile(Profile profile, int from, int amount);
+    @NonNull
+    List<T> getByProfile(String profileId, int from, int amount);
 }

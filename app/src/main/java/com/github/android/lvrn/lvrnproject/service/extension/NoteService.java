@@ -1,5 +1,8 @@
 package com.github.android.lvrn.lvrnproject.service.extension;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Size;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
@@ -14,9 +17,12 @@ import java.util.List;
 
 public interface NoteService extends ProfileDependedService<Note, NoteForm> {
 
-    List<Note> getByTitle(String title, int from, int amount);
+    @NonNull
+    List<Note> getByTitle(@NonNull String title, @Size(min = 1) int from, @Size (min = 2) int amount);
 
-    List<Note> getByNotebook(Notebook notebook, int from, int amount);
+    @NonNull
+    List<Note> getByNotebook(@NonNull String notebookId, @Size(min = 1) int from, @Size (min = 2) int amount);
 
-    List<Note> getByTag(Tag tag, int from, int amount);
+    @NonNull
+    List<Note> getByTag(@NonNull String tagId, @Size(min = 1) int from, @Size(min = 2) int amount);
 }

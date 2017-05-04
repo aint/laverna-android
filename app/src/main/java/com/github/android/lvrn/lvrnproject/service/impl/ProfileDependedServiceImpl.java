@@ -1,5 +1,9 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.Size;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
@@ -8,6 +12,9 @@ import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 
 import java.util.List;
+
+import static android.R.attr.max;
+import static android.os.Build.VERSION_CODES.N;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -20,16 +27,16 @@ public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntit
 
     private final ProfileService mProfileService;
 
-    public ProfileDependedServiceImpl(ProfileDependedRepository<T1> profileDependedRepository, ProfileService profileService) {
+    public ProfileDependedServiceImpl(@NonNull ProfileDependedRepository<T1> profileDependedRepository, @NonNull ProfileService profileService) {
         super(profileDependedRepository);
         mProfileDependedRepository = profileDependedRepository;
         mProfileService = profileService;
     }
 
+    @NonNull
     @Override
-    public List<T1> getByProfile(Profile profile, int from, int amount) {
-        mProfileDependedRepository.getByProfile(profile, from, amount);
-        return null;
+    public List<T1> getByProfile(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount) {
+        return mProfileDependedRepository.getByProfile(profileId, from, amount);
     }
 
     /**
@@ -37,7 +44,7 @@ public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntit
      * @param id an id of profile.
      * @throws IllegalArgumentException
      */
-    protected void checkProfileExistence(String id) {
+    protected void checkProfileExistence(@Nullable String id) {
         if (id == null || !mProfileService.getById(id).isPresent()) {
             throw new IllegalArgumentException("Profile not found");
         }

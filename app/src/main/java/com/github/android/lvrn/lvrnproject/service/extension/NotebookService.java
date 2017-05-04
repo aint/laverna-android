@@ -1,5 +1,8 @@
 package com.github.android.lvrn.lvrnproject.service.extension;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Size;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.Form;
@@ -13,5 +16,6 @@ import java.util.List;
 
 public interface NotebookService extends ProfileDependedService<Notebook, NotebookForm> {
 
-    List<Notebook> getByName(String name, int from, int amount);
+    @NonNull
+    List<Notebook> getByName(@NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
 }

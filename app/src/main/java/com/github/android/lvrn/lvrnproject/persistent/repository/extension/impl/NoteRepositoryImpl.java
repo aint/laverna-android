@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
@@ -12,6 +13,7 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDep
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.tag;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_ID;
@@ -33,8 +35,9 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         super(TABLE_NAME);
     }
 
+    @NonNull
     @Override
-    protected ContentValues toContentValues(Note entity) {
+    protected ContentValues toContentValues(@NonNull Note entity) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_ID, entity.getProfileId());
@@ -47,8 +50,9 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         return contentValues;
     }
 
+    @NonNull
     @Override
-    protected Note toEntity(Cursor cursor) {
+    protected Note toEntity(@NonNull Cursor cursor) {
         return new Note(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_ID)),
@@ -66,10 +70,10 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
      * @param tags
      */
     @Override
-    public void addTagsToNote(Note note, List<Tag> tags) {
+    public void addTagsToNote(@NonNull String noteId, @NonNull List<Tag> tags) {
         mDatabase.beginTransaction();
         try {
-            List<ContentValues> values = toNoteTagsContentValues(note, tags);
+            List<ContentValues> values = toNoteTagsContentValues(noteId, tags);
             values.forEach(value -> mDatabase.insert(NotesTagsTable.TABLE_NAME, null, value));
             mDatabase.setTransactionSuccessful();
         } finally {
@@ -83,20 +87,21 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
      * @param tags
      */
     @Override
-    public void removeTagsFromNote(Note note, List<Tag> tags) {
+    public void removeTagsFromNote(@NonNull String noteId, @NonNull List<Tag> tags) {
         mDatabase.beginTransaction();
         try {
             tags.forEach(tag -> mDatabase.delete(NotesTagsTable.TABLE_NAME,
                     NotesTagsTable.COLUMN_TAG_ID + " = '" + tag.getId() + "' AND "
-                            + NotesTagsTable.COLUMN_NOTE_ID + " = '" + note.getId() + "'", null));
+                            + NotesTagsTable.COLUMN_NOTE_ID + " = '" + noteId + "'", null));
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
         }
     }
 
+    @NonNull
     @Override
-    public List<Note> getByTitle(String title, int from, int amount) {
+    public List<Note> getByTitle(@NonNull String title, int from, int amount) {
         return super.getByName(COLUMN_TITLE, title, from, amount);
     }
 
@@ -107,9 +112,10 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
      * @param amount a number of objects to retrieve.
      * @return a {@code List<Note>} of note entities.
      */
+    @NonNull
     @Override
-    public List<Note> getByNotebook(Notebook notebook, int from, int amount) {
-        return getByIdCondition(COLUMN_NOTEBOOK_ID, notebook.getId(), from, amount);
+    public List<Note> getByNotebook(@NonNull String notebookId, int from, int amount) {
+        return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, from, amount);
     }
 
     /**
@@ -119,15 +125,16 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
      * @param amount a number of objects to retrieve.
      * @return
      */
+    @NonNull
     @Override
-    public List<Note> getByTag(Tag tag, int from, int amount) {
+    public List<Note> getByTag(@NonNull String tagId, int from, int amount) {
         String query = "SELECT *"
                 + " FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
                 + " ON " + TABLE_NAME + "." + COLUMN_ID
                 + "=" + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
-                + "='" + tag.getId() + "'"
+                + "='" + tagId + "'"
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);
@@ -140,11 +147,12 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
      * @param tags
      * @return a list of ContentValues.
      */
-    private List<ContentValues> toNoteTagsContentValues(Note note, List<Tag> tags) {
+    @NonNull
+    private List<ContentValues> toNoteTagsContentValues(@NonNull String noteId, @NonNull List<Tag> tags) {
         List<ContentValues> contentValuesList = new ArrayList<>();
         tags.forEach(tag -> {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(NotesTagsTable.COLUMN_NOTE_ID, note.getId());
+            contentValues.put(NotesTagsTable.COLUMN_NOTE_ID, noteId);
             contentValues.put(NotesTagsTable.COLUMN_TAG_ID, tag.getId());
             contentValuesList.add(contentValues);
         });

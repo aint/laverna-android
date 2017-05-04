@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.util;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 
@@ -34,6 +36,7 @@ public class NoteTextParser {
      * @param text a String object which contain content of a note.
      * @return a set of tags in string form.
      */
+    @NonNull
     public static Set<String> parseTags(String text) {
         Set<String> tagsSet = new HashSet<>();
         Flowable
@@ -51,6 +54,7 @@ public class NoteTextParser {
      * @param text a String object which contain content of a note.
      * @return a set of tasks in string form.
      */
+    @NonNull
     public static Map<String, Boolean> parseTasks(String text) {
         Map<String, Boolean> tasksMap = new HashMap<>();
         Flowable<String> flowable = getTextFlowable(validateText(text));
@@ -66,7 +70,7 @@ public class NoteTextParser {
      * @param text a String object which contain content of a note.
      * @return {@link Flowable<String>}
      */
-    private static Flowable<String> getTextFlowable(String text) {
+    private static Flowable<String> getTextFlowable(@NonNull String text) {
         return Flowable
                 .fromArray(text.split(NEW_LINE_SEPARATOR))
                 .map(String::trim)
@@ -80,7 +84,7 @@ public class NoteTextParser {
      * @param flowable a {@link Flowable<String>} object which emits lines of a note text.
      * @return {@link Flowable<String>}
      */
-    private static Flowable<Pair<String, Boolean>> getTaskUncompletedFlowable(Flowable<String> flowable) {
+    private static Flowable<Pair<String, Boolean>> getTaskUncompletedFlowable(@NonNull Flowable<String> flowable) {
         return flowable
                 .filter(line -> matches(TASK_INCOMPLETE_REGEX, line))
                 .map(line -> new Pair<>(line.substring(3), false));
@@ -93,12 +97,13 @@ public class NoteTextParser {
      * @param flowable a {@link Flowable<String>} object which emits lines of a note text.
      * @return {@link Flowable<String>}
      */
-    private static Flowable<Pair<String, Boolean>> getTaskCompletedFlowable(Flowable<String> flowable) {
+    private static Flowable<Pair<String, Boolean>> getTaskCompletedFlowable(@NonNull Flowable<String> flowable) {
         return flowable
                 .filter(line -> matches(TASK_COMPLETE_REGEX, line))
                 .map(line -> new Pair<>(line.substring(4), true));
     }
 
+    @NonNull
     private static String validateText(String text) {
         if(text == null){
             text = "";

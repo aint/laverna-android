@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 
 /**
@@ -34,6 +36,7 @@ public class Profile extends Entity {
         this.name = name;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Profile{" + super.toString() +

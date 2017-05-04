@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
@@ -27,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class RepositoryAbstractImplTest {
+    @Nullable
     private BasicRepositoryImpl repository;
 
     @Before
@@ -35,11 +37,13 @@ public class RepositoryAbstractImplTest {
 
         repository = new BasicRepositoryImpl("test_table") {
 
+            @Nullable
             @Override
             protected ContentValues toContentValues(Entity entity) {
                 return null;
             }
 
+            @Nullable
             @Override
             protected Entity toEntity(Cursor cursor) {
                 return null;

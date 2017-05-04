@@ -3,6 +3,8 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
@@ -30,9 +32,10 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     /**
      * A {@code SQLiteDatabase object} object.
      */
+    @Nullable
     protected SQLiteDatabase mDatabase;
 
-    public BasicRepositoryImpl(String mTableName) {
+    public BasicRepositoryImpl(@NonNull String mTableName) {
         this.mTableName = mTableName;
     }
 
@@ -50,7 +53,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      * @param entities {@code ProfileDependedEntity} extended objects to save.
      */
     @Override
-    public void add(Collection<T> entities) {
+    public void add(@NonNull Collection<T> entities) {
         mDatabase.beginTransaction();
         try {
             toContentValuesList(entities)
@@ -66,7 +69,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      * @param entity an {@code ProfileDependedEntity} extended object to update.
      */
     @Override
-    public void update(T entity) {
+    public void update(@NonNull T entity) {
         mDatabase.beginTransaction();
         try {
             mDatabase.update(mTableName, toContentValues(entity), COLUMN_ID + "='" + entity.getId() + "'", null);
@@ -81,10 +84,10 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      * @param entity an object to remove.
      */
     @Override
-    public void remove(T entity) {
+    public void remove(@NonNull String id) {
         mDatabase.beginTransaction();
         try {
-            mDatabase.delete(mTableName, COLUMN_ID + "= '" + entity.getId() + "'", null);
+            mDatabase.delete(mTableName, COLUMN_ID + "= '" + id + "'", null);
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
@@ -141,6 +144,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      * @param amount
      * @return
      */
+    @NonNull
     protected List<T> getByName(String columnName, String name, int from, int amount) {
         String query = "SELECT * FROM " + mTableName
                 + " WHERE " + columnName + " LIKE '%" + name + "%'"
@@ -154,6 +158,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      * @param query a {@code String} object of a raw SQL query
      * @return a {@code List<T>} of objects.
      */
+    @NonNull
     protected List<T> getByRawQuery(String query) {
         Cursor cursor = mDatabase.rawQuery(query, new String[]{});
         List<T> entities = new ArrayList<>();
@@ -186,7 +191,8 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      * @param entities objects to convert.
      * @return a list of converted into a {@code ContentValues} entities.
      */
-    private List<ContentValues> toContentValuesList(Collection<T> entities) {
+    @NonNull
+    private List<ContentValues> toContentValuesList(@NonNull Collection<T> entities) {
         List<ContentValues> contentValuesList = new ArrayList<>();
         entities.forEach(entity -> contentValuesList.add(toContentValues(entity)));
         return contentValuesList;

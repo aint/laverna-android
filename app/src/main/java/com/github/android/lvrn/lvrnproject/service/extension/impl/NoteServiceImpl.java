@@ -1,5 +1,8 @@
 package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
@@ -35,11 +38,11 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
     private final NotebookService mNotebookService;
 
     @Inject
-    public NoteServiceImpl(NoteRepository noteRepository,
-                           TaskService taskService,
-                           TagService tagService,
-                           ProfileService profileService,
-                           NotebookService notebookService) {
+    public NoteServiceImpl(@NonNull NoteRepository noteRepository,
+                           @NonNull TaskService taskService,
+                           @NonNull TagService tagService,
+                           @NonNull ProfileService profileService,
+                           @NonNull NotebookService notebookService) {
 
         super(noteRepository, profileService);
         mNoteRepository = noteRepository;
@@ -57,7 +60,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @throws IllegalArgumentException
      */
     @Override
-    public void create(NoteForm noteForm) {
+    public void create(@NonNull NoteForm noteForm) {
 
         validate(noteForm.getProfileId(), noteForm.getNotebookId(), noteForm.getTitle());
 
@@ -76,19 +79,22 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
         parseTasksAndTags(noteForm.getProfileId(), noteId, noteForm.getContent());
     }
 
+    @NonNull
     @Override
-    public List<Note> getByTitle(String title, int from, int amount) {
+    public List<Note> getByTitle(@NonNull String title, int from, int amount) {
         return mNoteRepository.getByTitle(title, from, amount);
     }
 
+    @NonNull
     @Override
-    public List<Note> getByNotebook(Notebook notebook, int from, int amount) {
-        return mNoteRepository.getByNotebook(notebook, from, amount);
+    public List<Note> getByNotebook(@NonNull String notebookId, int from, int amount) {
+        return mNoteRepository.getByNotebook(notebookId, from, amount);
     }
 
+    @NonNull
     @Override
-    public List<Note> getByTag(Tag tag, int from, int amount) {
-        return mNoteRepository.getByTag(tag, from, amount);
+    public List<Note> getByTag(@NonNull String tagId, int from, int amount) {
+        return mNoteRepository.getByTag(tagId, from, amount);
     }
 
     /**
@@ -96,7 +102,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @throws IllegalArgumentException
      */
     @Override
-    public void update(String id, NoteForm noteForm) {
+    public void update(@NonNull String id, @NonNull NoteForm noteForm) {
         //TODO: change date of update.
         //TODO: Write what fields to update in database(not to update creation time)
 //        validate(entity.getProfileId(), entity.getProfileId(), entity.getTitle());
@@ -134,7 +140,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @param notebookId
      * @throws IllegalArgumentException
      */
-    private void checkNotebookExistence(String notebookId) {
+    private void checkNotebookExistence(@Nullable String notebookId) {
         if (notebookId != null && !mNotebookService.getById(notebookId).isPresent()) {
             throw new IllegalArgumentException("The notebook is not found!");
         }

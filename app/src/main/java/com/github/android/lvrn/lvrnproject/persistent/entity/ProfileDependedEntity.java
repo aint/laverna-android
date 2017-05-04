@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -19,6 +21,7 @@ public abstract class ProfileDependedEntity extends Entity {
         this.profileId = profileId;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ProfileDependedEntity{" + super.toString() +

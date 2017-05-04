@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 
 /**
@@ -88,6 +90,7 @@ public class Tag extends ProfileDependedEntity {
         this.count = count;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Tag{" + super.toString() +

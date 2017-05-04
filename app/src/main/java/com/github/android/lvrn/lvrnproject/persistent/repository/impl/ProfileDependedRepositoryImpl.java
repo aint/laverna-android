@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
+import android.support.annotation.NonNull;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
@@ -26,8 +28,10 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @param amount a number of objects to retrieve.
      * @return a {@code List<T>} of objects.
      */
-    public List<T> getByProfile(Profile profile, int from, int amount) {
-        return getByIdCondition(COLUMN_PROFILE_ID, profile.getId(), from, amount);
+    @NonNull
+    @Override
+    public List<T> getByProfile(@NonNull String profileId, int from, int amount) {
+        return getByIdCondition(COLUMN_PROFILE_ID, profileId, from, amount);
     }
 
     /**
@@ -39,6 +43,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @param amount a number of objects to retrieve.
      * @return a {@code List<T>}
      */
+    @NonNull
     protected List<T> getByIdCondition(String columnName, String id, int from, int amount) {
         String query = "SELECT * FROM " + super.mTableName
                 + " WHERE " + columnName + " = '" + id + "'"

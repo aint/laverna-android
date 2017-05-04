@@ -106,7 +106,7 @@ public class NotebookRepositoryTest {
         notebookRepository.add(notebooks);
 
         List<Notebook> notebookEntities1 = notebookRepository
-                .getByProfile(profile, 1, 3);
+                .getByProfile(profile.getId(), 1, 3);
 
         assertThat(notebookEntities1.size()).isNotEqualTo(notebooks.size());
         assertThat(notebookEntities1.size()).isEqualTo(notebooks.size() - 1);
@@ -132,7 +132,7 @@ public class NotebookRepositoryTest {
     public void repositoryShouldRemoveEntity() {
         notebookRepository.add(notebook1);
 
-        notebookRepository.remove(notebook1);
+        notebookRepository.remove(notebook1.getId());
 
         assertThat(notebookRepository.getById(notebook1.getId()).isPresent()).isFalse();
     }

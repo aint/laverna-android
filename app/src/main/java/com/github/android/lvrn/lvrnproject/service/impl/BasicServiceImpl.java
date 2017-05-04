@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
@@ -14,9 +16,9 @@ import com.google.common.base.Optional;
 
 public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form> implements BasicService<T1, T2> {
 
-    private BasicRepository<T1> basicRepository;
+    private final BasicRepository<T1> basicRepository;
 
-    public BasicServiceImpl(BasicRepository<T1> basicRepository) {
+    public BasicServiceImpl(@NonNull BasicRepository<T1> basicRepository) {
         this.basicRepository = basicRepository;
     }
 
@@ -31,13 +33,13 @@ public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form> imple
     }
 
     @Override
-    public Optional<T1> getById(String id) {
+    public Optional<T1> getById(@NonNull String id) {
         return basicRepository.getById(id);
     }
 
     @Override
-    public void remove(T1 entity) {
-        basicRepository.remove(entity);
+    public void remove(@NonNull String id) {
+        basicRepository.remove(id);
     }
 
     /**
@@ -45,7 +47,7 @@ public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form> imple
      * @param string a text to check.
      * @throws IllegalArgumentException
      */
-    protected void checkName(String string) {
+    protected void checkName(@Nullable String string) {
         if (TextUtils.isEmpty(string)) {
             throw new IllegalArgumentException("No name/title/description");
         }

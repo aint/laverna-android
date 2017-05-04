@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.form;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -14,7 +16,7 @@ public class NoteForm extends ProfileDependedForm {
 
     private boolean isFavorite;
 
-    public NoteForm(String profileId, String notebookId, String title, String content, boolean isFavorite) {
+    public NoteForm(@NonNull String profileId, String notebookId, @NonNull String title, String content, boolean isFavorite) {
         super(profileId);
         this.notebookId = notebookId;
         this.title = title;
@@ -34,7 +36,7 @@ public class NoteForm extends ProfileDependedForm {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 

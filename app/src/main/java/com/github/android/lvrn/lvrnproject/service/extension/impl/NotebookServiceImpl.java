@@ -1,5 +1,8 @@
 package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
@@ -25,13 +28,13 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
     private final NotebookRepository mNotebookRepository;
 
     @Inject
-    public NotebookServiceImpl(NotebookRepository notebookRepository, ProfileService profileService) {
+    public NotebookServiceImpl(@NonNull NotebookRepository notebookRepository, @NonNull ProfileService profileService) {
         super(notebookRepository, profileService);
         mNotebookRepository = notebookRepository;
     }
 
     @Override
-    public void create(NotebookForm notebookForm) {
+    public void create(@NonNull NotebookForm notebookForm) {
 
         validate(notebookForm.getProfileId(), notebookForm.getParentNotebookId(), notebookForm.getName());
 
@@ -48,8 +51,9 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
         );
     }
 
+    @NonNull
     @Override
-    public List<Notebook> getByName(String name, int from, int amount) {
+    public List<Notebook> getByName(@NonNull String name, int from, int amount) {
         return mNotebookRepository.getByName(name, from, amount);
     }
 
@@ -58,7 +62,7 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
      * @throws IllegalArgumentException
      */
     @Override
-    public void update(String id, NotebookForm notebookForm) {
+    public void update(@NonNull String id, @NonNull NotebookForm notebookForm) {
         //TODO: change date of update.
         //TODO: Write what fields to update in database.
 //        validate(entity.getProfileId(), entity.getParentId(), entity.getName());
@@ -82,7 +86,7 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
      * @param notebookId
      * @throws IllegalArgumentException
      */
-    private void checkNotebookExistence(String notebookId) {
+    private void checkNotebookExistence(@Nullable String notebookId) {
         if (notebookId != null && !getById(notebookId).isPresent()) {
             throw new IllegalArgumentException("The notebook is not found!");
         }

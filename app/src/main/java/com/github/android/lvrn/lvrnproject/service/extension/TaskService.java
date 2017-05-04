@@ -1,5 +1,8 @@
 package com.github.android.lvrn.lvrnproject.service.extension;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Size;
+
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
@@ -13,5 +16,6 @@ import java.util.List;
 
 public interface TaskService extends ProfileDependedService<Task, TaskForm> {
 
-    List<Task> getUncompletedByProfile(Profile profile, int from, int amount);
+    @NonNull
+    List<Task> getUncompletedByProfile(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount);
 }

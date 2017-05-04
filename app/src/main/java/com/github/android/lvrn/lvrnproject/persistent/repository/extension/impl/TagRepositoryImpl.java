@@ -2,6 +2,8 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
+import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTagsTable;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
@@ -28,8 +30,9 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
         super(TABLE_NAME);
     }
 
+    @NonNull
     @Override
-    protected ContentValues toContentValues(Tag entity) {
+    protected ContentValues toContentValues(@NonNull Tag entity) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_ID, entity.getProfileId());
@@ -40,8 +43,9 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
         return contentValues;
     }
 
+    @NonNull
     @Override
-    protected Tag toEntity(Cursor cursor) {
+    protected Tag toEntity(@NonNull Cursor cursor) {
         return new Tag(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_ID)),
@@ -51,6 +55,7 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
                 cursor.getInt(cursor.getColumnIndex(COLUMN_COUNT)));
     }
 
+    @NonNull
     @Override
     public List<Tag> getByName(String name, int from, int amount) {
         return super.getByName(COLUMN_NAME, name, from, amount);
@@ -63,14 +68,15 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
      * @param amount a number of objects to retrieve.
      * @return list of tags.
      */
+    @NonNull
     @Override
-    public List<Tag> getByNote(Note note, int from, int amount) {
+    public List<Tag> getByNote(@NonNull String noteId, @Size(min = 1) int from, @Size(min = 2) int amount) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
                 + " ON " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
                 + " = " + TABLE_NAME + "." + COLUMN_ID
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
-                + " = '" + note.getId() + "'"
+                + " = '" + noteId + "'"
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);
