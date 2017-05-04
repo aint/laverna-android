@@ -1,17 +1,16 @@
 package com.github.android.lvrn.lvrnproject.service.form;
 
-import android.support.annotation.NonNull;
+import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class ProfileDependedForm implements Form {
+public abstract class ProfileDependedForm<T extends ProfileDependedEntity> implements Form<T>{
 
+    protected String profileId;
 
-    private String profileId;
-
-    public ProfileDependedForm(@NonNull String profileId) {
+    public ProfileDependedForm(String profileId) {
         this.profileId = profileId;
     }
 
@@ -19,7 +18,7 @@ public abstract class ProfileDependedForm implements Form {
         return profileId;
     }
 
-    public void setProfileId(@NonNull String profileId) {
+    public void setProfileId(String profileId) {
         this.profileId = profileId;
     }
 }

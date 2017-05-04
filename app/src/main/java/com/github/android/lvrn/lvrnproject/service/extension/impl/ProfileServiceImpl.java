@@ -49,8 +49,8 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
      */
     @Override
     public void update(@NonNull String id, @NonNull ProfileForm profileForm) {
-        //TODO: change date of update.
-        //TODO: Write what fields to update in database(not to update creation time)
+        //TODO: Find out block or not this method.
+
 //        checkName(entity.getName());
 //        mProfileRepository.update(entity);
     }

@@ -2,11 +2,13 @@ package com.github.android.lvrn.lvrnproject.service.form;
 
 import android.support.annotation.NonNull;
 
+import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
-
-public class ProfileForm  implements Form {
+//TODO: No reason to use it now while you can't edit profiles in laverna. So may to remove it
+public class ProfileForm  implements Form<Profile> {
 
     private String name;
 
@@ -20,5 +22,12 @@ public class ProfileForm  implements Form {
 
     public void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    @NonNull
+    @Override
+    public Profile toEntity(String id) {
+        //TODO: find out what to do, or remove.
+        return null;
     }
 }

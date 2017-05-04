@@ -2,7 +2,6 @@ package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
@@ -38,21 +37,14 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
      */
     @Override
     public void create(@NonNull TaskForm taskForm) {
-        validate(taskForm.getProfileId(), taskForm.getDescription());
-        mTaskRepository.add(new Task(
-                UUID.randomUUID().toString(),
-                taskForm.getProfileId(),
-                taskForm.getNoteId(),
-                taskForm.getDescription(),
-                taskForm.isCompleted()));
+        validateForCreate(taskForm.getProfileId(), taskForm.getDescription());
+        mTaskRepository.add(taskForm.toEntity(UUID.randomUUID().toString()));
     }
 
     @Override
     public void update(@NonNull String id, @NonNull TaskForm taskForm) {
-        //TODO: change date of update.
-        //TODO: Write what fields to update in database(not to update creation time)
-//        validate(entity.getProfileId(), entity.getDescription());
-//        mTaskRepository.update(entity);
+        validateForUpdate(taskForm.getDescription());
+        mTaskRepository.update(taskForm.toEntity(id));
     }
 
     @NonNull
@@ -66,8 +58,12 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
      * @param description
      * @throws IllegalArgumentException
      */
-    private void validate(String profileId, String description) {
+    private void validateForCreate(String profileId, String description) {
         checkProfileExistence(profileId);
+        checkName(description);
+    }
+
+    private void validateForUpdate(String description) {
         checkName(description);
     }
 }

@@ -2,11 +2,14 @@ package com.github.android.lvrn.lvrnproject.service.form;
 
 import android.support.annotation.NonNull;
 
+import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteForm extends ProfileDependedForm {
+public class NoteForm extends ProfileDependedForm<Note> {
 
     private String notebookId;
 
@@ -16,12 +19,26 @@ public class NoteForm extends ProfileDependedForm {
 
     private boolean isFavorite;
 
-    public NoteForm(@NonNull String profileId, String notebookId, @NonNull String title, String content, boolean isFavorite) {
+    public NoteForm(String profileId, String notebookId, String title, String content, boolean isFavorite) {
         super(profileId);
         this.notebookId = notebookId;
         this.title = title;
         this.content = content;
         this.isFavorite = isFavorite;
+    }
+
+    @NonNull
+    @Override
+    public Note toEntity(@NonNull String id) {
+        return new Note(
+                id,
+                profileId,
+                notebookId,
+                title,
+                System.currentTimeMillis(),
+                System.currentTimeMillis(),
+                content,
+                isFavorite);
     }
 
     public String getNotebookId() {

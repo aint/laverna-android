@@ -35,20 +35,8 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
 
     @Override
     public void create(@NonNull NotebookForm notebookForm) {
-
-        validate(notebookForm.getProfileId(), notebookForm.getParentNotebookId(), notebookForm.getName());
-
-        mNotebookRepository.add(
-                new Notebook(
-                        UUID.randomUUID().toString(),
-                        notebookForm.getProfileId(),
-                        notebookForm.getParentNotebookId(),
-                        notebookForm.getName(),
-                        System.currentTimeMillis(),
-                        System.currentTimeMillis(),
-                        0
-                )
-        );
+        validateForCreate(notebookForm.getProfileId(), notebookForm.getParentNotebookId(), notebookForm.getName());
+        mNotebookRepository.add(notebookForm.toEntity(UUID.randomUUID().toString()));
     }
 
     @NonNull
@@ -63,11 +51,8 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
      */
     @Override
     public void update(@NonNull String id, @NonNull NotebookForm notebookForm) {
-        //TODO: change date of update.
-        //TODO: Write what fields to update in database.
-//        validate(entity.getProfileId(), entity.getParentId(), entity.getName());
-//
-//        mNotebookRepository.update();
+        validateForUpdate(notebookForm.getParentNotebookId(), notebookForm.getName());
+        mNotebookRepository.update(notebookForm.toEntity(id));
     }
 
     /**
@@ -76,8 +61,13 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
      * @param name
      * @throws IllegalArgumentException
      */
-    private void validate(String profileId, String parentNotebookId, String name) {
+    private void validateForCreate(String profileId, String parentNotebookId, String name) {
         super.checkProfileExistence(profileId);
+        checkNotebookExistence(parentNotebookId);
+        super.checkName(name);
+    }
+
+    private void validateForUpdate(String parentNotebookId, String name) {
         checkNotebookExistence(parentNotebookId);
         super.checkName(name);
     }

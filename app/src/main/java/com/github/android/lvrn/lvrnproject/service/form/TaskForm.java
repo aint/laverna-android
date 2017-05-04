@@ -2,11 +2,15 @@ package com.github.android.lvrn.lvrnproject.service.form;
 
 import android.support.annotation.NonNull;
 
+import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
+
+import java.util.UUID;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class TaskForm extends ProfileDependedForm {
+public class TaskForm extends ProfileDependedForm<Task> {
 
     private String noteId;
 
@@ -14,11 +18,17 @@ public class TaskForm extends ProfileDependedForm {
 
     private boolean isCompleted;
 
-    public TaskForm(@NonNull String profileId, @NonNull String noteId, String description, boolean isCompleted) {
+    public TaskForm(String profileId, String noteId, String description, boolean isCompleted) {
         super(profileId);
         this.noteId = noteId;
         this.description = description;
         this.isCompleted = isCompleted;
+    }
+
+    @NonNull
+    @Override
+    public Task toEntity(@NonNull String id) {
+        return new Task(id, profileId, noteId, description, isCompleted);
     }
 
     public String getNoteId() {

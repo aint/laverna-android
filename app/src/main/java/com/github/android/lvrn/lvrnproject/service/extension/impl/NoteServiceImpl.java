@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NoteRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
 import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
@@ -61,20 +59,11 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      */
     @Override
     public void create(@NonNull NoteForm noteForm) {
-
-        validate(noteForm.getProfileId(), noteForm.getNotebookId(), noteForm.getTitle());
+        validateForCreate(noteForm.getProfileId(), noteForm.getNotebookId(), noteForm.getTitle());
 
         String noteId = UUID.randomUUID().toString();
 
-        mNoteRepository.add(new Note(
-                noteId,
-                noteForm.getProfileId(),
-                noteForm.getNotebookId(),
-                noteForm.getTitle(),
-                System.currentTimeMillis(),
-                System.currentTimeMillis(),
-                noteForm.getContent(),
-                noteForm.isFavorite()));
+        mNoteRepository.add(noteForm.toEntity(noteId));
 
         parseTasksAndTags(noteForm.getProfileId(), noteId, noteForm.getContent());
     }
@@ -103,10 +92,8 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      */
     @Override
     public void update(@NonNull String id, @NonNull NoteForm noteForm) {
-        //TODO: change date of update.
-        //TODO: Write what fields to update in database(not to update creation time)
-//        validate(entity.getProfileId(), entity.getProfileId(), entity.getTitle());
-//        mNoteRepository.update(entity);
+        validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle());
+        mNoteRepository.update(noteForm.toEntity(id));
     }
 
     /**
@@ -130,8 +117,13 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @param title
      * @throws IllegalArgumentException
      */
-    private void validate(String profileId, String notebookId, String title) {
+    private void validateForCreate(String profileId, String notebookId, String title) {
         super.checkProfileExistence(profileId);
+        checkNotebookExistence(notebookId);
+        super.checkName(title);
+    }
+
+    private void validateForUpdate(String notebookId, String title) {
         checkNotebookExistence(notebookId);
         super.checkName(title);
     }
