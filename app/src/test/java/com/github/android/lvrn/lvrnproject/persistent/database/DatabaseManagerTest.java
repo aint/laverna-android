@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.database;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.Nullable;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 
@@ -23,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Config(constants = BuildConfig.class)
 public class DatabaseManagerTest {
 
+    @Nullable
     private DatabaseManager mDataBaseManager;
 
     @Before

@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.Nullable;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -10,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class DatabaseManager {
     private int mOpenCounter = 0;
 
+    @Nullable
     private static DatabaseManager sInstance;
 
     private LavernaDbHelper sDatabaseHelper;
@@ -30,6 +32,7 @@ public class DatabaseManager {
         sInstance = null;
     }
 
+    @Nullable
     public static synchronized DatabaseManager getInstance() {
         if (sInstance == null) {
             throw new IllegalStateException("DatabaseManager is not initialized, "

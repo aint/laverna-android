@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -22,12 +23,12 @@ public class LavernaDbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onConfigure(SQLiteDatabase db) {
+    public void onConfigure(@NonNull SQLiteDatabase db) {
         db.setForeignKeyConstraintsEnabled(true);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(@NonNull SQLiteDatabase db) {
         db.execSQL(LavernaContract.ProfilesTable.SQL_CREATE_PROFILES_TABLE);
         db.execSQL(LavernaContract.NotebooksTable.SQL_CREATE_NOTEBOOKS_TABLE);
         db.execSQL(LavernaContract.NotesTable.SQL_CREATE_NOTES_TABLE);
@@ -37,7 +38,7 @@ public class LavernaDbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(LavernaContract.ProfilesTable.SQL_DELETE_PROFILES_TABLE);
         db.execSQL(LavernaContract.NotebooksTable.SQL_DELETE_NOTEBOOKS_TABLE);
         db.execSQL(LavernaContract.NotesTable.SQL_DELETE_NOTES_TABLE);

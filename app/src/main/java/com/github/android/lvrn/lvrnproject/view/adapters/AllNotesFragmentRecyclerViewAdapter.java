@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.adapters;
 
 
-
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;

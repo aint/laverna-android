@@ -8,6 +8,7 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
+
 public class LavernaApplication extends Application {
 
     @Override
