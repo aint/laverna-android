@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -46,7 +48,6 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
         holder.tvTitle.setText(mDataSet.get(position));
         holder.tvDate.setText(mDataSet.get(position));
         holder.tvPromptText.setText(mDataSet.get(position));
-        holder.tvTag1.setText("#tags1");
     }
 
     @Override
@@ -55,22 +56,22 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
     }
 
     static class AllNotesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.tv_title_note)
         TextView tvTitle;
+        @BindView(R.id.tv_date_created_note)
         TextView tvDate;
+        @BindView(R.id.tv_prompt_text_note)
         TextView tvPromptText;
-        TextView tvTag1;
+        @BindView(R.id.im_btn_favorite)
         ImageButton imBtnFavorite;
 
         public AllNotesViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title_note);
-            tvDate = (TextView) itemView.findViewById(R.id.tv_date_created_note);
-            tvPromptText = (TextView) itemView.findViewById(R.id.tv_prompt_text_note);
-            tvTag1 = (TextView) itemView.findViewById(R.id.tv_tags1_note);
-            imBtnFavorite = (ImageButton) itemView.findViewById(R.id.im_btn_favorite);
+            ButterKnife.bind(this, itemView);
         }
 
+        //TODO reBuilding with ButterKnife after implements DAO
         @Override
         public void onClick(View v) {
             AppCompatActivity activity = (AppCompatActivity)itemView.getContext();
@@ -80,19 +81,18 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
                     .replace(R.id.constraint_container,singleNoteFragment)
                     .addToBackStack(null)
                     .commit();
-
         }
     }
 
     //TODO remove after implements DAO
     private void setDataInTempCollections() {
-        mDataSet.add("1");
-        mDataSet.add("2");
-        mDataSet.add("3");
-        mDataSet.add("4");
-        mDataSet.add("5");
-        mDataSet.add("6");
-        mDataSet.add("7");
+        mDataSet.add("Test 1");
+        mDataSet.add("Test 2");
+        mDataSet.add("Test 3");
+        mDataSet.add("Test 4");
+        mDataSet.add("Test 5");
+        mDataSet.add("Test 6");
+        mDataSet.add("Test 7");
     }
 }
 

@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Lvrn project</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">All Notes</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="fragment_single_note"></string>
     <string name="title_all_notes">Title</string>
     <string name="date_of_created_all_note">Date of Created</string>
     <string name="tv_prompt_ext_note">Prompt Text</string>

@@ -3,8 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="main_activity_tool_bar_color">#36C167</color>
     <color name="main_green_themes_app">#36C167</color>
     <color name="color_edit_text_title_note">#FAFAFA</color>
     <color name="single_note_fragment_view_separator_line">#616161</color>
     <color name="detail_note_fragment_view_separator_line">#aeaeae</color>
+    <color name="single_note_fragment_tool_bar_color">#FAFAFA</color>
+    <color name="status_bar_main_color">#212121</color>
 </resources>
