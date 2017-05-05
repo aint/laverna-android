@@ -6,8 +6,4 @@ package com.github.android.lvrn.lvrnproject.view.activities.mainactivity;
 
 public class MainActivityPresenter {
 
-
-
-
-
 }
