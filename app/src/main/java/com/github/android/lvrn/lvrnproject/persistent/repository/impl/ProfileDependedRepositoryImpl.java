@@ -1,14 +1,15 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 
 import java.util.List;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_PROFILE_ID;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_PARENT_ID;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -50,5 +51,12 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);
+    }
+
+    protected void rawUpdateQuery(String query) {
+        Cursor cursor = mDatabase.rawQuery(query, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            cursor.close();
+        }
     }
 }

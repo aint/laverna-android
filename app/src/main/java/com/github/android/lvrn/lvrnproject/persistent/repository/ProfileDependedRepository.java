@@ -15,4 +15,6 @@ public interface ProfileDependedRepository<T extends ProfileDependedEntity> exte
 
     @NonNull
     List<T> getByProfile(String profileId, int from, int amount);
+
+    void update(@NonNull T entity);
 }

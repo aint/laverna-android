@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.tag;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_PARENT_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_ID;
@@ -157,5 +158,18 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
             contentValuesList.add(contentValues);
         });
         return contentValuesList;
+    }
+
+    @Override
+    public void update(@NonNull Note entity) {
+        String query = "UPDATE " + TABLE_NAME
+                + " SET "
+                + COLUMN_NOTEBOOK_ID + "='" + entity.getNotebookId() + "', "
+                + COLUMN_TITLE + "='" + entity.getTitle() + "', "
+                + COLUMN_CONTENT + "='" + entity.getContent() + "', "
+                + COLUMN_IS_FAVORITE + "='" + entity.isFavorite() + "', "
+                + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
+                + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
+        super.rawUpdateQuery(query);
     }
 }

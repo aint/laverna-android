@@ -68,4 +68,14 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);
     }
+
+    @Override
+    public void update(@NonNull Task entity) {
+        String query = "UPDATE " + TABLE_NAME
+                + " SET "
+                + COLUMN_DESCRIPTION + "='" + entity.getDescription() + "', "
+                + COLUMN_IS_COMPLETED + "='" + entity.isCompleted() + "' "
+                + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
+        super.rawUpdateQuery(query);
+    }
 }

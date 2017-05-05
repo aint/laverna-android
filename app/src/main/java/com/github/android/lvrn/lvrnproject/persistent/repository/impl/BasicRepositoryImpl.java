@@ -64,20 +64,20 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         }
     }
 
-    /**
-     * A method which receives an entity to update in the database.
-     * @param entity an {@code ProfileDependedEntity} extended object to update.
-     */
-    @Override
-    public void update(@NonNull T entity) {
-        mDatabase.beginTransaction();
-        try {
-            mDatabase.update(mTableName, toContentValues(entity), COLUMN_ID + "='" + entity.getId() + "'", null);
-            mDatabase.setTransactionSuccessful();
-        } finally {
-            mDatabase.endTransaction();
-        }
-    }
+//    /**
+//     * A method which receives an entity to update in the database.
+//     * @param entity an {@code ProfileDependedEntity} extended object to update.
+//     */
+//    @Override
+//    public void update(@NonNull T entity) {
+//        mDatabase.beginTransaction();
+//        try {
+//            mDatabase.update(mTableName, toContentValues(entity), COLUMN_ID + "='" + entity.getId() + "'", null);
+//            mDatabase.setTransactionSuccessful();
+//        } finally {
+//            mDatabase.endTransaction();
+//        }
+//    }
 
     /**
      * A method which removes an object from the database by received id.

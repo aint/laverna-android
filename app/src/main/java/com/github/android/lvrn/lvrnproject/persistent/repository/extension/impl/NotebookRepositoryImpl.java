@@ -7,9 +7,11 @@ import android.support.annotation.NonNull;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
+import com.google.common.base.Optional;
 
 import java.util.List;
 
+import static android.R.attr.id;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_COUNT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_ID;
@@ -60,5 +62,16 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
     @Override
     public List<Notebook> getByName(@NonNull String name, int from, int amount) {
         return super.getByName(COLUMN_NAME, name, from, amount);
+    }
+
+    @Override
+    public void update(@NonNull Notebook entity) {
+        String query = "UPDATE " + TABLE_NAME
+                + " SET "
+                + COLUMN_PARENT_ID + "=" + entity.getParentId() + ", "
+                + COLUMN_NAME + "='" + entity.getName() + "', "
+                + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
+                + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
+        super.rawUpdateQuery(query);
     }
 }

@@ -13,6 +13,9 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDep
 
 import java.util.List;
 
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_IS_FAVORITE;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_NOTEBOOK_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TagsTable.COLUMN_COUNT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TagsTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TagsTable.COLUMN_ID;
@@ -80,5 +83,15 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);
+    }
+
+    @Override
+    public void update(@NonNull Tag entity) {
+        String query = "UPDATE " + TABLE_NAME
+                + " SET "
+                + COLUMN_NAME + "='" + entity.getName() + "', "
+                + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
+                + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
+        super.rawUpdateQuery(query);
     }
 }
