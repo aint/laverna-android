@@ -21,5 +21,5 @@ public interface TagService extends ProfileDependedService<Tag, TagForm> {
     List<Tag> getByName(@NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
 
     @NonNull
-    List<Tag> getByNote(@NonNull String noteId, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Tag> getByNote(@NonNull String noteId);
 }

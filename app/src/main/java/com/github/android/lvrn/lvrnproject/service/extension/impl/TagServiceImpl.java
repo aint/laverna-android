@@ -57,8 +57,8 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
 
     @NonNull
     @Override
-    public List<Tag> getByNote(@NonNull String noteId, int from, int amount) {
-        return mTagRepository.getByNote(noteId, from, amount);
+    public List<Tag> getByNote(@NonNull String noteId) {
+        return mTagRepository.getByNote(noteId);
     }
 
     /**

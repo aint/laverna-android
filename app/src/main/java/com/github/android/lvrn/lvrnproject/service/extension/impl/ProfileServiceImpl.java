@@ -43,15 +43,13 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
         return mProfileRepository.getAllProfiles();
     }
 
-    /**
-     * @param entity to update.
-     * @throws IllegalArgumentException
-     */
-    @Override
-    public void update(@NonNull String id, @NonNull ProfileForm profileForm) {
-        //TODO: Find out block or not this method.
-
+//    /**
+//     * @param entity to update.
+//     * @throws IllegalArgumentException
+//     */
+//    @Override
+//    public void update(@NonNull String id, @NonNull ProfileForm profileForm) {
 //        checkName(entity.getName());
 //        mProfileRepository.update(entity);
-    }
+//    }
 }

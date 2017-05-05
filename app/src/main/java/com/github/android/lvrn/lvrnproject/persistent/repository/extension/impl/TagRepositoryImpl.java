@@ -64,24 +64,36 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
         return super.getByName(COLUMN_NAME, name, from, amount);
     }
 
-    /**
-     * A method which retrieves an amount of tags from received position by a note.
-     * @param note
-     * @param from a position to start from
-     * @param amount a number of objects to retrieve.
-     * @return list of tags.
-     */
+//    /**
+//     * A method which retrieves an amount of tags from received position by a note.
+//     * @param note
+//     * @param from a position to start from
+//     * @param amount a number of objects to retrieve.
+//     * @return list of tags.
+//     */
+//    @NonNull
+//    @Override
+//    public List<Tag> getByNote(@NonNull String noteId, @Size(min = 1) int from, @Size(min = 2) int amount) {
+//        String query = "SELECT * FROM " + TABLE_NAME
+//                + " INNER JOIN " + NotesTagsTable.TABLE_NAME
+//                + " ON " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
+//                + " = " + TABLE_NAME + "." + COLUMN_ID
+//                + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
+//                + " = '" + noteId + "'"
+//                + " LIMIT " + amount
+//                + " OFFSET " + (from - 1);
+//        return getByRawQuery(query);
+//    }
+
     @NonNull
     @Override
-    public List<Tag> getByNote(@NonNull String noteId, @Size(min = 1) int from, @Size(min = 2) int amount) {
+    public List<Tag> getByNote(@NonNull String noteId) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
                 + " ON " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
                 + " = " + TABLE_NAME + "." + COLUMN_ID
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
-                + " = '" + noteId + "'"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
+                + " = '" + noteId + "'";
         return getByRawQuery(query);
     }
 

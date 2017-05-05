@@ -17,6 +17,9 @@ public interface TagRepository extends ProfileDependedRepository<Tag> {
     @NonNull
     List<Tag> getByName(String name, int from, int amount);
 
+//    @NonNull
+//    List<Tag> getByNote(String noteId, int from, int amount);
+
     @NonNull
-    List<Tag> getByNote(String noteId, int from, int amount);
+    List<Tag> getByNote(String noteId);
 }

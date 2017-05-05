@@ -34,12 +34,12 @@ public interface BasicService<T1 extends Entity, T2 extends Form> {
      */
     void remove(@NonNull String id);
 
-    /**
-     * A method which updates an entity.
-     * @param entity to update.
-     * @throws IllegalArgumentException
-     */
-    void update(@NonNull String id, @NonNull T2 form);
+//    /**
+//     * A method which updates an entity.
+//     * @param entity to update.
+//     * @throws IllegalArgumentException
+//     */
+//    void update(@NonNull String id, @NonNull T2 form);
 
     /**
      * A method which returns an entity by an id.

@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
 import android.support.annotation.NonNull;
 
+import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
@@ -51,6 +52,12 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
     @Override
     public List<Task> getUncompletedByProfile(@NonNull String profileId, int from, int amount) {
         return mTaskRepository.getUncompletedByProfile(profileId, from, amount);
+    }
+
+    @NonNull
+    @Override
+    public List<Task> getByNote(@NonNull String noteId) {
+        return mTaskRepository.getByNote(noteId);
     }
 
     /**

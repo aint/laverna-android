@@ -139,7 +139,7 @@ public class TagsRepositoryTest {
         notesRepository.addTagsToNote(note1.getId(), Arrays.asList(tag1, tag2));
         notesRepository.closeDatabaseConnection();
 
-        List<Tag> tags1 = tagRepository.getByNote(note1.getId(), 1, 4);
+        List<Tag> tags1 = tagRepository.getByNote(note1.getId());
 
         assertThat(tags1.size()).isNotEqualTo(tags.size());
         assertThat(tags1.size()).isEqualTo(tags.size() - 1);

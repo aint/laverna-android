@@ -16,16 +16,21 @@ import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
+
+import static android.R.attr.tag;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
 public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> implements NoteService {
+    //TODO: provide method for linking tags & task with note
 
     private final NoteRepository mNoteRepository;
 
@@ -65,7 +70,9 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
 
         mNoteRepository.add(noteForm.toEntity(noteId));
 
-        parseTasksAndTags(noteForm.getProfileId(), noteId, noteForm.getContent());
+        parseTasks(noteForm.getProfileId(), noteId, noteForm.getContent());
+
+        parseTags(noteForm.getProfileId(), noteId, noteForm.getContent());
     }
 
     @NonNull
@@ -92,8 +99,20 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      */
     @Override
     public void update(@NonNull String id, @NonNull NoteForm noteForm) {
-        validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle());
-        mNoteRepository.update(noteForm.toEntity(id));
+        //TODO: when update, check for tags and tasks
+//        validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle());
+//        mNoteRepository.update(noteForm.toEntity(id));
+    }
+
+    /**
+     *
+     * @param profileId
+     * @param noteId
+     * @param content
+     */
+    private void parseTags(String profileId, String noteId, String content) {
+        NoteTextParser.parseTags(content)
+                .forEach(tagName -> mTagService.create(new TagForm(profileId, tagName)));
     }
 
     /**
@@ -102,13 +121,45 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @param content
      * @throws IllegalArgumentException
      */
-    private void parseTasksAndTags(String profileId, String noteId, String content) {
-        NoteTextParser.parseTasks(content)
-                .forEach((description, status) ->
-                        mTaskService.create(new TaskForm(profileId, noteId, description, status)));
+    private void parseTasks(String profileId, String noteId, String content) {
+        Map<String, Boolean> tasksFromNote = NoteTextParser.parseTasks(content);
+        updateOrRemoveExistedTasks(noteId, tasksFromNote);
+        addNewTasks(profileId, noteId, tasksFromNote);
+    }
 
-        NoteTextParser.parseTags(content)
-                .forEach(tagName -> mTagService.create(new TagForm(profileId, tagName)));
+    /**
+     *
+     * @param noteId
+     * @param tasksFromNote
+     */
+    private void updateOrRemoveExistedTasks(String noteId, Map<String, Boolean> tasksFromNote) {
+        mTaskService.getByNote(noteId).forEach(task -> {
+            if (tasksFromNote.containsKey(task.getDescription())) {
+                mTaskService.update(task.getId(), new TaskForm(
+                        task.getProfileId(),
+                        task.getNoteId(),
+                        task.getDescription(),
+                        tasksFromNote.get(task.getDescription())));
+
+                tasksFromNote.remove(task.getDescription());
+            } else {
+                mTaskService.remove(task.getId());
+            }
+        });
+    }
+
+    /**
+     *
+     * @param profileId
+     * @param noteId
+     * @param tasksFromNote
+     */
+    private void addNewTasks(String profileId, String noteId, Map<String, Boolean> tasksFromNote) {
+        tasksFromNote.forEach((description, status) -> {
+            mTaskService.create(new TaskForm(profileId, noteId, description, status));
+//            mNoteRepository.addTagsToNote();
+
+        });
     }
 
     /**

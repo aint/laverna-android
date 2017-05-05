@@ -16,4 +16,8 @@ public interface TaskRepository extends ProfileDependedRepository<Task> {
 
     @NonNull
     List<Task> getUncompletedByProfile(String profileId, int from, int amount);
+
+    @NonNull
+    List<Task> getByNote(String noteId);
+
 }

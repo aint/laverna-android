@@ -69,6 +69,14 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
         return getByRawQuery(query);
     }
 
+    @NonNull
+    @Override
+    public List<Task> getByNote(String noteId) {
+        String query = "SELECT * FROM " + TABLE_NAME
+                + " WHERE " + COLUMN_NOTE_ID + " = '" + noteId + "'";
+        return getByRawQuery(query);
+    }
+
     @Override
     public void update(@NonNull Task entity) {
         String query = "UPDATE " + TABLE_NAME
