@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
@@ -51,13 +50,6 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
                 cursor.getInt(cursor.getColumnIndex(COLUMN_IS_COMPLETED)) > 0);
     }
 
-    /**
-     * A method which retrieves an amount of uncompleted tags from received position by a profile.
-     * @param profile
-     * @param from a position to start from
-     * @param amount a number of objects to retrieve.
-     * @return list of tasks.
-     */
     @NonNull
     @Override
     public List<Task> getUncompletedByProfile(@NonNull String profileId, int from, int amount) {
@@ -67,5 +59,23 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);
+    }
+
+    @NonNull
+    @Override
+    public List<Task> getByNote(String noteId) {
+        String query = "SELECT * FROM " + TABLE_NAME
+                + " WHERE " + COLUMN_NOTE_ID + " = '" + noteId + "'";
+        return getByRawQuery(query);
+    }
+
+    @Override
+    public void update(@NonNull Task entity) {
+        String query = "UPDATE " + TABLE_NAME
+                + " SET "
+                + COLUMN_DESCRIPTION + "='" + entity.getDescription() + "', "
+                + COLUMN_IS_COMPLETED + "='" + entity.isCompleted() + "' "
+                + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
+        super.rawUpdateQuery(query);
     }
 }

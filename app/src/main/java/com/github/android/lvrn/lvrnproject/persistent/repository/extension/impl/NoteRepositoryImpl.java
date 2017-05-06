@@ -5,15 +5,11 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NoteRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.tag;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_ID;
@@ -64,35 +60,25 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
                 cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE)) > 0);
     }
 
-    /**
-     * A method which creates relationships between a note and tags.
-     * @param note
-     * @param tags
-     */
     @Override
-    public void addTagsToNote(@NonNull String noteId, @NonNull List<Tag> tags) {
+    public void addTagToNote(@NonNull String noteId, @NonNull String tagId) {
         mDatabase.beginTransaction();
         try {
-            List<ContentValues> values = toNoteTagsContentValues(noteId, tags);
-            values.forEach(value -> mDatabase.insert(NotesTagsTable.TABLE_NAME, null, value));
+            ContentValues contentValues = toNoteTagsContentValues(noteId, tagId);
+            mDatabase.insert(NotesTagsTable.TABLE_NAME, null, contentValues);
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
         }
     }
 
-    /**
-     * A method which removes relationships between a note and tags.
-     * @param note
-     * @param tags
-     */
     @Override
-    public void removeTagsFromNote(@NonNull String noteId, @NonNull List<Tag> tags) {
+    public void removeTagFromNote(@NonNull String noteId, @NonNull String tagId) {
         mDatabase.beginTransaction();
         try {
-            tags.forEach(tag -> mDatabase.delete(NotesTagsTable.TABLE_NAME,
-                    NotesTagsTable.COLUMN_TAG_ID + " = '" + tag.getId() + "' AND "
-                            + NotesTagsTable.COLUMN_NOTE_ID + " = '" + noteId + "'", null));
+            mDatabase.delete(NotesTagsTable.TABLE_NAME,
+                    NotesTagsTable.COLUMN_TAG_ID + " = '" + tagId + "' AND "
+                            + NotesTagsTable.COLUMN_NOTE_ID + " = '" + noteId + "'", null);
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
@@ -105,26 +91,13 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         return super.getByName(COLUMN_TITLE, title, from, amount);
     }
 
-    /**
-     * A method which retrieves an amount of notes from start position by a profile id.
-     * @param notebook
-     * @param from a position to start from
-     * @param amount a number of objects to retrieve.
-     * @return a {@code List<Note>} of note entities.
-     */
     @NonNull
     @Override
     public List<Note> getByNotebook(@NonNull String notebookId, int from, int amount) {
         return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, from, amount);
     }
 
-    /**
-     * A method which retrieves an amount of notes from start position by a profile id.
-     * @param tag
-     * @param from a position to start from
-     * @param amount a number of objects to retrieve.
-     * @return
-     */
+
     @NonNull
     @Override
     public List<Note> getByTag(@NonNull String tagId, int from, int amount) {
@@ -140,22 +113,28 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         return getByRawQuery(query);
     }
 
+    @Override
+    public void update(@NonNull Note entity) {
+        String query = "UPDATE " + TABLE_NAME
+                + " SET "
+                + COLUMN_NOTEBOOK_ID + "='" + entity.getNotebookId() + "', "
+                + COLUMN_TITLE + "='" + entity.getTitle() + "', "
+                + COLUMN_CONTENT + "='" + entity.getContent() + "', "
+                + COLUMN_IS_FAVORITE + "='" + entity.isFavorite() + "', "
+                + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
+                + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
+        super.rawUpdateQuery(query);
+    }
+
     /**
      * A method which converts received tags and a note into a {@code ContentValues} for
      * a NotesTags table.
-     * @param note
-     * @param tags
-     * @return a list of ContentValues.
      */
     @NonNull
-    private List<ContentValues> toNoteTagsContentValues(@NonNull String noteId, @NonNull List<Tag> tags) {
-        List<ContentValues> contentValuesList = new ArrayList<>();
-        tags.forEach(tag -> {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(NotesTagsTable.COLUMN_NOTE_ID, noteId);
-            contentValues.put(NotesTagsTable.COLUMN_TAG_ID, tag.getId());
-            contentValuesList.add(contentValues);
-        });
-        return contentValuesList;
+    private ContentValues toNoteTagsContentValues(@NonNull String noteId, @NonNull String tagId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NotesTagsTable.COLUMN_NOTE_ID, noteId);
+        contentValues.put(NotesTagsTable.COLUMN_TAG_ID, tagId);
+        return contentValues;
     }
 }

@@ -1,9 +1,9 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 
 import java.util.List;
@@ -21,13 +21,6 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
         super(mTableName);
     }
 
-    /**
-     * A method which retrieves an amount of objects from start position by a profile id.
-     * @param profile
-     * @param from a position to start from
-     * @param amount a number of objects to retrieve.
-     * @return a {@code List<T>} of objects.
-     */
     @NonNull
     @Override
     public List<T> getByProfile(@NonNull String profileId, int from, int amount) {
@@ -41,7 +34,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @param id an id for a required column
      * @param from a position to start from
      * @param amount a number of objects to retrieve.
-     * @return a {@code List<T>}
+     * @return a l
      */
     @NonNull
     protected List<T> getByIdCondition(String columnName, String id, int from, int amount) {
@@ -50,5 +43,16 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);
+    }
+
+    /**
+     * A method which executes a raw update query.
+     * @param query a string oject with query.
+     */
+    protected void rawUpdateQuery(@NonNull String query) {
+        Cursor cursor = mDatabase.rawQuery(query, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            cursor.close();
+        }
     }
 }

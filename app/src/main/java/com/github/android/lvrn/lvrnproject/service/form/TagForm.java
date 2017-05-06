@@ -19,7 +19,7 @@ public class TagForm extends ProfileDependedForm<Tag> {
 
     @NonNull
     @Override
-    public Tag toEntity(String id) {
+    public Tag toEntity(@NonNull String id) {
         return new Tag(id, profileId, name, System.currentTimeMillis(), System.currentTimeMillis(), 0);
     }
 

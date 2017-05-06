@@ -28,13 +28,6 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
         mTaskRepository = taskRepository;
     }
 
-    /**
-     * @param profileId
-     * @param noteId
-     * @param description
-     * @param isCompleted
-     * @throws IllegalArgumentException
-     */
     @Override
     public void create(@NonNull TaskForm taskForm) {
         validateForCreate(taskForm.getProfileId(), taskForm.getDescription());
@@ -53,10 +46,16 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
         return mTaskRepository.getUncompletedByProfile(profileId, from, amount);
     }
 
+    @NonNull
+    @Override
+    public List<Task> getByNote(@NonNull String noteId) {
+        return mTaskRepository.getByNote(noteId);
+    }
+
     /**
-     * @param profileId
-     * @param description
-     * @throws IllegalArgumentException
+     * A method which validates a form in the create method.
+     * @param profileId and id of profile to validate.
+     * @param description a text description of the entity to validate.
      */
     private void validateForCreate(String profileId, String description) {
         checkProfileExistence(profileId);

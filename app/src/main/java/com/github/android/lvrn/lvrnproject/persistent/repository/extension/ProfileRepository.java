@@ -13,6 +13,10 @@ import java.util.List;
 
 public interface ProfileRepository extends BasicRepository<Profile> {
 
+    /**
+     * A method which retrieves all profiles from a database.
+     * @return a list of profiles.
+     */
     @NonNull
-    List<Profile> getAllProfiles();
+    List<Profile> getAll();
 }

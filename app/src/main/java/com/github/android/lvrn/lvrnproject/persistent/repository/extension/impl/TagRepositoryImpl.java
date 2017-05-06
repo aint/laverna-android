@@ -3,10 +3,8 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTagsTable;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TagRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
@@ -57,28 +55,29 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
 
     @NonNull
     @Override
-    public List<Tag> getByName(String name, int from, int amount) {
+    public List<Tag> getByName(@NonNull String name, int from, int amount) {
         return super.getByName(COLUMN_NAME, name, from, amount);
     }
 
-    /**
-     * A method which retrieves an amount of tags from received position by a note.
-     * @param note
-     * @param from a position to start from
-     * @param amount a number of objects to retrieve.
-     * @return list of tags.
-     */
     @NonNull
     @Override
-    public List<Tag> getByNote(@NonNull String noteId, @Size(min = 1) int from, @Size(min = 2) int amount) {
+    public List<Tag> getByNote(@NonNull String noteId) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
                 + " ON " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
                 + " = " + TABLE_NAME + "." + COLUMN_ID
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
-                + " = '" + noteId + "'"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
+                + " = '" + noteId + "'";
         return getByRawQuery(query);
+    }
+
+    @Override
+    public void update(@NonNull Tag entity) {
+        String query = "UPDATE " + TABLE_NAME
+                + " SET "
+                + COLUMN_NAME + "='" + entity.getName() + "', "
+                + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
+                + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
+        super.rawUpdateQuery(query);
     }
 }

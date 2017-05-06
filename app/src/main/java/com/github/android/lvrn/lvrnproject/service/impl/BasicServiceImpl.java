@@ -32,6 +32,7 @@ public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form> imple
         basicRepository.closeDatabaseConnection();
     }
 
+    @NonNull
     @Override
     public Optional<T1> getById(@NonNull String id) {
         return basicRepository.getById(id);
@@ -45,7 +46,7 @@ public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form> imple
     /**
      * A method which checks received string on null or equality to empty string.
      * @param string a text to check.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException in case if name is empty.
      */
     protected void checkName(@Nullable String string) {
         if (TextUtils.isEmpty(string)) {

@@ -14,6 +14,10 @@ import java.util.List;
 
 public interface ProfileService extends BasicService<Profile, ProfileForm> {
 
+    /**
+     * A method which retrieves all profiles from a database.
+     * @return a list of profiles.
+     */
     @NonNull
     List<Profile> getAll();
 }

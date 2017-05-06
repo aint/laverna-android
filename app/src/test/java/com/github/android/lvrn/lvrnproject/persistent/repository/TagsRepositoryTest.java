@@ -20,7 +20,6 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -136,10 +135,11 @@ public class TagsRepositoryTest {
         notesRepository.openDatabaseConnection();
         Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", true);
         notesRepository.add(note1);
-        notesRepository.addTagsToNote(note1.getId(), Arrays.asList(tag1, tag2));
+        notesRepository.addTagToNote(note1.getId(), tag1.getId());
+        notesRepository.addTagToNote(note1.getId(), tag2.getId());
         notesRepository.closeDatabaseConnection();
 
-        List<Tag> tags1 = tagRepository.getByNote(note1.getId(), 1, 4);
+        List<Tag> tags1 = tagRepository.getByNote(note1.getId());
 
         assertThat(tags1.size()).isNotEqualTo(tags.size());
         assertThat(tags1.size()).isEqualTo(tags.size() - 1);

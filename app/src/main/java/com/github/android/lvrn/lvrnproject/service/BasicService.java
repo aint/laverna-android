@@ -13,8 +13,8 @@ import com.google.common.base.Optional;
 public interface BasicService<T1 extends Entity, T2 extends Form> {
 
     /**
-     * A method which create am entity by received form
-     * @param form
+     * A method which creates an entity by a received form.
+     * @param form a form with a data.
      */
     void create(@NonNull T2 form);
 
@@ -29,22 +29,16 @@ public interface BasicService<T1 extends Entity, T2 extends Form> {
     void closeConnection();
 
     /**
-     * A method which removes an entity.
-     * @param id
+     * A method which removes an entity by an id.
+     * @param id an id of an entity.
      */
     void remove(@NonNull String id);
-
-    /**
-     * A method which updates an entity.
-     * @param entity to update.
-     * @throws IllegalArgumentException
-     */
-    void update(@NonNull String id, @NonNull T2 form);
 
     /**
      * A method which returns an entity by an id.
      * @param id an id of a required entity
      * @return a required entity.
      */
+    @NonNull
     Optional<T1> getById(@NonNull String id);
 }
