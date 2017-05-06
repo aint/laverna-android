@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TagRepository;
@@ -8,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.extension.TagService;
 import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
+import com.google.common.base.Optional;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,17 +31,21 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
     }
 
     @Override
-    public void create(@NonNull TagForm tagForm) {
-        validateForCreate(tagForm.getProfileId(),tagForm.getName());
-        mTagRepository.add(tagForm.toEntity(UUID.randomUUID().toString()));
+    public Optional<String> create(@NonNull TagForm tagForm) {
+        String tagId = UUID.randomUUID().toString();
+        if(validateForCreate(tagForm.getProfileId(),tagForm.getName()) && mTagRepository.add(tagForm.toEntity(tagId))) {
+            return Optional.of(tagId);
+        }
+        return Optional.absent();
     }
 
     @Override
     @Deprecated
-    public void update(@NonNull String id, @NonNull TagForm tagForm) {
+    public boolean update(@NonNull String id, @NonNull TagForm tagForm) {
         //TODO: will appear in future milestone if Laverna implements this method properly.
 //        validateForUpdate(tagForm.getName());
 //        mTagRepository.update(tagForm.toEntity(id));
+        return false;
     }
 
     @NonNull
@@ -58,10 +64,10 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
      * A method which validates a form in the create method.
      * @param profileId and id of profile to validate.
      * @param name an id of the entity to validate.
+     * @return a boolean result of validation.
      */
-    private void validateForCreate(String profileId, String name) {
-        checkProfileExistence(profileId);
-        checkName(name);
+    private boolean validateForCreate(String profileId, String name) {
+        return super.checkProfileExistence(profileId) && !TextUtils.isEmpty(name);
     }
 
 //    private void validateForUpdate(String name) {

@@ -70,12 +70,12 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
     }
 
     @Override
-    public void update(@NonNull Task entity) {
+    public boolean update(@NonNull Task entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
                 + COLUMN_DESCRIPTION + "='" + entity.getDescription() + "', "
                 + COLUMN_IS_COMPLETED + "='" + entity.isCompleted() + "' "
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
-        super.rawUpdateQuery(query);
+        return super.rawUpdateQuery(query);
     }
 }

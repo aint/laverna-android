@@ -63,7 +63,6 @@ public class TaskRepositoryTest {
 
         taskRepository = new TaskRepositoryImpl();
 
-
         task1 = new Task(
                 "id_1",
                 profile.getId(),
@@ -106,7 +105,9 @@ public class TaskRepositoryTest {
 
     @Test
     public void repositoryShouldGetEntitiesByProfileId() {
-        taskRepository.add(tasks);
+        taskRepository.add(task1);
+        taskRepository.add(task2);
+        taskRepository.add(task3);
 
         List<Task> taskEntities1 = taskRepository
                 .getByProfile(profile.getId(), 1, 3);
@@ -120,7 +121,9 @@ public class TaskRepositoryTest {
 
     @Test
     public void repositoryShouldGetUncompltedTasksByProfileId() {
-        taskRepository.add(tasks);
+        taskRepository.add(task1);
+        taskRepository.add(task2);
+        taskRepository.add(task3);
 
         List<Task> taskEntities1 = taskRepository
                 .getUncompletedByProfile(profile.getId(), 1, 3);
@@ -153,6 +156,17 @@ public class TaskRepositoryTest {
 
         assertThat(taskRepository.getById(task1.getId()).isPresent()).isFalse();
     }
+
+    @Test
+    public void reposityShouldGetEntityByNoteId() {
+        taskRepository.add(task1);
+        taskRepository.add(task2);
+
+        List<Task> tasks = taskRepository.getByNote("node_id_1");
+        assertThat(tasks).hasSize(2);
+    }
+
+
 
     @After
     public void finish() {

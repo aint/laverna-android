@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
@@ -9,6 +10,7 @@ import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
+import com.google.common.base.Optional;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,9 +33,13 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
     }
 
     @Override
-    public void create(@NonNull NotebookForm notebookForm) {
-        validateForCreate(notebookForm.getProfileId(), notebookForm.getParentNotebookId(), notebookForm.getName());
-        mNotebookRepository.add(notebookForm.toEntity(UUID.randomUUID().toString()));
+    public Optional<String> create(@NonNull NotebookForm notebookForm) {
+        String notebookId =UUID.randomUUID().toString();
+        if (validateForCreate(notebookForm.getProfileId(), notebookForm.getParentNotebookId(), notebookForm.getName())
+                && mNotebookRepository.add(notebookForm.toEntity(notebookId))) {
+            return Optional.of(notebookId);
+        }
+        return Optional.absent();
     }
 
     @NonNull
@@ -43,9 +49,9 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
     }
 
     @Override
-    public void update(@NonNull String id, @NonNull NotebookForm notebookForm) {
-        validateForUpdate(notebookForm.getParentNotebookId(), notebookForm.getName());
-        mNotebookRepository.update(notebookForm.toEntity(id));
+    public boolean update(@NonNull String id, @NonNull NotebookForm notebookForm) {
+        return validateForUpdate(notebookForm.getParentNotebookId(), notebookForm.getName())
+                && mNotebookRepository.update(notebookForm.toEntity(id));
     }
 
     /**
@@ -53,31 +59,28 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
      * @param profileId an profile id of the form for a validate.
      * @param parentNotebookId an parent notebook id.
      * @param name a name of an entity.
+     * @return a boolean result of a validation.
      */
-    private void validateForCreate(String profileId, String parentNotebookId, String name) {
-        super.checkProfileExistence(profileId);
-        checkNotebookExistence(parentNotebookId);
-        super.checkName(name);
+    private boolean validateForCreate(String profileId, String parentNotebookId, String name) {
+        return super.checkProfileExistence(profileId) && checkNotebookExistence(parentNotebookId) && !TextUtils.isEmpty(name);
     }
 
     /**
      * A method which validates a form in the update method.
      * @param parentNotebookId an parent notebook id.
      * @param name a name of an entity.
+     * @return a boolean result of a validation.
      */
-    private void validateForUpdate(String parentNotebookId, String name) {
-        checkNotebookExistence(parentNotebookId);
-        super.checkName(name);
+    private boolean validateForUpdate(String parentNotebookId, String name) {
+        return checkNotebookExistence(parentNotebookId) && !TextUtils.isEmpty(name);
     }
 
     /**
      * A method which checks an existence of notebook in a database.
      * @param notebookId an id of a required notebook.
-     * @throws IllegalArgumentException in case if notebook is not found.
+     * @return a boolean result of a validation.
      */
-    private void checkNotebookExistence(@Nullable String notebookId) {
-        if (notebookId != null && !getById(notebookId).isPresent()) {
-            throw new IllegalArgumentException("The notebook is not found!");
-        }
+    private boolean checkNotebookExistence(@Nullable String notebookId) {
+        return !(notebookId != null && !getById(notebookId).isPresent());
     }
 }

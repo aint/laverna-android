@@ -118,7 +118,9 @@ public class NoteRepositoryTest {
 
     @Test
     public void repositoryShouldGetEntitiesByProfileId() {
-        noteRepository.add(notes);
+        noteRepository.add(note1);
+        noteRepository.add(note2);
+        noteRepository.add(note3);
 
         List<Note> noteEntities1 = noteRepository
                 .getByProfile(profile.getId(), 1, 3);
@@ -132,7 +134,9 @@ public class NoteRepositoryTest {
 
     @Test
     public void repositoryShouldGetEntitiesByNotebookId() {
-        noteRepository.add(notes);
+        noteRepository.add(note1);
+        noteRepository.add(note2);
+        noteRepository.add(note3);
 
         List<Note> noteEntities1 = noteRepository
                 .getByNotebook(notebook.getId(), 1, 3);

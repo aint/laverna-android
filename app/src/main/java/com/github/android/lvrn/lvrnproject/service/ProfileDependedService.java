@@ -29,5 +29,5 @@ public interface ProfileDependedService<T1 extends ProfileDependedEntity, T2 ext
      * @param id an id of the entity.
      * @param form a form with a data.
      */
-    void update(@NonNull String id, @NonNull T2 form);
+    boolean update(@NonNull String id, @NonNull T2 form);
 }

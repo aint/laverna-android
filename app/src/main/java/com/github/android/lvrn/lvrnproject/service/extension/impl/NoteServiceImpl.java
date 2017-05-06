@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
@@ -17,6 +18,7 @@ import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
+import com.google.common.base.Optional;
 
 import java.util.List;
 import java.util.Map;
@@ -54,11 +56,13 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
     }
 
     @Override
-    public void create(@NonNull NoteForm noteForm) {
-        validateForCreate(noteForm.getProfileId(), noteForm.getNotebookId(), noteForm.getTitle());
+    public Optional<String> create(@NonNull NoteForm noteForm) {
         String noteId = UUID.randomUUID().toString();
-        mNoteRepository.add(noteForm.toEntity(noteId));
-        parseContent(noteForm.getProfileId(), noteId, noteForm.getContent());
+        if (validateForCreate(noteForm.getProfileId(), noteForm.getNotebookId(), noteForm.getTitle()) && mNoteRepository.add(noteForm.toEntity(noteId))) {
+            parseContent(noteForm.getProfileId(), noteId, noteForm.getContent());
+            return Optional.of(noteId);
+        }
+        return Optional.absent();
     }
 
     @NonNull
@@ -80,10 +84,12 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
     }
 
     @Override
-    public void update(@NonNull String id, @NonNull NoteForm noteForm) {
-        validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle());
-        mNoteRepository.update(noteForm.toEntity(id));
-        parseContent(mNoteRepository.getById(id).get().getProfileId(), id, noteForm.getContent());
+    public boolean update(@NonNull String id, @NonNull NoteForm noteForm) {
+        if(validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle()) && mNoteRepository.update(noteForm.toEntity(id))) {
+            parseContent(mNoteRepository.getById(id).get().getProfileId(), id, noteForm.getContent());
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -107,7 +113,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
     private void parseTags(String profileId, String noteId, String content) {
         Set<String> tagNames =  NoteTextParser.parseTags(content);
         mTagService.getByNote(noteId).forEach(tag -> removeTagsFromNote(tag, tagNames, noteId));
-        tagNames.forEach(tagName -> mTagService.create(new TagForm(profileId, tagName)));
+        tagNames.forEach(tagName -> createTagAndAddToNote(profileId, tagName, noteId));
     }
 
     /**
@@ -122,6 +128,21 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
             tagNames.remove(tag.getName());
         } else {
             mNoteRepository.removeTagFromNote(noteId, tag.getId());
+        }
+    }
+
+    /**
+     * A method which creates a tag and a relation between the tag and a note.
+     * @param profileId an id of a profile.
+     * @param tagName a name of a tag.
+     * @param noteId an id on a note.
+     */
+    private void createTagAndAddToNote(String profileId, String tagName, String noteId) {
+        Optional<String> tagIdOptional = mTagService.create(new TagForm(profileId, tagName));
+        if(tagIdOptional.isPresent()) {
+            mNoteRepository.addTagToNote(noteId, tagIdOptional.get());
+        } else {
+            //TODO: find out what to do in this case, case it's unexpected situation.
         }
     }
 
@@ -161,31 +182,28 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @param profileId an id of a profile.
      * @param notebookId an parent notebook id.
      * @param title a title of an entity.
+     * @return a boolean result of a validation.
      */
-    private void validateForCreate(String profileId, String notebookId, String title) {
-        super.checkProfileExistence(profileId);
-        checkNotebookExistence(notebookId);
-        super.checkName(title);
+    private boolean validateForCreate(String profileId, String notebookId, String title) {
+        return super.checkProfileExistence(profileId) && checkNotebookExistence(notebookId) && !TextUtils.isEmpty(title);
     }
 
     /**
      * A method which validates a form in the update method.
      * @param notebookId an parent notebook id.
      * @param title a title of an entity.
+     * @return a boolean result of a validation.
      */
-    private void validateForUpdate(String notebookId, String title) {
-        checkNotebookExistence(notebookId);
-        super.checkName(title);
+    private boolean validateForUpdate(String notebookId, String title) {
+        return checkNotebookExistence(notebookId) && !TextUtils.isEmpty(title);
     }
 
     /**
      * A method which checks an existence of notebook in a database.
      * @param notebookId an id of a required notebook.
-     * @throws IllegalArgumentException in case if notebook is not found.
+     * @return a boolean result of a validation.
      */
-    private void checkNotebookExistence(@Nullable String notebookId) {
-        if (notebookId != null && !mNotebookService.getById(notebookId).isPresent()) {
-            throw new IllegalArgumentException("The notebook is not found!");
-        }
+    private boolean checkNotebookExistence(@Nullable String notebookId) {
+        return !(notebookId != null && !mNotebookService.getById(notebookId).isPresent());
     }
 }

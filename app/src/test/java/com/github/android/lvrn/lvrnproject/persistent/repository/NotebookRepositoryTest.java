@@ -95,7 +95,7 @@ public class NotebookRepositoryTest {
 
     @Test
     public void repositoryShouldGetEntityById() {
-        notebookRepository.add(notebook1);
+        assertThat(notebookRepository.add(notebook1)).isTrue();
         Optional<Notebook> notebookOptional = notebookRepository.getById(notebook1.getId());
         assertThat(notebookOptional.isPresent()).isTrue();
         assertThat(notebookOptional.get()).isEqualToComparingFieldByField(notebook1);
@@ -103,7 +103,9 @@ public class NotebookRepositoryTest {
 
     @Test
     public void repositoryShouldGetEntitiesByProfileId() {
-        notebookRepository.add(notebooks);
+        assertThat(notebookRepository.add(notebook1)).isTrue();
+        assertThat(notebookRepository.add(notebook2)).isTrue();
+        assertThat(notebookRepository.add(notebook3)).isFalse();
 
         List<Notebook> notebookEntities1 = notebookRepository
                 .getByProfile(profile.getId(), 1, 3);
@@ -111,7 +113,7 @@ public class NotebookRepositoryTest {
         assertThat(notebookEntities1.size()).isNotEqualTo(notebooks.size());
         assertThat(notebookEntities1.size()).isEqualTo(notebooks.size() - 1);
 
-        notebooks.remove(notebook3);
+        assertThat(notebooks.remove(notebook3)).isTrue();
         assertThat((Object) notebookEntities1).isEqualToComparingFieldByFieldRecursively(notebooks);
     }
 
@@ -130,9 +132,9 @@ public class NotebookRepositoryTest {
 
     @Test
     public void repositoryShouldRemoveEntity() {
-        notebookRepository.add(notebook1);
+        assertThat(notebookRepository.add(notebook1)).isTrue();
 
-        notebookRepository.remove(notebook1.getId());
+        assertThat(notebookRepository.remove(notebook1.getId())).isTrue();
 
         assertThat(notebookRepository.getById(notebook1.getId()).isPresent()).isFalse();
     }

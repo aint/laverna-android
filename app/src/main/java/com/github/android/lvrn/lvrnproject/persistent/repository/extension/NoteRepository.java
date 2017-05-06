@@ -18,15 +18,17 @@ public interface NoteRepository extends ProfileDependedRepository<Note> {
      * A method which creates a relation between a note and an tag.
      * @param noteId an id of the note.
      * @param tagId an id of the tag.
+     * @return a result of an insertion.
      */
-    void addTagToNote(@NonNull String noteId, @NonNull String tagId);
+    boolean addTagToNote(@NonNull String noteId, @NonNull String tagId);
 
     /**
      * A method which destroys a relation between a note and an tag.
      * @param noteId an id of the note.
      * @param tagId an id of the tag.
+     * @return a result of a removing.
      */
-    void removeTagFromNote(@NonNull String noteId, @NonNull String tagId);
+    boolean removeTagFromNote(@NonNull String noteId, @NonNull String tagId);
 
     /**
      * A method which retrieves an amount of entities from a start position by a title.

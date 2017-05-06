@@ -103,7 +103,9 @@ public class TagsRepositoryTest {
 
     @Test
     public void repositoryShouldGetEntitiesByProfileId() {
-        tagRepository.add(tags);
+        tagRepository.add(tag1);
+        tagRepository.add(tag2);
+        tagRepository.add(tag3);
 
         List<Tag> tagEntities1 = tagRepository
                 .getByProfile(profile.getId(), 1, 3);
@@ -129,7 +131,9 @@ public class TagsRepositoryTest {
 
     @Test
     public void repositoryShoudGetTagsByNote() {
-        tagRepository.add(tags);
+        tagRepository.add(tag1);
+        tagRepository.add(tag2);
+        tagRepository.add(tag3);
 
         NoteRepositoryImpl notesRepository = new NoteRepositoryImpl();
         notesRepository.openDatabaseConnection();

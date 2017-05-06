@@ -12,8 +12,6 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository
 import com.google.common.base.Optional;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
@@ -37,31 +35,41 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     }
 
     @Override
-    public void add(@NonNull T entity) {
-        add(Collections.singletonList(entity));
-    }
-
-    @Override
-    public void add(@NonNull Collection<T> entities) {
+    public boolean add(@NonNull T entity) {
+        boolean result = false;
         mDatabase.beginTransaction();
         try {
-            toContentValuesList(entities)
-                    .forEach(values -> mDatabase.insert(mTableName, null, values));
+            result = mDatabase.insert(mTableName, null, toContentValues(entity)) != -1;
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
         }
+        return result;
     }
 
+//    @Override
+//    public void add(@NonNull Collection<T> entities) {
+//        mDatabase.beginTransaction();
+//        try {
+//            toContentValuesList(entities)
+//                    .forEach(values -> mDatabase.insert(mTableName, null, values));
+//            mDatabase.setTransactionSuccessful();
+//        } finally {
+//            mDatabase.endTransaction();
+//        }
+//    }
+
     @Override
-    public void remove(@NonNull String id) {
+    public boolean remove(@NonNull String id) {
+        boolean result = false;
         mDatabase.beginTransaction();
         try {
-            mDatabase.delete(mTableName, COLUMN_ID + "= '" + id + "'", null);
+            result = mDatabase.delete(mTableName, COLUMN_ID + "= '" + id + "'", null) != 0;
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
         }
+        return result;
     }
 
     @NonNull
@@ -145,16 +153,16 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      */
     protected abstract T toEntity(Cursor cursor);
 
-    /**
-     * A method which converts an {@code Iterable<T>} of entities into a list of a
-     * {@code ContentValues}.
-     * @param entities objects to convert.
-     * @return a list of converted into a {@code ContentValues} entities.
-     */
-    @NonNull
-    private List<ContentValues> toContentValuesList(@NonNull Collection<T> entities) {
-        List<ContentValues> contentValuesList = new ArrayList<>();
-        entities.forEach(entity -> contentValuesList.add(toContentValues(entity)));
-        return contentValuesList;
-    }
+//    /**
+//     * A method which converts an {@code Iterable<T>} of entities into a list of a
+//     * {@code ContentValues}.
+//     * @param entities objects to convert.
+//     * @return a list of converted into a {@code ContentValues} entities.
+//     */
+//    @NonNull
+//    private ContentValues toContentValuesList(@NonNull T entity) {
+//        List<ContentValues> contentValuesList = new ArrayList<>();
+//        entities.forEach(entity -> contentValuesList.add(toContentValues(entity)));
+//        return contentValuesList;
+//    }
 }

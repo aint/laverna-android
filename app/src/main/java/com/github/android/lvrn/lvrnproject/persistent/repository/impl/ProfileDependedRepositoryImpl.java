@@ -48,11 +48,14 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
     /**
      * A method which executes a raw update query.
      * @param query a string oject with query.
+     * @return a result of an update.
      */
-    protected void rawUpdateQuery(@NonNull String query) {
+    protected boolean rawUpdateQuery(@NonNull String query) {
         Cursor cursor = mDatabase.rawQuery(query, null);
         if (cursor != null && cursor.moveToFirst()) {
             cursor.close();
+            return true;
         }
+        return false;
     }
 }

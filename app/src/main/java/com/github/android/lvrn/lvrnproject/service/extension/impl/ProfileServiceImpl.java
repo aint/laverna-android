@@ -1,12 +1,14 @@
 package com.github.android.lvrn.lvrnproject.service.extension.impl;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.ProfileRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.service.impl.BasicServiceImpl;
+import com.google.common.base.Optional;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,9 +30,13 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
     }
 
     @Override
-    public void create(@NonNull ProfileForm profileForm) {
-        checkName(profileForm.getName());
-        mProfileRepository.add(new Profile(UUID.randomUUID().toString(), profileForm.getName()));
+    public Optional<String> create(@NonNull ProfileForm profileForm) {
+        String profileId = UUID.randomUUID().toString();
+        if (!TextUtils.isEmpty(profileForm.getName())
+                && mProfileRepository.add(new Profile(profileId, profileForm.getName()))) {
+            return Optional.of(profileId);
+        }
+        return Optional.absent();
     }
 
     @NonNull

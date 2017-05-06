@@ -25,6 +25,7 @@ public interface ProfileDependedRepository<T extends ProfileDependedEntity> exte
     /**
      * A method which updates certain fields of entity in a database.
      * @param entity an entity with a new data to update.
+     * @return a boolean result of an update.
      */
-    void update(@NonNull T entity);
+    boolean update(@NonNull T entity);
 }

@@ -72,12 +72,12 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
     }
 
     @Override
-    public void update(@NonNull Tag entity) {
+    public boolean update(@NonNull Tag entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
                 + COLUMN_NAME + "='" + entity.getName() + "', "
                 + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
-        super.rawUpdateQuery(query);
+        return super.rawUpdateQuery(query);
     }
 }

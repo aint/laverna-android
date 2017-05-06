@@ -77,7 +77,9 @@ public class ProfileRepositoryTest {
 
     @Test
     public void repositoryShouldGetAllEntities() {
-        profileRepository.add(profiles);
+        profileRepository.add(profile1);
+        profileRepository.add(profile2);
+        profileRepository.add(profile3);
 
         List<Profile> profiles1 = profileRepository.getAll();
 

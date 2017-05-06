@@ -61,28 +61,32 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
     }
 
     @Override
-    public void addTagToNote(@NonNull String noteId, @NonNull String tagId) {
+    public boolean addTagToNote(@NonNull String noteId, @NonNull String tagId) {
+        boolean result = false;
         mDatabase.beginTransaction();
         try {
             ContentValues contentValues = toNoteTagsContentValues(noteId, tagId);
-            mDatabase.insert(NotesTagsTable.TABLE_NAME, null, contentValues);
+            result = mDatabase.insert(NotesTagsTable.TABLE_NAME, null, contentValues) != -1;
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
         }
+        return result;
     }
 
     @Override
-    public void removeTagFromNote(@NonNull String noteId, @NonNull String tagId) {
+    public boolean removeTagFromNote(@NonNull String noteId, @NonNull String tagId) {
+        boolean result = false;
         mDatabase.beginTransaction();
         try {
-            mDatabase.delete(NotesTagsTable.TABLE_NAME,
-                    NotesTagsTable.COLUMN_TAG_ID + " = '" + tagId + "' AND "
-                            + NotesTagsTable.COLUMN_NOTE_ID + " = '" + noteId + "'", null);
+            String query = NotesTagsTable.COLUMN_TAG_ID + " = '" + tagId + "' AND "
+                    + NotesTagsTable.COLUMN_NOTE_ID + " = '" + noteId + "'";
+            result = mDatabase.delete(NotesTagsTable.TABLE_NAME, query, null) != 0;
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
         }
+        return result;
     }
 
     @NonNull
@@ -114,7 +118,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
     }
 
     @Override
-    public void update(@NonNull Note entity) {
+    public boolean update(@NonNull Note entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
                 + COLUMN_NOTEBOOK_ID + "='" + entity.getNotebookId() + "', "
@@ -123,7 +127,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
                 + COLUMN_IS_FAVORITE + "='" + entity.isFavorite() + "', "
                 + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
-        super.rawUpdateQuery(query);
+        return super.rawUpdateQuery(query);
     }
 
     /**

@@ -40,9 +40,7 @@ public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntit
      * @param id an id of profile.
      * @throws IllegalArgumentException in case if profile is not exist.
      */
-    protected void checkProfileExistence(@Nullable String id) {
-        if (id == null || !mProfileService.getById(id).isPresent()) {
-            throw new IllegalArgumentException("Profile not found");
-        }
+    protected boolean checkProfileExistence(@Nullable String id) {
+        return !(id == null || !mProfileService.getById(id).isPresent());
     }
 }
