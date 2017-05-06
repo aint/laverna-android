@@ -8,6 +8,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 //TODO: No reason to use it now while you can't edit profiles in laverna. So may to remove it
+@Deprecated
 public class ProfileForm  implements Form<Profile> {
 
     private String name;
@@ -27,7 +28,6 @@ public class ProfileForm  implements Form<Profile> {
     @NonNull
     @Override
     public Profile toEntity(String id) {
-        //TODO: find out what to do, or remove.
         return null;
     }
 }

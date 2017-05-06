@@ -44,9 +44,11 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
      * @throws IllegalArgumentException
      */
     @Override
+    @Deprecated
     public void update(@NonNull String id, @NonNull TagForm tagForm) {
-        validateForUpdate(tagForm.getName());
-        mTagRepository.update(tagForm.toEntity(id));
+        //TODO: to appear in future milestones
+//        validateForUpdate(tagForm.getName());
+//        mTagRepository.update(tagForm.toEntity(id));
     }
 
     @NonNull

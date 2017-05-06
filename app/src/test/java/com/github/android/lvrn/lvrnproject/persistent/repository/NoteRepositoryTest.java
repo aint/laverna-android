@@ -23,7 +23,6 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -156,8 +155,8 @@ public class NoteRepositoryTest {
         noteRepository.add(note1);
         noteRepository.add(note2);
 
-        noteRepository.addTagsToNote(note1.getId(), Collections.singletonList(tag));
-        noteRepository.addTagsToNote(note2.getId(), Collections.singletonList(tag));
+        noteRepository.addTagToNote(note1.getId(), tag.getId());
+        noteRepository.addTagToNote(note2.getId(), tag.getId());
 
         List<Note> notes1 = noteRepository.getByTag(tag.getId(), 1, 5);
 
@@ -181,10 +180,10 @@ public class NoteRepositoryTest {
         noteRepository.add(note1);
         noteRepository.add(note2);
 
-        noteRepository.addTagsToNote(note1.getId(), Collections.singletonList(tag));
-        noteRepository.addTagsToNote(note2.getId(), Collections.singletonList(tag));
+        noteRepository.addTagToNote(note1.getId(), tag.getId());
+        noteRepository.addTagToNote(note2.getId(), tag.getId());
 
-        noteRepository.removeTagsFromNote(note1.getId(), Collections.singletonList(tag));
+        noteRepository.removeTagFromNote(note1.getId(), tag.getId());
 
         List<Note> notes1 = noteRepository.getByTag(tag.getId(), 1, 5);
 

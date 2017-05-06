@@ -3,8 +3,6 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension;
 import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 
 import java.util.List;
@@ -15,9 +13,9 @@ import java.util.List;
 
 public interface NoteRepository extends ProfileDependedRepository<Note> {
 
-    void addTagsToNote(@NonNull String noteId, List<Tag> tags);
+    void addTagToNote(@NonNull String noteId, String tagId);
 
-    void removeTagsFromNote(@NonNull String noteId, List<Tag> tags);
+    void removeTagFromNote(@NonNull String noteId, String tagId);
 
     @NonNull
     List<Note> getByTitle(@NonNull String title, int from, int amount);
