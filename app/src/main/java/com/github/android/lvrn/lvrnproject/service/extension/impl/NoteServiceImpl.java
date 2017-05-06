@@ -86,17 +86,37 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
         parseContent(mNoteRepository.getById(id).get().getProfileId(), id, noteForm.getContent());
     }
 
+    /**
+     * A method which calls methods of parsing tasks and tags from a note content.
+     * @param profileId an id of a profile.
+     * @param noteId an id of a note.
+     * @param content a text content from a note.
+     */
     private void parseContent(String profileId, String noteId, String content) {
         parseTasks(profileId, noteId, content);
         parseTags(profileId, noteId, content);
     }
 
+    /**
+     * A method which parses tags from a note content and then creates new tags or removes relations
+     * between a note and tags.
+     * @param profileId an id of a profile.
+     * @param noteId an id of note.
+     * @param content a text content from a note.
+     */
     private void parseTags(String profileId, String noteId, String content) {
         Set<String> tagNames =  NoteTextParser.parseTags(content);
         mTagService.getByNote(noteId).forEach(tag -> removeTagsFromNote(tag, tagNames, noteId));
         tagNames.forEach(tagName -> mTagService.create(new TagForm(profileId, tagName)));
     }
 
+    /**
+     * A method which removes a relation a note and tag, if the last one is not present in content
+     * anymore.
+     * @param tag a tag to check.
+     * @param tagNames a set of tags parsed from a note.
+     * @param noteId an id of a note.
+     */
     private void removeTagsFromNote(Tag tag, Set<String> tagNames, String noteId) {
         if (tagNames.contains(tag.getName())) {
             tagNames.remove(tag.getName());
@@ -105,18 +125,24 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
         }
     }
 
+    /**
+     * A method which parses tasks from a note content and then creates/updated/removes it in database.
+     * @param profileId an id of a profile.
+     * @param noteId an id of note.
+     * @param content a text content from a note.
+     */
     private void parseTasks(String profileId, String noteId, String content) {
         Map<String, Boolean> tasksFromNote = NoteTextParser.parseTasks(content);
-        mTaskService.getByNote(noteId).forEach(task -> updateOrRemoveExistedTasks(task, noteId, tasksFromNote));
+        mTaskService.getByNote(noteId).forEach(task -> updateOrRemoveExistedTasks(task, tasksFromNote));
         tasksFromNote.forEach((description, status) -> mTaskService.create(new TaskForm(profileId, noteId, description, status)));
     }
 
     /**
-     *
-     * @param noteId
-     * @param tasksFromNote
+     * A method which updates a received task if it presents in database or removes it in other case.
+     * @param task a task to update or remove.
+     * @param tasksFromNote a map of tasks parsed from a note content.
      */
-    private void updateOrRemoveExistedTasks(Task task, String noteId, Map<String, Boolean> tasksFromNote) {
+    private void updateOrRemoveExistedTasks(Task task, Map<String, Boolean> tasksFromNote) {
         if (tasksFromNote.containsKey(task.getDescription())) {
             mTaskService.update(task.getId(), new TaskForm(
                     task.getProfileId(),
@@ -130,17 +156,33 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
         }
     }
 
+    /**
+     * A method which validates a form in the create method.
+     * @param profileId an id of a profile.
+     * @param notebookId an parent notebook id.
+     * @param title a title of an entity.
+     */
     private void validateForCreate(String profileId, String notebookId, String title) {
         super.checkProfileExistence(profileId);
         checkNotebookExistence(notebookId);
         super.checkName(title);
     }
 
+    /**
+     * A method which validates a form in the update method.
+     * @param notebookId an parent notebook id.
+     * @param title a title of an entity.
+     */
     private void validateForUpdate(String notebookId, String title) {
         checkNotebookExistence(notebookId);
         super.checkName(title);
     }
 
+    /**
+     * A method which checks an existence of notebook in a database.
+     * @param notebookId an id of a required notebook.
+     * @throws IllegalArgumentException in case if notebook is not found.
+     */
     private void checkNotebookExistence(@Nullable String notebookId) {
         if (notebookId != null && !mNotebookService.getById(notebookId).isPresent()) {
             throw new IllegalArgumentException("The notebook is not found!");

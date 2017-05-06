@@ -9,7 +9,6 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDepended
 import java.util.List;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_PROFILE_ID;
-import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_PARENT_ID;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -22,13 +21,6 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
         super(mTableName);
     }
 
-    /**
-     * A method which retrieves an amount of objects from start position by a profile id.
-     * @param profile
-     * @param from a position to start from
-     * @param amount a number of objects to retrieve.
-     * @return a {@code List<T>} of objects.
-     */
     @NonNull
     @Override
     public List<T> getByProfile(@NonNull String profileId, int from, int amount) {
@@ -42,7 +34,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @param id an id for a required column
      * @param from a position to start from
      * @param amount a number of objects to retrieve.
-     * @return a {@code List<T>}
+     * @return a l
      */
     @NonNull
     protected List<T> getByIdCondition(String columnName, String id, int from, int amount) {
@@ -53,7 +45,11 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
         return getByRawQuery(query);
     }
 
-    protected void rawUpdateQuery(String query) {
+    /**
+     * A method which executes a raw update query.
+     * @param query a string oject with query.
+     */
+    protected void rawUpdateQuery(@NonNull String query) {
         Cursor cursor = mDatabase.rawQuery(query, null);
         if (cursor != null && cursor.moveToFirst()) {
             cursor.close();

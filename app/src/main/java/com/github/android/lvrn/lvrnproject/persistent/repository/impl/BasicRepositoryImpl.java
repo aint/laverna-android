@@ -27,11 +27,8 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     /**
      * A name of a table represented by the repository.
      */
-    protected final String mTableName;
+    final String mTableName;
 
-    /**
-     * A {@code SQLiteDatabase object} object.
-     */
     @Nullable
     protected SQLiteDatabase mDatabase;
 
@@ -39,19 +36,11 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         this.mTableName = mTableName;
     }
 
-    /**
-     * A method which receives an entity to save in the database.
-     * @param entity a {@code ProfileDependedEntity} extended object to save.
-     */
     @Override
-    public void add(T entity) {
+    public void add(@NonNull T entity) {
         add(Collections.singletonList(entity));
     }
 
-    /**
-     * A method which receives a {@code Iterable<T>} of entities to save in the database.
-     * @param entities {@code ProfileDependedEntity} extended objects to save.
-     */
     @Override
     public void add(@NonNull Collection<T> entities) {
         mDatabase.beginTransaction();
@@ -64,25 +53,6 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         }
     }
 
-//    /**
-//     * A method which receives an entity to update in the database.
-//     * @param entity an {@code ProfileDependedEntity} extended object to update.
-//     */
-//    @Override
-//    public void update(@NonNull T entity) {
-//        mDatabase.beginTransaction();
-//        try {
-//            mDatabase.update(mTableName, toContentValues(entity), COLUMN_ID + "='" + entity.getId() + "'", null);
-//            mDatabase.setTransactionSuccessful();
-//        } finally {
-//            mDatabase.endTransaction();
-//        }
-//    }
-
-    /**
-     * A method which removes an object from the database by received id.
-     * @param entity an object to remove.
-     */
     @Override
     public void remove(@NonNull String id) {
         mDatabase.beginTransaction();
@@ -94,13 +64,9 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         }
     }
 
-    /**
-     * A method which retrieves an object from the database by id.
-     * @param id a {@code String} object with id value.
-     * @return a {@code ProfileDependedEntity} extended object
-     */
+    @NonNull
     @Override
-    public Optional<T> getById(String id) {
+    public Optional<T> getById(@NonNull String id) {
         Cursor cursor = mDatabase.rawQuery(
                 "SELECT * FROM " + mTableName
                         + " WHERE " + COLUMN_ID + " = '" + id + "'",
@@ -111,9 +77,6 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         return Optional.absent();
     }
 
-    /**
-     * A method which tries to open a database connection, if the one is not opened.
-     */
     @Override
     public boolean openDatabaseConnection() {
         if (mDatabase != null) {
@@ -123,9 +86,6 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         return true;
     }
 
-    /**
-     * A method which tries to close a database connection, if the one is opened.
-     */
     @Override
     public boolean closeDatabaseConnection() {
         if (mDatabase == null) {
@@ -138,14 +98,14 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
 
     /**
      * A method which retrieves objects from the database by a query with LIKE operator.
-     * @param columnName
-     * @param name
-     * @param from
-     * @param amount
-     * @return
+     * @param columnName a name of the column to find by.
+     * @param name a value for a find by.
+     * @param from a start position for selection.
+     * @param amount a number of entities to retrieve.
+     * @return a list of entities.
      */
     @NonNull
-    protected List<T> getByName(String columnName, String name, int from, int amount) {
+    protected List<T> getByName(@NonNull String columnName,  String name, int from, int amount) {
         String query = "SELECT * FROM " + mTableName
                 + " WHERE " + columnName + " LIKE '%" + name + "%'"
                 + " LIMIT " + amount
@@ -156,7 +116,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     /**
      * A method which retrieves objects from the database by a raw SQL query.
      * @param query a {@code String} object of a raw SQL query
-     * @return a {@code List<T>} of objects.
+     * @return a lis of objects.
      */
     @NonNull
     protected List<T> getByRawQuery(String query) {

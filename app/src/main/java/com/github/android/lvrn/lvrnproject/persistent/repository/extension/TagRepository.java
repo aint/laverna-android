@@ -1,8 +1,8 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.extension;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Size;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 
@@ -14,12 +14,21 @@ import java.util.List;
 
 public interface TagRepository extends ProfileDependedRepository<Tag> {
 
+    /**
+     * A method which retrieves an amount of entities from a start position by a name.
+     * @param name a required name.
+     * @param from a start position.
+     * @param amount a number of entities to retrieve.
+     * @return a list of entities.
+     */
     @NonNull
-    List<Tag> getByName(String name, int from, int amount);
+    List<Tag> getByName(@NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
 
-//    @NonNull
-//    List<Tag> getByNote(String noteId, int from, int amount);
-
+    /**
+     * A method which retrieves all entities by a note id.
+     * @param noteId an id of note.
+     * @return a list of entities.
+     */
     @NonNull
     List<Tag> getByNote(String noteId);
 }

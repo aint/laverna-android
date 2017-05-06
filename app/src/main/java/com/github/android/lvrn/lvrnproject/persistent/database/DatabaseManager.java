@@ -20,6 +20,10 @@ public class DatabaseManager {
 
     private DatabaseManager() {}
 
+    /**
+     * A method which initializes a database manager and a database helper.
+     * @param context application context.
+     */
     public static synchronized void initializeInstance(Context context) {
         if (sInstance == null) {
             sInstance = new DatabaseManager();
@@ -27,11 +31,23 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * A method which removes instance of database manager and deletes database.
+     * TODO: find out shall we need to use the method anywhere.
+     */
+    @Deprecated
     public static void removeInstance() {
-        sInstance.sDatabaseHelper.deleteDatabase();
-        sInstance = null;
+        if(sInstance != null) {
+            sInstance.sDatabaseHelper.deleteDatabase();
+            sInstance = null;
+        }
     }
 
+    /**
+     * A method which returns an instance of database manager. In case if instance is null, will
+     * throw {@link IllegalStateException}.
+     * @return a instance of database manager.
+     */
     @Nullable
     public static synchronized DatabaseManager getInstance() {
         if (sInstance == null) {
@@ -41,6 +57,11 @@ public class DatabaseManager {
         return sInstance;
     }
 
+    /**
+     * A method which opens a writable database in case if it haven't been opened before. Increase
+     * the counter of connections.
+     * @return a writable database instance.
+     */
     public synchronized SQLiteDatabase openConnection() {
         mOpenCounter++;
         if (mOpenCounter == 1) {
@@ -49,6 +70,10 @@ public class DatabaseManager {
         return mDatabase;
     }
 
+    /**
+     * A method which closes a writable database in case if only one connection is used at the
+     * moment. Decrease the counter of connections.
+     */
     public synchronized void closeConnection() {
         if (mOpenCounter  == 1) {
             mDatabase.close();
@@ -56,6 +81,10 @@ public class DatabaseManager {
         mOpenCounter = mOpenCounter > 0 ? mOpenCounter - 1 : 0;
     }
 
+    /**
+     * A method which closes all existed connections.
+     */
+    @Deprecated
     public synchronized void closeAllConnections() {
         if (mDatabase != null && mDatabase.isOpen()) {
             mDatabase.close();
@@ -63,6 +92,9 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * @return a number of opened connections.
+     */
     public int getConnectionsCount() {
         return mOpenCounter;
     }

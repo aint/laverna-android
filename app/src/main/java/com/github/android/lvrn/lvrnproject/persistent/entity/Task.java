@@ -2,8 +2,6 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
-
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -15,14 +13,8 @@ public class Task extends ProfileDependedEntity {
      */
     private String noteId;
 
-    /**
-     * A description of the task.
-     */
     private String description;
 
-    /**
-     * A status of the task's completion.
-     */
     private boolean isCompleted = false;
 
     public Task(String id,

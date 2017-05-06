@@ -2,8 +2,6 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
-
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -16,9 +14,6 @@ public class Note extends ProfileDependedEntity {
      */
     private String notebookId;
 
-    /**
-     * A name or a title of the entity.
-     */
     private String title;
 
     /**
@@ -36,9 +31,6 @@ public class Note extends ProfileDependedEntity {
      */
     private String content;
 
-    /**
-     * A status of the note's belonging to favorites notes.
-     */
     private boolean isFavorite = false;
 
     public Note(String id,

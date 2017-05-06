@@ -11,8 +11,8 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 public interface Form<T extends Entity> {
 
     /**
-     * Converts the form to an entity for update
-     * @return an converted entity
+     * Converts the form to an entity.
+     * @return an converted entity.
      */
     @NonNull
     T toEntity(@NonNull String id);

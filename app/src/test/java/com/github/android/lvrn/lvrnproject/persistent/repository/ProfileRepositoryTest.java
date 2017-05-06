@@ -79,7 +79,7 @@ public class ProfileRepositoryTest {
     public void repositoryShouldGetAllEntities() {
         profileRepository.add(profiles);
 
-        List<Profile> profiles1 = profileRepository.getAllProfiles();
+        List<Profile> profiles1 = profileRepository.getAll();
 
         assertThat(profiles).hasSameSizeAs(profiles1);
         assertThat((Object) profiles)

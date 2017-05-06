@@ -15,19 +15,19 @@ import java.util.List;
 public interface ProfileDependedService<T1 extends ProfileDependedEntity, T2 extends Form> extends BasicService<T1, T2> {
 
     /**
-     * A method which returns an amount of entities from a received position by a profile.
-     * @param profile
+     * A method which returns an amount of entities from a start position by a profile id.
+     * @param profileId an id of a profile.
      * @param from a start position.
      * @param amount a number of entities.
-     * @return a list of entites.
+     * @return a list of entities.
      */
     @NonNull
     List<T1> getByProfile(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount);
 
     /**
      * A method which updates an entity.
-     * @param entity to update.
-     * @throws IllegalArgumentException
+     * @param id an id of the entity.
+     * @param form a form with a data.
      */
     void update(@NonNull String id, @NonNull T2 form);
 }

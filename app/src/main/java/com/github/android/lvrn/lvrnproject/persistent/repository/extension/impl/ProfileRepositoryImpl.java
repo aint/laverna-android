@@ -41,13 +41,9 @@ public class ProfileRepositoryImpl extends BasicRepositoryImpl<Profile> implemen
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_NAME)));
     }
 
-    /**
-     * A method which retrieves all profiles.
-     * @return a list of profiles.
-     */
     @NonNull
     @Override
-    public List<Profile> getAllProfiles() {
+    public List<Profile> getAll() {
         String query = "SELECT * FROM " + TABLE_NAME;
         return getByRawQuery(query);
     }

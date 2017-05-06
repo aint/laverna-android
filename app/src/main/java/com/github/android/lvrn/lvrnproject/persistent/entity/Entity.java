@@ -6,9 +6,6 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 
 public abstract class Entity {
 
-    /**
-     * An id of the entity.
-     */
     protected String id;
 
     public String getId() {

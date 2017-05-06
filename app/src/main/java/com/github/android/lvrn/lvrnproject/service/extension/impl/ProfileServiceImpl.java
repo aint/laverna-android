@@ -27,10 +27,6 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
         mProfileRepository = profileRepository;
     }
 
-    /**
-     * @param name
-     * @throws IllegalArgumentException
-     */
     @Override
     public void create(@NonNull ProfileForm profileForm) {
         checkName(profileForm.getName());
@@ -40,16 +36,6 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
     @NonNull
     @Override
     public List<Profile> getAll() {
-        return mProfileRepository.getAllProfiles();
+        return mProfileRepository.getAll();
     }
-
-//    /**
-//     * @param entity to update.
-//     * @throws IllegalArgumentException
-//     */
-//    @Override
-//    public void update(@NonNull String id, @NonNull ProfileForm profileForm) {
-//        checkName(entity.getName());
-//        mProfileRepository.update(entity);
-//    }
 }

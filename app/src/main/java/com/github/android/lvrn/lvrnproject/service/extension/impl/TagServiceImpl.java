@@ -28,25 +28,16 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
         mTagRepository = tagRepository;
     }
 
-    /**
-     * @param profileId
-     * @param name
-     * @throws IllegalArgumentException
-     */
     @Override
     public void create(@NonNull TagForm tagForm) {
         validateForCreate(tagForm.getProfileId(),tagForm.getName());
         mTagRepository.add(tagForm.toEntity(UUID.randomUUID().toString()));
     }
 
-    /**
-     * @param entity to update.
-     * @throws IllegalArgumentException
-     */
     @Override
     @Deprecated
     public void update(@NonNull String id, @NonNull TagForm tagForm) {
-        //TODO: to appear in future milestones
+        //TODO: will appear in future milestone if Laverna implements this method properly.
 //        validateForUpdate(tagForm.getName());
 //        mTagRepository.update(tagForm.toEntity(id));
     }
@@ -64,16 +55,16 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
     }
 
     /**
-     * @param profileId
-     * @param name
-     * @throws NullPointerException
+     * A method which validates a form in the create method.
+     * @param profileId and id of profile to validate.
+     * @param name an id of the entity to validate.
      */
     private void validateForCreate(String profileId, String name) {
         checkProfileExistence(profileId);
         checkName(name);
     }
 
-    private void validateForUpdate(String name) {
-        checkName(name);
-    }
+//    private void validateForUpdate(String name) {
+//        checkName(name);
+//    }
 }

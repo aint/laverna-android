@@ -2,8 +2,6 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
-
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -16,9 +14,6 @@ public class Notebook extends ProfileDependedEntity {
      */
     private String parentId;
 
-    /**
-     * A name of the notebook.
-     */
     private String name;
 
     /**

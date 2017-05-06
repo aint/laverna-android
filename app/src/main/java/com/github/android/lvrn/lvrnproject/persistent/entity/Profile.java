@@ -2,17 +2,12 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
-
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
 public class Profile extends Entity {
 
-    /**
-     * A name of the profile.
-     */
     private String name;
 
     public Profile(String id, String name) {

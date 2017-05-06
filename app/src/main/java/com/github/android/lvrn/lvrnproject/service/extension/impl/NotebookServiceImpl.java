@@ -7,7 +7,6 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
-import com.github.android.lvrn.lvrnproject.service.form.Form;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 
@@ -15,8 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
-
-import static android.R.attr.name;
 
 
 /**
@@ -45,10 +42,6 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
         return mNotebookRepository.getByName(name, from, amount);
     }
 
-    /**
-     * @param entity to update.
-     * @throws IllegalArgumentException
-     */
     @Override
     public void update(@NonNull String id, @NonNull NotebookForm notebookForm) {
         validateForUpdate(notebookForm.getParentNotebookId(), notebookForm.getName());
@@ -56,10 +49,10 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
     }
 
     /**
-     * @param profileId
-     * @param parentNotebookId
-     * @param name
-     * @throws IllegalArgumentException
+     * A method which validates a form in the create method.
+     * @param profileId an profile id of the form for a validate.
+     * @param parentNotebookId an parent notebook id.
+     * @param name a name of an entity.
      */
     private void validateForCreate(String profileId, String parentNotebookId, String name) {
         super.checkProfileExistence(profileId);
@@ -67,14 +60,20 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
         super.checkName(name);
     }
 
+    /**
+     * A method which validates a form in the update method.
+     * @param parentNotebookId an parent notebook id.
+     * @param name a name of an entity.
+     */
     private void validateForUpdate(String parentNotebookId, String name) {
         checkNotebookExistence(parentNotebookId);
         super.checkName(name);
     }
 
     /**
-     * @param notebookId
-     * @throws IllegalArgumentException
+     * A method which checks an existence of notebook in a database.
+     * @param notebookId an id of a required notebook.
+     * @throws IllegalArgumentException in case if notebook is not found.
      */
     private void checkNotebookExistence(@Nullable String notebookId) {
         if (notebookId != null && !getById(notebookId).isPresent()) {
