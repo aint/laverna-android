@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.service.extension.impl;
+package com.github.android.lvrn.lvrnproject.service.extension;
 
 import android.support.annotation.NonNull;
 
@@ -6,7 +6,8 @@ import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.ProfileRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.extension.impl.ProfileServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,8 +48,8 @@ public class ProfileServiceImplTest {
 
     @Test
     public void serviceShouldCreateProfiles() {
-//        profileService.create(firstProfileName);
-//        profileService.create(secondProfileName);
+        profileService.create(new ProfileForm(firstProfileName));
+        profileService.create(new ProfileForm(secondProfileName));
 
         List<Profile> profileList = profileService.getAll();
 
@@ -57,14 +58,10 @@ public class ProfileServiceImplTest {
         assertThat(profileList.get(1).getName()).isEqualTo(secondProfileName);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void serviceShouldNotCreateProfileWithEmptyName() {
-//        profileService.create("");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void serviceShouldNotCreateProfileWithNullName() {
-        profileService.create(null);
+        assertThat(profileService.create(new ProfileForm("")).isPresent()).isFalse();
+        assertThat(profileService.create(new ProfileForm(null)).isPresent()).isFalse();
     }
 
     @After

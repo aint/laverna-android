@@ -121,7 +121,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
     public boolean update(@NonNull Note entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
-                + COLUMN_NOTEBOOK_ID + "='" + entity.getNotebookId() + "', "
+                + COLUMN_NOTEBOOK_ID + "=" + (entity.getNotebookId() != null ? "'" + entity.getNotebookId() + "', " : "null, ")
                 + COLUMN_TITLE + "='" + entity.getTitle() + "', "
                 + COLUMN_CONTENT + "='" + entity.getContent() + "', "
                 + COLUMN_IS_FAVORITE + "='" + entity.isFavorite() + "', "

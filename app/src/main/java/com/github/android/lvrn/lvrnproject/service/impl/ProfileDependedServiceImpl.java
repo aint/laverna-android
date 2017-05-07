@@ -41,6 +41,9 @@ public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntit
      * @throws IllegalArgumentException in case if profile is not exist.
      */
     protected boolean checkProfileExistence(@Nullable String id) {
-        return !(id == null || !mProfileService.getById(id).isPresent());
+        mProfileService.openConnection();
+        boolean result = !(id == null || !mProfileService.getById(id).isPresent());
+        mProfileService.closeConnection();
+        return result;
     }
 }

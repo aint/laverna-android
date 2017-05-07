@@ -66,7 +66,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
     public boolean update(@NonNull Notebook entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
-                + COLUMN_PARENT_ID + "=" + entity.getParentId() + ", "
+                + COLUMN_PARENT_ID + "=" + (entity.getParentId() != null ? "'" + entity.getParentId() + "', " : "null, ")
                 + COLUMN_NAME + "='" + entity.getName() + "', "
                 + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";

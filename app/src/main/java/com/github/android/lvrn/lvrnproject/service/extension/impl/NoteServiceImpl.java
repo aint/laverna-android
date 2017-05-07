@@ -112,8 +112,10 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      */
     private void parseTags(String profileId, String noteId, String content) {
         Set<String> tagNames =  NoteTextParser.parseTags(content);
+        mTagService.openConnection();
         mTagService.getByNote(noteId).forEach(tag -> removeTagsFromNote(tag, tagNames, noteId));
         tagNames.forEach(tagName -> createTagAndAddToNote(profileId, tagName, noteId));
+        mTagService.closeConnection();
     }
 
     /**
@@ -154,8 +156,10 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      */
     private void parseTasks(String profileId, String noteId, String content) {
         Map<String, Boolean> tasksFromNote = NoteTextParser.parseTasks(content);
+        mTaskService.openConnection();
         mTaskService.getByNote(noteId).forEach(task -> updateOrRemoveExistedTasks(task, tasksFromNote));
         tasksFromNote.forEach((description, status) -> mTaskService.create(new TaskForm(profileId, noteId, description, status)));
+        mTaskService.closeConnection();
     }
 
     /**
@@ -204,6 +208,9 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @return a boolean result of a validation.
      */
     private boolean checkNotebookExistence(@Nullable String notebookId) {
-        return !(notebookId != null && !mNotebookService.getById(notebookId).isPresent());
+        mNotebookService.openConnection();
+        boolean result = !(notebookId != null && !mNotebookService.getById(notebookId).isPresent());
+        mNotebookService.closeConnection();
+        return result;
     }
 }

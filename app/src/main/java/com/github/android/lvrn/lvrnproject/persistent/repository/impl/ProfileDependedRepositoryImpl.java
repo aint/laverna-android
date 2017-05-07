@@ -52,7 +52,8 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      */
     protected boolean rawUpdateQuery(@NonNull String query) {
         Cursor cursor = mDatabase.rawQuery(query, null);
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor != null) {
+            cursor.moveToFirst();
             cursor.close();
             return true;
         }

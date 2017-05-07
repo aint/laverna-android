@@ -89,15 +89,10 @@ public class ProfileRepositoryTest {
     }
 
     @Test
-    public void repositoryShouldUpdateEntity() {
-//        profileRepository.add(profile1);
-//
-//        profile1.setName("new name");
-//
-//        profileRepository.update(profile1);
-//
-//        Optional<Profile> profileOptional = profileRepository.getById(profile1.getId());
-//        assertThat(profileOptional.get()).isEqualToComparingFieldByField(profile1);
+    public void repositoryShouldNotAddEntity() {
+        profileRepository.add(profile1);
+        profile1.setId("new id");
+        assertThat(profileRepository.add(profile1)).isFalse();
     }
 
     @Test

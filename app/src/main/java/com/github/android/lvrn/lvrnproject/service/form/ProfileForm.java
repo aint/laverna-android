@@ -27,6 +27,6 @@ public class ProfileForm  implements Form<Profile> {
     @NonNull
     @Override
     public Profile toEntity(@NonNull String id) {
-        return null;
+        return new Profile(id, name);
     }
 }

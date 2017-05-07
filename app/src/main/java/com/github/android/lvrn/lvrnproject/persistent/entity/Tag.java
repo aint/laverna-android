@@ -20,7 +20,7 @@ public class Tag extends ProfileDependedEntity {
      */
     private long updateTime;
 
-    //TODO: unknown field. Find out what to do with it
+    //TODO: unknown field. Find out what to do with it.
     private int count;
 
     public Tag(String id,
@@ -35,22 +35,6 @@ public class Tag extends ProfileDependedEntity {
         this.creationTime = creationTime;
         this.updateTime = updateTime;
         this.count = count;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(String profileId) {
-        this.profileId = profileId;
     }
 
     public String getName() {

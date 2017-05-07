@@ -45,22 +45,6 @@ public class Notebook extends ProfileDependedEntity {
         this.count = count;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(String profileId) {
-        this.profileId = profileId;
-    }
-
     public String getParentId() {
         return parentId;
     }
