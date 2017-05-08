@@ -8,6 +8,7 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.
 import com.github.android.lvrn.lvrnproject.service.extension.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.extension.impl.TagServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
+import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,6 +17,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -40,11 +43,13 @@ public class TagServiceImplTest {
         profileService.closeConnection();
 
         tagService = new TagServiceImpl(new TagRepositoryImpl(), profileService);
+        tagService.openConnection();
     }
 
     @Test
     public void serviceShouldCreateEntity() {
-//        tagService.create(new TagForm(profile.getId(), "simple_tag"));
+        assertThat(tagService.create(new TagForm(profile.getId(), "simple_tag")).isPresent())
+                .isTrue();
     }
 
     @After
