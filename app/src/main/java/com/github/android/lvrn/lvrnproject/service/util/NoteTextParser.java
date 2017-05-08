@@ -27,6 +27,11 @@ public class NoteTextParser {
 
     private static final String SPACE_SEPARATOR = " ";
 
+    @NonNull
+    public static String parseSingleQuotes(String content) {
+        return content.replaceAll("'", "''");
+    }
+
     /**
      * A method which parse an input text for tags, if any is present.
      * @param text a String object which contain content of a note.

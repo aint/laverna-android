@@ -58,6 +58,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
     @Override
     public Optional<String> create(@NonNull NoteForm noteForm) {
         String noteId = UUID.randomUUID().toString();
+        noteForm.setContent(NoteTextParser.parseSingleQuotes(noteForm.getContent()));
         if (validateForCreate(noteForm.getProfileId(), noteForm.getNotebookId(), noteForm.getTitle()) && mNoteRepository.add(noteForm.toEntity(noteId))) {
             parseContent(noteForm.getProfileId(), noteId, noteForm.getContent());
             return Optional.of(noteId);
@@ -85,6 +86,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
 
     @Override
     public boolean update(@NonNull String id, @NonNull NoteForm noteForm) {
+        noteForm.setContent(NoteTextParser.parseSingleQuotes(noteForm.getContent()));
         if(validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle()) && mNoteRepository.update(noteForm.toEntity(id))) {
             parseContent(mNoteRepository.getById(id).get().getProfileId(), id, noteForm.getContent());
             return true;

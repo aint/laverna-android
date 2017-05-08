@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.util;
 
+import android.text.TextUtils;
+
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 
 import org.junit.Assert;
@@ -95,5 +97,13 @@ public class NoteTextParserTest {
         assertThat(parseResultMap.toString()).isEqualTo(trueTasks.toString());
 
         assertThat(parseResultMap.toString()).isNotEqualTo(falseTasks.toString());
+    }
+
+    @Test
+    public void parseSingleQuotes() {
+        String content = "it's a laverna's test";
+
+        String parsedContent = NoteTextParser.parseSingleQuotes(content);
+        assertThat(parsedContent.contains(parsedContent)).isTrue();
     }
 }
