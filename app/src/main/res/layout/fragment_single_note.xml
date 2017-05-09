@@ -9,7 +9,7 @@
    <RelativeLayout
        android:id="@+id/layout_content_icon"
        android:layout_width="match_parent"
-       android:layout_height="30dp">
+       android:layout_height="?attr/actionBarSize">
 
     <ImageButton
         android:id="@+id/im_btn_arrow_back_single_note"
@@ -70,7 +70,7 @@
         android:background="@drawable/ic_info_black_24dp"/>
 
     <TextView
-        android:id="@+id/tv_tag"
+        android:id="@+id/tv_tag_single_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_below="@+id/edit_text_title_single_note"
-        android:layout_toLeftOf="@+id/tv_tag"
+        android:layout_toLeftOf="@+id/tv_tag_single_note"
         android:background="@drawable/ic_alarm_clock_24dp"/>
 
     <View
