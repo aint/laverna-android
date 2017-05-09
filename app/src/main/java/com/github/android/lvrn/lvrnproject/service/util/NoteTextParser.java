@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.service.util;
 
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 import io.reactivex.Flowable;
 
+import static android.content.ContentValues.TAG;
 import static java.util.regex.Pattern.matches;
 
 /**
@@ -17,6 +19,8 @@ import static java.util.regex.Pattern.matches;
  */
 
 public class NoteTextParser {
+    private static final String TAG = "NoteTextParser";
+
     private static final String TAG_REGEX = "(?<=\\s|^)#(\\w*[A-Za-z_]+\\w*)";
 
     private static final String TASK_INCOMPLETE_REGEX = "\\[\\] .+";
@@ -60,6 +64,7 @@ public class NoteTextParser {
                 .map(String::trim)
                 .filter(word -> validateTag(word))
                 .subscribe(tagsSet::add);
+        Log.d(TAG, "Parse tags. Text: " + text + "\nParsed tags:" + tagsSet.toString());
         return tagsSet;
     }
 
@@ -75,6 +80,7 @@ public class NoteTextParser {
         Flowable
                 .merge(getTaskUncompletedFlowable(flowable), getTaskCompletedFlowable(flowable))
                 .subscribe(pair -> tasksMap.put(pair.first, pair.second));
+        Log.d(TAG, "Parse tag. Text: " + text + "\nParsed text:" + tasksMap);
         return tasksMap;
     }
 
