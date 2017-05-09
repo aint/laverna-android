@@ -17,7 +17,7 @@ import static java.util.regex.Pattern.matches;
  */
 
 public class NoteTextParser {
-    private static final String TAG_REGEX = "#[^#]+";
+    private static final String TAG_REGEX = "(?<=\\s|^)#(\\w*[A-Za-z_]+\\w*)";
 
     private static final String TASK_INCOMPLETE_REGEX = "\\[\\] .+";
 
@@ -27,9 +27,23 @@ public class NoteTextParser {
 
     private static final String SPACE_SEPARATOR = " ";
 
+    /**
+     * A method which parses content and double single quotes for a correct query.
+     * @param content a text of a note.
+     * @return parsed content.
+     */
     @NonNull
     public static String parseSingleQuotes(String content) {
         return content.replaceAll("'", "''");
+    }
+
+    /**
+     * A method which validate word for a belonging to tags.
+     * @param tag a tag to validate.
+     * @return a boolean result of validation.
+     */
+    public static boolean validateTag(@NonNull String word) {
+        return matches(TAG_REGEX, word);
     }
 
     /**
@@ -44,7 +58,7 @@ public class NoteTextParser {
                 .fromArray(validateText(text).split(NEW_LINE_SEPARATOR))
                 .flatMap(line -> Flowable.fromArray(line.split(SPACE_SEPARATOR)))
                 .map(String::trim)
-                .filter(word -> matches(TAG_REGEX, word))
+                .filter(word -> validateTag(word))
                 .subscribe(tagsSet::add);
         return tagsSet;
     }
