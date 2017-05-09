@@ -2,12 +2,14 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 
 import java.util.List;
 
+import static android.R.attr.name;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_PROFILE_ID;
 
 /**
@@ -16,6 +18,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 
 public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEntity>
         extends BasicRepositoryImpl<T> implements ProfileDependedRepository<T> {
+    private static final String TAG = "ProfileDependedRepoImpl";
 
     public ProfileDependedRepositoryImpl(String mTableName) {
         super(mTableName);
@@ -34,7 +37,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @param id an id for a required column
      * @param from a position to start from
      * @param amount a number of objects to retrieve.
-     * @return a l
+     * @return a list of entities
      */
     @NonNull
     protected List<T> getByIdCondition(String columnName, String id, int from, int amount) {
@@ -52,6 +55,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      */
     protected boolean rawUpdateQuery(@NonNull String query) {
         Cursor cursor = mDatabase.rawQuery(query, null);
+        Log.d(TAG, "Raw update: " + query + "\nCursor: " + (cursor != null));
         if (cursor != null) {
             cursor.moveToFirst();
             cursor.close();

@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;

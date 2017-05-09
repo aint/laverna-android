@@ -5,8 +5,8 @@ package com.github.android.lvrn.lvrnproject.persistent.database;
  */
 
 public class LavernaContract {
-    private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS ";
-    private static final String DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS ";
+    private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS";
+    private static final String DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS";
 
     private LavernaContract() {}
 
@@ -31,11 +31,11 @@ public class LavernaContract {
         public static final String COLUMN_PROFILE_NAME = "profile_name";
 
         static final String SQL_CREATE_PROFILES_TABLE =
-                CREATE_TABLE_IF_NOT_EXISTS + TABLE_NAME + " ("
+                CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
                         + COLUMN_ID + " TEXT PRIMARY KEY,"
                         + COLUMN_PROFILE_NAME + " TEXT unique)";
 
-        static final String SQL_DELETE_PROFILES_TABLE = DROP_TABLE_IF_EXISTS + TABLE_NAME;
+        static final String SQL_DELETE_PROFILES_TABLE = DROP_TABLE_IF_EXISTS + " " + TABLE_NAME;
     }
 
     /**
@@ -52,7 +52,7 @@ public class LavernaContract {
         public static final String COLUMN_COUNT = "count";
 
         static final String SQL_CREATE_NOTEBOOKS_TABLE =
-                CREATE_TABLE_IF_NOT_EXISTS + TABLE_NAME + " ("
+                CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
                         + COLUMN_ID + " TEXT PRIMARY KEY,"
                         + COLUMN_PROFILE_ID + " TEXT,"
                         + COLUMN_PARENT_ID + " TEXT,"
@@ -65,8 +65,7 @@ public class LavernaContract {
                         + "FOREIGN KEY (" + COLUMN_PARENT_ID + ") REFERENCES "
                         + TABLE_NAME + "(" + COLUMN_ID + "))";
 
-        static final String SQL_DELETE_NOTEBOOKS_TABLE = DROP_TABLE_IF_EXISTS
-                + TABLE_NAME;
+        static final String SQL_DELETE_NOTEBOOKS_TABLE = DROP_TABLE_IF_EXISTS + " " + TABLE_NAME;
     }
 
     /**
@@ -84,7 +83,7 @@ public class LavernaContract {
         public static final String COLUMN_IS_FAVORITE = "is_favorite";
 
         static final String SQL_CREATE_NOTES_TABLE =
-                CREATE_TABLE_IF_NOT_EXISTS + TABLE_NAME + " ("
+                CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
                         + COLUMN_ID + " TEXT PRIMARY KEY,"
                         + COLUMN_PROFILE_ID + " TEXT, "
                         + COLUMN_NOTEBOOK_ID + " TEXT,"
@@ -98,7 +97,7 @@ public class LavernaContract {
                         + "FOREIGN KEY (" + COLUMN_NOTEBOOK_ID + ") REFERENCES "
                         + NotebooksTable.TABLE_NAME + "(" + COLUMN_ID + "))";
 
-        static final String SQL_DELETE_NOTES_TABLE = DROP_TABLE_IF_EXISTS + TABLE_NAME;
+        static final String SQL_DELETE_NOTES_TABLE = DROP_TABLE_IF_EXISTS + " " + TABLE_NAME;
     }
 
     /**
@@ -114,7 +113,7 @@ public class LavernaContract {
         public static final String COLUMN_COUNT = "count";
 
         static final String SQL_CREATE_TAGS_TABLE =
-                CREATE_TABLE_IF_NOT_EXISTS + TABLE_NAME + " ("
+                CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
                         + COLUMN_ID + " TEXT PRIMARY KEY,"
                         + COLUMN_PROFILE_ID + " TEXT,"
                         + COLUMN_NAME + " TEXT unique,"
@@ -124,7 +123,7 @@ public class LavernaContract {
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
                         + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE)";
 
-        static final String SQL_DELETE_TAGS_TABLE = DROP_TABLE_IF_EXISTS + TABLE_NAME;
+        static final String SQL_DELETE_TAGS_TABLE = DROP_TABLE_IF_EXISTS + " " + TABLE_NAME;
     }
 
     /**
@@ -138,7 +137,7 @@ public class LavernaContract {
         public static final String COLUMN_TAG_ID = "tag_id";
 
         static final String SQL_CREATE_NOTES_TAGS_TABLE =
-                CREATE_TABLE_IF_NOT_EXISTS + TABLE_NAME + " ("
+                CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
                         + COLUMN_NOTE_ID + " TEXT,"
                         + COLUMN_TAG_ID + " TEXT,"
                         + "FOREIGN KEY (" + COLUMN_NOTE_ID + ") REFERENCES "
@@ -146,8 +145,7 @@ public class LavernaContract {
                         + "FOREIGN KEY (" + COLUMN_TAG_ID + ") REFERENCES "
                         + TagsTable.TABLE_NAME +"(" + LavernaBaseTable.COLUMN_ID + ") ON DELETE CASCADE)";
 
-        static final String SQL_DELETE_NOTES_TAGS_TABLE = DROP_TABLE_IF_EXISTS
-                + TABLE_NAME;
+        static final String SQL_DELETE_NOTES_TAGS_TABLE = DROP_TABLE_IF_EXISTS + " " + TABLE_NAME;
 
     }
 
@@ -163,7 +161,7 @@ public class LavernaContract {
         public static final String COLUMN_IS_COMPLETED = "is_completed";
 
         static final String SQL_CREATE_TASKS_TABLE =
-                CREATE_TABLE_IF_NOT_EXISTS + TABLE_NAME + " ("
+                CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
                         + COLUMN_ID + " TEXT PRIMARY KEY,"
                         + COLUMN_PROFILE_ID + " TEXT,"
                         + COLUMN_NOTE_ID + " TEXT,"
@@ -172,6 +170,6 @@ public class LavernaContract {
                         + "FOREIGN KEY (" + COLUMN_NOTE_ID + ") REFERENCES "
                         + NotesTable.TABLE_NAME +"(" + COLUMN_ID + ") ON DELETE CASCADE)";
 
-        static final String SQL_DELETE_TASKS_TABLE = DROP_TABLE_IF_EXISTS + TABLE_NAME;
+        static final String SQL_DELETE_TASKS_TABLE = DROP_TABLE_IF_EXISTS + " " + TABLE_NAME;
     }
 }

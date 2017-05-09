@@ -3,12 +3,15 @@ package com.github.android.lvrn.lvrnproject.persistent.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
 public class DatabaseManager {
+    private static final String TAG = "DatabaseManager";
+
     private int mOpenCounter = 0;
 
     @Nullable
@@ -28,7 +31,10 @@ public class DatabaseManager {
         if (sInstance == null) {
             sInstance = new DatabaseManager();
             sInstance.sDatabaseHelper = new LavernaDbHelper(context);
+            Log.i(TAG, "DatabaseManager is initialized");
+            return;
         }
+        Log.w(TAG, "DatabaseManager is already initialized");
     }
 
     /**
@@ -40,7 +46,10 @@ public class DatabaseManager {
         if(sInstance != null) {
             sInstance.sDatabaseHelper.deleteDatabase();
             sInstance = null;
+            Log.i(TAG, "DatabaseManager's instance is removed");
+            return;
         }
+        Log.w(TAG, "DatabaseManager's instance is already removed");
     }
 
     /**
@@ -51,6 +60,7 @@ public class DatabaseManager {
     @Nullable
     public static synchronized DatabaseManager getInstance() {
         if (sInstance == null) {
+            Log.e(TAG, "Calling DatabaseManager without an initialization");
             throw new IllegalStateException("DatabaseManager is not initialized, "
                     + "call initializeInstance(..) method first.");
         }
@@ -66,7 +76,9 @@ public class DatabaseManager {
         mOpenCounter++;
         if (mOpenCounter == 1) {
             mDatabase = sDatabaseHelper.getWritableDatabase();
+            Log.i(TAG, "A writable database is opened");
         }
+        Log.d(TAG, "Open a new connection to the database. Number of connections: " + mOpenCounter);
         return mDatabase;
     }
 
@@ -77,8 +89,10 @@ public class DatabaseManager {
     public synchronized void closeConnection() {
         if (mOpenCounter  == 1) {
             mDatabase.close();
+            Log.i(TAG, "A writable database is closed");
         }
         mOpenCounter = mOpenCounter > 0 ? mOpenCounter - 1 : 0;
+        Log.d(TAG, "Close a connection to the database. Number of connections: " + mOpenCounter);
     }
 
     /**
@@ -89,7 +103,9 @@ public class DatabaseManager {
         if (mDatabase != null && mDatabase.isOpen()) {
             mDatabase.close();
             mOpenCounter = 0;
+            Log.i(TAG, "All connections is closed");
         }
+        Log.w(TAG, "All connections is closed already");
     }
 
     /**

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
@@ -14,6 +15,7 @@ import com.google.common.base.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.id;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
 
 /**
@@ -21,6 +23,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  */
 
 public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRepository<T> {
+    private static final String TAG = "BasicRepoImpl";
 
     /**
      * A name of a table represented by the repository.
@@ -44,20 +47,9 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         } finally {
             mDatabase.endTransaction();
         }
+        Log.d(TAG, "Table name: " + mTableName + "\nOperation: add\nEntity: " + entity.toString() + "\nResult: " + result);
         return result;
     }
-
-//    @Override
-//    public void add(@NonNull Collection<T> entities) {
-//        mDatabase.beginTransaction();
-//        try {
-//            toContentValuesList(entities)
-//                    .forEach(values -> mDatabase.insert(mTableName, null, values));
-//            mDatabase.setTransactionSuccessful();
-//        } finally {
-//            mDatabase.endTransaction();
-//        }
-//    }
 
     @Override
     public boolean remove(@NonNull String id) {
@@ -69,6 +61,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         } finally {
             mDatabase.endTransaction();
         }
+        Log.d(TAG, "Table name: " + mTableName + "\nOperation: remove\nId: " + id + "\nResult: " + result);
         return result;
     }
 
@@ -79,6 +72,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
                 "SELECT * FROM " + mTableName
                         + " WHERE " + COLUMN_ID + " = '" + id + "'",
                 new String[]{});
+        Log.d(TAG, "Table name: " + mTableName + "\nOperation: getById\nId: " + id + "\nCursor: " + (cursor != null));
         if (cursor != null && cursor.moveToFirst()) {
             return Optional.of(toEntity(cursor));
         }
@@ -88,19 +82,23 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @Override
     public boolean openDatabaseConnection() {
         if (mDatabase != null) {
+            Log.w(TAG, "Connection is already opened");
             return false;
         }
         mDatabase = DatabaseManager.getInstance().openConnection();
+        Log.i(TAG, "Connection is opened");
         return true;
     }
 
     @Override
     public boolean closeDatabaseConnection() {
         if (mDatabase == null) {
+            Log.w(TAG, "Connection is already closed");
             return false;
         }
         DatabaseManager.getInstance().closeConnection();
         mDatabase = null;
+        Log.i(TAG, "Connection is closed");
         return true;
     }
 
@@ -129,6 +127,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @NonNull
     protected List<T> getByRawQuery(String query) {
         Cursor cursor = mDatabase.rawQuery(query, new String[]{});
+        Log.d(TAG, "Raw query:" + query + "\nCursor: " + (cursor != null));
         List<T> entities = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -152,17 +151,4 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
      * @return a {@code ProfileDependedEntity} object.
      */
     protected abstract T toEntity(Cursor cursor);
-
-//    /**
-//     * A method which converts an {@code Iterable<T>} of entities into a list of a
-//     * {@code ContentValues}.
-//     * @param entities objects to convert.
-//     * @return a list of converted into a {@code ContentValues} entities.
-//     */
-//    @NonNull
-//    private ContentValues toContentValuesList(@NonNull T entity) {
-//        List<ContentValues> contentValuesList = new ArrayList<>();
-//        entities.forEach(entity -> contentValuesList.add(toContentValues(entity)));
-//        return contentValuesList;
-//    }
 }

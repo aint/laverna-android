@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NoteRepository;
@@ -10,6 +11,7 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDep
 
 import java.util.List;
 
+import static android.R.attr.id;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_ID;
@@ -26,6 +28,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  */
 
 public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> implements NoteRepository {
+    private static final String TAG = "NoteRepoImpl";
 
     public NoteRepositoryImpl() {
         super(TABLE_NAME);
@@ -71,6 +74,8 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         } finally {
             mDatabase.endTransaction();
         }
+        Log.d(TAG, "Table name: " + TABLE_NAME + "\nOperation: addTagToNote\nNote id: " + noteId
+                + "\nTag id: " + tagId + "\nResult: " + result);
         return result;
     }
 
@@ -86,6 +91,8 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         } finally {
             mDatabase.endTransaction();
         }
+        Log.d(TAG, "Table name: " + TABLE_NAME + "\nOperation: removeTagToNote\nNote id: " + noteId
+                + "\nTag id: " + tagId + "\nResult: " + result);
         return result;
     }
 
