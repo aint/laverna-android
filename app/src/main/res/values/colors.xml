@@ -10,4 +10,5 @@
     <color name="detail_note_fragment_view_separator_line">#aeaeae</color>
     <color name="single_note_fragment_tool_bar_color">#FAFAFA</color>
     <color name="status_bar_main_color">#212121</color>
+    <color name="fragment_dialog_tag_editing">#F5F5F5</color>
 </resources>

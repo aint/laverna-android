@@ -11,4 +11,8 @@
     <string name="date_of_created_all_note">Date of Created</string>
     <string name="tv_prompt_ext_note">Prompt Text</string>
     <string name="item_note_title_note">Title notes</string>
+    <string name="choose_tags_dialog_fragment">Choose tags</string>
+    <string name="cancel_button_dialog_fragment">Cancel</string>
+    <string name="ok_button_dialog_fragment">OK</string>
+    <string name="add_tag_hint_dialog_fragment">Add tag...</string>
 </resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_choose_tags_dialog_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/choose_tags_dialog_fragment"
+        android:textColor="@color/main_green_themes_app"
+        android:textSize="24sp"/>
+
+    <View
+        android:id="@+id/view_separator_dialog_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@+id/tv_choose_tags_dialog_fragment"
+        android:background="@color/main_green_themes_app"/>
+
+    <EditText
+        android:id="@+id/edit_text_tags_dialog_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_separator_dialog_fragment"
+        android:layout_margin="16dp"
+        android:hint="@string/add_tag_hint_dialog_fragment"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_all_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/edit_text_tags_dialog_fragment"
+        android:layout_above="@+id/button_containers_fragment_dialog"/>
+
+    <LinearLayout
+        android:id="@+id/button_containers_fragment_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/fragment_dialog_button_background"
+            android:text="@string/cancel_button_dialog_fragment"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/fragment_dialog_button_background"
+            android:text="@string/ok_button_dialog_fragment"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
