@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.view.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -12,9 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
 
 import butterknife.BindView;
@@ -43,7 +44,9 @@ public class AllNotesFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         FloatingActionButton floatingBtn = (FloatingActionButton)(getActivity()).findViewById(R.id.fab);
         floatingBtn.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.ic_add_middle_white_24dp));
-        floatingBtn.setOnClickListener(v -> Toast.makeText(getContext(),"Fragment №1",Toast.LENGTH_SHORT).show());
+
+        //TODO: temporary implementation. Change it later.
+        floatingBtn.setOnClickListener(this::startNoteEditorActivity);
     }
 
     private void initRecyclerView(View rootView) {
@@ -51,6 +54,16 @@ public class AllNotesFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         AllNotesFragmentRecyclerViewAdapter mAdapter = new AllNotesFragmentRecyclerViewAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    /**
+     * A method which starts the note editor activity.
+     * @param view
+     */
+    private void startNoteEditorActivity(View view) {
+        Intent intent = new Intent(getActivity(), NoteEditorActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
 }
