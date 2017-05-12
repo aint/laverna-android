@@ -22,8 +22,7 @@ import butterknife.OnClick;
  */
 
 public class TagEditingDialogFragment extends DialogFragment {
-    @BindView(R.id.recycler_view_all_tags)
-    RecyclerView mRecyclerViewTags;
+    @BindView(R.id.recycler_view_all_tags) RecyclerView mRecyclerViewTags;
 
    public static TagEditingDialogFragment newInstance(){
        return new TagEditingDialogFragment();
@@ -43,12 +42,6 @@ public class TagEditingDialogFragment extends DialogFragment {
         initRecyclerView();
         return root;
     }
-
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        initRecyclerView();
-//    }
 
     private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
