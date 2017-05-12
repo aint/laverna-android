@@ -22,6 +22,7 @@ public interface TagService extends ProfileDependedService<Tag, TagForm> {
      * @param amount a number of entities to retrieve.
      * @return a list of entities.
      */
+    //TODO: does it depend to profile?
     @NonNull
     List<Tag> getByName(@NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
 

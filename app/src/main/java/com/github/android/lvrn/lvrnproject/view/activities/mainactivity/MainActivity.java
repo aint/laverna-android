@@ -23,12 +23,9 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-    @BindView(R.id.fab)
-    FloatingActionButton floatingBtn;
-    @BindView(R.id.toolbar)
-    Toolbar toolBar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.fab) FloatingActionButton floatingBtn;
+    @BindView(R.id.toolbar) Toolbar toolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

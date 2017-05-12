@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragment;
 
 import java.util.ArrayList;
@@ -26,13 +27,13 @@ import butterknife.ButterKnife;
 
 public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<AllNotesFragmentRecyclerViewAdapter.AllNotesViewHolder> {
     //TODO remove after implements DAO
-    private List<String> mDataSet = new ArrayList<>();
+    private List<Note> mDataSet = new ArrayList<>();
     private Context mContext;
 
     //TODO change after implements DAO
-    public AllNotesFragmentRecyclerViewAdapter(Context mContext) {
+    public AllNotesFragmentRecyclerViewAdapter(Context mContext,List<Note> data) {
         this.mContext = mContext;
-        setDataInTempCollections();
+        mDataSet = data;
     }
 
     @Override
@@ -45,9 +46,8 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
     //TODO change after implements DAO
     @Override
     public void onBindViewHolder(AllNotesViewHolder holder, int position) {
-        holder.tvTitle.setText(mDataSet.get(position));
-        holder.tvDate.setText(mDataSet.get(position));
-        holder.tvPromptText.setText(mDataSet.get(position));
+        holder.tvTitle.setText(mDataSet.get(position).getTitle());
+        holder.tvPromptText.setText(mDataSet.get(position).getContent());
     }
 
     @Override
@@ -56,14 +56,10 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
     }
 
     static class AllNotesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.tv_title_note)
-        TextView tvTitle;
-        @BindView(R.id.tv_date_created_note)
-        TextView tvDate;
-        @BindView(R.id.tv_prompt_text_note)
-        TextView tvPromptText;
-        @BindView(R.id.im_btn_favorite)
-        ImageButton imBtnFavorite;
+        @BindView(R.id.tv_title_note) TextView tvTitle;
+        @BindView(R.id.tv_date_created_note) TextView tvDate;
+        @BindView(R.id.tv_prompt_text_note) TextView tvPromptText;
+        @BindView(R.id.im_btn_favorite) ImageButton imBtnFavorite;
 
         public AllNotesViewHolder(View itemView) {
             super(itemView);
@@ -84,16 +80,6 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
         }
     }
 
-    //TODO remove after implements DAO
-    private void setDataInTempCollections() {
-        mDataSet.add("Test 1");
-        mDataSet.add("Test 2");
-        mDataSet.add("Test 3");
-        mDataSet.add("Test 4");
-        mDataSet.add("Test 5");
-        mDataSet.add("Test 6");
-        mDataSet.add("Test 7");
-    }
 }
 
 

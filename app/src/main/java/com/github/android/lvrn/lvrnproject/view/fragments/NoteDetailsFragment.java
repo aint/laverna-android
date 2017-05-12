@@ -34,15 +34,15 @@ public class NoteDetailsFragment extends Fragment {
         return rootView;
     }
 
+    @OnClick(R.id.im_btn_arrow_back)
+    public void backToPreviousFragment(){
+        getActivity().onBackPressed();
+    }
+
     private void reInitBaseView() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         FloatingActionButton fa =(FloatingActionButton)(( getActivity()).findViewById(R.id.fab));
         fa.hide();
-    }
-
-    @OnClick(R.id.im_btn_arrow_back)
-    public void backToPreviousFragment(){
-        getActivity().onBackPressed();
     }
 
 }
