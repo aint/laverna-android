@@ -68,8 +68,8 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String title, int from, int amount) {
-        return mNoteRepository.getByTitle(title, from, amount);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int from, int amount) {
+        return mNoteRepository.getByTitle(profileId, title, from, amount);
     }
 
     @NonNull
@@ -142,11 +142,14 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @param noteId an id on a note.
      */
     private void createTagAndAddToNote(String profileId, String tagName, String noteId) {
+        List<Tag> tags = mTagService.getByName(profileId, tagName, 1, 1);
+        if (tags.size() != 0) {
+            mNoteRepository.addTagToNote(noteId, tags.get(0).getId());
+            return;
+        }
         Optional<String> tagIdOptional = mTagService.create(new TagForm(profileId, tagName));
         if(tagIdOptional.isPresent()) {
             mNoteRepository.addTagToNote(noteId, tagIdOptional.get());
-        } else {
-            //TODO: find out what to do in this case, case it's unexpected situation.
         }
     }
 

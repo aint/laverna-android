@@ -52,7 +52,7 @@ public class NotebookRepositoryTest {
         profilesRepository.openDatabaseConnection();
         profile = new Profile("profile_id_1", "first profile");
         profilesRepository.add(profile);
-        profilesRepository.add(new Profile("profile_id_2", "second profile"));
+//        profilesRepository.add(new Profile("profile_id_2", "second profile"));
         profilesRepository.closeDatabaseConnection();
 
         notebookRepository = new NotebookRepositoryImpl();
@@ -80,7 +80,7 @@ public class NotebookRepositoryTest {
         notebook3 = new Notebook(
                 "id_3",
                 "profile_id_2",
-                "profile_id_1",
+                null,
                 "notebook_name_3",
                 1111,
                 2222,
@@ -145,14 +145,29 @@ public class NotebookRepositoryTest {
         notebook2.setName("notebook2");
         notebookRepository.add(notebook2);
 
-        List<Notebook> result1 = notebookRepository.getByName("notebook", 1, 5);
+        List<Notebook> result1 = notebookRepository.getByName(profile.getId(), "notebook", 1, 5);
 
         assertThat(result1).hasSize(2);
 
-        List<Notebook> result2 = notebookRepository.getByName("notebook_n", 1, 5);
+        List<Notebook> result2 = notebookRepository.getByName(profile.getId(), "notebook_n", 1, 5);
 
         assertThat(result2).hasSize(1);
     }
+
+    @Test
+    public void repositoryShouldGetChildrenNotebooks() {
+        notebook2.setParentId(notebook1.getId());
+        notebook3.setProfileId(profile.getId());
+        notebook3.setParentId(notebook1.getId());
+
+        notebookRepository.add(notebook1);
+        notebookRepository.add(notebook2);
+        notebookRepository.add(notebook3);
+
+        assertThat(notebookRepository.getChildren(notebook1.getId(),1, 10)).hasSize(2);
+        System.out.println(notebookRepository.getChildren(notebook1.getId(),1, 10));
+    }
+
 
     @After
     public void finish() {

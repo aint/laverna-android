@@ -88,6 +88,15 @@ public class NotebookServiceImplTest {
         assertThat(notebookService.update(notebookIdOptional.get(), new NotebookForm(null, null, ""))).isFalse();
     }
 
+    @Test
+    public void serviceShouldGetEntityByName() {
+        assertThat(notebookService.create(new NotebookForm(profile.getId(), null, "new notebook"))
+                .isPresent())
+                .isTrue();
+
+        assertThat(notebookService.getByName(profile.getId(), "new", 1, 100)).hasSize(1);
+    }
+
     @After
     public void finish() {
         notebookService.closeConnection();

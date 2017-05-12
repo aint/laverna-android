@@ -23,7 +23,7 @@ public interface TagService extends ProfileDependedService<Tag, TagForm> {
      * @return a list of entities.
      */
     @NonNull
-    List<Tag> getByName(@NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Tag> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 1) int from, @Size(min = 1) int amount);
 
     /**
      * A method which retrieves all entities by a note id.

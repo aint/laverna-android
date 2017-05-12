@@ -23,5 +23,5 @@ public interface NotebookService extends ProfileDependedService<Notebook, Notebo
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getByName(@NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
 }

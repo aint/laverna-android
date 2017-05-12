@@ -16,7 +16,9 @@ import com.github.android.lvrn.lvrnproject.service.extension.impl.ProfileService
 import com.github.android.lvrn.lvrnproject.service.extension.impl.TagServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.extension.impl.TaskServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
+import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
+import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -154,9 +156,41 @@ public class NoteServiceImplTest {
         assertThat(tasks).hasSize(3);
     }
 
+    @Test
+    public void serviceShouldGetEntityByTitle() {
+        assertThat(noteService.create(new NoteForm(profile.getId(), null, "Note Title", "Content", false))
+                .isPresent())
+                .isTrue();
+
+        assertThat(noteService.getByTitle(profile.getId(), "note", 1, 100)).hasSize(1);
+    }
+
+    @Test
+    public void serviceShouldGetEntityByNotebook() {
+        NotebookService notebookService = new NotebookServiceImpl(new NotebookRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
+        notebookService.openConnection();
+        Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), null, "notebook"));
+        notebookService.closeConnection();
+        assertThat(notebookIdOptional.isPresent()).isTrue();
+        noteService.create(new NoteForm(profile.getId(), notebookIdOptional.get(), "new note", "yeah", false));
+
+        assertThat(noteService.getByNotebook(notebookIdOptional.get(), 1, 100)).hasSize(1);
+    }
+
+    @Test
+    public void serviceShouldGetEntityByTag() {
+        TagService tagService = new TagServiceImpl(new TagRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
+        tagService.openConnection();
+        Optional<String> tagIdOptional = tagService.create(new TagForm(profile.getId(), "#simple_tag"));
+        assertThat(tagIdOptional.isPresent()).isTrue();
 
 
+        noteService.create(new NoteForm(profile.getId(), null, "new note", "#simple_tag", false));
 
+        assertThat(noteService.getByTag(tagIdOptional.get(), 1, 100)).hasSize(1);
+
+        tagService.closeConnection();
+    }
 
     @After
     public void finish() {

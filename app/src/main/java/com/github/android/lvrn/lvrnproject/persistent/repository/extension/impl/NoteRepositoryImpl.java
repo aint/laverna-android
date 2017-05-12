@@ -11,7 +11,6 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDep
 
 import java.util.List;
 
-import static android.R.attr.id;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_ID;
@@ -98,8 +97,8 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String title, int from, int amount) {
-        return super.getByName(COLUMN_TITLE, title, from, amount);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int from, int amount) {
+        return super.getByName(COLUMN_TITLE, profileId, title, from, amount);
     }
 
     @NonNull

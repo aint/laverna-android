@@ -20,12 +20,6 @@ public interface BasicRepository<T extends Entity> {
     boolean add(@NonNull T entity);
 
     /**
-     * A method which adds a collection of entities to a database.
-     * @param entities a collection of objects which extends the Laverna's entity class.
-     */
-//    void add(@NonNull Collection<T> entities);
-
-    /**
      * A method which removes an entity from a database by its id.
      * @param id an id of the Laverna's entity class.
      * @return a boolean result of a removing

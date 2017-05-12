@@ -15,7 +15,6 @@ import com.google.common.base.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.id;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_ID;
 
 /**
@@ -100,23 +99,6 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         mDatabase = null;
         Log.i(TAG, "Connection is closed");
         return true;
-    }
-
-    /**
-     * A method which retrieves objects from the database by a query with LIKE operator.
-     * @param columnName a name of the column to find by.
-     * @param name a value for a find by.
-     * @param from a start position for selection.
-     * @param amount a number of entities to retrieve.
-     * @return a list of entities.
-     */
-    @NonNull
-    protected List<T> getByName(@NonNull String columnName,  String name, int from, int amount) {
-        String query = "SELECT * FROM " + mTableName
-                + " WHERE " + columnName + " LIKE '%" + name + "%'"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
-        return getByRawQuery(query);
     }
 
     /**

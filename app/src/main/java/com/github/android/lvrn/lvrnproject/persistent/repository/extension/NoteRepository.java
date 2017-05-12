@@ -38,7 +38,7 @@ public interface NoteRepository extends ProfileDependedRepository<Note> {
      * @return a list of entities.
      */
     @NonNull
-    List<Note> getByTitle(@NonNull String title, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Note> getByTitle(@NonNull String profileId, @NonNull String title, @Size(min = 1) int from, @Size(min = 2) int amount);
 
     /**
      * A method which retrieves an amount of entities from a start position by a notebook id.

@@ -227,11 +227,11 @@ public class NoteRepositoryTest {
         note2.setTitle("title2");
         noteRepository.add(note2);
 
-        List<Note> result1 = noteRepository.getByTitle("title", 1, 5);
+        List<Note> result1 = noteRepository.getByTitle(profile.getId(), "title", 1, 5);
 
         assertThat(result1).hasSize(2);
 
-        List<Note> result2 = noteRepository.getByTitle("title_1", 1, 5);
+        List<Note> result2 = noteRepository.getByTitle(profile.getId(), "title_1", 1, 5);
 
         assertThat(result2).hasSize(1);
     }

@@ -9,7 +9,6 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDepended
 
 import java.util.List;
 
-import static android.R.attr.name;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_PROFILE_ID;
 
 /**
@@ -43,6 +42,24 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
     protected List<T> getByIdCondition(String columnName, String id, int from, int amount) {
         String query = "SELECT * FROM " + super.mTableName
                 + " WHERE " + columnName + " = '" + id + "'"
+                + " LIMIT " + amount
+                + " OFFSET " + (from - 1);
+        return getByRawQuery(query);
+    }
+
+    /**
+     * A method which retrieves objects from the database by a query with LIKE operator.
+     * @param columnName a name of the column to find by.
+     * @param name a value for a find by.
+     * @param from a start position for selection.
+     * @param amount a number of entities to retrieve.
+     * @return a list of entities.
+     */
+    @NonNull
+    protected List<T> getByName(@NonNull String columnName, @NonNull String profileId, @NonNull String name, int from, int amount) {
+        String query = "SELECT * FROM " + mTableName
+                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "'"
+                + " AND " + columnName + " LIKE '%" + name + "%'"
                 + " LIMIT " + amount
                 + " OFFSET " + (from - 1);
         return getByRawQuery(query);

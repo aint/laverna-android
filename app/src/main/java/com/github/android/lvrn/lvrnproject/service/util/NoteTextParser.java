@@ -11,7 +11,6 @@ import java.util.Set;
 
 import io.reactivex.Flowable;
 
-import static android.content.ContentValues.TAG;
 import static java.util.regex.Pattern.matches;
 
 /**
@@ -43,7 +42,7 @@ public class NoteTextParser {
 
     /**
      * A method which validate word for a belonging to tags.
-     * @param tag a tag to validate.
+     * @param word a tag to validate.
      * @return a boolean result of validation.
      */
     public static boolean validateTag(@NonNull String word) {

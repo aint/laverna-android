@@ -168,11 +168,11 @@ public class TagsRepositoryTest {
         tag2.setName("name2");
         tagRepository.add(tag2);
 
-        List<Tag> result1 = tagRepository.getByName("name", 1, 5);
+        List<Tag> result1 = tagRepository.getByName(profile.getId(), "name", 1, 5);
 
         assertThat(result1).hasSize(2);
 
-        List<Tag> result2 = tagRepository.getByName("name_1", 1, 5);
+        List<Tag> result2 = tagRepository.getByName(profile.getId(), "name_1", 1, 5);
 
         assertThat(result2).hasSize(1);
     }

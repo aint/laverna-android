@@ -22,5 +22,15 @@ public interface NotebookRepository extends ProfileDependedRepository<Notebook> 
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getByName(@NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
+
+    /**
+     * A method which retrieves an amount of entities from a start position by a parent notebook's id.
+     * @param notebookId an id of a parent notebook.
+     * @param from a start position.
+     * @param amount a number of entities to retrieve.
+     * @return a list of entities.
+     */
+    @NonNull
+    List<Notebook> getChildren(@NonNull String notebookId, @Size(min = 1) int from, @Size(min = 2) int amount);
 }

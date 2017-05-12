@@ -3,7 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
@@ -59,8 +59,14 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
 
     @NonNull
     @Override
-    public List<Notebook> getByName(@NonNull String name, int from, int amount) {
-        return super.getByName(COLUMN_NAME, name, from, amount);
+    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, int from, int amount) {
+        return super.getByName(COLUMN_NAME, profileId, name, from, amount);
+    }
+
+    @NonNull
+    @Override
+    public List<Notebook> getChildren(@NonNull String notebookId, @Size(min = 1) int from, @Size(min = 2) int amount) {
+        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, from, amount);
     }
 
     @Override
