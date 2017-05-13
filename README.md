@@ -22,9 +22,9 @@ The application supports Android 4.1 JELLY BEAN (API level 16) and above.
 
 ## Installation
 
-There are different ways to get the GnuCash app for Android: through the app store, from github or building it yourself.
+There are different ways to get the Laverna app for Android: through the google play, from github or building it yourself.
 
-### App Store
+### Google play
 
 Comming soon
 
