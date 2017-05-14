@@ -43,6 +43,10 @@ public class NoteEditorActivity extends AppCompatActivity {
         mEditorEditText = (EditText) findViewById(R.id.edit_text_editor);
         andDown = new AndDown();
         initTabs();
+
+
+//        previewWebView.getSettings().setJavaScriptEnabled(true);
+//        previewWebView.getSettings().setLoadWithOverviewMode(true);
     }
 
     private void initTabs() {
@@ -62,6 +66,28 @@ public class NoteEditorActivity extends AppCompatActivity {
     private void showPreview(String tabId) {
         if (PREVIEW_TAB_ID.equals(tabId)) {
             String text = mEditorEditText.getText().toString();
+
+//            System.out.println(text);
+
+
+            //Parser of tags
+            text = text.replaceAll("(?<=\\s|^)#(\\w*[A-Za-z_]+\\w*)", "<div class=\"tag\">#$1</div>");
+
+            //Parser of new lines
+
+            //Parser of uncompleted tasks
+            text = text.replaceAll("(\\[\\]|\\[ \\])", "<input type=\"checkbox\">");
+
+            //Parser of completed tasks
+            text = text.replaceAll("(\\[x\\]|\\[X\\])", "<input type=\"checkbox\" checked>");
+
+        //TODO: http://stackoverflow.com/questions/7658568/most-efficient-way-to-use-replace-multiple-words-in-a-string
+
+
+
+
+
+
             List<Extension> extensions = Arrays.asList(
                     TablesExtension.create(),
                     AutolinkExtension.create(),
@@ -74,14 +100,21 @@ public class NoteEditorActivity extends AppCompatActivity {
 
 
 
+
             HtmlRenderer renderer = HtmlRenderer.builder()
                     .extensions(extensions)
                     .build();
-            String textHtml = renderer.render(document);  // "<p>This is <em>Sparta</em></p>\n"
+            String textHtml = renderer.render(document);
+
+            textHtml = textHtml.replaceAll("(\r\n|\n)", "<br/>");
+
 
             System.out.println(textHtml);
 
             previewWebView.loadData(textHtml, "text/html", "UTF-8");
+
+
+
         }
     }
 }
