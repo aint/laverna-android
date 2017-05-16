@@ -6,53 +6,60 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TabHost;
 
-import com.commonsware.cwac.anddown.AndDown;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.view.util.MarkdownParser;
+import com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserImpl;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
-import org.commonmark.Extension;
-import org.commonmark.ext.autolink.AutolinkExtension;
-import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
-import org.commonmark.ext.gfm.tables.TablesExtension;
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
-
-import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 //TODO: temporary implementation.
 public class NoteEditorActivity extends AppCompatActivity {
     private static final String EDITOR_TAB_ID = "Editor" , PREVIEW_TAB_ID = "Preview";
 
+    private NoteEditorPresenter mNoteEditorPresenter;
+
     @BindView(R.id.edit_text_editor) EditText mEditorEditText;
 
-    @BindView(R.id.web_view_preview) WebView previewWebView;
+    @BindView(R.id.web_view_preview) WebView mPreviewWebView;
 
-    private AndDown andDown;
+    private MarkdownParser mMarkdownParser;
+
+
+    private Disposable mEditorEditTextDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_editor);
         ButterKnife.bind(this);
-        mEditorEditText = (EditText) findViewById(R.id.edit_text_editor);
-        andDown = new AndDown();
         initTabs();
 
+        mMarkdownParser = new MarkdownParserImpl();
 
-//        previewWebView.getSettings().setJavaScriptEnabled(true);
-//        previewWebView.getSettings().setLoadWithOverviewMode(true);
+
+
+        mNoteEditorPresenter = new NoteEditorPresenterImpl(this);
+
+        mEditorEditText = (EditText) findViewById(R.id.edit_text_editor);
+        mEditorEditTextDisposable = RxTextView.textChanges(mEditorEditText)
+                .debounce(100, TimeUnit.MILLISECONDS)
+                .map(text -> mMarkdownParser.getParsedHtml(text.toString()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(html -> mPreviewWebView.loadData(html, "text/html", "charset=UTF-8"));
     }
 
     private void initTabs() {
         TabHost tabHost = (TabHost) findViewById(R.id.tab_host);
         tabHost.setup();
-        tabHost.setOnTabChangedListener(this::showPreview);
         TabHost.TabSpec tabSpec = tabHost.newTabSpec(EDITOR_TAB_ID);
         tabSpec.setContent(R.id.tab_editor);
         tabSpec.setIndicator(EDITOR_TAB_ID);
@@ -63,58 +70,14 @@ public class NoteEditorActivity extends AppCompatActivity {
         tabHost.addTab(tabSpec);
     }
 
-    private void showPreview(String tabId) {
-        if (PREVIEW_TAB_ID.equals(tabId)) {
-            String text = mEditorEditText.getText().toString();
-
-//            System.out.println(text);
-
-
-            //Parser of tags
-            text = text.replaceAll("(?<=\\s|^)#(\\w*[A-Za-z_]+\\w*)", "<div class=\"tag\">#$1</div>");
-
-            //Parser of new lines
-
-            //Parser of uncompleted tasks
-            text = text.replaceAll("(\\[\\]|\\[ \\])", "<input type=\"checkbox\">");
-
-            //Parser of completed tasks
-            text = text.replaceAll("(\\[x\\]|\\[X\\])", "<input type=\"checkbox\" checked>");
-
-        //TODO: http://stackoverflow.com/questions/7658568/most-efficient-way-to-use-replace-multiple-words-in-a-string
 
 
 
-
-
-
-            List<Extension> extensions = Arrays.asList(
-                    TablesExtension.create(),
-                    AutolinkExtension.create(),
-                    StrikethroughExtension.create());
-
-            Parser parser = Parser.builder()
-                    .extensions(extensions)
-                    .build();
-            Node document = parser.parse(text);
-
-
-
-
-            HtmlRenderer renderer = HtmlRenderer.builder()
-                    .extensions(extensions)
-                    .build();
-            String textHtml = renderer.render(document);
-
-            textHtml = textHtml.replaceAll("(\r\n|\n)", "<br/>");
-
-
-            System.out.println(textHtml);
-
-            previewWebView.loadData(textHtml, "text/html", "UTF-8");
-
-
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(!mEditorEditTextDisposable.isDisposed()) {
+            mEditorEditTextDisposable.dispose();
         }
     }
 }
