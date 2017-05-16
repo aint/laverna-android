@@ -4,6 +4,7 @@ package com.github.android.lvrn.lvrnproject.view.adapters;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +25,13 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-
 public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<AllNotesFragmentRecyclerViewAdapter.AllNotesViewHolder> {
     //TODO remove after implements DAO
     private List<Note> mDataSet = new ArrayList<>();
     private Context mContext;
 
     //TODO change after implements DAO
-    public AllNotesFragmentRecyclerViewAdapter(Context mContext,List<Note> data) {
+    public AllNotesFragmentRecyclerViewAdapter(Context mContext, List<Note> data) {
         this.mContext = mContext;
         mDataSet = data;
     }
@@ -77,6 +77,13 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
                     .replace(R.id.constraint_container,singleNoteFragment)
                     .addToBackStack(null)
                     .commit();
+        }
+    }
+
+    public void setFilteredItems(List<Note> list){
+        if (!list.isEmpty() && list!=null){
+            mDataSet = list;
+            notifyDataSetChanged();
         }
     }
 

@@ -7,6 +7,7 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_stat_search_black_24dp"
         android:title="sync"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
 
     <item
@@ -14,24 +15,24 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_stat_sync_black_24dp"
         android:title="sync"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/item_sort_by"
         android:orderInCategory="100"
         android:title="Sort by"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/item_settings"
         android:orderInCategory="100"
         android:title="Settings"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/item_about"
         android:orderInCategory="100"
         android:title="About"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
 </menu>
