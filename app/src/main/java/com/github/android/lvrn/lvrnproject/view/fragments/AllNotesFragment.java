@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -52,22 +53,19 @@ import io.reactivex.subjects.BehaviorSubject;
  */
 
 public class AllNotesFragment extends Fragment {
-    private List<Note> dataAllNotes = new ArrayList<>();
+    final static private int startPositionDownloadItem = 1;
+    final static private int numberEntitiesDownloadItem = 7;
+    private List<Note> mDataAllNotes = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
     private AllNotesFragmentRecyclerViewAdapter mAdapter;
-
-    private int mLazyCount = 1;
-
-
-    SearchView searchView;
+    private Disposable mDisposable;
+    private EndlessRecyclerViewScrollListener mScrollListener;
+    private SearchView mSearchView;
     @Inject NoteService noteService;
     @BindView(R.id.recycler_view_all_notes) RecyclerView mRecyclerView;
-
     //TODO: temporary, remove later
     private String profileId;
-    ProfileService profileService;
-
-    private Disposable disposable;
+    private ProfileService profileService;
 
     @Nullable
     @Override
@@ -83,20 +81,18 @@ public class AllNotesFragment extends Fragment {
         return rootView;
     }
 
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.acitivity_main, menu);
         MenuItem searchItem = menu.findItem(R.id.item_action_search);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        disposable = RxSearch.fromSearchView(searchView)
-                .debounce(400, TimeUnit.MILLISECONDS)
-                .filter(word -> word.length() > 2)
-                .map(title-> noteService.getByTitle(profileId,title,1,10))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(foundItems-> {
-                    mAdapter.setFilteredItems(foundItems);
-                });
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setOnCloseListener(() -> {
+            mAdapter.setmDataSet(mDataAllNotes);
+            return false;
+        });
+        searchNoteInDBListener();
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -104,8 +100,8 @@ public class AllNotesFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         profileService.closeConnection();
-        if(!disposable.isDisposed())
-        disposable.dispose();
+        if(!mDisposable.isDisposed())
+        mDisposable.dispose();
     }
 
     private void reInitBaseView() {
@@ -118,31 +114,49 @@ public class AllNotesFragment extends Fragment {
     private void initRecyclerView() {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        dataAllNotes.addAll(noteService.getByProfile(profileId,1,7));
-        mAdapter = new AllNotesFragmentRecyclerViewAdapter(getActivity(),dataAllNotes);
+        mDataAllNotes.clear();
+        mDataAllNotes.addAll(noteService.getByProfile(profileId,startPositionDownloadItem,numberEntitiesDownloadItem));
+        mAdapter = new AllNotesFragmentRecyclerViewAdapter(getActivity(), mDataAllNotes);
+        mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(initEndlessRecyclerViewScroll());
     }
 
+    private void searchNoteInDBListener(){
+        mDisposable = RxSearch.fromSearchView(mSearchView)
+                .debounce(400,TimeUnit.MILLISECONDS)
+                .filter(word -> word.length() > 2)
+                .map(title-> noteService.getByTitle(profileId,title,1,10))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(foundItems-> {
+                    mAdapter.setmDataSet(foundItems);
+                });
+    }
+
     private EndlessRecyclerViewScrollListener initEndlessRecyclerViewScroll(){
-        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager){
+        mScrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager){
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                int curSize = mAdapter.getItemCount();
-                dataAllNotes.addAll(noteService.getByProfile(profileId, mLazyCount*8,10));
-                mLazyCount++;
-                view.post(() -> mAdapter.notifyItemRangeInserted(curSize, dataAllNotes.size()-1));
-            }
+                   mDataAllNotes.addAll(noteService.getByProfile(profileId,totalItemsCount+1,numberEntitiesDownloadItem));
+                view.post(() -> {
+                    mAdapter.notifyItemRangeInserted(mAdapter.getItemCount(), mDataAllNotes.size() - 1);
+                });
+                }
         };
-        return scrollListener;
+        return mScrollListener;
     }
+
     //TODO: temporary, remove later
     private void hardcode() {
         profileService = new ProfileServiceImpl(new ProfileRepositoryImpl());
         profileService.openConnection();
-        List<Profile> profiles = profileService.getAll();
+        List<Profile>  profiles = profileService.getAll();
         profileService.closeConnection();
         profileId = profiles.get(0).getId();
+        for (Note note : noteService.getByProfile(profileId, 1, 200)){
+            System.out.println(noteService.remove(note.getId()));
+        }
         noteService.create(new NoteForm(profiles.get(0).getId(), null, "Dog", "Content 1", false));
         noteService.create(new NoteForm(profiles.get(0).getId(), null, "Cat", "Content 2", false));
         noteService.create(new NoteForm(profiles.get(0).getId(), null, "Bird", "Content 3", false));
@@ -179,6 +193,5 @@ public class AllNotesFragment extends Fragment {
             return subject;
         }
     }
-
 
 }

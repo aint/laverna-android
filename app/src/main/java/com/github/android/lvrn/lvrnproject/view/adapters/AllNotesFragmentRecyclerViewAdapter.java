@@ -80,12 +80,11 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
         }
     }
 
-    public void setFilteredItems(List<Note> list){
-        if (!list.isEmpty() && list!=null){
-            mDataSet = list;
-            notifyDataSetChanged();
-        }
+    public void setmDataSet(List<Note> mDataSet) {
+        this.mDataSet = mDataSet;
+        notifyDataSetChanged();
     }
+
 
 }
 

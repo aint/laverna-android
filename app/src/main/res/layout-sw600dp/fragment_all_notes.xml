@@ -7,10 +7,4 @@
         android:id="@+id/recycler_view_all_notes"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="fuck"
-        android:layout_alignParentRight="true"
-        android:layout_height="wrap_content" />
-
 </RelativeLayout>
