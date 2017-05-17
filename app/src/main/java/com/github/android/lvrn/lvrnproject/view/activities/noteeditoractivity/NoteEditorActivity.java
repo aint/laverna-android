@@ -7,33 +7,21 @@ import android.widget.EditText;
 import android.widget.TabHost;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.util.MarkdownParser;
-import com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserImpl;
-import com.jakewharton.rxbinding2.widget.RxTextView;
-
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 //TODO: temporary implementation.
 public class NoteEditorActivity extends AppCompatActivity {
-    private static final String EDITOR_TAB_ID = "Editor" , PREVIEW_TAB_ID = "Preview";
+    private static final String EDITOR_TAB_ID = "Editor";
+    private static final String PREVIEW_TAB_ID = "Preview";
 
-    private NoteEditorPresenter mNoteEditorPresenter;
+    private NoteEditorPresenterImpl mNoteEditorPresenter;
 
     @BindView(R.id.edit_text_editor) EditText mEditorEditText;
 
     @BindView(R.id.web_view_preview) WebView mPreviewWebView;
-
-    private MarkdownParser mMarkdownParser;
-
-
-    private Disposable mEditorEditTextDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +29,19 @@ public class NoteEditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_editor);
         ButterKnife.bind(this);
         initTabs();
-
-        mMarkdownParser = new MarkdownParserImpl();
-
-
-
         mNoteEditorPresenter = new NoteEditorPresenterImpl(this);
+    }
 
-        mEditorEditText = (EditText) findViewById(R.id.edit_text_editor);
-        mEditorEditTextDisposable = RxTextView.textChanges(mEditorEditText)
-                .debounce(100, TimeUnit.MILLISECONDS)
-                .map(text -> mMarkdownParser.getParsedHtml(text.toString()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(html -> mPreviewWebView.loadData(html, "text/html", "charset=UTF-8"));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNoteEditorPresenter.subscribeEditorForPreview(mEditorEditText);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mNoteEditorPresenter.unsubscribeEditorForPreview();
     }
 
     private void initTabs() {
@@ -70,14 +57,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         tabHost.addTab(tabSpec);
     }
 
-
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(!mEditorEditTextDisposable.isDisposed()) {
-            mEditorEditTextDisposable.dispose();
-        }
+    void loadPreview(String html) {
+        mPreviewWebView.loadData(html, "text/html", "charset=UTF-8");
     }
 }

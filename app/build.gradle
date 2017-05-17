@@ -13,7 +13,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -74,5 +73,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.5' //TODO: remove it
 
     compile 'org.jsoup:jsoup:1.10.2'
+
+
 }
 

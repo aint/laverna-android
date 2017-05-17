@@ -28,8 +28,18 @@ import java.util.List;
 public class MarkdownParserImpl implements MarkdownParser {
     private static final String TAG = "MarkdownParserImpl";
 
-    private static final String TAG_REGEX = "(?<=\\s|^)#(\\w*[A-Za-z_]+\\w*)";
-    private static final String TAG_REPLACEMENT = "<div class=\"tag\" style=\"display:inline; background-color: #404040; border-radius: 4px;  padding: 3px; margin: 2$; font-size: 70%; color: white;\">#$1</div>";
+    private static final String HASH_TAG_STYLE = "<style> .tag {" +
+            "display: inline; " +
+            "background-color: #404040; " +
+            "border-radius: 4px; " +
+            "padding: 3px; " +
+            "margin: 2$; " +
+            "font-size: 70%; " +
+            "color: white; " +
+            "} </style>";
+
+    private static final String HASH_TAG_REGEX = "(?<=\\s|^)#(\\w*[A-Za-z_]+\\w*)";
+    private static final String HASH_TAG_REPLACEMENT = "<span class=\"tag\">#$1</span>";
 
     //TODO: fix it(new line, brackets after brackets etc.)
     private static final String UNCOMPLETED_TASK_REGEX = "(\\[\\]|\\[ \\])";
@@ -37,6 +47,7 @@ public class MarkdownParserImpl implements MarkdownParser {
 
     private static final String COMPLETED_TASK_REGEX = "(\\[x\\]|\\[X\\])";
     private static final String COMPLETED_TASK_REPLACEMENT = "<input type=\"checkbox\" checked>";
+
 
     private Parser parser;
 
@@ -54,13 +65,13 @@ public class MarkdownParserImpl implements MarkdownParser {
         Node node = parser.parse(text);
         String textHtml = renderer.render(node);
         textHtml = replaceAllNewLinesWithBrTag(textHtml);
-        textHtml = parseTagsAndTasks(textHtml);
+        textHtml = parseTasks(textHtml);
         Log.d(TAG, "Parsed to html note content:\n" + StringEscapeUtils.escapeJava(textHtml));
         return textHtml;
     }
 
-    private String parseTagsAndTasks(String text) {
-        return text.replaceAll(TAG_REGEX, TAG_REPLACEMENT)
+    private String parseTasks(String text) {
+        return text
                 .replaceAll(UNCOMPLETED_TASK_REGEX, UNCOMPLETED_TASK_REPLACEMENT)
                 .replaceAll(COMPLETED_TASK_REGEX, COMPLETED_TASK_REPLACEMENT);
     }
@@ -68,13 +79,22 @@ public class MarkdownParserImpl implements MarkdownParser {
     private String replaceAllNewLinesWithBrTag(String htmlText) {
         Document doc = Jsoup.parseBodyFragment(htmlText);
         doc.outputSettings(new Document.OutputSettings().prettyPrint(false));
+
+        Element head = doc.head();
+        head.append(HASH_TAG_STYLE);
+
         Elements pElements = doc.getElementsByTag("p");
         for(Element element : pElements) {
             String elementText = element.toString();
             elementText = elementText.substring(3, elementText.length() - 4);
-            element.text(elementText.replaceAll("\\n", "<br />"));
+            element.text(elementText
+                    .replaceAll("\\n", " <br /> ")
+                    .replaceAll(HASH_TAG_REGEX, HASH_TAG_REPLACEMENT));
         }
-        return doc.toString().replaceAll("&lt;br /&gt;", "<br />");
+        return doc.toString()
+                .replaceAll("&lt;br /&gt;", " <br /> ")
+                .replaceAll("&lt;span class=\"tag\"&gt;", "<span class=\"tag\">")
+                .replaceAll("&lt;/span&gt;", "</span>");
     }
 
     /**
