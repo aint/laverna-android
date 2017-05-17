@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.android.lvrn.lvrnproject">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".LavernaApplication"
         android:allowBackup="true"

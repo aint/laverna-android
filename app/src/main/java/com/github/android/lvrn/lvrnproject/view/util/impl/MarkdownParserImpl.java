@@ -28,15 +28,26 @@ import java.util.List;
 public class MarkdownParserImpl implements MarkdownParser {
     private static final String TAG = "MarkdownParserImpl";
 
-    private static final String HASH_TAG_STYLE = "<style> .tag {" +
+    private static final String HASH_TAG_STYLE = "<style> " +
+            ".tag {" +
             "display: inline; " +
             "background-color: #404040; " +
             "border-radius: 4px; " +
             "padding: 3px; " +
             "margin: 2$; " +
-            "font-size: 70%; " +
+            "font-size: 80%; " +
             "color: white; " +
-            "} </style>";
+            "} " +
+            "\n" +
+            "blockquote {\n" +
+            "  font-size: 120%;\n" +
+            "  margin-top: 10px;\n" +
+            "  margin-bottom: 10px;\n" +
+            "  margin-left: 0px;\n" +
+            "  padding-left: 15px;\n" +
+            "  border-left: 3px solid #ccc;\n" +
+            "} " +
+            "</style>";
 
     private static final String HASH_TAG_REGEX = "(?<=\\s|^)#(\\w*[A-Za-z_]+\\w*)";
     private static final String HASH_TAG_REPLACEMENT = "<span class=\"tag\">#$1</span>";
@@ -47,7 +58,6 @@ public class MarkdownParserImpl implements MarkdownParser {
 
     private static final String COMPLETED_TASK_REGEX = "(\\[x\\]|\\[X\\])";
     private static final String COMPLETED_TASK_REPLACEMENT = "<input type=\"checkbox\" checked>";
-
 
     private Parser parser;
 
@@ -88,13 +98,15 @@ public class MarkdownParserImpl implements MarkdownParser {
             String elementText = element.toString();
             elementText = elementText.substring(3, elementText.length() - 4);
             element.text(elementText
-                    .replaceAll("\\n", " <br /> ")
-                    .replaceAll(HASH_TAG_REGEX, HASH_TAG_REPLACEMENT));
+                    .replaceAll(HASH_TAG_REGEX, HASH_TAG_REPLACEMENT)
+                    .replaceAll("\\n", " <br /> "));
         }
         return doc.toString()
-                .replaceAll("&lt;br /&gt;", " <br /> ")
-                .replaceAll("&lt;span class=\"tag\"&gt;", "<span class=\"tag\">")
-                .replaceAll("&lt;/span&gt;", "</span>");
+                .replaceAll("&lt;", "<") //TODO: not all must be changed;
+                .replaceAll("&gt;", ">");
+//                .replaceAll("&lt;br /&gt;", " <br /> ");
+//                .replaceAll("&lt;span class=\"tag\"&gt;", "<span class=\"tag\">")
+//                .replaceAll("&lt;/span&gt;", "</span>");
     }
 
     /**
