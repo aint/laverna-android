@@ -58,6 +58,6 @@ public class NoteEditorActivity extends AppCompatActivity {
     }
 
     void loadPreview(String html) {
-        mPreviewWebView.loadData(html, "text/html", "charset=UTF-8");
+        mPreviewWebView.loadDataWithBaseURL(null, html, "text/html", "charset=UTF-8", null);
     }
 }
