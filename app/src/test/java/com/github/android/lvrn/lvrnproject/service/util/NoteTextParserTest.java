@@ -32,9 +32,9 @@ public class NoteTextParserTest {
 
     private Set<String> falseTags;
 
-    private Map<String, Boolean> trueTasks;
+    private Map<String, Boolean> realTasks;
 
-    private Map<String, Boolean> falseTasks;
+    private Map<String, Boolean> fakeTasks;
 
     @Before
     public void setUp() {
@@ -46,18 +46,22 @@ public class NoteTextParserTest {
                 + "* the other one is#not#a#tag\n"
                 + "Check tasks\n"
                 + "============\n"
-                + "[] this is first task and it ends here!\n"
+                + "pretask[] yes, you know\n"
+                + "dfdf[]][][][][][][X] another pre task [] \n"
+                + "[ ] this is first task and it ends here!\n"
                 + "[X] This is second, and you complete it \n"
                 + "[]This is not a task.\n"
                 + "[][]This is too.\n"
                 + "[] Okay, last task.\n"
-                + "[X] No, this is the last task.\n";
+                + "[x] No, this is the last task.\n";
 
         trueTags = new HashSet<>(Arrays.asList("#test", "#laverna", "#android", "#this_one"));
 
         falseTags = new HashSet<>(Arrays.asList("#no_test", "#no_laverna", "#android"));
 
-        trueTasks = new HashMap<String, Boolean>(){{
+        realTasks = new HashMap<String, Boolean>(){{
+                put("yes, you know", false);
+                put("another pre task []", true);
                 put("This is second, and you complete it", true);
                 put("this is first task and it ends here!", false);
                 put("Okay, last task.", false);
@@ -65,7 +69,7 @@ public class NoteTextParserTest {
             }
         };
 
-        falseTasks = new HashMap<String, Boolean>(){{
+        fakeTasks = new HashMap<String, Boolean>(){{
                 put("This is second, and you complete it", false);
                 put("this is first task and it ends here!", false);
                 put("What? No!", true);
@@ -92,14 +96,16 @@ public class NoteTextParserTest {
     @Test
     public void parseTasks() {
         Map<String, Boolean> parseResultMap = NoteTextParser.parseTasks(textExample);
+        System.out.println(parseResultMap.toString());
+        System.out.println(realTasks.toString());
+        assertThat(parseResultMap.size()).isEqualTo(realTasks.size());
 
-        assertThat(parseResultMap.size()).isEqualTo(trueTasks.size());
+        assertThat(parseResultMap.size()).isNotEqualTo(fakeTasks.size());
 
-        assertThat(parseResultMap.size()).isNotEqualTo(falseTasks.size());
+        assertThat(parseResultMap.toString()).isEqualTo(realTasks.toString());
 
-        assertThat(parseResultMap.toString()).isEqualTo(trueTasks.toString());
+        assertThat(parseResultMap.toString()).isNotEqualTo(fakeTasks.toString());
 
-        assertThat(parseResultMap.toString()).isNotEqualTo(falseTasks.toString());
     }
 
     @Test
