@@ -1,13 +1,15 @@
 package com.github.android.lvrn.lvrnproject.service.util;
 
 import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
 import android.util.Log;
+import android.util.Pair;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.reactivex.Flowable;
 
@@ -22,9 +24,9 @@ public class NoteTextParser {
 
     private static final String TAG_REGEX = "(?<=\\s|^)#(\\w*[A-Za-z_]+\\w*)";
 
-    private static final String TASK_INCOMPLETE_REGEX = "\\[\\] .+";
+    private static final String LINE_WITH_TASK_REGEX = ".*\\[(x|X| ?)\\] +.+";
 
-    private static final String TASK_COMPLETE_REGEX = "\\[X\\] .+";
+    private static final String TASK_REGEX = "\\[(x|X| ?)\\] .*";
 
     private static final String NEW_LINE_SEPARATOR = "\n";
 
@@ -41,15 +43,6 @@ public class NoteTextParser {
     }
 
     /**
-     * A method which validate word for a belonging to tags.
-     * @param word a tag to validate.
-     * @return a boolean result of validation.
-     */
-    public static boolean validateTag(@NonNull String word) {
-        return matches(TAG_REGEX, word);
-    }
-
-    /**
      * A method which parse an input text for tags, if any is present.
      * @param text a String object which contain content of a note.
      * @return a set of tags in string form.
@@ -61,7 +54,7 @@ public class NoteTextParser {
                 .fromArray(validateText(text).split(NEW_LINE_SEPARATOR))
                 .flatMap(line -> Flowable.fromArray(line.split(SPACE_SEPARATOR)))
                 .map(String::trim)
-                .filter(word -> validateTag(word))
+                .filter(NoteTextParser::validateTag)
                 .subscribe(tagsSet::add);
         Log.d(TAG, "Parse tags. Text: " + text + "\nParsed tags:" + tagsSet.toString());
         return tagsSet;
@@ -75,48 +68,39 @@ public class NoteTextParser {
     @NonNull
     public static Map<String, Boolean> parseTasks(String text) {
         Map<String, Boolean> tasksMap = new HashMap<>();
-        Flowable<String> flowable = getTextFlowable(validateText(text));
-        Flowable
-                .merge(getTaskUncompletedFlowable(flowable), getTaskCompletedFlowable(flowable))
+        Flowable.fromArray(text.split(NEW_LINE_SEPARATOR))
+                .filter(line -> matches(LINE_WITH_TASK_REGEX, line))
+                .map(NoteTextParser::getTask)
+                .map(NoteTextParser::segregateTask)
                 .subscribe(pair -> tasksMap.put(pair.first, pair.second));
+
         Log.d(TAG, "Parse tag. Text: " + text + "\nParsed text:" + tasksMap);
         return tasksMap;
     }
 
     /**
-     * A method which creates a flowable from input text's lines.
-     * @param text a String object which contain content of a note.
-     * @return {@link Flowable<String>}
+     * A method which cuts everything before the task brackets.
+     * @param line a line with the task.
+     * @return the task text.
+     * @throws RuntimeException in case if Parser filtered line with a task normally, but couldn't find task then
      */
-    private static Flowable<String> getTextFlowable(@NonNull String text) {
-        return Flowable
-                .fromArray(text.split(NEW_LINE_SEPARATOR))
-                .map(String::trim)
-                .share();
+    private static String getTask(String line) {
+        Matcher matcher = Pattern.compile(TASK_REGEX).matcher(line);
+        if (matcher.find()) {
+            return matcher.group(0);
+        }
+        Log.wtf(TAG, "Parser filtered line with a task normally, but couldn't find task then");
+        throw new RuntimeException();
     }
 
     /**
-     * A method which creates a flowable which emits a {@link Pair<String, Boolean>} of uncompleted
-     * tasks.
-     * @param flowable a {@link Flowable<String>} object which emits lines of a note text.
-     * @return {@link Flowable<String>}
+     * A method which segregates tasks on completed and uncompleted.
+     * @param task a text with a task.
+     * @return a pair of the task text and status.
      */
-    private static Flowable<Pair<String, Boolean>> getTaskUncompletedFlowable(@NonNull Flowable<String> flowable) {
-        return flowable
-                .filter(line -> matches(TASK_INCOMPLETE_REGEX, line))
-                .map(line -> new Pair<>(line.substring(3), false));
-    }
-
-    /**
-     * A method which creates a flowable which emits a {@code Pair<String, Boolean>} of completed
-     * tasks.
-     * @param flowable a {@link Flowable<String>} object which emits lines of a note text.
-     * @return {@link Flowable<String>}
-     */
-    private static Flowable<Pair<String, Boolean>> getTaskCompletedFlowable(@NonNull Flowable<String> flowable) {
-        return flowable
-                .filter(line -> matches(TASK_COMPLETE_REGEX, line))
-                .map(line -> new Pair<>(line.substring(4), true));
+    private static Pair<String, Boolean> segregateTask(String task) {
+        String mark = Character.toString(task.charAt(1));
+        return new Pair<>(task.substring(3).trim(), mark.equals("x") || mark.equals("X"));
     }
 
     /**
@@ -130,5 +114,14 @@ public class NoteTextParser {
             text = "";
         }
         return text;
+    }
+
+    /**
+     * A method which validate word for a belonging to tags.
+     * @param word a tag to validate.
+     * @return a boolean result of validation.
+     */
+    private static boolean validateTag(@NonNull String word) {
+        return matches(TAG_REGEX, word);
     }
 }
