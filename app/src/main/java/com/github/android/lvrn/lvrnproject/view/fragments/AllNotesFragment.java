@@ -1,6 +1,9 @@
 package com.github.android.lvrn.lvrnproject.view.fragments;
 
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -61,11 +63,16 @@ public class AllNotesFragment extends Fragment {
     private Disposable mDisposable;
     private EndlessRecyclerViewScrollListener mScrollListener;
     private SearchView mSearchView;
+    MenuItem menuSearch,menuSync,menuSortBy,menuSettings,menuAbout;
     @Inject NoteService noteService;
     @BindView(R.id.recycler_view_all_notes) RecyclerView mRecyclerView;
+
     //TODO: temporary, remove later
     private String profileId;
     private ProfileService profileService;
+    private enum Mode {
+        NORMAL,SEARCH,SORT,ABOUT,SETTINGS;
+    }
 
     @Nullable
     @Override
@@ -75,24 +82,37 @@ public class AllNotesFragment extends Fragment {
         LavernaApplication.getsAppComponent().inject(this);
         noteService.openConnection();
         setHasOptionsMenu(true);
+        //TODO: temporary, remove later
         hardcode();
         initRecyclerView();
         reInitBaseView();
         return rootView;
     }
 
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.acitivity_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.item_action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setOnCloseListener(() -> {
-            mAdapter.setmDataSet(mDataAllNotes);
-            return false;
-        });
+         inflater.inflate(R.menu.fragment_all_notes, menu);
+        menuSearch = menu.findItem(R.id.item_action_search);
+        menuSync = menu.findItem(R.id.item_action_sync);
+        menuAbout = menu.findItem(R.id.item_about);
+        menuSortBy = menu.findItem(R.id.item_sort_by);
+        menuSettings = menu.findItem(R.id.item_settings);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchNoteInDBListener();
+        MenuItemCompat.setOnActionExpandListener(menuSearch, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                startMode(Mode.SEARCH);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                startMode(Mode.NORMAL);
+                mAdapter.setmDataSet(mDataAllNotes);
+                return true;
+            }
+        });
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -145,6 +165,28 @@ public class AllNotesFragment extends Fragment {
                 }
         };
         return mScrollListener;
+    }
+
+    private void startMode(Mode modeToStart){
+        if(modeToStart == Mode.SEARCH){
+            menuSync.setVisible(false);
+            menuAbout.setVisible(false);
+            menuSortBy.setVisible(false);
+            menuSettings.setVisible(false);
+            mSearchView.setQueryHint(getString(R.string.fragment_all_notes_menu_search_query_hint));
+            mSearchView.requestFocus();
+            Drawable bottomUnderline = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                bottomUnderline = getResources().getDrawable(R.drawable.search_view_bottom_underline,null);
+            }
+            mSearchView.setBackground(bottomUnderline);
+        } else if(modeToStart == Mode.NORMAL){
+            menuSync.setVisible(true);
+            menuAbout.setVisible(true);
+            menuSortBy.setVisible(true);
+            menuSettings.setVisible(true);
+        }
+
     }
 
     //TODO: temporary, remove later
