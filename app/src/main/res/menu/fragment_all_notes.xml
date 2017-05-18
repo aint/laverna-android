@@ -6,32 +6,33 @@
         android:id="@+id/item_action_search"
         android:orderInCategory="100"
         android:icon="@drawable/ic_stat_search_black_24dp"
-        android:title="sync"
-        app:showAsAction="always" />
+        android:title="@string/fragment_all_notes_menu_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
 
     <item
         android:id="@+id/item_action_sync"
         android:orderInCategory="100"
         android:icon="@drawable/ic_stat_sync_black_24dp"
-        android:title="sync"
-        app:showAsAction="always" />
+        android:title="@string/fragment_all_notes_menu_sync"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/item_sort_by"
         android:orderInCategory="100"
-        android:title="Sort by"
-        app:showAsAction="never" />
+        android:title="@string/fragment_all_notes_menu_sync_sort_by"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/item_settings"
         android:orderInCategory="100"
-        android:title="Settings"
-        app:showAsAction="never" />
+        android:title="@string/fragment_all_notes_menu_sync_settings"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/item_about"
         android:orderInCategory="100"
-        android:title="About"
-        app:showAsAction="never" />
+        android:title="@string/fragment_all_notes_menu_sync_about"
+        app:showAsAction="never"/>
 
 </menu>

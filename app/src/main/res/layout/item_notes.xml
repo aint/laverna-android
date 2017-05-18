@@ -31,7 +31,7 @@
                 android:layout_toLeftOf="@+id/im_btn_favorite"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="30dp"
-                android:text="@string/title_all_notes"
+                android:text="@string/item_notes_title"
                 android:textSize="16sp"/>
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_below="@+id/tv_title_note"
                 android:textSize="13sp"
                 android:textColor="@color/main_green_themes_app"
-                android:text="@string/date_of_created_all_note"/>
+                android:text="@string/item_notes_date_of_created"/>
 
             <TextView
                 android:id="@+id/tv_prompt_text_note"
@@ -53,9 +53,7 @@
                 android:layout_toRightOf="@+id/tv_date_created_note"
                 android:layout_below="@+id/tv_title_note"
                 android:textSize="13sp"
-                android:text="@string/tv_prompt_ext_note"/>
-
-
+                android:text="@string/item_notes_prompt_text_note"/>
 
         </RelativeLayout>
 

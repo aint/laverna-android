@@ -5,4 +5,4 @@
     android:background="@color/main_activity_tool_bar_color"
     app:popupTheme="@style/AppTheme.PopupOverlay"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"/>

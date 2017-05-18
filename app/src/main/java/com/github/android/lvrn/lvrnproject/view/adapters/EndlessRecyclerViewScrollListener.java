@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
  */
 
 public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
-    RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     // The minimum amount of items to have below your current scroll position
     // before loading more.
@@ -22,21 +22,8 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
     // Sets the starting page index
     private int startingPageIndex = 0;
 
-    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
+    protected EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
-    }
-
-    public int getLastVisibleItem(int[] lastVisibleItemPositions) {
-        int maxSize = 0;
-        for (int i = 0; i < lastVisibleItemPositions.length; i++) {
-            if (i == 0) {
-                maxSize = lastVisibleItemPositions[i];
-            }
-            else if (lastVisibleItemPositions[i] > maxSize) {
-                maxSize = lastVisibleItemPositions[i];
-            }
-        }
-        return maxSize;
     }
 
     // This happens many times a second during a scroll, so be wary of the code you place here.
@@ -77,13 +64,6 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
             onLoadMore(currentPage, totalItemCount, view);
             loading = true;
         }
-    }
-
-    // Call this method whenever performing new searches
-    public void resetState() {
-        this.currentPage = this.startingPageIndex;
-        this.previousTotalItemCount = 0;
-        this.loading = true;
     }
 
     // Defines the process for actually loading more data based on page

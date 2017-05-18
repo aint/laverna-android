@@ -12,4 +12,5 @@
         android:text="Test Tags"
         android:textSize="16dp"
         android:checked="true"/>
+
 </RelativeLayout>
