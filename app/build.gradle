@@ -13,7 +13,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -32,14 +31,29 @@ dependencies {
 //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
 //        exclude group: 'com.android.support', module: 'support-annotations'
 //    })
-    compile "io.reactivex.rxjava2:rxjava:2.0.8"
+
+    //Atlasian markdown parser
+    compile 'com.atlassian.commonmark:commonmark:0.9.0'
+    compile 'com.atlassian.commonmark:commonmark-ext-autolink:0.9.0'
+    compile 'com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:0.9.0'
+    compile 'com.atlassian.commonmark:commonmark-ext-gfm-tables:0.9.0'
+
+    //dagger
+    compile 'com.google.dagger:dagger:2.10'
+
+
+
+    //Rx
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+
+
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:design:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:cardview-v7:25.3.0'
     compile 'com.android.support:recyclerview-v7:25.3.0'
-    compile 'us.feras.mdv:markdownview:1.1.0'
     compile 'com.google.guava:guava:20.0'
     compile 'com.jakewharton:butterknife:8.5.1'
     testCompile 'junit:junit:4.12'
@@ -54,9 +68,12 @@ dependencies {
     // Set this dependency to build and run UI Automator tests
 //    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile 'com.android.support:support-annotations:25.3.0'
-
-    //dagger
-    compile 'com.google.dagger:dagger:2.10'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+
+    compile 'org.apache.commons:commons-lang3:3.5' //TODO: remove it
+
+    compile 'org.jsoup:jsoup:1.10.2'
+
+
 }
 

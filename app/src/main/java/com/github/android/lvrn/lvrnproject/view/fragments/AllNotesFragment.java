@@ -1,8 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.fragments;
 
-
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
@@ -32,6 +29,7 @@ import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.extension.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
+import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 
@@ -128,7 +126,9 @@ public class AllNotesFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         FloatingActionButton floatingBtn = (FloatingActionButton)(getActivity()).findViewById(R.id.fab);
         floatingBtn.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.ic_add_middle_white_24dp));
-        floatingBtn.setOnClickListener(v -> Toast.makeText(getContext(),"Fragment №1",Toast.LENGTH_SHORT).show());
+
+        //TODO: temporary implementation. Change it later.
+        floatingBtn.setOnClickListener(this::startNoteEditorActivity);
     }
 
     private void initRecyclerView() {
@@ -234,6 +234,16 @@ public class AllNotesFragment extends Fragment {
             });
             return subject;
         }
+    }
+
+    /**
+     * A method which starts the note editor activity.
+     * @param view
+     */
+    private void startNoteEditorActivity(View view) {
+        Intent intent = new Intent(getActivity(), NoteEditorActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
 }
