@@ -15,7 +15,6 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +34,17 @@ import static org.apache.commons.lang3.StringEscapeUtils.escapeJava;
 
 public class MarkdownParserImpl implements MarkdownParser {
     private static final String TAG = "MarkdownParserImpl";
+    public static final String H1 = "h1";
+    public static final String H2 = "h2";
+    public static final String H3 = "h3";
+    public static final String H4 = "h4";
+    public static final String H5 = "h5";
+    public static final String H6 = "h6";
+    public static final String P = "p";
+    public static final String LI = "li";
+    public static final String NEW_LINE_REGEX = "\\n";
+    public static final String NEW_LINE_REPLACEMENT = "<br />";
+    public static final String A = "a";
 
     private Parser parser;
 
@@ -47,11 +57,10 @@ public class MarkdownParserImpl implements MarkdownParser {
 
     public String getParsedHtml(@NonNull String text) {
         Log.d(TAG, "Note content with markdown:\n" + escapeJava(text));
-        text = parseTasks(text);
-        Log.d(TAG, "Note content after tasks:\n" + escapeJava(text));
+//        text = parseTasks(text);
         String textHtml = parseMarkdown(text);
         Log.d(TAG, "After first parse :\n" + escapeJava(textHtml));
-        textHtml = replaceAllNewLinesWithBrTag(textHtml);
+        textHtml = replaceAll(textHtml);
         Log.d(TAG, "Parsed to html note content:\n" + escapeJava(textHtml));
         return textHtml;
     }
@@ -60,6 +69,138 @@ public class MarkdownParserImpl implements MarkdownParser {
         Node node = parser.parse(text);
         return renderer.render(node);
     }
+
+
+
+
+
+
+
+
+
+
+
+    private String replaceAll(String htmlText) {
+        System.out.println("");
+        Document doc = Jsoup.parseBodyFragment(htmlText);
+        doc.outputSettings(new Document.OutputSettings().prettyPrint(false));
+
+
+        addDocStyle(doc);
+//        replaceTasks(doc);
+
+        globalReplace(doc);
+
+
+        return doc.toString()
+                .replaceAll("&lt;", "<")
+                .replaceAll("&gt;", ">")
+                .replaceAll("&amp;lt;", "<")
+                .replaceAll("&amp;gt;", ">");
+//                .replaceAll("&amp;amp;lt;", "<")
+//                .replaceAll("&amp;amp;gt;", ">");
+//                .replaceAll("&lt;br /&gt;", " <br /> ");
+//                .replaceAll("&lt;span class=\"tag\"&gt;", "<span class=\"tag\">")
+//                .replaceAll("&lt;/span&gt;", "</span>");
+    }
+
+
+    private void globalReplace(Document doc) {
+//        Arrays.asList(H1, H2, H3, H4, H5, H6, P, A, LI).forEach(tag -> {
+//            for (Element element : doc.getElementsByTag(tag)) {
+//                String elementText = element.toString();
+//                elementText = parseTasks(elementText); //H1, H2, H3, H4, H5, H6, P, A, LI
+//
+//                elementText = replace(elementText, HASH_TAG_REGEX, HASH_TAG_REPLACEMENT, 4, 5); //H1, H2, H3, H4, H5, H6
+//                elementText = replace(elementText, HASH_TAG_REGEX, HASH_TAG_REPLACEMENT, 3, 4); //P
+//
+//                elementText = replace(elementText, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT, 3, 4); //P
+//                elementText = replace(elementText, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT, 4, 5); //LI
+//                elementText = replace(elementText, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT, 3, 4); //A
+//
+//
+//                element.text(elementText);
+//            }
+//        });
+
+        Arrays.asList(H1, H2, H3, H4, H5, H6).forEach(tag -> {
+            for (Element element : doc.getElementsByTag(tag)) {
+                String elementText = element.toString();
+                System.out.println("ELEMENT: " + elementText);
+
+                elementText = elementText.substring(4, elementText.length() - 5);
+                System.out.println("AFTER SUBSTRING: " + elementText);
+
+                elementText = parseTasks(elementText); //H1, H2, H3, H4, H5, H6, P, A, LI
+                System.out.println("AFTER PARSE TASKS: " + elementText);
+
+                elementText = replace(elementText, HASH_TAG_REGEX, HASH_TAG_REPLACEMENT); //H1, H2, H3, H4, H5, H6
+                System.out.println("AFTER PARSE TAGS: " + elementText);
+
+                element.text(elementText);
+            }
+        });
+
+        Arrays.asList(P).forEach(tag -> {
+            for (Element element : doc.getElementsByTag(tag)) {
+                String elementText = element.toString();
+                elementText = elementText.substring(3, elementText.length() - 4);
+                elementText = parseTasks(elementText); //H1, H2, H3, H4, H5, H6, P, A, LI
+                elementText = replace(elementText, HASH_TAG_REGEX, HASH_TAG_REPLACEMENT); //P
+                elementText = replace(elementText, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT); //P
+                element.text(elementText);
+            }
+        });
+
+        Arrays.asList(A).forEach(tag -> {
+            for (Element element : doc.getElementsByTag(tag)) {
+                String elementText = element.toString();
+                elementText = elementText.substring(3, elementText.length() - 4);
+
+                elementText = parseTasks(elementText); //H1, H2, H3, H4, H5, H6, P, A, LI
+
+                elementText = replace(elementText, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT); //A
+
+                element.text(elementText);
+            }
+        });
+
+        Arrays.asList(LI).forEach(tag -> {
+            for (Element element : doc.getElementsByTag(tag)) {
+                String elementText = element.toString();
+                elementText = elementText.substring(4, elementText.length() - 5);
+
+                elementText = parseTasks(elementText); //H1, H2, H3, H4, H5, H6, P, A, LI
+
+                //TODO: not replace in case <li>\n<p>
+//                elementText = replace(elementText, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT); //LI
+
+                element.text(elementText);
+            }
+        });
+
+        //TODO: check links
+        //TODO: CODE CSS
+
+        
+
+    }
+
+    private String replace(String elementText, String oldString, String newString) {
+        return elementText.replaceAll(oldString, newString);
+    }
+
+
+//    private void replaceTasks(Document doc) {
+//        Arrays.asList(H1, H2, H3, H4, H5, H6, P, A, LI).forEach(tag -> {
+//            for (Element element : doc.getElementsByTag(tag)) {
+//                String elementText = element.toString();
+//
+//
+//                element.text(parseTasks(elementText));
+//            }
+//        });
+//    }
 
     private String parseTasks(String text) {
         Matcher lineWithTaskMatcher = Pattern.compile(LINE_WITH_TASK_REGEX).matcher(text);
@@ -86,35 +227,43 @@ public class MarkdownParserImpl implements MarkdownParser {
     }
 
 
+//
+//    /**
+//     * A method which parses and replaces hashtags in a doc with a html element.
+//     * @param doc a document to parse.
+//     */
+//    private void replaceHashTags(Document doc) {
+//        Arrays.asList(H1, H2, H3, H4, H5, H6)
+//                .forEach(header -> replace(doc, header, HASH_TAG_REGEX, HASH_TAG_REPLACEMENT, 4, 5));
+//        replace(doc, P, HASH_TAG_REGEX, HASH_TAG_REPLACEMENT, 3, 4);
+//    }
 
+//    /**
+//     * A method which parses and replaces "\n" in a doc with a <br /> tag.
+//     * @param doc a document to parse.
+//     */
+//    private void replaceNewLines(Document doc) {
+//        replace(doc, P, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT, 3, 4);
+//        replace(doc, LI, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT, 4, 5);
+//        replace(doc, A, NEW_LINE_REGEX, NEW_LINE_REPLACEMENT, 3, 4);
+//    }
 
-
-
-
-    private String replaceAllNewLinesWithBrTag(String htmlText) {
-        Document doc = Jsoup.parseBodyFragment(htmlText);
-        doc.outputSettings(new Document.OutputSettings().prettyPrint(false));
-
-        addDocStyle(doc);
-
-
-        Elements pElements = doc.getElementsByTag("p");
-        for(Element element : pElements) {
-            String elementText = element.toString();
-            System.out.println("ELEMENT TEXT: " + escapeJava(elementText));
-            elementText = elementText.substring(3, elementText.length() - 4);
-            element.text(elementText
-                    .replaceAll(HASH_TAG_REGEX, HASH_TAG_REPLACEMENT)
-                    .replaceAll("\\n", " <br /> "));
-            System.out.println("AFTER ELEMENT TEXT: " + escapeJava(elementText));
-        }
-        return doc.toString()
-                .replaceAll("&lt;", "<") //TODO: not all must be changed;
-                .replaceAll("&gt;", ">");
-//                .replaceAll("&lt;br /&gt;", " <br /> ");
-//                .replaceAll("&lt;span class=\"tag\"&gt;", "<span class=\"tag\">")
-//                .replaceAll("&lt;/span&gt;", "</span>");
-    }
+//    /**
+//     * A method which replaces strings in a document's elements, and take a substring if required.
+//     * @param doc a document to parse.
+//     * @param tag a tag to parse by.
+//     * @param oldString a string to replace.
+//     * @param newString a new string.
+//     * @param beginInd an index of the begin of substring.
+//     * @param endInd an index of the end of substring.
+//     */
+//    private void replace(Document doc, String tag, String oldString, String newString, int beginInd, int endInd) {
+//        for(Element element : doc.getElementsByTag(tag)) {
+//            String elementText = element.toString();
+//            elementText = elementText.substring(beginInd, elementText.length() - endInd);
+//            element.text(elementText.replaceAll(oldString, newString));
+//        }
+//    }
 
     /**
      * A method which adds style in the head of the document.
