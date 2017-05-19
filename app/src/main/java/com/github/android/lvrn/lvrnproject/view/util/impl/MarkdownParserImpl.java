@@ -19,14 +19,14 @@ import org.jsoup.select.Elements;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.COMPLETED_TASK_REGEX;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.COMPLETED_TASK_REPLACEMENT;
 import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.DOC_STYLE;
 import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.HASH_TAG_REGEX;
 import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.HASH_TAG_REPLACEMENT;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.UNCOMPLETED_TASK_REGEX;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.UNCOMPLETED_TASK_REPLACEMENT;
+import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.LINE_WITH_TASK_REGEX;
+import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConsts.TASK_REGEX;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeJava;
 
 /**
@@ -45,25 +45,51 @@ public class MarkdownParserImpl implements MarkdownParser {
         renderer = getHtmlRender();
     }
 
-    //TODO: Not see the difference between HTML tags and custom tags.
-    //TODO: check in next milestone. If laverna's parser is not used, then modify parsing with custom notes of commonmark.
-    //TODO: remove apache from dependecies latter.
     public String getParsedHtml(@NonNull String text) {
         Log.d(TAG, "Note content with markdown:\n" + escapeJava(text));
-        Node node = parser.parse(text);
-        String textHtml = renderer.render(node);
+        text = parseTasks(text);
+        Log.d(TAG, "Note content after tasks:\n" + escapeJava(text));
+        String textHtml = parseMarkdown(text);
         Log.d(TAG, "After first parse :\n" + escapeJava(textHtml));
         textHtml = replaceAllNewLinesWithBrTag(textHtml);
-//        textHtml = parseTasks(textHtml);
         Log.d(TAG, "Parsed to html note content:\n" + escapeJava(textHtml));
         return textHtml;
     }
 
-    private String parseTasks(String text) {
-        return text
-                .replaceAll(UNCOMPLETED_TASK_REGEX, UNCOMPLETED_TASK_REPLACEMENT)
-                .replaceAll(COMPLETED_TASK_REGEX, COMPLETED_TASK_REPLACEMENT);
+    private String parseMarkdown(String text) {
+        Node node = parser.parse(text);
+        return renderer.render(node);
     }
+
+    private String parseTasks(String text) {
+        Matcher lineWithTaskMatcher = Pattern.compile(LINE_WITH_TASK_REGEX).matcher(text);
+        while (lineWithTaskMatcher.find()) {
+            String lineWithTask = lineWithTaskMatcher.group();
+            Matcher pureTaskMatcher = Pattern.compile(TASK_REGEX).matcher(lineWithTask);
+            if (pureTaskMatcher.find()) {
+                text = text.replace(lineWithTask, replaceBracketsWithCheckbox(pureTaskMatcher.group(0)));
+                continue;
+            }
+            Log.wtf(TAG, "Parser filtered line with a task normally, but couldn't find task then");
+            throw new RuntimeException();
+        }
+        return text;
+    }
+
+    private String replaceBracketsWithCheckbox(String task) {
+        String mark = Character.toString(task.charAt(1));
+        String checkbox = "<input type=\"checkbox\" class=\"checkbox\"> ";
+        if (mark.equals("x") || mark.equals("X")) {
+            checkbox = "<input type=\"checkbox\" class=\"checkbox\" checked> ";
+        }
+        return checkbox.concat(task.substring(3).trim());
+    }
+
+
+
+
+
+
 
     private String replaceAllNewLinesWithBrTag(String htmlText) {
         Document doc = Jsoup.parseBodyFragment(htmlText);

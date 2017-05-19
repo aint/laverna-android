@@ -85,9 +85,7 @@ class MarkdownParserConsts {
     static final String HASH_TAG_REPLACEMENT = "<span class=\"tag\">#$1</span>";
 
     //TODO: fix it(new line, brackets after brackets etc.)
-    static final String UNCOMPLETED_TASK_REGEX = "(\\[\\]|\\[ \\])";
-    static final String UNCOMPLETED_TASK_REPLACEMENT = "<input type=\"checkbox\" class=\"checkbox\">";
+    static final String LINE_WITH_TASK_REGEX = ".*\\[(x|X| ?)\\] +.+";
+    static final String TASK_REGEX = "\\[(x|X| ?)\\] .*";
 
-    static final String COMPLETED_TASK_REGEX = "(\\[x\\]|\\[X\\])";
-    static final String COMPLETED_TASK_REPLACEMENT = "<input type=\"checkbox\" class=\"checkbox\" checked>";
 }
