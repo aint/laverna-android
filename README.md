@@ -1,3 +1,6 @@
+[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/SergiyPerevyazko/rivnerestplaces/issues) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
+
 ## Introduction
 
 **Laverna Android** is a companion note-taking application for [Laverna](https://github.com/Laverna/laverna) (web app) designed for Android. It's built to help to become Laverna a full-blown open source alternative to _Evernote_.
