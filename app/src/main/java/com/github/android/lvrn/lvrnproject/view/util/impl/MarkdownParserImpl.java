@@ -98,12 +98,15 @@ public class MarkdownParserImpl implements MarkdownParser {
         return htmlText;
     }
 
+    /**
+     * A method which wraps a table element with div blocks to make table responsive.
+     * @param doc a document to parse.
+     */
     private void makeTablesResponsive(Document doc) {
         for (Element element : doc.getElementsByTag("table")) {
             element.wrap("<div style=\"overflow-x:auto;\">");
         }
     }
-
 
     /**
      * A method which replaces hash tags and tasks with html elements in the document's headers.
@@ -200,7 +203,12 @@ public class MarkdownParserImpl implements MarkdownParser {
         return checkbox.concat(task.substring(3).trim());
     }
 
-   private String replaceGtAndLt(Document doc) {
+    /**
+     * A method which replace all lt and gt symbols.
+     * @param doc a document to parse.
+     * @return a parsed document.
+     */
+    private String replaceGtAndLt(Document doc) {
        return doc.toString()
                .replaceAll("&lt;", "<")
                .replaceAll("&gt;", ">")
@@ -208,7 +216,7 @@ public class MarkdownParserImpl implements MarkdownParser {
                .replaceAll("&amp;gt;", ">")
                .replaceAll("&amp;amp;lt;", "<")
                .replaceAll("&amp;amp;gt;", ">");
-   }
+    }
 
     /**
      * A method which adds style in the head of the document.
