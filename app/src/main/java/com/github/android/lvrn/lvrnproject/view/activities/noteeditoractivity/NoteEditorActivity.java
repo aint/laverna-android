@@ -30,6 +30,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initTabs();
         mNoteEditorPresenter = new NoteEditorPresenterImpl(this);
+        mPreviewWebView.getSettings().setJavaScriptEnabled(true);
     }
 
     @Override
