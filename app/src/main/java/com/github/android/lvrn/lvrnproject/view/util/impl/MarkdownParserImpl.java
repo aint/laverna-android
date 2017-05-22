@@ -85,18 +85,25 @@ public class MarkdownParserImpl implements MarkdownParser {
         doc.outputSettings(new Document.OutputSettings().prettyPrint(false));
         addDocStyle(doc);
 
-
+        makeTablesResponsive(doc);
 
         replaceInHeaders(doc);
         replaceInListItems(doc);
         replaceInParagraphs(doc);
         replaceInHyperLinks(doc);
+
         doc.body().append(HIGHLIGHT_JS_SCRIPT);
 
-//        htmlText = replaceGtAndLt(doc);
-        htmlText = doc.toString();
+        htmlText = replaceGtAndLt(doc);
         return htmlText;
     }
+
+    private void makeTablesResponsive(Document doc) {
+        for (Element element : doc.getElementsByTag("table")) {
+            element.wrap("<div style=\"overflow-x:auto;\">");
+        }
+    }
+
 
     /**
      * A method which replaces hash tags and tasks with html elements in the document's headers.

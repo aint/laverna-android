@@ -73,7 +73,18 @@ public class WebViewStyleConst {
             + " cursor: pointer;"
             + " }\n";
 
-    private static final String CODE_STYLE = "\n" +
+    private static final String CODE_STYLE = "code {" +
+            "position: relative;\n" +
+            "padding: .2em;\n" +
+            "border-radius: .3em;\n" +
+            "color: #c92c2c;\n" +
+            "border: 1px solid rgba(0,0,0,.1);\n" +
+            "display: inline;" +
+            "overflow: scroll;" +
+            "overflow-x: auto;" +
+            "}\n";
+
+    private static final String PRE_CODE_STYLE = "\n" +
             ".hljs {\n" +
             "  display: block;\n" +
             "  background: #ECE7E7;\n" +
@@ -146,6 +157,7 @@ public class WebViewStyleConst {
             + BLOCKQUOTE_STYLE
             + TABLE_STYLE
             + CHECKBOX_STYLE
+            + PRE_CODE_STYLE
             + CODE_STYLE
             + "</style>";
 
