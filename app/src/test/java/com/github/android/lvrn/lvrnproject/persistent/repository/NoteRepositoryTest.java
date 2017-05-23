@@ -77,6 +77,7 @@ public class NoteRepositoryTest {
                 1111,
                 2222,
                 "content1",
+                "content1",
                 false
         );
 
@@ -88,6 +89,7 @@ public class NoteRepositoryTest {
                 1111,
                 2222,
                 "content2",
+                "content2",
                 false
         );
 
@@ -98,6 +100,7 @@ public class NoteRepositoryTest {
                 "title_3",
                 1111,
                 2222,
+                "content3",
                 "content3",
                 false
         );

@@ -27,9 +27,14 @@ public class Note extends ProfileDependedEntity {
     private long updateTime;
 
     /**
-     * A plain text of note's content.
+     * A plain text of a note's content.
      */
     private String content;
+
+    /**
+     * A note's content in html.
+     */
+    private String htmlContent;
 
     private boolean isFavorite = false;
 
@@ -40,6 +45,7 @@ public class Note extends ProfileDependedEntity {
                 long creationTime,
                 long updateTime,
                 String content,
+                String htmlContent,
                 boolean isFavorite) {
         this.id = id;
         this.profileId = profileId;
@@ -48,6 +54,7 @@ public class Note extends ProfileDependedEntity {
         this.creationTime = creationTime;
         this.updateTime = updateTime;
         this.content = content;
+        this.htmlContent = htmlContent;
         this.isFavorite = isFavorite;
     }
 
@@ -105,6 +112,14 @@ public class Note extends ProfileDependedEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getHtmlContent() {
+        return htmlContent;
+    }
+
+    public void setHtmlContent(String htmlContent) {
+        this.htmlContent = htmlContent;
     }
 
     public boolean isFavorite() {

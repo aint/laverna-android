@@ -218,21 +218,21 @@ public class AllNotesFragment extends Fragment {
         for (Note note : noteService.getByProfile(profileId, 1, 200)){
             System.out.println(noteService.remove(note.getId()));
         }
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Dog", "Content 1", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Cat", "Content 2", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Bird", "Content 3", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Pig", "Content 4", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Tiger", "Content 5", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Duck", "Content 6", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Wild Cat", "Content 7", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Goose", "Content 8", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Rat", "Content 9", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Butterfly", "Content 10", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Elephant", "Content 11", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Chicken", "Content 12", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Cock", "Content 13", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Bug", "Content 14", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Snake", "Content 15", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Dog", "Content 1", "Content 1", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Cat", "Content 2", "Content 2", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Bird", "Content 3", "Content 3", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Pig", "Content 4", "Content 4", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Tiger", "Content 5", "Content 5", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Duck", "Content 6", "Content 6", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Wild Cat", "Content 7", "Content 7", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Goose", "Content 8", "Content 8", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Rat", "Content 9", "Content 9", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Butterfly", "Content 10", "Content 10", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Elephant", "Content 11", "Content 11", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Chicken", "Content 12", "Content 12", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Cock", "Content 13", "Content 13", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Bug", "Content 14", "Content 14", false));
+        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Snake", "Content 15", "Content 15", false));
     }
 
      private static class RxSearch {

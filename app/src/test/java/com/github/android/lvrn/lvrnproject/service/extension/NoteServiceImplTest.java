@@ -68,32 +68,32 @@ public class NoteServiceImplTest {
 
     @Test
     public void serviceShouldCreateNote() {
-        assertThat(noteService.create(new NoteForm(profile.getId(), null, "Note Title", "Content", false))
+        assertThat(noteService.create(new NoteForm(profile.getId(), null, "Note Title", "Content", "Content", false))
                 .isPresent())
                 .isTrue();
     }
 
     @Test
     public void serviceShouldNotCreateNote() {
-        assertThat(noteService.create(new NoteForm(profile.getId(), null, "", "Content", false))
+        assertThat(noteService.create(new NoteForm(profile.getId(), null, "", "Content", "Content", false))
                 .isPresent())
                 .isFalse();
 
-        assertThat(noteService.create(new NoteForm(null, null, "hjkh", "Content", false))
+        assertThat(noteService.create(new NoteForm(null, null, "hjkh", "Content", "Content", false))
                 .isPresent())
                 .isFalse();
 
-        assertThat(noteService.create(new NoteForm(profile.getId(), "dfdfs", "hjkh", "Content", false))
+        assertThat(noteService.create(new NoteForm(profile.getId(), "dfdfs", "hjkh", "Content", "Content", false))
                 .isPresent())
                 .isFalse();
     }
 
     @Test
     public void serviceShouldUpdateNote() {
-        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), null, "Note Title", "Content", false));
+        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), null, "Note Title", "Content", "Content", false));
         assertThat(noteIdOptional.isPresent()).isTrue();
 
-        assertThat(noteService.update(noteIdOptional.get(), new NoteForm(null, null, "new Title", "new content", true)))
+        assertThat(noteService.update(noteIdOptional.get(), new NoteForm(null, null, "new Title", "new content", "new content", true)))
                 .isTrue();
     }
 
@@ -104,7 +104,7 @@ public class NoteServiceImplTest {
                 "[X] of course\n"
                 + "[]That's not a task";
 
-        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), null, "Note Title", content, false));
+        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), null, "Note Title", content, content, false));
         assertThat(noteIdOptional.isPresent()).isTrue();
 
         TagService tagService = new TagServiceImpl(new TagRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
@@ -129,7 +129,7 @@ public class NoteServiceImplTest {
                 "[X] of course\n"
                 + "[]That's not a task";
 
-        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), null, "Note Title", content1, false));
+        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), null, "Note Title", content1, content1, false));
         assertThat(noteIdOptional.isPresent()).isTrue();
 
         String content2 = "Content\n #my_second tag_first_delted\n well#it''s_not_a_tag\n"
@@ -139,7 +139,7 @@ public class NoteServiceImplTest {
                 + "[] new task, yeap\n"
                 + "[X] another one";
 
-        assertThat(noteService.update(noteIdOptional.get(), new NoteForm(profile.getId(), null, "new title", content2, true)));
+        assertThat(noteService.update(noteIdOptional.get(), new NoteForm(profile.getId(), null, "new title", content2, content1, true)));
 
         TagService tagService = new TagServiceImpl(new TagRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
         tagService.openConnection();
@@ -158,7 +158,7 @@ public class NoteServiceImplTest {
 
     @Test
     public void serviceShouldGetEntityByTitle() {
-        assertThat(noteService.create(new NoteForm(profile.getId(), null, "Note Title", "Content", false))
+        assertThat(noteService.create(new NoteForm(profile.getId(), null, "Note Title", "Content", "Content", false))
                 .isPresent())
                 .isTrue();
 
@@ -172,7 +172,7 @@ public class NoteServiceImplTest {
         Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), null, "notebook"));
         notebookService.closeConnection();
         assertThat(notebookIdOptional.isPresent()).isTrue();
-        noteService.create(new NoteForm(profile.getId(), notebookIdOptional.get(), "new note", "yeah", false));
+        noteService.create(new NoteForm(profile.getId(), notebookIdOptional.get(), "new note", "yeah", "yeah", false));
 
         assertThat(noteService.getByNotebook(notebookIdOptional.get(), 1, 100)).hasSize(1);
     }
@@ -185,7 +185,7 @@ public class NoteServiceImplTest {
         assertThat(tagIdOptional.isPresent()).isTrue();
 
 
-        noteService.create(new NoteForm(profile.getId(), null, "new note", "#simple_tag", false));
+        noteService.create(new NoteForm(profile.getId(), null, "new note", "#simple_tag", "#simple_tag", false));
 
         assertThat(noteService.getByTag(tagIdOptional.get(), 1, 100)).hasSize(1);
 

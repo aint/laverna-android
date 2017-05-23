@@ -58,7 +58,7 @@ public class TaskRepositoryTest {
 
         NoteRepositoryImpl notesRepository = new NoteRepositoryImpl();
         notesRepository.openDatabaseConnection();
-        notesRepository.add(new Note("node_id_1", profile.getId(), null, "title", 1111, 2222, "dfsdf", true));
+        notesRepository.add(new Note("node_id_1", profile.getId(), null, "title", 1111, 2222, "dfsdf", "dfsdf", true));
         notesRepository.closeDatabaseConnection();
 
         taskRepository = new TaskRepositoryImpl();

@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CREATION_TIME;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_HTML_CONTENT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_IS_FAVORITE;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_NOTEBOOK_ID;
@@ -60,6 +61,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
                 cursor.getLong(cursor.getColumnIndex(COLUMN_CREATION_TIME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_CONTENT)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_HTML_CONTENT)),
                 cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE)) > 0);
     }
 
@@ -111,7 +113,6 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
     public List<Note> getByNotebook(@NonNull String notebookId, int from, int amount) {
         return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, from, amount);
     }
-
 
     @NonNull
     @Override

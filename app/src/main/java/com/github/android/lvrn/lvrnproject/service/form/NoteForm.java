@@ -2,7 +2,6 @@ package com.github.android.lvrn.lvrnproject.service.form;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 
 /**
@@ -17,13 +16,16 @@ public class NoteForm extends ProfileDependedForm<Note> {
 
     private String content;
 
+    private String htmlContent;
+
     private boolean isFavorite;
 
-    public NoteForm(String profileId, String notebookId, String title, String content, boolean isFavorite) {
+    public NoteForm(String profileId, String notebookId, String title, String content, String htmlContent, boolean isFavorite) {
         super(profileId);
         this.notebookId = notebookId;
         this.title = title;
         this.content = content;
+        this.htmlContent = htmlContent;
         this.isFavorite = isFavorite;
     }
 
@@ -38,6 +40,7 @@ public class NoteForm extends ProfileDependedForm<Note> {
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
                 content,
+                htmlContent,
                 isFavorite);
     }
 
@@ -63,6 +66,14 @@ public class NoteForm extends ProfileDependedForm<Note> {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getHtmlContent() {
+        return htmlContent;
+    }
+
+    public void setHtmlContent(String htmlContent) {
+        this.htmlContent = htmlContent;
     }
 
     public boolean isFavorite() {

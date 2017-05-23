@@ -80,6 +80,7 @@ public class LavernaContract {
         public static final String COLUMN_CREATION_TIME = "creation_time";
         public static final String COLUMN_UPDATE_TIME = "update_time";
         public static final String COLUMN_CONTENT = "content";
+        public static final String COLUMN_HTML_CONTENT = "html_content";
         public static final String COLUMN_IS_FAVORITE = "is_favorite";
 
         static final String SQL_CREATE_NOTES_TABLE =
@@ -91,6 +92,7 @@ public class LavernaContract {
                         + COLUMN_CREATION_TIME + " INTEGER,"
                         + COLUMN_UPDATE_TIME + " INTEGER,"
                         + COLUMN_CONTENT + " TEXT,"
+                        + COLUMN_HTML_CONTENT + " TEXT,"
                         + COLUMN_IS_FAVORITE + " BOOLEAN,"
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
                         + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE,"
