@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.util;
+package com.github.android.lvrn.lvrnproject.view.util.markdownparser;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>

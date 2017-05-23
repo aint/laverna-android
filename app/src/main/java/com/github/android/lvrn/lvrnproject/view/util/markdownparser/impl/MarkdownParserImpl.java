@@ -1,9 +1,9 @@
-package com.github.android.lvrn.lvrnproject.view.util.impl;
+package com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.github.android.lvrn.lvrnproject.view.util.MarkdownParser;
+import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
 
 import org.commonmark.Extension;
 import org.commonmark.ext.autolink.AutolinkExtension;
@@ -21,24 +21,38 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.HASH_TAG_REGEX;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.HASH_TAG_REPLACEMENT;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.LINE_WITH_TASK_REGEX;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.NEW_LINE_IN_LI_REGEX;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.NEW_LINE_REGEX;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.NEW_LINE_REPLACEMENT;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_A;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_H1;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_H2;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_H3;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_H4;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_H5;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_H6;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_LI;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TAG_P;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.MarkdownParserConst.TASK_REGEX;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.WebViewStyleConst.DOC_STYLE;
-import static com.github.android.lvrn.lvrnproject.view.util.impl.WebViewStyleConst.HIGHLIGHT_JS_SCRIPT;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.CHECKBOX_CHECKED_TAG;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.CHECKBOX_UNCHECKED_TAG;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.GT1_CODE;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.GT2_CODE;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.GT3_CODE;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.GT_SYMBOL;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.HASH_TAG_REGEX;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.HASH_TAG_REPLACEMENT;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.LINE_WITH_TASK_REGEX;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.LT1_CODE;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.LT2_CODE;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.LT3_CODE;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.LT_SYMBOL;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.NEW_LINE_IN_LI_REGEX;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.NEW_LINE_REGEX;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.NEW_LINE_REPLACEMENT;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TABLE_TAG;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TABLE_WRAP_DIV_TAG;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_A;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_H1;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_H2;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_H3;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_H4;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_H5;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_H6;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_LI;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TAG_P;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TASK_REGEX;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TASK_X_BIG_MARK;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserConst.TASK_X_SMALL_MARK;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.WebViewStyleConst.DOC_STYLE;
+import static com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.WebViewStyleConst.HIGHLIGHT_JS_SCRIPT;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -81,21 +95,26 @@ public class MarkdownParserImpl implements MarkdownParser {
      * @return a text with replacements.
      */
     private String additionalReplaces(String htmlText) {
-        Document doc = Jsoup.parseBodyFragment(htmlText);
-        doc.outputSettings(new Document.OutputSettings().prettyPrint(false));
-        addDocStyle(doc);
-
+        Document doc = getParsedHtmlDocument(htmlText);
         makeTablesResponsive(doc);
-
         replaceInHeaders(doc);
         replaceInListItems(doc);
         replaceInParagraphs(doc);
         replaceInHyperLinks(doc);
+        return replaceGtAndLt(doc);
+    }
 
+    /**
+     * A method which parses html using Jsoup,
+     * @param htmlText a text to parse.
+     * @return a document with parsed text.
+     */
+    private Document getParsedHtmlDocument(String htmlText) {
+        Document doc = Jsoup.parseBodyFragment(htmlText);
+        doc.outputSettings(new Document.OutputSettings().prettyPrint(false));
+        doc.head().append(DOC_STYLE);
         doc.body().append(HIGHLIGHT_JS_SCRIPT);
-
-        htmlText = replaceGtAndLt(doc);
-        return htmlText;
+        return doc;
     }
 
     /**
@@ -103,8 +122,8 @@ public class MarkdownParserImpl implements MarkdownParser {
      * @param doc a document to parse.
      */
     private void makeTablesResponsive(Document doc) {
-        for (Element element : doc.getElementsByTag("table")) {
-            element.wrap("<div style=\"overflow-x:auto;\">");
+        for (Element element : doc.getElementsByTag(TABLE_TAG)) {
+            element.wrap(TABLE_WRAP_DIV_TAG);
         }
     }
 
@@ -194,11 +213,12 @@ public class MarkdownParserImpl implements MarkdownParser {
      * @param task a string which contains brackets.
      * @return a string with replaced brackets.
      */
+    @NonNull
     private String replaceBracketsWithCheckboxTag(String task) {
         String mark = Character.toString(task.charAt(1));
-        String checkbox = "<input type=\"checkbox\" class=\"checkbox\"> ";
-        if (mark.equals("x") || mark.equals("X")) {
-            checkbox = "<input type=\"checkbox\" class=\"checkbox\" checked> ";
+        String checkbox = CHECKBOX_UNCHECKED_TAG;
+        if (mark.equals(TASK_X_SMALL_MARK) || mark.equals(TASK_X_BIG_MARK)) {
+            checkbox = CHECKBOX_CHECKED_TAG;
         }
         return checkbox.concat(task.substring(3).trim());
     }
@@ -210,12 +230,12 @@ public class MarkdownParserImpl implements MarkdownParser {
      */
     private String replaceGtAndLt(Document doc) {
        return doc.toString()
-               .replaceAll("&lt;", "<")
-               .replaceAll("&gt;", ">")
-               .replaceAll("&amp;lt;", "<")
-               .replaceAll("&amp;gt;", ">")
-               .replaceAll("&amp;amp;lt;", "<")
-               .replaceAll("&amp;amp;gt;", ">");
+               .replaceAll(LT1_CODE, LT_SYMBOL)
+               .replaceAll(GT1_CODE, GT_SYMBOL)
+               .replaceAll(LT2_CODE, LT_SYMBOL)
+               .replaceAll(GT2_CODE, GT_SYMBOL)
+               .replaceAll(LT3_CODE, LT_SYMBOL)
+               .replaceAll(GT3_CODE, GT_SYMBOL);
     }
 
     /**
