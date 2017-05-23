@@ -1,8 +1,9 @@
 package com.github.android.lvrn.lvrnproject.service.util;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.Pair;
+
+import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,7 +57,7 @@ public class NoteTextParser {
                 .map(String::trim)
                 .filter(NoteTextParser::validateTag)
                 .subscribe(tagsSet::add);
-        Log.d(TAG, "Parse tags. Text: " + text + "\nParsed tags:" + tagsSet.toString());
+        Logger.d("Text to parse: $s \nParsed tags: $s", text, tagsSet);
         return tagsSet;
     }
 
@@ -74,7 +75,7 @@ public class NoteTextParser {
                 .map(NoteTextParser::segregateTask)
                 .subscribe(pair -> tasksMap.put(pair.first, pair.second));
 
-        Log.d(TAG, "Parse tag. Text: " + text + "\nParsed text:" + tasksMap);
+        Logger.d("Text to parse: $s\nParsed tasks: $s", text, tasksMap);
         return tasksMap;
     }
 
@@ -89,7 +90,7 @@ public class NoteTextParser {
         if (matcher.find()) {
             return matcher.group(0);
         }
-        Log.wtf(TAG, "Parser filtered line with a task normally, but couldn't find task then");
+        Logger.wtf("Parser filtered line with a task normally, but couldn't find task then");
         throw new RuntimeException();
     }
 

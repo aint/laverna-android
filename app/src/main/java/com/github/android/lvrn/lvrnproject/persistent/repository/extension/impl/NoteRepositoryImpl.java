@@ -2,12 +2,13 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NoteRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -70,11 +71,13 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
             ContentValues contentValues = toNoteTagsContentValues(noteId, tagId);
             result = mDatabase.insert(NotesTagsTable.TABLE_NAME, null, contentValues) != -1;
             mDatabase.setTransactionSuccessful();
+        } catch (SQLException e) {
+            Logger.e(e, "Error while doing transaction.");
         } finally {
             mDatabase.endTransaction();
         }
-        Log.d(TAG, "Table name: " + TABLE_NAME + "\nOperation: addTagToNote\nNote id: " + noteId
-                + "\nTag id: " + tagId + "\nResult: " + result);
+        Logger.d("Table name: $s\nOperation: addTagToNote\nNote id: $d\nTag id: $s\nResult: $s",
+                TABLE_NAME, noteId, tagId, result);
         return result;
     }
 
@@ -87,11 +90,13 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
                     + NotesTagsTable.COLUMN_NOTE_ID + " = '" + noteId + "'";
             result = mDatabase.delete(NotesTagsTable.TABLE_NAME, query, null) != 0;
             mDatabase.setTransactionSuccessful();
+        } catch (SQLException e) {
+            Logger.e(e, "Error while doing transaction.");
         } finally {
             mDatabase.endTransaction();
         }
-        Log.d(TAG, "Table name: " + TABLE_NAME + "\nOperation: removeTagToNote\nNote id: " + noteId
-                + "\nTag id: " + tagId + "\nResult: " + result);
+        Logger.d("Table name: $s\nOperation: removeTagToNote\nNote id: $d\nTag id: $d\nResult: $s",
+                TABLE_NAME, noteId, tagId, result);
         return result;
     }
 

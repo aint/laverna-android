@@ -2,15 +2,16 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
 import com.google.common.base.Optional;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,12 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         try {
             result = mDatabase.insert(mTableName, null, toContentValues(entity)) != -1;
             mDatabase.setTransactionSuccessful();
+        } catch (SQLException e) {
+            Logger.e(e, "Error while doing transaction.");
         } finally {
             mDatabase.endTransaction();
         }
-        Log.d(TAG, "Table name: " + mTableName + "\nOperation: add\nEntity: " + entity.toString() + "\nResult: " + result);
+        Logger.d("Table name: $s\nOperation: add\nEntity: $s\nResult: $s", mTableName, entity, result);
         return result;
     }
 
@@ -57,10 +60,12 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         try {
             result = mDatabase.delete(mTableName, COLUMN_ID + "= '" + id + "'", null) != 0;
             mDatabase.setTransactionSuccessful();
+        } catch (SQLException e) {
+            Logger.e(e, "Error while doing transaction.");
         } finally {
             mDatabase.endTransaction();
         }
-        Log.d(TAG, "Table name: " + mTableName + "\nOperation: remove\nId: " + id + "\nResult: " + result);
+        Logger.d("Table name: $s\nOperation: remove\nId: $d\nResult: $s", mTableName, id, result);
         return result;
     }
 
@@ -71,7 +76,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
                 "SELECT * FROM " + mTableName
                         + " WHERE " + COLUMN_ID + " = '" + id + "'",
                 new String[]{});
-        Log.d(TAG, "Table name: " + mTableName + "\nOperation: getById\nId: " + id + "\nCursor: " + (cursor != null));
+        Logger.d("Table name: $s\nOperation: getById\nId: $d\nCursor: $s", mTableName, id, (cursor != null));
         if (cursor != null && cursor.moveToFirst()) {
             return Optional.of(toEntity(cursor));
         }
@@ -81,23 +86,23 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @Override
     public boolean openDatabaseConnection() {
         if (mDatabase != null) {
-            Log.w(TAG, "Connection is already opened");
+            Logger.w("Connection is already opened");
             return false;
         }
         mDatabase = DatabaseManager.getInstance().openConnection();
-        Log.i(TAG, "Connection is opened");
+        Logger.i("Connection is opened");
         return true;
     }
 
     @Override
     public boolean closeDatabaseConnection() {
         if (mDatabase == null) {
-            Log.w(TAG, "Connection is already closed");
+            Logger.w("Connection is already closed");
             return false;
         }
         DatabaseManager.getInstance().closeConnection();
         mDatabase = null;
-        Log.i(TAG, "Connection is closed");
+        Logger.i("Connection is closed");
         return true;
     }
 
@@ -109,7 +114,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @NonNull
     protected List<T> getByRawQuery(String query) {
         Cursor cursor = mDatabase.rawQuery(query, new String[]{});
-        Log.d(TAG, "Raw query:" + query + "\nCursor: " + (cursor != null));
+        Logger.d("Raw query: $s\nCursor: $s", query, (cursor != null));
         List<T> entities = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) {
             do {

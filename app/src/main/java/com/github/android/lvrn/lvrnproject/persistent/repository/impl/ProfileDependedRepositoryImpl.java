@@ -2,10 +2,10 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      */
     protected boolean rawUpdateQuery(@NonNull String query) {
         Cursor cursor = mDatabase.rawQuery(query, null);
-        Log.d(TAG, "Raw update: " + query + "\nCursor: " + (cursor != null));
+        Logger.d("Raw update: $s\nCursor: $s", query, (cursor != null));
         if (cursor != null) {
             cursor.moveToFirst();
             cursor.close();

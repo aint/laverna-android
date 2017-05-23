@@ -28,7 +28,6 @@ public class LavernaApplication extends Application {
         profileService.create(new ProfileForm("default"));
         profileService.create(new ProfileForm("default2"));
         profileService.create(new ProfileForm("default3"));
-        System.out.println(profileService.getAll());
         profileService.closeConnection();
     }
 

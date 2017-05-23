@@ -1,9 +1,9 @@
 package com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
+import com.orhanobut.logger.Logger;
 
 import org.commonmark.Extension;
 import org.commonmark.ext.autolink.AutolinkExtension;
@@ -72,10 +72,10 @@ public class MarkdownParserImpl implements MarkdownParser {
 
     @Override
     public String getParsedHtml(@NonNull String text) {
-        Log.d(TAG, "Raw text:\n" + text);
+        Logger.d("Raw text:\n $s", text);
         String textHtml = parseMarkdown(text);
         textHtml = additionalReplaces(textHtml);
-        Log.d(TAG, "After parse:\n" + textHtml);
+        Logger.d("After parse:\n $s", textHtml);
         return textHtml;
     }
 
@@ -202,7 +202,7 @@ public class MarkdownParserImpl implements MarkdownParser {
                 text = text.replace(lineWithTask, replaceBracketsWithCheckboxTag(pureTaskMatcher.group(0)));
                 continue;
             }
-            Log.wtf(TAG, "Parser filtered line with a task normally, but couldn't find task then");
+            Logger.wtf("Parser filtered line with a task normally, but couldn't find task then");
             throw new RuntimeException();
         }
         return text;

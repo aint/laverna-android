@@ -1,6 +1,5 @@
 package com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.impl;
 
-import android.util.Log;
 import android.widget.EditText;
 
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.NoteEditorActivity;
@@ -8,6 +7,7 @@ import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.No
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl;
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.orhanobut.logger.Logger;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,18 +48,18 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
             return;
         }
         mEditorEditTextDisposable.dispose();
-        Log.d(TAG, "Note editor is unsubscribed for preview");
+        Logger.d("Note editor is unsubscribed for preview");
     }
 
     @Override
     public void bindView(NoteEditorActivity noteEditorActivity) {
         this.mNoteEditorActivity = noteEditorActivity;
-        Log.d(TAG, "Node editor is binded to its presenter.");
+        Logger.d("Node editor is binded to its presenter.");
     }
 
     @Override
     public void unbindView() {
         mNoteEditorActivity = null;
-        Log.d(TAG, "Node editor is unbinded to its presenter.");
+        Logger.d("Node editor is unbinded to its presenter.");
     }
 }

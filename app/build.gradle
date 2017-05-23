@@ -74,6 +74,7 @@ dependencies {
 
     compile 'org.jsoup:jsoup:1.10.2'
 
+    compile 'com.orhanobut:logger:1.15'
 
 }
 
