@@ -29,7 +29,7 @@ import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.extension.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
-import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.NoteEditorActivity;
+import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 
@@ -241,7 +241,7 @@ public class AllNotesFragment extends Fragment {
      * @param view
      */
     private void startNoteEditorActivity(View view) {
-        Intent intent = new Intent(getActivity(), NoteEditorActivity.class);
+        Intent intent = new Intent(getActivity(), NoteEditorActivityImpl.class);
         startActivity(intent);
         getActivity().finish();
     }
