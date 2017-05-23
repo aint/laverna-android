@@ -20,8 +20,6 @@ import org.robolectric.annotation.Config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-;
-
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */

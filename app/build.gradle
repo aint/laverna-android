@@ -42,6 +42,7 @@ dependencies {
     compile 'us.feras.mdv:markdownview:1.1.0'
     compile 'com.google.guava:guava:20.0'
     compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:2.6.0'
     testCompile 'org.robolectric:robolectric:3.3.2'

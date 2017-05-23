@@ -21,4 +21,10 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="menu_labels_style">
+        <item name="android:background">@color/fab_label_background</item>
+        <item name="android:textColor">@color/fab_label_text_color</item>
+    </style>
+
+
 </resources>
