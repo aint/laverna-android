@@ -3,17 +3,14 @@ package com.github.android.lvrn.lvrnproject.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import com.github.android.lvrn.lvrnproject.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -23,7 +20,6 @@ import butterknife.OnClick;
  */
 
 public class NoteDetailsFragment extends Fragment {
-    @BindView(R.id.im_btn_arrow_back) ImageButton mImageButtonBack;
 
     @Nullable
     @Override
@@ -41,8 +37,6 @@ public class NoteDetailsFragment extends Fragment {
 
     private void reInitBaseView() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-        FloatingActionButton fa =(FloatingActionButton)(( getActivity()).findViewById(R.id.fab));
-        fa.hide();
     }
 
 }

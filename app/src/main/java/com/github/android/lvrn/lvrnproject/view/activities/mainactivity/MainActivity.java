@@ -2,7 +2,6 @@ package com.github.android.lvrn.lvrnproject.view.activities.mainactivity;
 
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -22,9 +21,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-
-    @BindView(R.id.fab) FloatingActionButton floatingBtn;
-
     @BindView(R.id.toolbar) Toolbar toolBar;
 
     @Override

@@ -5,12 +5,10 @@ package com.github.android.lvrn.lvrnproject.view.fragments;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.ChangeBounds;
 import android.transition.Slide;
@@ -19,8 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
-
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragment;
@@ -97,10 +93,6 @@ public class SingleNoteFragment extends Fragment  {
 
     private void reInitBaseView() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        FloatingActionButton fa =(FloatingActionButton)(( getActivity()).findViewById(R.id.fab));
-        fa.show();
-        fa.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_create_white_24dp));
-        fa.setOnClickListener(v -> Toast.makeText(getContext(),"Fragment №2",Toast.LENGTH_SHORT).show());
     }
 
 }

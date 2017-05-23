@@ -1,13 +1,12 @@
 package com.github.android.lvrn.lvrnproject.view.fragments;
 
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +18,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
@@ -41,6 +42,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -59,15 +61,16 @@ public class AllNotesFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private AllNotesFragmentRecyclerViewAdapter mAdapter;
     private Disposable mDisposable;
-    private EndlessRecyclerViewScrollListener mScrollListener;
     private SearchView mSearchView;
     MenuItem menuSearch,menuSync,menuSortBy,menuSettings,menuAbout;
     @Inject NoteService noteService;
     @BindView(R.id.recycler_view_all_notes) RecyclerView mRecyclerView;
+    @BindView(R.id.floating_action_menu_all_notes) FloatingActionsMenu floatingActionsMenu;
 
     //TODO: temporary, remove later
     private String profileId;
     private ProfileService profileService;
+
     private enum Mode {
         NORMAL,SEARCH,SORT,ABOUT,SETTINGS;
     }
@@ -85,6 +88,18 @@ public class AllNotesFragment extends Fragment {
         initRecyclerView();
         reInitBaseView();
         return rootView;
+    }
+
+    @OnClick(R.id.floating_btn_start_note)
+    public void openActivityA(){
+        Toast.makeText(getContext(),"Activity1",Toast.LENGTH_SHORT).show();
+        floatingActionsMenu.collapse();
+    }
+
+    @OnClick(R.id.floating_btn_start_notebook)
+    public void openActivityB(){
+        Toast.makeText(getContext(),"Activity2",Toast.LENGTH_SHORT).show();
+        floatingActionsMenu.collapse();
     }
 
     @Override
@@ -115,6 +130,12 @@ public class AllNotesFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        floatingActionsMenu.collapse();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         profileService.closeConnection();
@@ -124,11 +145,6 @@ public class AllNotesFragment extends Fragment {
 
     private void reInitBaseView() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        FloatingActionButton floatingBtn = (FloatingActionButton)(getActivity()).findViewById(R.id.fab);
-        floatingBtn.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.ic_add_middle_white_24dp));
-
-        //TODO: temporary implementation. Change it later.
-        floatingBtn.setOnClickListener(this::startNoteEditorActivity);
     }
 
     private void initRecyclerView() {
@@ -155,20 +171,22 @@ public class AllNotesFragment extends Fragment {
     }
 
     private EndlessRecyclerViewScrollListener initEndlessRecyclerViewScroll(){
-        mScrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager){
+        EndlessRecyclerViewScrollListener mScrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                   mDataAllNotes.addAll(noteService.getByProfile(profileId,totalItemsCount+1,numberEntitiesDownloadItem));
+                mDataAllNotes.addAll(noteService.getByProfile(profileId, totalItemsCount + 1, numberEntitiesDownloadItem));
                 view.post(() -> {
                     mAdapter.notifyItemRangeInserted(mAdapter.getItemCount(), mDataAllNotes.size() - 1);
                 });
-                }
+            }
         };
         return mScrollListener;
     }
 
     private void startMode(Mode modeToStart){
         if(modeToStart == Mode.SEARCH){
+            floatingActionsMenu.collapse();
+            floatingActionsMenu.setVisibility(View.GONE);
             menuSync.setVisible(false);
             menuAbout.setVisible(false);
             menuSortBy.setVisible(false);
@@ -181,6 +199,7 @@ public class AllNotesFragment extends Fragment {
             }
             mSearchView.setBackground(bottomUnderline);
         } else if(modeToStart == Mode.NORMAL){
+            floatingActionsMenu.setVisibility(View.VISIBLE);
             menuSync.setVisible(true);
             menuAbout.setVisible(true);
             menuSortBy.setVisible(true);
