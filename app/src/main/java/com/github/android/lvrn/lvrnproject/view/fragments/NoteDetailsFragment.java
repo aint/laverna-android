@@ -8,9 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,6 +23,9 @@ import butterknife.OnClick;
  */
 
 public class NoteDetailsFragment extends Fragment {
+    @BindView(R.id.tv_update_date_detail_note) TextView mTextViewUpdateNote;
+    @BindView(R.id.tv_create_date_detail_note) TextView mTextViewCreateNote;
+    @BindView(R.id.tv_notebook_name_detail_note) TextView mTextViewNotebookName;
 
     @Nullable
     @Override
@@ -41,6 +47,9 @@ public class NoteDetailsFragment extends Fragment {
     }
 
     private void getParcelableDataAndSetInView() {
+        mTextViewUpdateNote.setText(String.valueOf(getArguments().getLong(BundleKeysConst.BUNDLE_NOTE_UPDATED_KEY)));
+        mTextViewCreateNote.setText(String.valueOf(getArguments().getLong(BundleKeysConst.BUNDLE_NOTE_CREATED_KEY)));
+        mTextViewNotebookName.setText(getArguments().getString(BundleKeysConst.BUNDLE_NOTEBOOK_NAME_KEY));
     }
 
 }

@@ -24,6 +24,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragment;
+import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 
 import javax.inject.Inject;
 
@@ -43,6 +44,8 @@ public class SingleNoteFragment extends Fragment {
     @BindView(R.id.tv_name_note_book) TextView mTextViewNotebookName;
     @BindView(R.id.edit_text_main_content_for_note) EditText mEditTextContentNote;
     @Inject NotebookService notebookService;
+    private Note mSelectNote;
+    private String mNoteBookName;
 
     @Nullable
     @Override
@@ -57,6 +60,11 @@ public class SingleNoteFragment extends Fragment {
     @OnClick(R.id.im_btn_information)
     public void startNoteDetailFragment() {
         NoteDetailsFragment noteDetailsFragment = new NoteDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(BundleKeysConst.BUNDLE_NOTEBOOK_NAME_KEY,mNoteBookName);
+        bundle.putLong(BundleKeysConst.BUNDLE_NOTE_UPDATED_KEY,mSelectNote.getUpdateTime());
+        bundle.putLong(BundleKeysConst.BUNDLE_NOTE_CREATED_KEY,mSelectNote.getCreationTime());
+        noteDetailsFragment.setArguments(bundle);
         openSelectFragment(noteDetailsFragment);
     }
 
@@ -102,15 +110,16 @@ public class SingleNoteFragment extends Fragment {
     }
 
     private void getParcelableDataAndSetInView() {
-        Note selectNote = getArguments().getParcelable("noteForm");
-        if (selectNote.getNotebookId() != null) {
+         mSelectNote = getArguments().getParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY);
+        if (mSelectNote.getNotebookId() != null) {
             notebookService.openConnection();
-            Notebook selectNotebook = notebookService.getById(selectNote.getNotebookId()).get();
+            Notebook selectNotebook = notebookService.getById(mSelectNote.getNotebookId()).get();
             notebookService.closeConnection();
-            mTextViewNotebookName.setText(selectNotebook.getName());
+            mNoteBookName = selectNotebook.getName();
+            mTextViewNotebookName.setText(mNoteBookName);
         }
-        mEditTextTitle.setText(selectNote.getTitle());
-        mEditTextContentNote.setText(selectNote.getContent());
+        mEditTextTitle.setText(mSelectNote.getTitle());
+        mEditTextContentNote.setText(mSelectNote.getContent());
     }
 
     private void reInitBaseView() {

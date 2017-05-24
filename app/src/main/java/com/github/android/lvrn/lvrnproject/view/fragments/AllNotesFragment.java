@@ -34,6 +34,7 @@ import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
+import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,8 +111,7 @@ public class AllNotesFragment extends Fragment
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         SingleNoteFragment singleNoteFragment = new SingleNoteFragment();
         Bundle bundle = new Bundle();
-        Note note = mAdapter.allNotesData.get(position);
-        bundle.putParcelable("noteForm",note);
+        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY,mAdapter.allNotesData.get(position));
         singleNoteFragment.setArguments(bundle);
         fragmentManager
                 .beginTransaction()

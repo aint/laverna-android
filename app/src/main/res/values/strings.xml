@@ -23,4 +23,14 @@
     <string name="fragment_all_notes_menu_search_query_hint">Search by note title</string>
     <string name="fab_start_note">Note</string>
     <string name="fab_start_notebook">Notebook</string>
+    <!--hint -->
+    <string name="hint_you_notebook_name">Your Notebook name</string>
+    <string name="hint_you_updated_time">Your updated time</string>
+    <string name="hint_you_created_time">Your updated time</string>
+    <string name="hint_prompt_text_detail_note">This is Prompt Text</string>
+    <!--fragment note detail  -->
+    <string name="note_detail_label_created">Created</string>
+    <string name="note_detail_label_updated">Updated</string>
+    <string name="hint_you_edit_tags">Your Edit Tags</string>
+
 </resources>

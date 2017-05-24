@@ -35,7 +35,6 @@
 
    </RelativeLayout>
 
- <!--TODO: delete hardcore text when implement DAO-->
     <EditText
         android:id="@+id/edit_text_title_single_note"
         android:layout_width="match_parent"
@@ -56,7 +55,7 @@
         android:layout_below="@+id/edit_text_title_single_note"
         android:drawableLeft="@drawable/ic_bookmark_in_agenda_24dp"
         android:drawablePadding="8dp"
-        android:hint="Travel &amp; Lodging"
+        android:hint="@string/hint_you_notebook_name"
         android:textSize="20sp"/>
 
     <ImageButton
@@ -107,7 +106,7 @@
         android:layout_below="@+id/view_separator_line_first"
         android:layout_marginTop="24sp"
         android:textSize="16sp"
-        android:hint="This is Prompt Text"
+        android:hint="@string/hint_prompt_text_detail_note"
         android:background="@color/color_edit_text_title_note"/>
 
 </RelativeLayout>

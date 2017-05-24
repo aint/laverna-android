@@ -8,7 +8,6 @@
     android:layout_margin="16dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--TODO: delete hardcore text when implement DAO-->
     <ImageButton
         android:id="@+id/im_btn_big_information"
         android:layout_width="wrap_content"
@@ -32,7 +31,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/im_btn_arrow_back"
-        android:text="Updated"
+        android:text="@string/note_detail_label_updated"
         android:textSize="@dimen/fragment_detail_title_text_size"/>
     
     <TextView
@@ -44,7 +43,8 @@
         android:layout_marginLeft="@dimen/fragment_detail_update_margin_left"
         android:layout_marginTop="@dimen/fragment_detail_update_margin_top"
         android:textSize="@dimen/fragment_detail_update_text_size"
-        android:text="Jan 8,2017 6:20:20 PM"/>
+        android:textColor="@color/main_green_themes_app"
+        android:hint="@string/hint_you_updated_time"/>
     
     <TextView
         android:id="@+id/tv_create_title_detail_note"
@@ -55,7 +55,7 @@
         android:textSize="@dimen/fragment_detail_title_text_size"
         android:layout_marginTop="22dp"
         android:layout_marginLeft="16dp"
-        android:text="Created"/>
+        android:text="@string/note_detail_label_created"/>
 
     <TextView
         android:id="@+id/tv_create_date_detail_note"
@@ -65,8 +65,9 @@
         android:layout_toRightOf="@+id/im_btn_arrow_back"
         android:layout_marginLeft="@dimen/fragment_detail_update_margin_left"
         android:layout_marginTop="@dimen/fragment_detail_update_margin_top"
+        android:textColor="@color/main_green_themes_app"
         android:textSize="@dimen/fragment_detail_update_text_size"
-        android:text="Jan 8,2017 6:20:20 PM"/>
+        android:hint="@string/hint_you_created_time"/>
 
     <View
         android:id="@+id/view_separator_line_first"
@@ -79,15 +80,16 @@
         android:background="@color/detail_note_fragment_view_separator_line"/>
 
     <TextView
-        android:id="@+id/tv_name_detail_note"
+        android:id="@+id/tv_notebook_name_detail_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fragment_detail_image_with_text_margin_top"
         android:layout_below="@+id/view_separator_line_first"
         android:drawableLeft="@drawable/ic_hand_drawn_tool_outline_24dp"
         android:drawablePadding="@dimen/fragment_detail_image_with_text_image_padding"
-        android:text="Devel"
+        android:hint="@string/hint_you_notebook_name"
         android:textColor="@color/main_green_themes_app"
+        android:textColorHint="@color/main_green_themes_app"
         android:textSize="@dimen/fragment_detail_image_with_text_text_size"/>
 
     <View
@@ -97,7 +99,7 @@
         android:layout_marginTop="@dimen/fragment_detail_separator_line_margin_top"
         android:layout_marginLeft="@dimen/fragment_detail_separator_line_margin_left"
         android:layout_toRightOf="@+id/im_btn_arrow_back"
-        android:layout_below="@+id/tv_name_detail_note"
+        android:layout_below="@+id/tv_notebook_name_detail_note"
         android:background="@color/detail_note_fragment_view_separator_line"/>
 
     <TextView
@@ -108,8 +110,9 @@
         android:layout_below="@+id/view_separator_line_second"
         android:drawableLeft="@drawable/ic_label_24dp"
         android:textColor="@color/main_green_themes_app"
+        android:textColorHint="@color/main_green_themes_app"
         android:drawablePadding="@dimen/fragment_detail_image_with_text_image_padding"
-        android:text="Edit Tags"
+        android:hint="@string/hint_you_edit_tags"
         android:textSize="@dimen/fragment_detail_image_with_text_text_size"/>
 
     <View
@@ -122,52 +125,27 @@
         android:layout_below="@+id/tv_tag_detail_note"
         android:background="@color/detail_note_fragment_view_separator_line"/>
 
-    <TextView
-        android:id="@+id/tv_location_detail_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fragment_detail_image_with_text_margin_top"
-        android:layout_below="@+id/view_separator_line_third"
-        android:drawableLeft="@drawable/ic_placeholder_24dp"
-        android:textColor="@color/main_green_themes_app"
-        android:text="Location"
-        android:drawablePadding="@dimen/fragment_detail_image_with_text_image_padding"
-        android:textSize="@dimen/fragment_detail_image_with_text_text_size"/>
+    <!--TODO : Uncomment after implement location service-->
+    <!--<TextView-->
+        <!--android:id="@+id/tv_location_detail_note"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="@dimen/fragment_detail_image_with_text_margin_top"-->
+        <!--android:layout_below="@+id/view_separator_line_third"-->
+        <!--android:drawableLeft="@drawable/ic_placeholder_24dp"-->
+        <!--android:textColor="@color/main_green_themes_app"-->
+        <!--android:text="Location"-->
+        <!--android:drawablePadding="@dimen/fragment_detail_image_with_text_image_padding"-->
+        <!--android:textSize="@dimen/fragment_detail_image_with_text_text_size"/>-->
 
-    <View
-        android:id="@+id/view_separator_line_fourth"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/fragment_detail_separator_line_height"
-        android:layout_marginTop="@dimen/fragment_detail_separator_line_margin_top"
-        android:layout_marginLeft="@dimen/fragment_detail_separator_line_margin_left"
-        android:layout_toRightOf="@+id/im_btn_arrow_back"
-        android:layout_below="@+id/tv_location_detail_note"
-        android:background="@color/detail_note_fragment_view_separator_line"/>
-
-    <TextView
-        android:id="@+id/tv_attachment_detail_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fragment_detail_image_with_text_margin_top"
-        android:layout_below="@+id/view_separator_line_fourth"
-        android:drawableLeft="@drawable/ic_attachment_24dp"
-        android:textColor="@color/main_green_themes_app"
-        android:text="Attachment"
-        android:drawablePadding="@dimen/fragment_detail_image_with_text_image_padding"
-        android:textSize="@dimen/fragment_detail_image_with_text_text_size"/>
-
-    <View
-        android:id="@+id/view_separator_line_fifth"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/fragment_detail_separator_line_height"
-        android:layout_marginTop="@dimen/fragment_detail_separator_line_margin_top"
-        android:layout_marginLeft="@dimen/fragment_detail_separator_line_margin_left"
-        android:layout_toRightOf="@+id/im_btn_arrow_back"
-        android:layout_below="@+id/tv_attachment_detail_note"
-        android:background="@color/detail_note_fragment_view_separator_line"/>
-
-
-
-
+    <!--<View-->
+        <!--android:id="@+id/view_separator_line_fourth"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/fragment_detail_separator_line_height"-->
+        <!--android:layout_marginTop="@dimen/fragment_detail_separator_line_margin_top"-->
+        <!--android:layout_marginLeft="@dimen/fragment_detail_separator_line_margin_left"-->
+        <!--android:layout_toRightOf="@+id/im_btn_arrow_back"-->
+        <!--android:layout_below="@+id/tv_location_detail_note"-->
+        <!--android:background="@color/detail_note_fragment_view_separator_line"/>-->
 
 </RelativeLayout>
