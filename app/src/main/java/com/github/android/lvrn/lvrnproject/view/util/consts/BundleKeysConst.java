@@ -9,5 +9,6 @@ public final class BundleKeysConst {
     public static final String BUNDLE_NOTEBOOK_NAME_KEY = "notebookName";
     public static final String BUNDLE_NOTE_UPDATED_KEY = "noteUpdated";
     public static final String BUNDLE_NOTE_CREATED_KEY = "noteCreated";
+    public static final String BUNDLE_NOTE_ID_KEY = "noteId";
 
 }

@@ -58,7 +58,7 @@ import io.reactivex.subjects.BehaviorSubject;
 
 public class AllNotesFragment extends Fragment
            implements AllNotesFragmentRecyclerViewAdapter.ItemClickListener {
-    @Inject NoteService noteService;
+    @Inject NoteService mNoteService;
     @BindView(R.id.recycler_view_all_notes) RecyclerView mRecyclerView;
     @BindView(R.id.floating_action_menu_all_notes) FloatingActionsMenu floatingActionsMenu;
     final static private int startPositionDownloadItem = 1;
@@ -85,7 +85,7 @@ public class AllNotesFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_all_notes, container, false);
         ButterKnife.bind(this,rootView);
         LavernaApplication.getsAppComponent().inject(this);
-        noteService.openConnection();
+        mNoteService.openConnection();
         setHasOptionsMenu(true);
         //TODO: temporary, remove later
         hardcode();
@@ -169,7 +169,7 @@ public class AllNotesFragment extends Fragment
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mDataAllNotes.clear();
-        mDataAllNotes.addAll(noteService.getByProfile(profileId,startPositionDownloadItem,numberEntitiesDownloadItem));
+        mDataAllNotes.addAll(mNoteService.getByProfile(profileId,startPositionDownloadItem,numberEntitiesDownloadItem));
         mAdapter = new AllNotesFragmentRecyclerViewAdapter(mDataAllNotes);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
@@ -181,7 +181,7 @@ public class AllNotesFragment extends Fragment
         mDisposable = RxSearch.fromSearchView(mSearchView)
                 .debounce(400,TimeUnit.MILLISECONDS)
                 .filter(word -> word.length() > 2)
-                .map(title-> noteService.getByTitle(profileId,title,1,10))
+                .map(title-> mNoteService.getByTitle(profileId,title,1,10))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(foundItems-> {
@@ -193,7 +193,7 @@ public class AllNotesFragment extends Fragment
         EndlessRecyclerViewScrollListener mScrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mDataAllNotes.addAll(noteService.getByProfile(profileId, totalItemsCount + 1, numberEntitiesDownloadItem));
+                mDataAllNotes.addAll(mNoteService.getByProfile(profileId, totalItemsCount + 1, numberEntitiesDownloadItem));
                 view.post(() -> {
                     mAdapter.notifyItemRangeInserted(mAdapter.getItemCount(), mDataAllNotes.size() - 1);
                 });
@@ -234,24 +234,24 @@ public class AllNotesFragment extends Fragment
         List<Profile>  profiles = profileService.getAll();
         profileService.closeConnection();
         profileId = profiles.get(0).getId();
-        for (Note note : noteService.getByProfile(profileId, 1, 200)){
-            System.out.println(noteService.remove(note.getId()));
+        for (Note note : mNoteService.getByProfile(profileId, 1, 200)){
+            System.out.println(mNoteService.remove(note.getId()));
         }
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Dog", "Content 1", "Content 1", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Cat", "Content 2", "Content 2", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Bird", "Content 3", "Content 3", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Pig", "Content 4", "Content 4", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Tiger", "Content 5", "Content 5", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Duck", "Content 6", "Content 6", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Wild Cat", "Content 7", "Content 7", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Goose", "Content 8", "Content 8", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Rat", "Content 9", "Content 9", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Butterfly", "Content 10", "Content 10", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Elephant", "Content 11", "Content 11", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Chicken", "Content 12", "Content 12", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Cock", "Content 13", "Content 13", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Bug", "Content 14", "Content 14", false));
-        noteService.create(new NoteForm(profiles.get(0).getId(), null, "Snake", "Content 15", "Content 15", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Dog", "Content 1", "Content 1", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Cat", "Content 2", "Content 2", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Bird", "Content 3", "Content 3", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Pig", "Content 4", "Content 4", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Tiger", "Content 5", "Content 5", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Duck", "Content 6", "Content 6", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Wild Cat", "Content 7", "Content 7", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Goose", "Content 8", "Content 8", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Rat", "Content 9", "Content 9", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Butterfly", "Content 10", "Content 10", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Elephant", "Content 11", "Content 11", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Chicken", "Content 12", "Content 12", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Cock", "Content 13", "Content 13", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Bug", "Content 14", "Content 14", false));
+        mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Snake", "Content 15", "Content 15", false));
     }
 
      private static class RxSearch {

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
@@ -43,7 +44,7 @@ public class SingleNoteFragment extends Fragment {
     @BindView(R.id.edit_text_title_single_note) EditText mEditTextTitle;
     @BindView(R.id.tv_name_note_book) TextView mTextViewNotebookName;
     @BindView(R.id.edit_text_main_content_for_note) EditText mEditTextContentNote;
-    @Inject NotebookService notebookService;
+    @Inject NotebookService mNotebookService;
     private Note mSelectNote;
     private String mNoteBookName;
 
@@ -52,6 +53,7 @@ public class SingleNoteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_single_note, container, false);
         ButterKnife.bind(this, rootView);
+        LavernaApplication.getsAppComponent().inject(this);
         reInitBaseView();
         getParcelableDataAndSetInView();
         return rootView;
@@ -78,7 +80,10 @@ public class SingleNoteFragment extends Fragment {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
+        Bundle bundle =new Bundle();
+        bundle.putString(BundleKeysConst.BUNDLE_NOTE_ID_KEY,mSelectNote.getId());
         DialogFragment dialogFragment = TagEditingDialogFragment.newInstance();
+        dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction, "dialog");
     }
 
@@ -112,9 +117,9 @@ public class SingleNoteFragment extends Fragment {
     private void getParcelableDataAndSetInView() {
          mSelectNote = getArguments().getParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY);
         if (mSelectNote.getNotebookId() != null) {
-            notebookService.openConnection();
-            Notebook selectNotebook = notebookService.getById(mSelectNote.getNotebookId()).get();
-            notebookService.closeConnection();
+            mNotebookService.openConnection();
+            Notebook selectNotebook = mNotebookService.getById(mSelectNote.getNotebookId()).get();
+            mNotebookService.closeConnection();
             mNoteBookName = selectNotebook.getName();
             mTextViewNotebookName.setText(mNoteBookName);
         }

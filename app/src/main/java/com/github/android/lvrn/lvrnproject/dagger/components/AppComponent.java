@@ -3,7 +3,9 @@ package com.github.android.lvrn.lvrnproject.dagger.components;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
+import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
+import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragment;
 
 import dagger.Component;
 
@@ -17,5 +19,9 @@ public interface AppComponent {
     void inject(LavernaApplication application);
 
     void inject(AllNotesFragment allNotesFragment);
+
+    void inject(SingleNoteFragment singleNoteFragment);
+
+    void inject(TagEditingDialogFragment tagEditingDialogFragment);
 
 }

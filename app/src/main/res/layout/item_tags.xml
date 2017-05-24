@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp">
 
-    <CheckedTextView
+    <TextView
         android:id="@+id/checked_text_view_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:text="Test Tags"
-        android:textSize="16dp"
+        android:textColor="@color/main_green_themes_app"
+        android:textSize="16sp"
         android:checked="true"/>
 
 </RelativeLayout>
