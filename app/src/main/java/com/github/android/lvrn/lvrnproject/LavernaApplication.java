@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject;
 
 import android.app.Application;
+
 import com.github.android.lvrn.lvrnproject.dagger.components.AppComponent;
 import com.github.android.lvrn.lvrnproject.dagger.components.DaggerAppComponent;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
@@ -16,7 +17,8 @@ import javax.inject.Inject;
 
 public class LavernaApplication extends Application {
     private static AppComponent sAppComponent;
-    @Inject ProfileService profileService;
+    @Inject
+    ProfileService profileService;
 
     @Override
     public void onCreate() {

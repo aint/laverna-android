@@ -24,19 +24,23 @@ public class NoteDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_note_details,container,false);
-        ButterKnife.bind(this,rootView);
+        View rootView = inflater.inflate(R.layout.fragment_note_details, container, false);
+        ButterKnife.bind(this, rootView);
         reInitBaseView();
+        getParcelableDataAndSetInView();
         return rootView;
     }
 
     @OnClick(R.id.im_btn_arrow_back)
-    public void backToPreviousFragment(){
+    public void backToPreviousFragment() {
         getActivity().onBackPressed();
     }
 
     private void reInitBaseView() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+    }
+
+    private void getParcelableDataAndSetInView() {
     }
 
 }

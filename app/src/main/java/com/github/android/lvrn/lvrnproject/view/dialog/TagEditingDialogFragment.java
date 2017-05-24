@@ -26,8 +26,8 @@ public class TagEditingDialogFragment extends DialogFragment {
     public TagEditingDialogFragment() {
     }
 
-    public static TagEditingDialogFragment newInstance(){
-       return new TagEditingDialogFragment();
+    public static TagEditingDialogFragment newInstance() {
+        return new TagEditingDialogFragment();
     }
 
     @Override
@@ -40,8 +40,8 @@ public class TagEditingDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.dialog_fragment_tag_editing,container,false);
-        ButterKnife.bind(this,root);
+        View root = inflater.inflate(R.layout.dialog_fragment_tag_editing, container, false);
+        ButterKnife.bind(this, root);
         initRecyclerView();
         return root;
     }

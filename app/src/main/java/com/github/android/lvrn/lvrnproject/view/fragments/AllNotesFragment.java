@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,7 +55,11 @@ import io.reactivex.subjects.BehaviorSubject;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class AllNotesFragment extends Fragment {
+public class AllNotesFragment extends Fragment
+           implements AllNotesFragmentRecyclerViewAdapter.ItemClickListener {
+    @Inject NoteService noteService;
+    @BindView(R.id.recycler_view_all_notes) RecyclerView mRecyclerView;
+    @BindView(R.id.floating_action_menu_all_notes) FloatingActionsMenu floatingActionsMenu;
     final static private int startPositionDownloadItem = 1;
     final static private int numberEntitiesDownloadItem = 7;
     private List<Note> mDataAllNotes = new ArrayList<>();
@@ -63,9 +68,7 @@ public class AllNotesFragment extends Fragment {
     private Disposable mDisposable;
     private SearchView mSearchView;
     MenuItem menuSearch,menuSync,menuSortBy,menuSettings,menuAbout;
-    @Inject NoteService noteService;
-    @BindView(R.id.recycler_view_all_notes) RecyclerView mRecyclerView;
-    @BindView(R.id.floating_action_menu_all_notes) FloatingActionsMenu floatingActionsMenu;
+
 
     //TODO: temporary, remove later
     private String profileId;
@@ -103,6 +106,21 @@ public class AllNotesFragment extends Fragment {
     }
 
     @Override
+    public void onClick(View view, int position) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        SingleNoteFragment singleNoteFragment = new SingleNoteFragment();
+        Bundle bundle = new Bundle();
+        Note note = mAdapter.allNotesData.get(position);
+        bundle.putParcelable("noteForm",note);
+        singleNoteFragment.setArguments(bundle);
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.constraint_container,singleNoteFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
          inflater.inflate(R.menu.fragment_all_notes, menu);
         menuSearch = menu.findItem(R.id.item_action_search);
@@ -122,7 +140,7 @@ public class AllNotesFragment extends Fragment {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 startMode(Mode.NORMAL);
-                mAdapter.setmDataSet(mDataAllNotes);
+                mAdapter.setAllNotesData(mDataAllNotes);
                 return true;
             }
         });
@@ -152,9 +170,10 @@ public class AllNotesFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mDataAllNotes.clear();
         mDataAllNotes.addAll(noteService.getByProfile(profileId,startPositionDownloadItem,numberEntitiesDownloadItem));
-        mAdapter = new AllNotesFragmentRecyclerViewAdapter(getActivity(), mDataAllNotes);
+        mAdapter = new AllNotesFragmentRecyclerViewAdapter(mDataAllNotes);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setClickListener(this);
         mRecyclerView.addOnScrollListener(initEndlessRecyclerViewScroll());
     }
 
@@ -166,7 +185,7 @@ public class AllNotesFragment extends Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(foundItems-> {
-                    mAdapter.setmDataSet(foundItems);
+                    mAdapter.setAllNotesData(foundItems);
                 });
     }
 

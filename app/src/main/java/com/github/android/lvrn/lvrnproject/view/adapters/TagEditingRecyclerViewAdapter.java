@@ -1,17 +1,17 @@
 package com.github.android.lvrn.lvrnproject.view.adapters;
 
 
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
-import android.widget.Toast;
 
 import com.github.android.lvrn.lvrnproject.R;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -30,7 +30,7 @@ public class TagEditingRecyclerViewAdapter extends RecyclerView.Adapter<TagEditi
 
     @Override
     public TagEditingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags, parent, false);
         TagEditingViewHolder viewHolder = new TagEditingViewHolder(view);
         return viewHolder;
     }
@@ -46,7 +46,7 @@ public class TagEditingRecyclerViewAdapter extends RecyclerView.Adapter<TagEditi
         return mDataSet.size();
     }
 
-    static class TagEditingViewHolder extends RecyclerView.ViewHolder  {
+    static class TagEditingViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.checked_text_view_tags)
         CheckedTextView checkedTextView;
 
