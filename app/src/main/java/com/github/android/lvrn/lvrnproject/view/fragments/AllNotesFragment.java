@@ -30,7 +30,7 @@ import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.extension.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
-import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.impl.NoteEditorActivityImpl;
+import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 
@@ -92,8 +92,10 @@ public class AllNotesFragment extends Fragment {
 
     @OnClick(R.id.floating_btn_start_note)
     public void openActivityA(){
-        Toast.makeText(getContext(),"Activity1",Toast.LENGTH_SHORT).show();
-        floatingActionsMenu.collapse();
+//        Toast.makeText(getContext(),"Activity1",Toast.LENGTH_SHORT).show();
+//        floatingActionsMenu.collapse();
+        getActivity().startActivity(new Intent(getActivity(), NoteEditorActivityImpl.class));
+        getActivity().finish();
     }
 
     @OnClick(R.id.floating_btn_start_notebook)
@@ -104,7 +106,7 @@ public class AllNotesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-         inflater.inflate(R.menu.fragment_all_notes, menu);
+        inflater.inflate(R.menu.fragment_all_notes, menu);
         menuSearch = menu.findItem(R.id.item_action_search);
         menuSync = menu.findItem(R.id.item_action_sync);
         menuAbout = menu.findItem(R.id.item_about);
@@ -254,15 +256,4 @@ public class AllNotesFragment extends Fragment {
             return subject;
         }
     }
-
-    /**
-     * A method which starts the note editor activity.
-     * @param view
-     */
-    private void startNoteEditorActivity(View view) {
-        Intent intent = new Intent(getActivity(), NoteEditorActivityImpl.class);
-        startActivity(intent);
-        getActivity().finish();
-    }
-
 }

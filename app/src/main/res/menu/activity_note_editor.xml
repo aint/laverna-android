@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_done"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_done_black_24dp"
+        android:title="done"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/item_notebook"
+        android:orderInCategory="99"
+        android:icon="@drawable/ic_menu_book_black_24dp"
+        android:title="notebook"
+        app:showAsAction="ifRoom"/>
+</menu>

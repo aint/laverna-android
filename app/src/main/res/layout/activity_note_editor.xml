@@ -4,17 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.impl.NoteEditorActivityImpl"
+    android:background="#ECE9DB"
+    tools:context="com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+    <EditText
+        android:id="@+id/edit_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/toolbar_main"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_margin="8dp"
+        android:background="#FFF"
+        android:inputType="text"
+        android:hint="Title"/>
 
     <TabHost
         android:id="@+id/tab_host"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp" >
+        android:layout_below="@+id/edit_text_title"
+        android:layout_margin="8dp"
+        android:background="#FFF">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,13 +60,13 @@
 
                     <EditText
                         android:id="@+id/edit_text_editor"
-                        android:scrollbars="vertical"
-                        android:gravity="top|left"
                         android:layout_height="match_parent"
                         android:layout_width="match_parent"
-                        android:inputType="textMultiLine"
-                        android:lines="8"
-                        android:minLines="6" />
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:scrollbars="vertical"
+                        android:gravity="top|start"
+                        android:inputType="textCapSentences|textMultiLine" />
 
                 </LinearLayout>
 

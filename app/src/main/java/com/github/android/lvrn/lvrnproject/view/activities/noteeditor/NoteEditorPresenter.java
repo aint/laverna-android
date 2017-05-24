@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity;
+package com.github.android.lvrn.lvrnproject.view.activities.noteeditor;
 
 import android.widget.EditText;
 
@@ -28,4 +28,9 @@ public interface NoteEditorPresenter {
      * A method which unbinds a view to a presenter.
      */
     void unbindView();
+
+    /**
+     * A method which saves new note.
+     */
+    void saveNewNote(/*String notebookId, */String title, String content, String htmlContent);
 }

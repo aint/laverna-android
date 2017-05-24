@@ -1,11 +1,14 @@
-package com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.impl;
+package com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl;
 
 import android.widget.EditText;
 
-import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.NoteEditorActivity;
-import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.NoteEditorPresenter;
+import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
+import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
+import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorActivity;
+import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl;
+import com.google.common.base.Optional;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.orhanobut.logger.Logger;
 
@@ -22,13 +25,18 @@ import io.reactivex.schedulers.Schedulers;
 class NoteEditorPresenterImpl implements NoteEditorPresenter {
     private static final String TAG = "NoteEditorPresenter";
 
+    private NoteService mNoteService;
+
     private NoteEditorActivity mNoteEditorActivity;
 
     private MarkdownParser mMarkdownParser;
 
     private Disposable mEditorEditTextDisposable;
 
-    NoteEditorPresenterImpl() {
+    private String mNotebookId;
+
+    NoteEditorPresenterImpl(NoteService noteService) {
+        mNoteService = noteService;
         mMarkdownParser = new MarkdownParserImpl();
     }
 
@@ -62,4 +70,23 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
         mNoteEditorActivity = null;
         Logger.d("Node editor is unbinded to its presenter.");
     }
+
+    @Override
+    public void saveNewNote(/*String notebookId, */String title, String content, String htmlContent) {
+        mNoteService.openConnection();
+        String profileId = "sdf"; //TODO get from CurrentState;
+        NoteForm noteForm = new NoteForm(profileId, mNotebookId, title, content, htmlContent, false);
+        Optional<String> resultOptional = mNoteService.create(noteForm);
+        mNoteService.closeConnection();
+        if (!resultOptional.isPresent()) {
+            Logger.wtf("New note is note created due to unforeseen circumstances.");
+            throw new RuntimeException();
+        }
+    }
+
+
+
+
+
+
 }
