@@ -46,6 +46,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         contentValues.put(COLUMN_CREATION_TIME, entity.getCreationTime());
         contentValues.put(COLUMN_UPDATE_TIME, entity.getUpdateTime());
         contentValues.put(COLUMN_CONTENT, entity.getContent());
+        contentValues.put(COLUMN_HTML_CONTENT, entity.getContent());
         contentValues.put(COLUMN_IS_FAVORITE, entity.isFavorite());
         return contentValues;
     }

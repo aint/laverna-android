@@ -1,10 +1,12 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity;
 
+import android.os.Parcelable;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class Entity {
+public abstract class Entity implements Parcelable {
 
     protected String id;
 

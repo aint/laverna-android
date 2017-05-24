@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 /**
@@ -35,6 +37,15 @@ public class Tag extends ProfileDependedEntity {
         this.creationTime = creationTime;
         this.updateTime = updateTime;
         this.count = count;
+    }
+
+    private Tag(Parcel in) {
+        this.id = in.readString();
+        this.profileId = in.readString();
+        this.name = in.readString();
+        this.creationTime = in.readLong();
+        this.updateTime = in.readLong();
+        this.count = in.readInt();
     }
 
     public String getName() {
@@ -79,4 +90,32 @@ public class Tag extends ProfileDependedEntity {
                 ", count=" + count +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.profileId);
+        dest.writeString(this.name);
+        dest.writeLong(this.creationTime);
+        dest.writeLong(this.updateTime);
+        dest.writeInt(this.count);
+    }
+
+    public static final Parcelable.Creator<Tag> CREATOR = new Parcelable.Creator<Tag>() {
+
+        @Override
+        public Tag createFromParcel(Parcel source) {
+            return new Tag(source);
+        }
+
+        @Override
+        public Tag[] newArray(int size) {
+            return new Tag[size];
+        }
+    };
 }

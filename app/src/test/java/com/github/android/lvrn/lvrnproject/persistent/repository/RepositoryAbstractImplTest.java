@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.Parcel;
 import android.support.annotation.Nullable;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
@@ -66,6 +67,16 @@ public class RepositoryAbstractImplTest {
     @Test(expected = NullPointerException.class)
     public void repositoryShoudThrowNullPointerException() {
         repository.add(new ProfileDependedEntity() {
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+
+            }
 
             @Override
             public String getId() {
