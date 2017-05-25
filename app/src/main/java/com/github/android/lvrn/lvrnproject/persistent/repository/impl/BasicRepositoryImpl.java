@@ -42,14 +42,14 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         boolean result = false;
         mDatabase.beginTransaction();
         try {
-            result = mDatabase.insert(mTableName, null, toContentValues(entity)) != -1;
+            result = mDatabase.insertOrThrow(mTableName, null, toContentValues(entity)) != -1;
             mDatabase.setTransactionSuccessful();
         } catch (SQLException e) {
             Logger.e(e, "Error while doing transaction.");
         } finally {
             mDatabase.endTransaction();
         }
-        Logger.d("Table name: $s\nOperation: add\nEntity: $s\nResult: $s", mTableName, entity, result);
+        Logger.d("Table name: %s\nOperation: add\nEntity: %s\nResult: %s", mTableName, entity, result);
         return result;
     }
 
@@ -65,7 +65,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         } finally {
             mDatabase.endTransaction();
         }
-        Logger.d("Table name: $s\nOperation: remove\nId: $d\nResult: $s", mTableName, id, result);
+        Logger.d("Table name: %s\nOperation: remove\nId: %s\nResult: %s", mTableName, id, result);
         return result;
     }
 
@@ -76,7 +76,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
                 "SELECT * FROM " + mTableName
                         + " WHERE " + COLUMN_ID + " = '" + id + "'",
                 new String[]{});
-        Logger.d("Table name: $s\nOperation: getById\nId: $d\nCursor: $s", mTableName, id, (cursor != null));
+        Logger.d("Table name: %s\nOperation: getById\nId: %s\nCursor: %s", mTableName, id, (cursor != null));
         if (cursor != null && cursor.moveToFirst()) {
             return Optional.of(toEntity(cursor));
         }
@@ -86,7 +86,9 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @Override
     public boolean openDatabaseConnection() {
         if (mDatabase != null) {
+            Logger.init().methodCount(Thread.currentThread().getStackTrace().length);
             Logger.w("Connection is already opened");
+            Logger.init().methodCount(2);
             return false;
         }
         mDatabase = DatabaseManager.getInstance().openConnection();
@@ -97,7 +99,9 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @Override
     public boolean closeDatabaseConnection() {
         if (mDatabase == null) {
+            Logger.init().methodCount(Thread.currentThread().getStackTrace().length);
             Logger.w("Connection is already closed");
+            Logger.init().methodCount(2);
             return false;
         }
         DatabaseManager.getInstance().closeConnection();
@@ -114,7 +118,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @NonNull
     protected List<T> getByRawQuery(String query) {
         Cursor cursor = mDatabase.rawQuery(query, new String[]{});
-        Logger.d("Raw query: $s\nCursor: $s", query, (cursor != null));
+        Logger.d("Raw query: %s\nCursor: %s", query, (cursor != null));
         List<T> entities = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) {
             do {

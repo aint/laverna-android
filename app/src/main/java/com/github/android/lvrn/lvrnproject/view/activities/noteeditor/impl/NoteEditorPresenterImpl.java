@@ -35,7 +35,7 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
     private Disposable mEditorEditTextDisposable;
 
     private String mNotebookId;
-*
+
     NoteEditorPresenterImpl(NoteService noteService) {
         mNoteService = noteService;
         mMarkdownParser = new MarkdownParserImpl();
@@ -78,7 +78,7 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
 
         Flowable.just(noteForm)
                 .doOnNext(noteFormToSend -> mNoteService.openConnection())
-                .map(noteFormtoSend -> mNoteService.create(noteForm))
+                .map(noteFormToSend -> mNoteService.create(noteFormToSend))
                 .doOnNext(stringOptional -> mNoteService.closeConnection())
                 .filter(stringOptional -> !stringOptional.isPresent())
                 .subscribe(stringOptional -> {

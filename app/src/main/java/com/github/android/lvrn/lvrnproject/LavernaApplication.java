@@ -1,11 +1,16 @@
 package com.github.android.lvrn.lvrnproject;
 
 import android.app.Application;
+
 import com.github.android.lvrn.lvrnproject.dagger.components.AppComponent;
 import com.github.android.lvrn.lvrnproject.dagger.components.DaggerAppComponent;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
+import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -16,6 +21,7 @@ import javax.inject.Inject;
 
 public class LavernaApplication extends Application {
     private static AppComponent sAppComponent;
+
     @Inject ProfileService profileService;
 
     @Override
@@ -24,10 +30,11 @@ public class LavernaApplication extends Application {
         DatabaseManager.initializeInstance(this);
         sAppComponent = DaggerAppComponent.create();
         sAppComponent.inject(this);
+        //TODO: temporary, remove later.
         profileService.openConnection();
         profileService.create(new ProfileForm("default"));
-        profileService.create(new ProfileForm("default2"));
-        profileService.create(new ProfileForm("default3"));
+        List<Profile> profiles = profileService.getAll();
+        CurrentState.profileId = profiles.get(0).getId();
         profileService.closeConnection();
     }
 

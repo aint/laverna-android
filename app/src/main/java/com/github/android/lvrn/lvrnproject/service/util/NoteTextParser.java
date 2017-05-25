@@ -51,13 +51,12 @@ public class NoteTextParser {
     @NonNull
     public static Set<String> parseTags(String text) {
         Set<String> tagsSet = new HashSet<>();
-        Flowable
-                .fromArray(validateText(text).split(NEW_LINE_SEPARATOR))
+        Flowable.fromArray(validateText(text).split(NEW_LINE_SEPARATOR))
                 .flatMap(line -> Flowable.fromArray(line.split(SPACE_SEPARATOR)))
                 .map(String::trim)
                 .filter(NoteTextParser::validateTag)
                 .subscribe(tagsSet::add);
-        Logger.d("Text to parse: $s \nParsed tags: $s", text, tagsSet);
+        Logger.d("Text to parse: %s \nParsed tags: %s", text, tagsSet);
         return tagsSet;
     }
 
@@ -75,7 +74,7 @@ public class NoteTextParser {
                 .map(NoteTextParser::segregateTask)
                 .subscribe(pair -> tasksMap.put(pair.first, pair.second));
 
-        Logger.d("Text to parse: $s\nParsed tasks: $s", text, tasksMap);
+        Logger.d("Text to parse: %s\nParsed tasks: %s", text, tasksMap);
         return tasksMap;
     }
 
