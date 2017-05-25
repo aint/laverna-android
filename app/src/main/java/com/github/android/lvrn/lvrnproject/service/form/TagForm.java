@@ -10,6 +10,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 
 public class TagForm extends ProfileDependedForm<Tag> {
 
+    @NonNull
     private String name;
 
     public TagForm(String profileId, String name) {
@@ -23,6 +24,7 @@ public class TagForm extends ProfileDependedForm<Tag> {
         return new Tag(id, profileId, name, System.currentTimeMillis(), System.currentTimeMillis(), 0);
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
