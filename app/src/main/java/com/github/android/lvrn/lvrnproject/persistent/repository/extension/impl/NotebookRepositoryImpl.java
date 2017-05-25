@@ -72,6 +72,12 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
         return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, from, amount);
     }
 
+    @NonNull
+    @Override
+    public List<Notebook> getRootParents(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount) {
+        return super.getByIdCondition(COLUMN_PROFILE_ID, profileId, from, amount);
+    }
+
     @Override
     public boolean update(@NonNull Notebook entity) {
         String query = "UPDATE " + TABLE_NAME
