@@ -111,6 +111,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
 
     @Override
     public boolean onSupportNavigateUp() {
+        //TODO: check thos method.
         this.startActivity(new Intent(this, MainActivity.class));
         this.finish();
         return true;

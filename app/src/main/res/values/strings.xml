@@ -4,7 +4,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-      <!--item notes-->
+    <!--item notes-->
     <string name="item_notes_title">Title</string>
     <string name="item_notes_date_of_created">Date of Created</string>
     <string name="item_notes_prompt_text_note">Prompt Text</string>
