@@ -22,7 +22,7 @@ import butterknife.OnClick;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NoteDetailsFragment extends Fragment {
+public class NoteDetailsFragmentImpl extends Fragment {
     @BindView(R.id.tv_update_date_detail_note) TextView mTextViewUpdateNote;
     @BindView(R.id.tv_create_date_detail_note) TextView mTextViewCreateNote;
     @BindView(R.id.tv_notebook_name_detail_note) TextView mTextViewNotebookName;

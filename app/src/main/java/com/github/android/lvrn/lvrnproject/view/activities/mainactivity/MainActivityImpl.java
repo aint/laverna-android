@@ -13,13 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
+import com.github.android.lvrn.lvrnproject.view.fragments.allnotesfragment.impl.AllNotesFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivityImpl extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.drawer_layout)
@@ -72,9 +72,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startAllNotesFragment() {
-
         if (mSavedInstanceState == null) {
-            AllNotesFragment allNotesFragment = new AllNotesFragment();
+            AllNotesFragmentImpl allNotesFragment = new AllNotesFragmentImpl();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)

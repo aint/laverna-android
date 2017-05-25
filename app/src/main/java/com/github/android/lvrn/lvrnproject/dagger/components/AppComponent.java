@@ -3,10 +3,10 @@ package com.github.android.lvrn.lvrnproject.dagger.components;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
-import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragment;
+import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
-import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragment;
+import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragments.allnotesfragment.impl.AllNotesFragmentImpl;
 
 import dagger.Component;
 
@@ -19,11 +19,11 @@ public interface AppComponent {
     //TODO:temp compoment, remove and change it later.
     void inject(LavernaApplication application);
 
-    void inject(AllNotesFragment allNotesFragment);
+    void inject(AllNotesFragmentImpl allNotesFragment);
 
-    void inject(SingleNoteFragment singleNoteFragment);
+    void inject(SingleNoteFragmentImpl singleNoteFragmentImpl);
 
-    void inject(TagEditingDialogFragment tagEditingDialogFragment);
+    void inject(TagEditingDialogFragmentImpl tagEditingDialogFragment);
 
     void inject(NoteEditorActivityImpl noteEditorActivityImpl);
 }
