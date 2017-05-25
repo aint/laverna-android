@@ -60,7 +60,7 @@ public class NotebookRepositoryTest {
         notebook1 = new Notebook(
                 "id_1",
                 "profile_id_1",
-                null,
+                Optional.absent(),
                 "notebook_name_1",
                 1111,
                 2222,
@@ -70,7 +70,7 @@ public class NotebookRepositoryTest {
         notebook2 = new Notebook(
                 "id_2",
                 "profile_id_1",
-                null,
+                Optional.of(notebook1.getId()),
                 "notebook_name_2",
                 1111,
                 2222,
@@ -80,7 +80,7 @@ public class NotebookRepositoryTest {
         notebook3 = new Notebook(
                 "id_3",
                 "profile_id_2",
-                null,
+                Optional.absent(),
                 "notebook_name_3",
                 1111,
                 2222,
@@ -156,18 +156,26 @@ public class NotebookRepositoryTest {
 
     @Test
     public void repositoryShouldGetChildrenNotebooks() {
-        notebook2.setParentId(notebook1.getId());
+        notebook2.setParentId(Optional.of(notebook1.getId()));
         notebook3.setProfileId(profile.getId());
-        notebook3.setParentId(notebook1.getId());
+        notebook3.setParentId(Optional.of(notebook1.getId()));
 
         notebookRepository.add(notebook1);
         notebookRepository.add(notebook2);
         notebookRepository.add(notebook3);
 
-        assertThat(notebookRepository.getChildren(notebook1.getId(),1, 10)).hasSize(2);
-        System.out.println(notebookRepository.getChildren(notebook1.getId(),1, 10));
+        assertThat(notebookRepository.getChildren(notebook1.getId(), 1, 10)).hasSize(2);
     }
 
+    @Test
+    public void repositoryShouldGetRootParentNotebooks() {
+        notebookRepository.add(notebook1);
+        notebookRepository.add(notebook2);
+        notebookRepository.add(notebook3);
+        notebook3.setProfileId(profile.getId());
+
+        assertThat(notebookRepository.getRootParents(profile.getId(), 1, 10)).hasSize(1);
+    }
 
     @After
     public void finish() {

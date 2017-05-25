@@ -3,6 +3,9 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
+import com.google.common.base.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -14,8 +17,10 @@ public class Note extends ProfileDependedEntity {
      * An id of a notebook, which the note is belonged. In case, if the note doesn't belong to any
      * notebook, then notebookId equals to "0".
      */
-    private String notebookId;
+    @NonNull
+    private Optional<String> notebookId;
 
+    @NonNull
     private String title;
 
     /**
@@ -31,23 +36,25 @@ public class Note extends ProfileDependedEntity {
     /**
      * A plain text of a note's content.
      */
+    @NonNull
     private String content;
 
     /**
      * A note's content in html.
      */
+    @NonNull
     private String htmlContent;
 
     private boolean isFavorite = false;
 
     public Note(String id,
-                String profileId,
-                String notebookId,
-                String title,
+                @NonNull String profileId,
+                @NonNull Optional<String> notebookId,
+                @NonNull String title,
                 long creationTime,
                 long updateTime,
-                String content,
-                String htmlContent,
+                @NonNull String content,
+                @NonNull String htmlContent,
                 boolean isFavorite) {
         this.id = id;
         this.profileId = profileId;
@@ -61,46 +68,82 @@ public class Note extends ProfileDependedEntity {
     }
 
     private Note(Parcel in) {
-        this.id = in.readString();
-        this.profileId = in.readString();
-        this.notebookId = in.readString();
-        this.title = in.readString();
-        this.creationTime = in.readLong();
-        this.updateTime = in.readLong();
-        this.content = in.readString();
-        this.htmlContent = in.readString();
-        this.isFavorite = in.readByte() != 0;
+        id = in.readString();
+        profileId = in.readString();
+        String notebookId = in.readString();
+        this.notebookId = !TextUtils.isEmpty(notebookId) ? Optional.of(notebookId) : Optional.absent();
+        title = in.readString();
+        creationTime = in.readLong();
+        updateTime = in.readLong();
+        content = in.readString();
+        htmlContent = in.readString();
+        isFavorite = in.readByte() != 0;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Note{" + super.toString() +
+                "notebookId='" + (notebookId.isPresent() ? notebookId.get() : "null") + '\'' +
+                ", title='" + title + '\'' +
+                ", creationTime=" + creationTime +
+                ", updateTime=" + updateTime +
+                ", content='" + content + '\'' +
+                ", isFavorite=" + isFavorite +
+                '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(profileId);
+        dest.writeString(notebookId.isPresent() ? notebookId.get() : null);
+        dest.writeString(title);
+        dest.writeLong(creationTime);
+        dest.writeLong(updateTime);
+        dest.writeString(content);
+        dest.writeString(htmlContent);
+        dest.writeByte((byte) (isFavorite ? 1 : 0));
+    }
+
+    @NonNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
+    @NonNull
     public String getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(String profileId) {
+    public void setProfileId(@NonNull String profileId) {
         this.profileId = profileId;
     }
 
-    public String getNotebookId() {
+    @NonNull
+    public Optional<String> getNotebookId() {
         return notebookId;
     }
 
-    public void setNotebookId(String notebookId) {
+    public void setNotebookId(@NonNull Optional<String> notebookId) {
         this.notebookId = notebookId;
     }
 
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
@@ -120,19 +163,21 @@ public class Note extends ProfileDependedEntity {
         this.updateTime = updateTime;
     }
 
+    @NonNull
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(@NonNull String content) {
         this.content = content;
     }
 
+    @NonNull
     public String getHtmlContent() {
         return htmlContent;
     }
 
-    public void setHtmlContent(String htmlContent) {
+    public void setHtmlContent(@NonNull String htmlContent) {
         this.htmlContent = htmlContent;
     }
 
@@ -142,37 +187,6 @@ public class Note extends ProfileDependedEntity {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "Note{" + super.toString() +
-                "notebookId='" + notebookId + '\'' +
-                ", title='" + title + '\'' +
-                ", creationTime=" + creationTime +
-                ", updateTime=" + updateTime +
-                ", content='" + content + '\'' +
-                ", isFavorite=" + isFavorite +
-                '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.profileId);
-        dest.writeString(this.notebookId);
-        dest.writeString(this.title);
-        dest.writeLong(this.creationTime);
-        dest.writeLong(this.updateTime);
-        dest.writeString(this.content);
-        dest.writeString(this.htmlContent);
-        dest.writeByte((byte) (this.isFavorite ? 1 : 0));
     }
 
     public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {

@@ -3,6 +3,9 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
+import com.google.common.base.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -14,8 +17,10 @@ public class Notebook extends ProfileDependedEntity {
      * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't
      * belong to any parent notebook, then parentId equals to "0".
      */
-    private String parentId;
+    @NonNull
+    private Optional<String> parentId;
 
+    @NonNull
     private String name;
 
     /**
@@ -33,8 +38,8 @@ public class Notebook extends ProfileDependedEntity {
 
     public Notebook(String id,
                     String profileId,
-                    String parentId,
-                    String name,
+                    @NonNull Optional<String> parentId,
+                    @NonNull String name,
                     long creationTime,
                     long updateTime,
                     int count) {
@@ -48,28 +53,58 @@ public class Notebook extends ProfileDependedEntity {
     }
 
     private Notebook(Parcel in) {
-        this.id = in.readString();
-        this.profileId = in.readString();
-        this.parentId = in.readString();
-        this.name = in.readString();
-        this.creationTime = in.readLong();
-        this.updateTime = in.readLong();
-        this.count = in.readInt();
+        id = in.readString();
+        profileId = in.readString();
+        String parentId = in.readString();
+        this.parentId = !TextUtils.isEmpty(parentId) ? Optional.of(parentId) : Optional.absent();
+        name = in.readString();
+        creationTime = in.readLong();
+        updateTime = in.readLong();
+        count = in.readInt();
     }
 
-    public String getParentId() {
+    @NonNull
+    @Override
+    public String toString() {
+        return "Notebook{" + super.toString() +
+                "parentId='" + (parentId.isPresent() ? parentId.get() : "null") + '\'' +
+                ", name='" + name + '\'' +
+                ", creationTime=" + creationTime +
+                ", updateTime=" + updateTime +
+                ", count=" + count +
+                '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(profileId);
+        dest.writeString(parentId.isPresent() ? parentId.get() : null);
+        dest.writeString(name);
+        dest.writeLong(creationTime);
+        dest.writeLong(updateTime);
+        dest.writeInt(count);
+    }
+
+    public Optional<String> getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Optional<String> parentId) {
         this.parentId = parentId;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
@@ -95,34 +130,6 @@ public class Notebook extends ProfileDependedEntity {
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "Notebook{" + super.toString() +
-                "parentId='" + parentId + '\'' +
-                ", name='" + name + '\'' +
-                ", creationTime=" + creationTime +
-                ", updateTime=" + updateTime +
-                ", count=" + count +
-                '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.profileId);
-        dest.writeString(this.parentId );
-        dest.writeString(this.name);
-        dest.writeLong(this.creationTime);
-        dest.writeLong(this.updateTime);
-        dest.writeInt(this.count);
     }
 
     public static final Parcelable.Creator<Notebook> CREATOR = new Parcelable.Creator<Notebook>() {

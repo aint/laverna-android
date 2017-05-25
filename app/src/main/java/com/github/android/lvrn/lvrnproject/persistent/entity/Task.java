@@ -13,16 +13,18 @@ public class Task extends ProfileDependedEntity {
     /**
      * An id of the note, which the task is belonged.
      */
+    @NonNull
     private String noteId;
 
+    @NonNull
     private String description;
 
     private boolean isCompleted = false;
 
     public Task(String id,
                 String profileId,
-                String noteId,
-                String description,
+                @NonNull String noteId,
+                @NonNull String description,
                 boolean isCompleted) {
         this.profileId = profileId;
         this.id = id;
@@ -39,35 +41,39 @@ public class Task extends ProfileDependedEntity {
         this.isCompleted = in.readByte() != 0;
     }
 
+    @NonNull
     public String getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(String profileId) {
+    public void setProfileId(@NonNull String profileId) {
         this.profileId = profileId;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
+    @NonNull
     public String getNoteId() {
         return noteId;
     }
 
-    public void setNoteId(String noteId) {
+    public void setNoteId(@NonNull String noteId) {
         this.noteId = noteId;
     }
 
+    @NonNull
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@NonNull String description) {
         this.description = description;
     }
 

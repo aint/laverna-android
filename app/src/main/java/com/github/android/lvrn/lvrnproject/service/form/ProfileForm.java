@@ -10,12 +10,14 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 
 public class ProfileForm  implements Form<Profile> {
 
+    @NonNull
     private String name;
 
     public ProfileForm(@NonNull String name) {
         this.name = name;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
