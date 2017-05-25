@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.view.activities.mainactivity;
 
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -21,8 +22,10 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @BindView(R.id.toolbar) Toolbar mToolBar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolBar;
     private Bundle mSavedInstanceState;
 
     @Override
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         mSavedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_main);
+        if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         ButterKnife.bind(this);
         setSupportActionBar(mToolBar);
         ActionBarDrawerToggle mToggle = new ActionBarDrawerToggle(
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startAllNotesFragment() {
 
-        if (mSavedInstanceState==null) {
+        if (mSavedInstanceState == null) {
             AllNotesFragment allNotesFragment = new AllNotesFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()

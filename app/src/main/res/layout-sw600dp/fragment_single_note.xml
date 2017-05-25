@@ -1,8 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp">
 
+    <RelativeLayout
+        android:id="@+id/layout_content_icon"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageButton
+            android:id="@+id/im_btn_arrow_back_single_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/ic_arrow_back_black_24dp"/>
+
+        <ImageButton
+            android:id="@+id/im_btn_share_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/im_btn_menu"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/ic_share_black_24dp"/>
+
+        <ImageButton
+            android:id="@+id/im_btn_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_more_vert_black_24dp"/>
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/edit_text_title_single_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_content_icon"
+        android:layout_marginTop="8dp"
+        android:textSize="24sp"
+        android:hint="@string/item_note_title_note"
+        android:textColorHint="@color/main_green_themes_app"
+        android:textColor="@color/main_green_themes_app"
+        android:background="@color/color_edit_text_title_note"/>
+
+    <TextView
+        android:id="@+id/tv_name_note_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24sp"
+        android:layout_below="@+id/edit_text_title_single_note"
+        android:drawableLeft="@drawable/ic_bookmark_in_agenda_24dp"
+        android:drawablePadding="8dp"
+        android:hint="@string/hint_you_notebook_name"
+        android:textSize="20sp"/>
+
+    <ImageButton
+        android:id="@+id/im_btn_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/edit_text_title_single_note"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="16dp"
+        android:transitionName="inform"
+        android:background="@drawable/ic_info_black_24dp"/>
+
+    <TextView
+        android:id="@+id/tv_tag_single_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/edit_text_title_single_note"
+        android:layout_toLeftOf="@+id/im_btn_information"
+        android:layout_marginLeft="16dp"
+        android:text="1"
+        android:textSize="16sp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_tag_label_black_24dp"/>
+
+    <ImageButton
+        android:id="@+id/im_btn_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/edit_text_title_single_note"
+        android:layout_toLeftOf="@+id/tv_tag_single_note"
+        android:background="@drawable/ic_alarm_clock_24dp"/>
+
+    <View
+        android:id="@+id/view_separator_line_first"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/tv_name_note_book"
+        android:background="@color/single_note_fragment_view_separator_line"/>
+
+    <EditText
+        android:id="@+id/edit_text_main_content_for_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_separator_line_first"
+        android:layout_marginTop="24sp"
+        android:textSize="16sp"
+        android:hint="@string/hint_prompt_text_detail_note"
+        android:background="@color/color_edit_text_title_note"/>
+
 </RelativeLayout>
+
+
+
+
