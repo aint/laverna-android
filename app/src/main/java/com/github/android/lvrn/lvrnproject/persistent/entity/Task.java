@@ -13,8 +13,10 @@ public class Task extends ProfileDependedEntity {
     /**
      * An id of the note, which the task is belonged.
      */
+    @NonNull
     private String noteId;
 
+    @NonNull
     private String description;
 
     private boolean isCompleted = false;

@@ -11,6 +11,7 @@ public abstract class ProfileDependedEntity extends Entity {
     /**
      * An id of the profile, which the entity is belonged.
      */
+    @NonNull
     protected String profileId;
 
     public String getProfileId() {

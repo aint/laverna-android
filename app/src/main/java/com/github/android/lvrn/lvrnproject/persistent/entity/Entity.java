@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.entity;
 
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -8,6 +9,7 @@ import android.os.Parcelable;
 
 public abstract class Entity implements Parcelable {
 
+    @NonNull
     protected String id;
 
     public String getId() {

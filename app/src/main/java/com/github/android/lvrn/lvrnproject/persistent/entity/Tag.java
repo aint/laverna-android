@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 public class Tag extends ProfileDependedEntity {
 
+    @NonNull
     private String name;
 
     /**

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 public class Profile extends Entity {
 
+    @NonNull
     private String name;
 
     public Profile(String id, String name) {
