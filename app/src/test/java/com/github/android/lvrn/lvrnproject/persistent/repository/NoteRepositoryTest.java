@@ -6,11 +6,11 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NoteRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.NoteRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.NotebookRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.ProfileRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.TagRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NoteRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NotebookRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.TagRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;

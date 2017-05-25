@@ -5,10 +5,10 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.NoteRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.ProfileRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.TaskRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.TaskRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NoteRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.TaskRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;

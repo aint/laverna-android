@@ -6,7 +6,7 @@ import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
 import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragments.allnotesfragment.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.impl.AllNotesFragmentImpl;
 
 import dagger.Component;
 

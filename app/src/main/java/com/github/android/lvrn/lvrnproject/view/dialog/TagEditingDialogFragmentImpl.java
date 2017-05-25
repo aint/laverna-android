@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
-import com.github.android.lvrn.lvrnproject.service.extension.TagService;
+import com.github.android.lvrn.lvrnproject.service.core.TagService;
 import com.github.android.lvrn.lvrnproject.view.adapters.TagEditingRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 

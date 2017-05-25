@@ -2,21 +2,21 @@ package com.github.android.lvrn.lvrnproject.dagger.modules;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NotebookRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.NoteRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.ProfileRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TagRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.TaskRepository;
-import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
-import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
-import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
-import com.github.android.lvrn.lvrnproject.service.extension.TagService;
-import com.github.android.lvrn.lvrnproject.service.extension.TaskService;
-import com.github.android.lvrn.lvrnproject.service.extension.impl.NotebookServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.extension.impl.NoteServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.extension.impl.ProfileServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.extension.impl.TagServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.extension.impl.TaskServiceImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.TaskRepository;
+import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
+import com.github.android.lvrn.lvrnproject.service.core.NoteService;
+import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.core.TagService;
+import com.github.android.lvrn.lvrnproject.service.core.TaskService;
+import com.github.android.lvrn.lvrnproject.service.core.impl.NotebookServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.core.impl.NoteServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.core.impl.TagServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.core.impl.TaskServiceImpl;
 
 import dagger.Module;
 import dagger.Provides;

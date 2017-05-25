@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl;
 
 import android.widget.EditText;
 
-import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
+import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorPresenter;

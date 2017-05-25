@@ -7,7 +7,7 @@ import android.support.annotation.Size;
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
-import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.Form;
 
 import java.util.List;

@@ -3,8 +3,8 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 import com.github.android.lvrn.lvrnproject.BuildConfig;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.ProfileRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.extension.impl.ProfileRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
 import com.google.common.base.Optional;
 
 import org.junit.After;

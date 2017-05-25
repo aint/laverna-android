@@ -6,7 +6,7 @@ import com.github.android.lvrn.lvrnproject.dagger.components.AppComponent;
 import com.github.android.lvrn.lvrnproject.dagger.components.DaggerAppComponent;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
-import com.github.android.lvrn.lvrnproject.service.extension.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 
