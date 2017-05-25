@@ -63,7 +63,7 @@ public class NoteRepositoryTest {
 
         noteRepository = new NoteRepositoryImpl();
 
-        notebook = new Notebook("notebook_id_1", "profile_id_1", null, "notebook1", 1111, 2222, 0);
+        notebook = new Notebook("notebook_id_1", "profile_id_1", Optional.absent(), "notebook1", 1111, 2222, 0);
         NotebookRepositoryImpl notebooksRepository = new NotebookRepositoryImpl();
         notebooksRepository.openDatabaseConnection();
         notebooksRepository.add(notebook);
@@ -72,7 +72,7 @@ public class NoteRepositoryTest {
         note1 = new Note(
                 "note_id_1",
                 "profile_id_1",
-                "notebook_id_1",
+                Optional.of("notebook_id_1"),
                 "title_1",
                 1111,
                 2222,
@@ -84,7 +84,7 @@ public class NoteRepositoryTest {
         note2 = new Note(
                 "note_id_2",
                 "profile_id_1",
-                "notebook_id_1",
+                Optional.of("notebook_id_1"),
                 "title_2",
                 1111,
                 2222,
@@ -96,7 +96,7 @@ public class NoteRepositoryTest {
         note3 = new Note(
                 "note_id_3",
                 "profile_id_2",
-                "notebook_id_2",
+                Optional.of("notebook_id_2"),
                 "title_3",
                 1111,
                 2222,

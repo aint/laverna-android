@@ -17,6 +17,7 @@ public class Note extends ProfileDependedEntity {
      * An id of a notebook, which the note is belonged. In case, if the note doesn't belong to any
      * notebook, then notebookId equals to "0".
      */
+    @NonNull
     private Optional<String> notebookId;
 
     @NonNull
@@ -47,13 +48,13 @@ public class Note extends ProfileDependedEntity {
     private boolean isFavorite = false;
 
     public Note(String id,
-                String profileId,
-                Optional<String> notebookId,
-                String title,
+                @NonNull String profileId,
+                @NonNull Optional<String> notebookId,
+                @NonNull String title,
                 long creationTime,
                 long updateTime,
-                String content,
-                String htmlContent,
+                @NonNull String content,
+                @NonNull String htmlContent,
                 boolean isFavorite) {
         this.id = id;
         this.profileId = profileId;
@@ -119,6 +120,7 @@ public class Note extends ProfileDependedEntity {
         this.id = id;
     }
 
+    @NonNull
     public String getProfileId() {
         return profileId;
     }
@@ -127,19 +129,21 @@ public class Note extends ProfileDependedEntity {
         this.profileId = profileId;
     }
 
+    @NonNull
     public Optional<String> getNotebookId() {
         return notebookId;
     }
 
-    public void setNotebookId(Optional<String> notebookId) {
+    public void setNotebookId(@NonNull Optional<String> notebookId) {
         this.notebookId = notebookId;
     }
 
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
@@ -159,19 +163,21 @@ public class Note extends ProfileDependedEntity {
         this.updateTime = updateTime;
     }
 
+    @NonNull
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(@NonNull String content) {
         this.content = content;
     }
 
+    @NonNull
     public String getHtmlContent() {
         return htmlContent;
     }
 
-    public void setHtmlContent(String htmlContent) {
+    public void setHtmlContent(@NonNull String htmlContent) {
         this.htmlContent = htmlContent;
     }
 

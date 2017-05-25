@@ -13,7 +13,7 @@ public class Profile extends Entity {
     @NonNull
     private String name;
 
-    public Profile(String id, String name) {
+    public Profile(@NonNull String id, @NonNull String name) {
         this.id = id;
         this.name = name;
     }

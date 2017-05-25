@@ -17,6 +17,7 @@ public class Notebook extends ProfileDependedEntity {
      * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't
      * belong to any parent notebook, then parentId equals to "0".
      */
+    @NonNull
     private Optional<String> parentId;
 
     @NonNull
@@ -37,7 +38,7 @@ public class Notebook extends ProfileDependedEntity {
 
     public Notebook(String id,
                     String profileId,
-                    Optional<String> parentId,
+                    @NonNull Optional<String> parentId,
                     @NonNull String name,
                     long creationTime,
                     long updateTime,

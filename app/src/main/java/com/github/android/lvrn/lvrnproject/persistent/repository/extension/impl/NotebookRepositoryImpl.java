@@ -75,14 +75,20 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
     @NonNull
     @Override
     public List<Notebook> getRootParents(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount) {
-        return super.getByIdCondition(COLUMN_PROFILE_ID, profileId, from, amount);
+        String query = "SELECT * FROM " + TABLE_NAME
+                + " WHERE " + COLUMN_PROFILE_ID + "='" + profileId + "'"
+                + " AND " + COLUMN_PARENT_ID + " IS NULL"
+                + " LIMIT " + amount
+                + " OFFSET " + (from - 1);
+        System.out.println(query);
+        return super.getByRawQuery(query);
     }
 
     @Override
     public boolean update(@NonNull Notebook entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
-                + COLUMN_PARENT_ID + "=" + (entity.getParentId() != null ? "'" + entity.getParentId() + "', " : "null, ")
+                + COLUMN_PARENT_ID + "=" + (entity.getParentId().isPresent() ? "'" + entity.getParentId().get() + "', " : null + ", ")
                 + COLUMN_NAME + "='" + entity.getName() + "', "
                 + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";

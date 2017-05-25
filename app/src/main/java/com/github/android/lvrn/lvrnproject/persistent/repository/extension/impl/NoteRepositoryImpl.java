@@ -82,7 +82,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         } finally {
             mDatabase.endTransaction();
         }
-        Logger.d("Table name: %s\nOperation: addTagToNote\nNote id: %d\nTag id: %s\nResult: %s",
+        Logger.d("Table name: %s\nOperation: addTagToNote\nNote id: %s\nTag id: %s\nResult: %s",
                 TABLE_NAME, noteId, tagId, result);
         return result;
     }
@@ -101,7 +101,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         } finally {
             mDatabase.endTransaction();
         }
-        Logger.d("Table name: %s\nOperation: removeTagToNote\nNote id: %d\nTag id: %d\nResult: %s",
+        Logger.d("Table name: %s\nOperation: removeTagToNote\nNote id: %s\nTag id: %s\nResult: %s",
                 TABLE_NAME, noteId, tagId, result);
         return result;
     }
@@ -137,7 +137,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
     public boolean update(@NonNull Note entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
-                + COLUMN_NOTEBOOK_ID + "=" + (entity.getNotebookId() != null ? "'" + entity.getNotebookId() + "', " : "null, ")
+                + COLUMN_NOTEBOOK_ID + "=" + (entity.getNotebookId().isPresent() ? "'" + entity.getNotebookId().get() + "', " : null + ", ")
                 + COLUMN_TITLE + "='" + entity.getTitle() + "', "
                 + COLUMN_CONTENT + "='" + entity.getContent() + "', "
                 + COLUMN_IS_FAVORITE + "='" + entity.isFavorite() + "', "

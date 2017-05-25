@@ -87,7 +87,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
     @Override
     public boolean update(@NonNull String id, @NonNull NoteForm noteForm) {
         noteForm.setContent(NoteTextParser.parseSingleQuotes(noteForm.getContent()));
-        if(validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle()) && mNoteRepository.update(noteForm.toEntity(id))) {
+        if (validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle()) && mNoteRepository.update(noteForm.toEntity(id))) {
             parseContent(mNoteRepository.getById(id).get().getProfileId(), id, noteForm.getContent());
             return true;
         }
