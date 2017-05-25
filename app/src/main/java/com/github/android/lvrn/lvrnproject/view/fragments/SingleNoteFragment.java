@@ -26,6 +26,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
 import javax.inject.Inject;
 
@@ -84,7 +85,7 @@ public class SingleNoteFragment extends Fragment {
         bundle.putString(BundleKeysConst.BUNDLE_NOTE_ID_KEY,mSelectNote.getId());
         DialogFragment dialogFragment = TagEditingDialogFragment.newInstance();
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction, "dialog");
+        dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT);
     }
 
     public void openSelectFragment(Fragment fragment) {
@@ -100,7 +101,7 @@ public class SingleNoteFragment extends Fragment {
             fragment.setSharedElementEnterTransition(changeBounds);
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.constraint_container, fragment)
+                    .replace(R.id.constraint_container, fragment,TagFragmentConst.TAG_NOTE_DETAIL_FRAGMENT)
                     .addSharedElement(mImageButtonInfo, mImageButtonInfo.getTransitionName())
                     .addToBackStack(null)
                     .commit();
@@ -109,7 +110,7 @@ public class SingleNoteFragment extends Fragment {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                .replace(R.id.constraint_container, fragment)
+                .replace(R.id.constraint_container, fragment,TagFragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

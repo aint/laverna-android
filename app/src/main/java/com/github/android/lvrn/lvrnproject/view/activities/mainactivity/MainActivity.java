@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
+import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,10 +23,12 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @BindView(R.id.toolbar) Toolbar mToolBar;
+    private Bundle mSavedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSavedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolBar);
@@ -63,11 +66,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startAllNotesFragment() {
-        AllNotesFragment allNotesFragment = new AllNotesFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.constraint_container, allNotesFragment)
-                .commit();
+
+        if (mSavedInstanceState==null) {
+            AllNotesFragment allNotesFragment = new AllNotesFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
+                    .commit();
+        }
     }
 
 }

@@ -35,6 +35,7 @@ import com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity.im
 import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,7 @@ public class AllNotesFragment extends Fragment
         LavernaApplication.getsAppComponent().inject(this);
         mNoteService.openConnection();
         setHasOptionsMenu(true);
+//        getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //TODO: temporary, remove later
         hardcode();
         initRecyclerView();
@@ -115,7 +117,7 @@ public class AllNotesFragment extends Fragment
         singleNoteFragment.setArguments(bundle);
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.constraint_container,singleNoteFragment)
+                .replace(R.id.constraint_container,singleNoteFragment, TagFragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
