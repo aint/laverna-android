@@ -24,7 +24,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.extension.NotebookService;
-import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragment;
+import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class SingleNoteFragment extends Fragment {
+public class SingleNoteFragmentImpl extends Fragment {
     @BindView(R.id.im_btn_information) ImageButton mImageButtonInfo;
     @BindView(R.id.im_btn_arrow_back_single_note) ImageButton mImageButtonBackArrow;
     @BindView(R.id.edit_text_title_single_note) EditText mEditTextTitle;
@@ -62,7 +62,7 @@ public class SingleNoteFragment extends Fragment {
 
     @OnClick(R.id.im_btn_information)
     public void startNoteDetailFragment() {
-        NoteDetailsFragment noteDetailsFragment = new NoteDetailsFragment();
+        NoteDetailsFragmentImpl noteDetailsFragment = new NoteDetailsFragmentImpl();
         Bundle bundle = new Bundle();
         bundle.putString(BundleKeysConst.BUNDLE_NOTEBOOK_NAME_KEY,mNoteBookName);
         bundle.putLong(BundleKeysConst.BUNDLE_NOTE_UPDATED_KEY,mSelectNote.getUpdateTime());
@@ -83,7 +83,7 @@ public class SingleNoteFragment extends Fragment {
                 .addToBackStack(null);
         Bundle bundle =new Bundle();
         bundle.putString(BundleKeysConst.BUNDLE_NOTE_ID_KEY,mSelectNote.getId());
-        DialogFragment dialogFragment = TagEditingDialogFragment.newInstance();
+        DialogFragment dialogFragment = TagEditingDialogFragmentImpl.newInstance();
         dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT);
     }

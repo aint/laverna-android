@@ -16,7 +16,7 @@ import android.widget.TabHost;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.service.extension.NoteService;
-import com.github.android.lvrn.lvrnproject.view.activities.mainactivity.MainActivity;
+import com.github.android.lvrn.lvrnproject.view.activities.mainactivity.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorPresenter;
 
@@ -112,7 +112,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     @Override
     public boolean onSupportNavigateUp() {
         //TODO: check thos method.
-        this.startActivity(new Intent(this, MainActivity.class));
+        this.startActivity(new Intent(this, MainActivityImpl.class));
         this.finish();
         return true;
     }

@@ -29,17 +29,17 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TagEditingDialogFragment extends DialogFragment {
+public class TagEditingDialogFragmentImpl extends DialogFragment {
     @BindView(R.id.recycler_view_all_tags) RecyclerView mRecyclerViewTags;
     @Inject TagService mTagService;
     private List<Tag> mTagListDate = new ArrayList<>();
 
-    public TagEditingDialogFragment() {
+    public TagEditingDialogFragmentImpl() {
     }
 
-    public static TagEditingDialogFragment newInstance() {
+    public static TagEditingDialogFragmentImpl newInstance() {
 
-        return new TagEditingDialogFragment();
+        return new TagEditingDialogFragmentImpl();
     }
 
     @Override
