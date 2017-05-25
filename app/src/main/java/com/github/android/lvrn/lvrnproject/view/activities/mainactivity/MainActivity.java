@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.view.activities.mainactivity;
 
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
+import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,13 +22,20 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @BindView(R.id.toolbar) Toolbar mToolBar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolBar;
+    private Bundle mSavedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSavedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_main);
+        if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         ButterKnife.bind(this);
         setSupportActionBar(mToolBar);
         ActionBarDrawerToggle mToggle = new ActionBarDrawerToggle(
@@ -63,11 +72,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startAllNotesFragment() {
-        AllNotesFragment allNotesFragment = new AllNotesFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.constraint_container, allNotesFragment)
-                .commit();
+
+        if (mSavedInstanceState == null) {
+            AllNotesFragment allNotesFragment = new AllNotesFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
+                    .commit();
+        }
     }
 
 }

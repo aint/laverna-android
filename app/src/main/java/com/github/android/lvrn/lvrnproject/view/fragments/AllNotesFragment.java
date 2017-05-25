@@ -35,6 +35,7 @@ import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteE
 import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,10 +58,13 @@ import io.reactivex.subjects.BehaviorSubject;
  */
 
 public class AllNotesFragment extends Fragment
-           implements AllNotesFragmentRecyclerViewAdapter.ItemClickListener {
-    @Inject NoteService mNoteService;
-    @BindView(R.id.recycler_view_all_notes) RecyclerView mRecyclerView;
-    @BindView(R.id.floating_action_menu_all_notes) FloatingActionsMenu floatingActionsMenu;
+        implements AllNotesFragmentRecyclerViewAdapter.ItemClickListener {
+    @Inject
+    NoteService mNoteService;
+    @BindView(R.id.recycler_view_all_notes)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.floating_action_menu_all_notes)
+    FloatingActionsMenu floatingActionsMenu;
     final static private int startPositionDownloadItem = 1;
     final static private int numberEntitiesDownloadItem = 7;
     private List<Note> mDataAllNotes = new ArrayList<>();
@@ -68,7 +72,7 @@ public class AllNotesFragment extends Fragment
     private AllNotesFragmentRecyclerViewAdapter mAdapter;
     private Disposable mDisposable;
     private SearchView mSearchView;
-    MenuItem menuSearch,menuSync,menuSortBy,menuSettings,menuAbout;
+    MenuItem menuSearch, menuSync, menuSortBy, menuSettings, menuAbout;
 
 
     //TODO: temporary, remove later
@@ -76,14 +80,14 @@ public class AllNotesFragment extends Fragment
     private ProfileService profileService;
 
     private enum Mode {
-        NORMAL,SEARCH,SORT,ABOUT,SETTINGS;
+        NORMAL, SEARCH, SORT, ABOUT, SETTINGS;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_all_notes, container, false);
-        ButterKnife.bind(this,rootView);
+        ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
         mNoteService.openConnection();
         setHasOptionsMenu(true);
@@ -95,7 +99,7 @@ public class AllNotesFragment extends Fragment
     }
 
     @OnClick(R.id.floating_btn_start_note)
-    public void openActivityA(){
+    public void openActivityA() {
 //        Toast.makeText(getContext(),"Activity1",Toast.LENGTH_SHORT).show();
 //        floatingActionsMenu.collapse();
         getActivity().startActivity(new Intent(getActivity(), NoteEditorActivityImpl.class));
@@ -103,8 +107,8 @@ public class AllNotesFragment extends Fragment
     }
 
     @OnClick(R.id.floating_btn_start_notebook)
-    public void openActivityB(){
-        Toast.makeText(getContext(),"Activity2",Toast.LENGTH_SHORT).show();
+    public void openActivityB() {
+        Toast.makeText(getContext(), "Activity2", Toast.LENGTH_SHORT).show();
         floatingActionsMenu.collapse();
     }
 
@@ -113,11 +117,11 @@ public class AllNotesFragment extends Fragment
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         SingleNoteFragment singleNoteFragment = new SingleNoteFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY,mAdapter.allNotesData.get(position));
+        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY, mAdapter.allNotesData.get(position));
         singleNoteFragment.setArguments(bundle);
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.constraint_container,singleNoteFragment)
+                .replace(R.id.constraint_container, singleNoteFragment, TagFragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
@@ -159,8 +163,8 @@ public class AllNotesFragment extends Fragment
     public void onDestroyView() {
         super.onDestroyView();
         profileService.closeConnection();
-        if(!mDisposable.isDisposed())
-        mDisposable.dispose();
+        if (!mDisposable.isDisposed())
+            mDisposable.dispose();
     }
 
     private void reInitBaseView() {
@@ -171,7 +175,7 @@ public class AllNotesFragment extends Fragment
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mDataAllNotes.clear();
-        mDataAllNotes.addAll(mNoteService.getByProfile(profileId,startPositionDownloadItem,numberEntitiesDownloadItem));
+        mDataAllNotes.addAll(mNoteService.getByProfile(profileId, startPositionDownloadItem, numberEntitiesDownloadItem));
         mAdapter = new AllNotesFragmentRecyclerViewAdapter(mDataAllNotes);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
@@ -179,19 +183,19 @@ public class AllNotesFragment extends Fragment
         mRecyclerView.addOnScrollListener(initEndlessRecyclerViewScroll());
     }
 
-    private void searchNoteInDBListener(){
+    private void searchNoteInDBListener() {
         mDisposable = RxSearch.fromSearchView(mSearchView)
-                .debounce(400,TimeUnit.MILLISECONDS)
+                .debounce(400, TimeUnit.MILLISECONDS)
                 .filter(word -> word.length() > 2)
-                .map(title-> mNoteService.getByTitle(profileId,title,1,10))
+                .map(title -> mNoteService.getByTitle(profileId, title, 1, 10))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(foundItems-> {
+                .subscribe(foundItems -> {
                     mAdapter.setAllNotesData(foundItems);
                 });
     }
 
-    private EndlessRecyclerViewScrollListener initEndlessRecyclerViewScroll(){
+    private EndlessRecyclerViewScrollListener initEndlessRecyclerViewScroll() {
         EndlessRecyclerViewScrollListener mScrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -204,8 +208,8 @@ public class AllNotesFragment extends Fragment
         return mScrollListener;
     }
 
-    private void startMode(Mode modeToStart){
-        if(modeToStart == Mode.SEARCH){
+    private void startMode(Mode modeToStart) {
+        if (modeToStart == Mode.SEARCH) {
             floatingActionsMenu.collapse();
             floatingActionsMenu.setVisibility(View.GONE);
             menuSync.setVisible(false);
@@ -216,10 +220,10 @@ public class AllNotesFragment extends Fragment
             mSearchView.requestFocus();
             Drawable bottomUnderline = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                bottomUnderline = getResources().getDrawable(R.drawable.search_view_bottom_underline,null);
+                bottomUnderline = getResources().getDrawable(R.drawable.search_view_bottom_underline, null);
             }
             mSearchView.setBackground(bottomUnderline);
-        } else if(modeToStart == Mode.NORMAL){
+        } else if (modeToStart == Mode.NORMAL) {
             floatingActionsMenu.setVisibility(View.VISIBLE);
             menuSync.setVisible(true);
             menuAbout.setVisible(true);
@@ -233,10 +237,10 @@ public class AllNotesFragment extends Fragment
     private void hardcode() {
         profileService = new ProfileServiceImpl(new ProfileRepositoryImpl());
         profileService.openConnection();
-        List<Profile>  profiles = profileService.getAll();
+        List<Profile> profiles = profileService.getAll();
         profileService.closeConnection();
         profileId = profiles.get(0).getId();
-        for (Note note : mNoteService.getByProfile(profileId, 1, 200)){
+        for (Note note : mNoteService.getByProfile(profileId, 1, 200)) {
             System.out.println(mNoteService.remove(note.getId()));
         }
         mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Dog", "Content 1", "Content 1", false));
@@ -256,18 +260,19 @@ public class AllNotesFragment extends Fragment
         mNoteService.create(new NoteForm(profiles.get(0).getId(), null, "Snake", "Content 15", "Content 15", false));
     }
 
-     private static class RxSearch {
-         static Observable<String> fromSearchView(@NonNull final SearchView searchView){
+    private static class RxSearch {
+        static Observable<String> fromSearchView(@NonNull final SearchView searchView) {
             final BehaviorSubject<String> subject = BehaviorSubject.create();
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     return true;
                 }
+
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    if (!newText.isEmpty()){
-                     subject.onNext(newText);
+                    if (!newText.isEmpty()) {
+                        subject.onNext(newText);
                     }
                     return true;
                 }
