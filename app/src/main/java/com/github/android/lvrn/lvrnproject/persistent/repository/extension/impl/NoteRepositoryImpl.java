@@ -79,7 +79,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         } finally {
             mDatabase.endTransaction();
         }
-        Logger.d("Table name: $s\nOperation: addTagToNote\nNote id: $d\nTag id: $s\nResult: $s",
+        Logger.d("Table name: %s\nOperation: addTagToNote\nNote id: %d\nTag id: %s\nResult: %s",
                 TABLE_NAME, noteId, tagId, result);
         return result;
     }
@@ -98,7 +98,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         } finally {
             mDatabase.endTransaction();
         }
-        Logger.d("Table name: $s\nOperation: removeTagToNote\nNote id: $d\nTag id: $d\nResult: $s",
+        Logger.d("Table name: %s\nOperation: removeTagToNote\nNote id: %d\nTag id: %d\nResult: %s",
                 TABLE_NAME, noteId, tagId, result);
         return result;
     }

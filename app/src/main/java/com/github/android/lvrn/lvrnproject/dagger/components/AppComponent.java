@@ -4,6 +4,7 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
 import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragment;
+import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.AllNotesFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragment;
 
@@ -24,4 +25,5 @@ public interface AppComponent {
 
     void inject(TagEditingDialogFragment tagEditingDialogFragment);
 
+    void inject(NoteEditorActivityImpl noteEditorActivityImpl);
 }

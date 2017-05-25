@@ -79,7 +79,7 @@ public class DatabaseManager {
             mDatabase = sDatabaseHelper.getWritableDatabase();
             Logger.i("A writable database is opened");
         }
-        Logger.d("Open a new connection to the database. Number of connections: $d", mOpenCounter);
+        Logger.d("Open a new connection to the database. Number of connections: %d", mOpenCounter);
         return mDatabase;
     }
 
@@ -93,7 +93,7 @@ public class DatabaseManager {
             Logger.i("A writable database is closed");
         }
         mOpenCounter = mOpenCounter > 0 ? mOpenCounter - 1 : 0;
-        Logger.d("Close a connection to the database. Number of connections: $d", mOpenCounter);
+        Logger.d("Close a connection to the database. Number of connections: %d", mOpenCounter);
     }
 
     /**

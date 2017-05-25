@@ -72,10 +72,10 @@ public class MarkdownParserImpl implements MarkdownParser {
 
     @Override
     public String getParsedHtml(@NonNull String text) {
-        Logger.d("Raw text:\n $s", text);
+        Logger.d("Raw text:\n %s", text);
         String textHtml = parseMarkdown(text);
         textHtml = additionalReplaces(textHtml);
-        Logger.d("After parse:\n $s", textHtml);
+        Logger.d("After parse:\n %s", textHtml);
         return textHtml;
     }
 

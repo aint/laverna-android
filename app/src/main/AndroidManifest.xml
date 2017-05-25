@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.noteeditoractivity.impl.NoteEditorActivityImpl"></activity>
+        <activity android:name=".view.activities.noteeditor.impl.NoteEditorActivityImpl" />
     </application>
 
 </manifest>

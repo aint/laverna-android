@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.activities.noteeditoractivity;
+package com.github.android.lvrn.lvrnproject.view.activities.noteeditor;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
