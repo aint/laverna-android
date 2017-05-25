@@ -28,7 +28,7 @@ public class Tag extends ProfileDependedEntity {
 
     public Tag(String id,
                String profileId,
-               String name,
+               @NonNull String name,
                long creationTime,
                long updateTime,
                int count) {
@@ -49,11 +49,12 @@ public class Tag extends ProfileDependedEntity {
         this.count = in.readInt();
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 

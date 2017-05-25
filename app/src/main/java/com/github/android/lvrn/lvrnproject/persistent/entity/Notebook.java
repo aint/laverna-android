@@ -38,7 +38,7 @@ public class Notebook extends ProfileDependedEntity {
     public Notebook(String id,
                     String profileId,
                     Optional<String> parentId,
-                    String name,
+                    @NonNull String name,
                     long creationTime,
                     long updateTime,
                     int count) {
@@ -98,11 +98,12 @@ public class Notebook extends ProfileDependedEntity {
         this.parentId = parentId;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 

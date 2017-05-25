@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.github.android.lvrn.lvrnproject.BuildConfig;
@@ -78,6 +79,7 @@ public class RepositoryAbstractImplTest {
 
             }
 
+            @NonNull
             @Override
             public String getId() {
                 return super.getId();

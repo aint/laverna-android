@@ -110,11 +110,12 @@ public class Note extends ProfileDependedEntity {
         dest.writeByte((byte) (isFavorite ? 1 : 0));
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
@@ -122,7 +123,7 @@ public class Note extends ProfileDependedEntity {
         return profileId;
     }
 
-    public void setProfileId(String profileId) {
+    public void setProfileId(@NonNull String profileId) {
         this.profileId = profileId;
     }
 
