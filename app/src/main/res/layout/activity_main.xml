@@ -19,7 +19,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <include
-                layout="@layout/tool_bar"/>
+                layout="@layout/tool_bar_main"/>
 
         </android.support.design.widget.AppBarLayout>
 

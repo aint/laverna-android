@@ -83,11 +83,10 @@ public class AllNotesFragmentImpl extends Fragment
         ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
         mNoteService.openConnection();
-        setHasOptionsMenu(true);
+        reInitBaseView();
         //TODO: temporary, remove later
         hardcode();
         initRecyclerView();
-        reInitBaseView();
         return rootView;
     }
 
@@ -182,7 +181,9 @@ public class AllNotesFragmentImpl extends Fragment
     }
 
     private void reInitBaseView() {
+        setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("All Notes");
     }
 
     private void initRecyclerView() {

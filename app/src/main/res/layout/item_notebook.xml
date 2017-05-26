@@ -36,7 +36,7 @@
                 android:layout_alignParentRight="true"
                 android:background="@drawable/ic_more_vert_black_24dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="16dp"/>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

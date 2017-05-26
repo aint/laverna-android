@@ -5,6 +5,7 @@ import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
 import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
+import com.github.android.lvrn.lvrnproject.view.fragments.NotebookContentFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.NotebookFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.impl.AllNotesFragmentImpl;
@@ -29,4 +30,6 @@ public interface AppComponent {
     void inject(NoteEditorActivityImpl noteEditorActivityImpl);
 
     void inject(NotebookFragmentImpl notebookFragment);
+
+    void inject(NotebookContentFragmentImpl noteAndNotebookTogetherFragment);
 }
