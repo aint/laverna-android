@@ -36,7 +36,7 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter 
     }
 
     @Override
-    public void subscribeSearchViewForSearch(SearchView searchView) {
+    public void subscribeSearchView(SearchView searchView) {
         mDisposable = RxSearch.fromSearchView(searchView)
                 .debounce(400, TimeUnit.MILLISECONDS)
                 .filter(word -> word.length() > 2)
@@ -49,7 +49,7 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter 
     }
 
     @Override
-    public void unsubscribeSearchViewForSearch() {
+    public void unsubscribeSearchView() {
         if (!mDisposable.isDisposed())
             mDisposable.dispose();
     }

@@ -61,6 +61,9 @@ public class NotebookContentFragmentImpl extends Fragment {
         return view;
     }
 
+    /**
+     * A method which initializes recycler view
+     */
     private void initRecyclerView() {
         mRecyclerViewNotebook.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewNote.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -69,6 +72,8 @@ public class NotebookContentFragmentImpl extends Fragment {
         mRecyclerViewNotebook.setAdapter(notebookRecyclerViewAdapter);
         mRecyclerViewNote.setAdapter(notesRecyclerViewAdapter);
     }
+
+    //TODO: temporary, remove later
     private void hardcodeNote() {
         mNoteService.openConnection();
         mNoteService.create(new NoteForm(CurrentState.profileId, null, "Dog", "Content 1", "Content 1", false));
@@ -86,13 +91,12 @@ public class NotebookContentFragmentImpl extends Fragment {
         mNoteService.create(new NoteForm(CurrentState.profileId, null, "Cock", "Content 13", "Content 13", false));
         mNoteService.create(new NoteForm(CurrentState.profileId, null, "Bug", "Content 14", "Content 14", false));
         mNoteService.create(new NoteForm(CurrentState.profileId, null, "Snake", "Content 15", "Content 15", false));
-
     }
 
+    //TODO: temporary, remove later
     private void hardcodeNotebook(){
         mNotebookService.openConnection();
         mNotebookService.create(new NotebookForm(CurrentState.profileId, null, "Animals"));
-
     }
 
 

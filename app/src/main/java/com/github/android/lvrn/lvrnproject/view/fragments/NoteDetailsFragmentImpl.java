@@ -42,6 +42,9 @@ public class NoteDetailsFragmentImpl extends Fragment {
         getActivity().onBackPressed();
     }
 
+    /**
+     * A method which set defined view of toolbar
+     */
     private void reInitBaseView() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }

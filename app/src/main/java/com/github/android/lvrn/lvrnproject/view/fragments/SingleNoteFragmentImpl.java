@@ -129,6 +129,9 @@ public class SingleNoteFragmentImpl extends Fragment {
         mEditTextContentNote.setText(mSelectNote.getContent());
     }
 
+    /**
+     * A method which set defined view of toolbar
+     */
     private void reInitBaseView() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }

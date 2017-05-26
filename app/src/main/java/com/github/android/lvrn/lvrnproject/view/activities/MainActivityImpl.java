@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.activities.main;
+package com.github.android.lvrn.lvrnproject.view.activities;
 
 
 import android.content.pm.ActivityInfo;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,15 +30,14 @@ public class MainActivityImpl extends AppCompatActivity
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
     private Bundle mSavedInstanceState;
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSavedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_main);
-        if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        setOrientationByUserDeviceConfiguration();
         ButterKnife.bind(this);
         setSupportActionBar(mToolBar);
         ActionBarDrawerToggle mToggle = new ActionBarDrawerToggle(
@@ -77,17 +77,37 @@ public class MainActivityImpl extends AppCompatActivity
         return true;
     }
 
+    /**
+     * A method which check user device screen orientation at start app,
+     * and set needed screen orientation for app work
+     */
+    private void setOrientationByUserDeviceConfiguration() {
+        if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    /**
+     * A method which create and replace new fragment in current container for fragment, without
+     * adding to back stack
+     */
     private void startAllNotesFragment() {
+        if (mSavedInstanceState == null) {
         AllNotesFragmentImpl allNotesFragment = new AllNotesFragmentImpl();
-        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
                 .commit();
+        }
     }
 
+    /**
+     * A method which create and replace new fragment in current container for fragment , with
+     * adding to back stack
+     * @param fragment a fragment what we create
+     * @param tag  a tag name of fragment
+     */
     private void menuStartSelectFragment(Fragment fragment, String tag) {
         if (mSavedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.constraint_container, fragment, tag)
                     .addToBackStack(tag)

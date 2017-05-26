@@ -17,15 +17,35 @@ public interface AllNotesFragmentPresenter {
 
     int numberEntitiesDownloadItem = 7;
 
-    void subscribeSearchViewForSearch(SearchView searchView);
+    /**
+     * A method which subscribe search view to DB for search user input data
+     * @param searchView a search view to subscribe.
+     */
+    void subscribeSearchView(SearchView searchView);
 
-    void unsubscribeSearchViewForSearch();
+    /**
+     * A method which unsubscribe search view to DB
+     */
+    void unsubscribeSearchView();
 
+    /**
+     * A method which implement lazy loading to our list of data
+     * @param linearLayoutManager a layout manager of current recycler view
+     * @param adapter an adapter of current recycler view
+     * @param data a data of current recycler view adapter
+     * @return
+     */
     EndlessRecyclerViewScrollListener getEndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager,
                                                                            NotesRecyclerViewAdapter adapter,
                                                                            List<Note> data);
 
+    /**
+     * A method which binds a view to a presenter.
+     */
     void bindView(AllNotesFragment allNotesFragment);
 
+    /**
+     * A method which unbinds a view to a presenter.
+     */
     void unBindView();
 }

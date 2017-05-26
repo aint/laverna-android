@@ -67,13 +67,6 @@ public class NotebookFragmentImpl extends Fragment implements NotesRecyclerViewA
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void initRecyclerView() {
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new NotebookRecyclerViewAdapter(mNotebookData);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setClickListener(this);
-    }
 
     @Override
     public void onClick(View view, int position) {
@@ -86,6 +79,20 @@ public class NotebookFragmentImpl extends Fragment implements NotesRecyclerViewA
 
     }
 
+    /**
+     * A method which initializes recycler view
+     */
+    private void initRecyclerView() {
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new NotebookRecyclerViewAdapter(mNotebookData);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setClickListener(this);
+    }
+
+    /**
+     * A method which set defined view of toolbar
+     */
     private void reInitBaseView() {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("All Notebook");

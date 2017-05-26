@@ -90,12 +90,16 @@ public class AllNotesFragmentImpl extends Fragment
         return rootView;
     }
 
+    /**
+     * A method which hear when user click on button and open new activity
+     */
     @OnClick(R.id.floating_btn_start_note)
     public void openActivityA() {
         getActivity().startActivity(new Intent(getActivity(), NoteEditorActivityImpl.class));
         getActivity().finish();
     }
 
+    //TODO: Change method with implement need functionality
     @OnClick(R.id.floating_btn_start_notebook)
     public void openActivityB() {
         Toast.makeText(getContext(), "Activity2", Toast.LENGTH_SHORT).show();
@@ -118,7 +122,7 @@ public class AllNotesFragmentImpl extends Fragment
     public void onPause() {
         super.onPause();
         mAllNotesFragmentPresenter.unBindView();
-        mAllNotesFragmentPresenter.unsubscribeSearchViewForSearch();
+        mAllNotesFragmentPresenter.unsubscribeSearchView();
     }
 
     @Override
@@ -144,21 +148,9 @@ public class AllNotesFragmentImpl extends Fragment
         menuSortBy = menu.findItem(R.id.item_sort_by);
         menuSettings = menu.findItem(R.id.item_settings);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-        mAllNotesFragmentPresenter.subscribeSearchViewForSearch(mSearchView);
-        MenuItemCompat.setOnActionExpandListener(menuSearch, new MenuItemCompat.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                startMode(Mode.SEARCH);
-                return true;
-            }
+        mAllNotesFragmentPresenter.subscribeSearchView(mSearchView);
+        getActionExpandListener();
 
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                startMode(Mode.NORMAL);
-                mAdapter.setAllNotesData(mDataAllNotes);
-                return true;
-            }
-        });
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -180,12 +172,38 @@ public class AllNotesFragmentImpl extends Fragment
 
     }
 
+    /**
+     * A method which hear when user click on search view and start defined mode
+     */
+    private void getActionExpandListener() {
+        MenuItemCompat.setOnActionExpandListener(menuSearch, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                startMode(Mode.SEARCH);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                startMode(Mode.NORMAL);
+                mAdapter.setAllNotesData(mDataAllNotes);
+                return true;
+            }
+        });
+    }
+
+    /**
+     * A method which set defined view of toolbar
+     */
     private void reInitBaseView() {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("All Notes");
     }
 
+    /**
+     * A method which initializes recycler view with data
+     */
     private void initRecyclerView() {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -197,6 +215,10 @@ public class AllNotesFragmentImpl extends Fragment
         mAdapter.setClickListener(this);
     }
 
+    /**
+     * A method which to control view in layout dependence by current mode
+     * @param modeToStart a currently mode of view in layout
+     */
     private void startMode(Mode modeToStart) {
         if (modeToStart == Mode.SEARCH) {
             floatingActionsMenu.collapse();
