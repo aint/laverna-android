@@ -1,19 +1,46 @@
 <resources>
+    <!--
+                  APPLICATION                              -->
     <string name="app_name">Lvrn project</string>
+    <!--
+                  ACTIVITY                                 -->
     <string name="title_activity_main">All Notes</string>
-
+    <!--
+                  NAVIGATION DRAWER                        -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!--
+                  ITEM                                     -->
     <!--item notes-->
     <string name="item_notes_title">Title</string>
     <string name="item_notes_date_of_created">Date of Created</string>
     <string name="item_notes_prompt_text_note">Prompt Text</string>
     <string name="item_note_title_note">Title notes</string>
+    <!--
+                  FRAGMENT                                 -->
     <!--dialog fragment tag editing-->
     <string name="dialog_fragment_choose_tags">Choose tags</string>
     <string name="dialog_fragment_cancel_button">Cancel</string>
     <string name="dialog_fragment_ok_button">OK</string>
     <string name="dialog_fragment_add_tag_hint">Add tag…</string>
+    <!--fragment note detail  -->
+    <string name="note_detail_label_created">Created</string>
+    <string name="note_detail_label_updated">Updated</string>
+    <string name="hint_you_edit_tags">Your Edit Tags</string>
+    <!--
+                  MENU                                     -->
+    <!--drawer menu  -->
+    <string name="drawer_main_menu_all_notes">All notes</string>
+    <string name="drawer_main_menu_favourites">Favourites</string>
+    <string name="drawer_main_menu_trash">Trash</string>
+    <string name="drawer_main_menu_notebooks">Notebooks</string>
+    <string name="drawer_main_menu_open_tasks">Open tasks</string>
+    <string name="drawer_main_menu_tags">Tags</string>
+    <string name="drawer_main_menu_profiles">Profiles</string>
+    <string name="drawer_main_menu_synchronization">Synchronization</string>
+    <!--active note menu  -->
+    <string name="active_note_menu_done">done</string>
+    <string name="active_note_menu_notebook">notebook</string>
     <!--fragment all notes menu  -->
     <string name="fragment_all_notes_menu_search">search</string>
     <string name="fragment_all_notes_menu_sync">Sync</string>
@@ -23,14 +50,12 @@
     <string name="fragment_all_notes_menu_search_query_hint">Search by note title</string>
     <string name="fab_start_note">Note</string>
     <string name="fab_start_notebook">Notebook</string>
+    <!--
+                   HINT                                    -->
     <!--hint -->
     <string name="hint_you_notebook_name">Your Notebook name</string>
     <string name="hint_you_updated_time">Your updated time</string>
     <string name="hint_you_created_time">Your updated time</string>
     <string name="hint_prompt_text_detail_note">This is Prompt Text</string>
-    <!--fragment note detail  -->
-    <string name="note_detail_label_created">Created</string>
-    <string name="note_detail_label_updated">Updated</string>
-    <string name="hint_you_edit_tags">Your Edit Tags</string>
 
 </resources>

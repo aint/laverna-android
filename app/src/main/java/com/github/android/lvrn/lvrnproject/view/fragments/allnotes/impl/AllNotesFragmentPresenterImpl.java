@@ -7,7 +7,7 @@ import android.support.v7.widget.SearchView;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.NotesRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragmentPresenter;
@@ -15,8 +15,6 @@ import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,7 +27,6 @@ import io.reactivex.subjects.BehaviorSubject;
  */
 
 public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter {
-    @Inject
     NoteService mNoteService;
     private AllNotesFragment mAllNotesFragment;
     private Disposable mDisposable;
@@ -52,15 +49,15 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter 
     }
 
     @Override
-    public void unSubscribeSearchViewForSearch() {
+    public void unsubscribeSearchViewForSearch() {
         if (!mDisposable.isDisposed())
             mDisposable.dispose();
     }
 
     @Override
-    public EndlessRecyclerViewScrollListener subscribeEndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager,
-                                                                                        AllNotesFragmentRecyclerViewAdapter adapter,
-                                                                                        List<Note> data) {
+    public EndlessRecyclerViewScrollListener getEndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager,
+                                                                                  NotesRecyclerViewAdapter adapter,
+                                                                                  List<Note> data) {
         EndlessRecyclerViewScrollListener mScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {

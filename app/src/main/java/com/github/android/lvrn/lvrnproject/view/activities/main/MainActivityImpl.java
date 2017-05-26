@@ -4,6 +4,7 @@ package com.github.android.lvrn.lvrnproject.view.activities.main;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.view.fragments.NotebookFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.impl.AllNotesFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
@@ -58,7 +60,6 @@ public class MainActivityImpl extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //TODO: implement action of synchronization and search
         return super.onOptionsItemSelected(item);
     }
 
@@ -66,19 +67,33 @@ public class MainActivityImpl extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //TODO: provide navigation item selection
+        if (R.id.nav_item_notebooks == id) {
+            NotebookFragmentImpl notebookFragment = new NotebookFragmentImpl();
+            menuStartSelectFragment(notebookFragment, TagFragmentConst.TAG_NOTEBOOK_FRAGMENT);
+        } else if(R.id.nav_item_all_notes == id){
+            startAllNotesFragment();
+        }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void startAllNotesFragment() {
+        AllNotesFragmentImpl allNotesFragment = new AllNotesFragmentImpl();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
+                .commit();
+    }
+
+    private void menuStartSelectFragment(Fragment fragment, String tag) {
         if (mSavedInstanceState == null) {
-            AllNotesFragmentImpl allNotesFragment = new AllNotesFragmentImpl();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
+                    .replace(R.id.constraint_container, fragment, tag)
+                    .addToBackStack(tag)
                     .commit();
         }
+
     }
 
 }

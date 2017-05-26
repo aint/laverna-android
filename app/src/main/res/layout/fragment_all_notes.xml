@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout android:id="@+id/relative_layout_container_all_notes"
+<RelativeLayout
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:id="@+id/relative_layout_container_all_notes"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
 <RelativeLayout
     android:id="@+id/relative_layout_container_recycler"

@@ -30,7 +30,7 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.NotesRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragmentPresenter;
@@ -53,7 +53,7 @@ import butterknife.OnClick;
  */
 
 public class AllNotesFragmentImpl extends Fragment
-        implements AllNotesFragmentRecyclerViewAdapter.ItemClickListener, AllNotesFragment {
+        implements NotesRecyclerViewAdapter.ItemClickListener, AllNotesFragment {
     @Inject
     NoteService mNoteService;
     @BindView(R.id.recycler_view_all_notes)
@@ -64,7 +64,7 @@ public class AllNotesFragmentImpl extends Fragment
     final static private int numberEntitiesDownloadItem = 7;
     private List<Note> mDataAllNotes = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
-    private AllNotesFragmentRecyclerViewAdapter mAdapter;
+    private NotesRecyclerViewAdapter mAdapter;
     private SearchView mSearchView;
     private MenuItem menuSearch, menuSync, menuSortBy, menuSettings, menuAbout;
     private AllNotesFragmentPresenter mAllNotesFragmentPresenter;
@@ -109,7 +109,7 @@ public class AllNotesFragmentImpl extends Fragment
         if (mAllNotesFragmentPresenter == null) {
             mAllNotesFragmentPresenter = new AllNotesFragmentPresenterImpl(mNoteService);
         }
-        mRecyclerView.addOnScrollListener(mAllNotesFragmentPresenter.subscribeEndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager,
+        mRecyclerView.addOnScrollListener(mAllNotesFragmentPresenter.getEndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager,
                 mAdapter,
                 mDataAllNotes));
         mAllNotesFragmentPresenter.bindView(this);
@@ -119,7 +119,7 @@ public class AllNotesFragmentImpl extends Fragment
     public void onPause() {
         super.onPause();
         mAllNotesFragmentPresenter.unBindView();
-        mAllNotesFragmentPresenter.unSubscribeSearchViewForSearch();
+        mAllNotesFragmentPresenter.unsubscribeSearchViewForSearch();
     }
 
     @Override
@@ -190,7 +190,7 @@ public class AllNotesFragmentImpl extends Fragment
         mRecyclerView.setLayoutManager(mLayoutManager);
         mDataAllNotes.clear();
         mDataAllNotes.addAll(mNoteService.getByProfile(CurrentState.profileId, startPositionDownloadItem, numberEntitiesDownloadItem));
-        mAdapter = new AllNotesFragmentRecyclerViewAdapter(mDataAllNotes);
+        mAdapter = new NotesRecyclerViewAdapter(mDataAllNotes);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setClickListener(this);

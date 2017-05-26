@@ -22,25 +22,24 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<AllNotesFragmentRecyclerViewAdapter.AllNotesViewHolder> {
-    //TODO remove after implements DAO
+public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecyclerViewAdapter.NotesViewHolder> {
+
     private ItemClickListener mItemClickListener;
     public List<Note> allNotesData = new ArrayList<>();
 
-    //TODO change after implements DAO
-    public AllNotesFragmentRecyclerViewAdapter(List<Note> data) {
+
+    public NotesRecyclerViewAdapter(List<Note> data) {
         allNotesData = data;
     }
 
     @Override
-    public AllNotesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NotesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notes, parent, false);
-        return new AllNotesViewHolder(view);
+        return new NotesViewHolder(view);
     }
 
-    //TODO change after implements DAO
     @Override
-    public void onBindViewHolder(AllNotesViewHolder holder, int position) {
+    public void onBindViewHolder(NotesViewHolder holder, int position) {
         holder.tvTitle.setText(allNotesData.get(position).getTitle());
         holder.tvPromptText.setText(allNotesData.get(position).getContent());
     }
@@ -59,7 +58,7 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
         notifyDataSetChanged();
     }
 
-    class AllNotesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class NotesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.tv_title_note)
         TextView tvTitle;
         @BindView(R.id.tv_date_created_note)
@@ -69,7 +68,7 @@ public class AllNotesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Al
         @BindView(R.id.im_btn_favorite)
         ImageButton imBtnFavorite;
 
-        public AllNotesViewHolder(View itemView) {
+        public NotesViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);

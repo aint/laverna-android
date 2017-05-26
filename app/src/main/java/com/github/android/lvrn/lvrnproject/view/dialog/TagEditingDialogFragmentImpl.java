@@ -14,7 +14,7 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.service.core.TagService;
-import com.github.android.lvrn.lvrnproject.view.adapters.TagEditingRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.TagRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class TagEditingDialogFragmentImpl extends DialogFragment {
     private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewTags.setLayoutManager(layoutManager);
-        TagEditingRecyclerViewAdapter tagEditingAdapter = new TagEditingRecyclerViewAdapter(mTagListDate);
+        TagRecyclerViewAdapter tagEditingAdapter = new TagRecyclerViewAdapter(mTagListDate);
         mRecyclerViewTags.setAdapter(tagEditingAdapter);
     }
 

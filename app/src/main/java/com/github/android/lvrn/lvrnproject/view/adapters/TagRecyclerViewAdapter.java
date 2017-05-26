@@ -20,10 +20,10 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TagEditingRecyclerViewAdapter extends RecyclerView.Adapter<TagEditingRecyclerViewAdapter.TagEditingViewHolder> {
+public class TagRecyclerViewAdapter extends RecyclerView.Adapter<TagRecyclerViewAdapter.TagEditingViewHolder> {
     private List<Tag> mDataSet = new ArrayList<>();
 
-    public TagEditingRecyclerViewAdapter(List<Tag> data) {
+    public TagRecyclerViewAdapter(List<Tag> data) {
         mDataSet = data;
     }
 
@@ -54,14 +54,4 @@ public class TagEditingRecyclerViewAdapter extends RecyclerView.Adapter<TagEditi
         }
     }
 
-//    //TODO remove after implements DAO
-//    private void setDataInTempCollections() {
-//        mDataSet.add("Test 1");
-//        mDataSet.add("Test 2");
-//        mDataSet.add("Test 3");
-//        mDataSet.add("Test 4");
-//        mDataSet.add("Test 5");
-//        mDataSet.add("Test 6");
-//        mDataSet.add("Test 7");
-//    }
 }

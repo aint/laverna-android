@@ -6,42 +6,42 @@
         <item
             android:id="@+id/nav_item_all_notes"
             android:icon="@drawable/ic_menu_file_black_24dp"
-            android:title="All notes" />
+            android:title="@string/drawer_main_menu_all_notes" />
 
         <item
             android:id="@+id/nav_item_favorites"
             android:icon="@drawable/ic_menu_star_black_24dp"
-            android:title="Favourites" />
+            android:title="@string/drawer_main_menu_favourites" />
 
         <item
             android:id="@+id/nav_item_trash"
             android:icon="@drawable/ic_menu_delete_black_24dp"
-            android:title="Trash" />
+            android:title="@string/drawer_main_menu_trash" />
 
         <item
             android:id="@+id/nav_item_notebooks"
             android:icon="@drawable/ic_menu_book_black_24dp"
-            android:title="Notebooks" />
+            android:title="@string/drawer_main_menu_notebooks" />
 
         <item
             android:id="@+id/nav_item_open_tasks"
             android:icon="@drawable/ic_menu_done_black_24dp"
-            android:title="Open tasks" />
+            android:title="@string/drawer_main_menu_open_tasks" />
 
         <item
             android:id="@+id/nav_item_tags"
             android:icon="@drawable/ic_tag_black_24dp"
-            android:title="Tags" />
+            android:title="@string/drawer_main_menu_tags" />
 
         <item
             android:id="@+id/nav_item_profiles"
             android:icon="@drawable/ic_menu_people_black_24dp"
-            android:title="Profiles" />
+            android:title="@string/drawer_main_menu_profiles" />
 
         <item
             android:id="@+id/nav_item_sync"
             android:icon="@drawable/ic_stat_sync_black_24dp"
-            android:title="Synchronization" />
+            android:title="@string/drawer_main_menu_synchronization" />
 
     </group>
 </menu>

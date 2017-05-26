@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view_notes"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_margin="8dp">
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+            
+            <TextView
+                android:id="@+id/text_view_notebook_name"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/image_btn_more_menu"
+                android:paddingLeft="16dp"
+                android:paddingTop="8dp"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/main_green_themes_app"
+                android:textColorHint="@color/main_green_themes_app"
+                android:hint="@string/hint_you_notebook_name"/>
+
+            <ImageButton
+                android:id="@+id/image_btn_more_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_more_vert_black_24dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

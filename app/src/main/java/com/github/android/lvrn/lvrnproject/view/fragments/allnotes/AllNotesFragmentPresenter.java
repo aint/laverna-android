@@ -4,7 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.view.adapters.AllNotesFragmentRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.NotesRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
@@ -19,11 +19,11 @@ public interface AllNotesFragmentPresenter {
 
     void subscribeSearchViewForSearch(SearchView searchView);
 
-    void unSubscribeSearchViewForSearch();
+    void unsubscribeSearchViewForSearch();
 
-    EndlessRecyclerViewScrollListener subscribeEndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager,
-                                                                                 AllNotesFragmentRecyclerViewAdapter adapter,
-                                                                                 List<Note> data);
+    EndlessRecyclerViewScrollListener getEndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager,
+                                                                           NotesRecyclerViewAdapter adapter,
+                                                                           List<Note> data);
 
     void bindView(AllNotesFragment allNotesFragment);
 
