@@ -1,0 +1,24 @@
+package com.github.android.lvrn.lvrnproject.view.dialog.notebookselection;
+
+import android.support.v7.widget.RecyclerView;
+
+import com.github.android.lvrn.lvrnproject.view.adapters.NotebookSelectionRecyclerViewAdapter;
+
+/**
+ * @author Vadim Boitsov <vadimboitsov1@gmail.com>
+ */
+
+public interface NotebookSelectionPresenter {
+
+    void bindView(NotebookSelectionDialogFragment notebookSelectionDialogFragment);
+
+    void unbindView();
+
+    void subscribeRecyclerViewForPagination(RecyclerView recyclerView);
+
+    void unsubscribeRecyclerViewForPagination();
+
+    NotebookSelectionRecyclerViewAdapter getAdapter();
+
+//    List<Notebook> getNotebooks();
+}

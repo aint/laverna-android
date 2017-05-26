@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activities.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorPresenter;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 
 import javax.inject.Inject;
 
@@ -129,6 +131,14 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         }
         if (itemId == R.id.item_notebook) {
             //TODO: open dialog with notebooks.
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
+            Bundle args = new Bundle();
+            args.putString("title", "Notebooks");
+            notebookSelectionDialogFragment.setArguments(args);
+
+            notebookSelectionDialogFragment.show(fragmentManager, "dsfsdg");
             return true;
         }
         return true;
