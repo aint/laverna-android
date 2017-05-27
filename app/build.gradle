@@ -20,6 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -28,9 +31,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    })
+
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:2.2.2") {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-v7'
+        exclude group: 'com.android.support', module: 'design'
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
 
     //Atlasian markdown parser
     compile 'com.atlassian.commonmark:commonmark:0.9.0'
@@ -71,6 +80,11 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:25.3.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
 
+    // set this for intent mocking support
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+
+    // set this for webview testing support
+    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
     compile 'org.apache.commons:commons-lang3:3.5' //TODO: remove it
 
     compile 'org.jsoup:jsoup:1.10.2'
