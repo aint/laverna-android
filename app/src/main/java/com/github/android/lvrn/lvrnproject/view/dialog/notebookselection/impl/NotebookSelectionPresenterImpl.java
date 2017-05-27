@@ -7,7 +7,6 @@ import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.adapters.NotebookSelectionRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
-import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener;
 import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener.PaginationParams;
 import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 
@@ -41,9 +40,6 @@ public class NotebookSelectionPresenterImpl implements NotebookSelectionPresente
         mNotebookService = notebookService;
     }
 
-
-
-
     @Override
     public void bindView(NotebookSelectionDialogFragment notebookSelectionDialogFragment) {
         mNotebookSelectionDialogFragment = notebookSelectionDialogFragment;
@@ -57,7 +53,7 @@ public class NotebookSelectionPresenterImpl implements NotebookSelectionPresente
     @Override
     public void subscribeRecyclerViewForPagination(RecyclerView recyclerView) {
         initPaginationDisposable();
-        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListener(mPaginationParamsEmitter));
+//        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListener(mPaginationParamsEmitter));
     }
 
     @Override

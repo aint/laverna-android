@@ -4,7 +4,7 @@ import android.support.annotation.Size;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import io.reactivex.Emitter;
+import io.reactivex.subjects.Subject;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -12,46 +12,52 @@ import io.reactivex.Emitter;
 
 public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
 
-    private Emitter<PaginationParams> mPaginationParamsEmitter;
-
     private int mVisibleThreshold;
+
+    private int mPreviousTotalItemCount = 0;
+
+    private int mTotalItemCount;
+
+    private boolean mLoading = false;
+
+    private Subject<PaginationParams> paginationParamsSubject;
 
     private PaginationParams mPaginationParams;
 
-    public RecyclerViewOnScrollListener(Emitter<PaginationParams> paginationParamsEmitter, PaginationParams paginationParams, int visibleThreshold) {
-        mPaginationParamsEmitter = paginationParamsEmitter;
+    public RecyclerViewOnScrollListener(Subject<PaginationParams> subject, PaginationParams paginationParams, int visibleThreshold) {
+        paginationParamsSubject = subject;
         mPaginationParams = paginationParams;
         mVisibleThreshold = visibleThreshold;
     }
 
-    public RecyclerViewOnScrollListener(Emitter<PaginationParams> paginationParamsEmitter) {
-        mPaginationParamsEmitter = paginationParamsEmitter;
-        mPaginationParams = new PaginationParams(15, 1);
+    public RecyclerViewOnScrollListener(Subject<PaginationParams> subject) {
+        paginationParamsSubject = subject;
+        mPaginationParams = new PaginationParams();
         mVisibleThreshold = 5;
     }
 
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
+        System.out.println("mTotalItemCount" + mTotalItemCount);
     }
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         LinearLayoutManager layoutManager= (LinearLayoutManager) recyclerView.getLayoutManager();
 
-        int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
+        mTotalItemCount = recyclerView.getLayoutManager().getItemCount();
 
-        System.out.println("ON SCROLL!");
-        System.out.println("LAST V P:" + lastVisiblePosition);
-        System.out.println("RESULT " + (mPaginationParams.offset - mVisibleThreshold));
-        if (lastVisiblePosition >= (mPaginationParams.offset - mVisibleThreshold)) {
-            System.out.println("");
-            mPaginationParams.offset += mPaginationParams.limit;
-            mPaginationParamsEmitter.onNext(mPaginationParams);
-            System.out.println("LAST VISIBLE: " + mPaginationParams);
+        if (mLoading && mTotalItemCount > mPreviousTotalItemCount) {
+            mLoading = false;
+            mPreviousTotalItemCount = mTotalItemCount;
         }
 
-        super.onScrolled(recyclerView, dx, dy);
+        if (!mLoading && layoutManager.findLastVisibleItemPosition() >= (mTotalItemCount - mVisibleThreshold)) {
+            mLoading = true;
+            mPaginationParams.offset = mTotalItemCount + 1;
+            paginationParamsSubject.onNext(mPaginationParams);
+        }
     }
 
     public static class PaginationParams {
@@ -62,6 +68,11 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
         public PaginationParams(@Size(min = 1) int limit, @Size(min = 2) int offset) {
             this.limit = limit;
             this.offset = offset;
+        }
+
+        public PaginationParams() {
+            limit = 15;
+            offset = 1;
         }
 
         @Override

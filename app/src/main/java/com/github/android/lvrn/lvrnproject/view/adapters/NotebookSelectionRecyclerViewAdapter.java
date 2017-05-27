@@ -53,7 +53,4 @@ public class NotebookSelectionRecyclerViewAdapter extends RecyclerView.Adapter<N
             ButterKnife.bind(this, itemView);
         }
     }
-
-
-
 }
