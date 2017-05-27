@@ -91,7 +91,7 @@ public class AllNotesFragmentImpl extends Fragment
     }
 
     /**
-     * A method which hear when user click on button and open new activity
+     * A method which hears when user click on button and opens new activity
      */
     @OnClick(R.id.floating_btn_start_note)
     public void openActivityA() {
@@ -169,11 +169,10 @@ public class AllNotesFragmentImpl extends Fragment
     @Override
     public void setDataInList(List<Note> data) {
         mAdapter.setAllNotesData(data);
-
     }
 
     /**
-     * A method which hear when user click on search view and start defined mode
+     * A method which hears when user click on search view and start defined mode
      */
     private void getActionExpandListener() {
         MenuItemCompat.setOnActionExpandListener(menuSearch, new MenuItemCompat.OnActionExpandListener() {
@@ -193,7 +192,7 @@ public class AllNotesFragmentImpl extends Fragment
     }
 
     /**
-     * A method which set defined view of toolbar
+     * A method which sets defined view of toolbar
      */
     private void reInitBaseView() {
         setHasOptionsMenu(true);
@@ -216,7 +215,7 @@ public class AllNotesFragmentImpl extends Fragment
     }
 
     /**
-     * A method which to control view in layout dependence by current mode
+     * A method which to control views element in layout dependence by current mode
      * @param modeToStart a currently mode of view in layout
      */
     private void startMode(Mode modeToStart) {

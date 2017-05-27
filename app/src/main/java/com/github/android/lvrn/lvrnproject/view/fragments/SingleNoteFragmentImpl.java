@@ -60,6 +60,9 @@ public class SingleNoteFragmentImpl extends Fragment {
         return rootView;
     }
 
+    /**
+     * A method which creates new fragment and set arguments with bundle to this fragment
+     */
     @OnClick(R.id.im_btn_information)
     public void startNoteDetailFragment() {
         NoteDetailsFragmentImpl noteDetailsFragment = new NoteDetailsFragmentImpl();
@@ -71,11 +74,18 @@ public class SingleNoteFragmentImpl extends Fragment {
         openSelectFragment(noteDetailsFragment);
     }
 
+    /**
+     * A method which hears when user click on button and goes one fragment below from current
+     */
     @OnClick(R.id.im_btn_arrow_back_single_note)
     public void backToPreviousFragment() {
         getActivity().onBackPressed();
     }
 
+    /**
+     * A method which hears when user click on button and replaces to container defined fragment
+     * and set arguments with bundle to this fragment
+     */
     @OnClick(R.id.tv_tag_single_note)
     public void openTagEditingDialog() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
@@ -88,6 +98,11 @@ public class SingleNoteFragmentImpl extends Fragment {
         dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT);
     }
 
+    /**
+     *   A method which replaces to container defined fragment with transition animation,
+     *   according as which device configuration
+     * @param fragment a fragment what replaces other and
+     */
     public void openSelectFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -115,6 +130,9 @@ public class SingleNoteFragmentImpl extends Fragment {
                 .commit();
     }
 
+    /**
+     * A method which gets data from bundle and set them in defined view element
+     */
     private void getParcelableDataAndSetInView() {
          mSelectNote = getArguments().getParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY);
         if (mSelectNote.getNotebookId().isPresent()) {
@@ -130,7 +148,7 @@ public class SingleNoteFragmentImpl extends Fragment {
     }
 
     /**
-     * A method which set defined view of toolbar
+     * A method which sets defined view of main toolbar
      */
     private void reInitBaseView() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();

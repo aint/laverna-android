@@ -37,18 +37,24 @@ public class NoteDetailsFragmentImpl extends Fragment {
         return rootView;
     }
 
+    /**
+     * A method which hears when user click on button and goes one fragment below from current
+     */
     @OnClick(R.id.im_btn_arrow_back)
     public void backToPreviousFragment() {
         getActivity().onBackPressed();
     }
 
     /**
-     * A method which set defined view of toolbar
+     * A method which sets defined view of main toolbar
      */
     private void reInitBaseView() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 
+    /**
+     * A method which gets data from fragment argument bundles and sets their in defined views
+     */
     private void getParcelableDataAndSetInView() {
         mTextViewUpdateNote.setText(String.valueOf(getArguments().getLong(BundleKeysConst.BUNDLE_NOTE_UPDATED_KEY)));
         mTextViewCreateNote.setText(String.valueOf(getArguments().getLong(BundleKeysConst.BUNDLE_NOTE_CREATED_KEY)));

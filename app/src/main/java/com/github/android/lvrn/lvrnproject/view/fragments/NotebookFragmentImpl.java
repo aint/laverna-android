@@ -91,7 +91,7 @@ public class NotebookFragmentImpl extends Fragment implements NotesRecyclerViewA
     }
 
     /**
-     * A method which set defined view of toolbar
+     * A method which sets defined view of main toolbar
      */
     private void reInitBaseView() {
         setHasOptionsMenu(true);

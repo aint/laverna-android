@@ -18,18 +18,19 @@ public interface AllNotesFragmentPresenter {
     int numberEntitiesDownloadItem = 7;
 
     /**
-     * A method which subscribe search view to DB for search user input data
+     * A method which subscribe search view to hears when user input anything with defined
+     * option and send query to DB
      * @param searchView a search view to subscribe.
      */
     void subscribeSearchView(SearchView searchView);
 
     /**
-     * A method which unsubscribe search view to DB
+     * A method which unsubscribe search view to hears when user inputs words
      */
     void unsubscribeSearchView();
 
     /**
-     * A method which implement lazy loading to our list of data
+     * A method which implements lazy loading to our view element from data
      * @param linearLayoutManager a layout manager of current recycler view
      * @param adapter an adapter of current recycler view
      * @param data a data of current recycler view adapter

@@ -10,6 +10,10 @@ import java.util.List;
 
 public interface AllNotesFragment {
 
+    /**
+     * A method which sets data to current recycler view adapter
+     * @param data an data what set to the adapter
+     */
     void setDataInList(List<Note> data);
 
 }
