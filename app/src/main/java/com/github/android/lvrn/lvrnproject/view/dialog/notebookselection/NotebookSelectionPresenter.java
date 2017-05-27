@@ -2,7 +2,9 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookselection;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.github.android.lvrn.lvrnproject.view.adapters.NotebookSelectionRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+
+import java.util.List;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -18,7 +20,7 @@ public interface NotebookSelectionPresenter {
 
     void unsubscribeRecyclerViewForPagination();
 
-    NotebookSelectionRecyclerViewAdapter getAdapter();
+//    NotebookSelectionRecyclerViewAdapter getAdapter();
 
-//    List<Notebook> getNotebooks();
+    List<Notebook> getNotebooksForAdapter();
 }
