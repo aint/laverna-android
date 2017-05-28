@@ -20,7 +20,7 @@ import io.reactivex.subjects.ReplaySubject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
+class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
 
     private NotebookSelectionDialogFragment mNotebookSelectionDialogFragment;
 
@@ -30,7 +30,7 @@ public class NotebookSelectionPresenterImpl implements NotebookSelectionPresente
 
     private List<Notebook> mNotebooks;
 
-    public NotebookSelectionPresenterImpl(NotebookService mNotebookService) {
+    NotebookSelectionPresenterImpl(NotebookService mNotebookService) {
         this.mNotebookService = mNotebookService;
         initPaginationDisposable();
         mNotebookService.openConnection();
@@ -51,11 +51,6 @@ public class NotebookSelectionPresenterImpl implements NotebookSelectionPresente
         initPaginationDisposable();
         recyclerView.addOnScrollListener(
                 new RecyclerViewOnScrollListener(mPaginationParamsReplaySubject));
-    }
-
-    @Override
-    public void unsubscribeRecyclerViewForPagination() {
-
     }
 
     @Override

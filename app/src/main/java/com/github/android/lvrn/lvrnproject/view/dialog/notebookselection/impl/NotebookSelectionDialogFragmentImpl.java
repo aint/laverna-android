@@ -34,34 +34,25 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
     @Inject NotebookService mNotebookService;
 
-    @BindView(R.id.recycler_view_notebook_selection) RecyclerView mNotebookSelectionRecyclerView;
+    @BindView(R.id.recycler_view_notebooks) RecyclerView mNotebooksRecyclerView;
 
     private Parcelable mRecyclerViewState;
 
     private NotebookSelectionPresenter mNotebookSelectionPresenter;
 
-    private NotebookSelectionRecyclerViewAdapter mNotebookSelectionRecyclerViewAdapter;
+    private NotebookSelectionRecyclerViewAdapter mNotebooksRecyclerViewAdapter;
 
     private LinearLayoutManager mLinearLayoutManager;
-
-//    private List<Notebook> mNotebooks;
-
-//    private ReplaySubject<PaginationParams> mPaginationParamsReplaySubject;
 
     private Unbinder mUnbinder;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_fragment_notebooks_list, container, false);
+        View view = inflater.inflate(R.layout.dialog_fragment_notebook_selection, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         LavernaApplication.getsAppComponent().inject(this);
-//        initPaginationDisposable();
+
         mNotebookSelectionPresenter = new NotebookSelectionPresenterImpl(mNotebookService);
 
         setUpNotebookSelectionRecyclerView();
@@ -93,21 +84,25 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         }
     }
 
+    /**
+     * A method which makes set up of a recycler view with notebooks.
+     */
     private void setUpNotebookSelectionRecyclerView() {
-        mNotebookSelectionRecyclerView.setHasFixedSize(true);
+        mNotebooksRecyclerView.setHasFixedSize(true);
 
         mLinearLayoutManager = new LinearLayoutManager(getContext());
-        mNotebookSelectionRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mNotebooksRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mNotebookSelectionRecyclerViewAdapter = new NotebookSelectionRecyclerViewAdapter(
+        mNotebooksRecyclerViewAdapter = new NotebookSelectionRecyclerViewAdapter(
                 mNotebookSelectionPresenter.getNotebooksForAdapter());
+        mNotebooksRecyclerView.setAdapter(mNotebooksRecyclerViewAdapter);
 
-        mNotebookSelectionRecyclerView.setAdapter(mNotebookSelectionRecyclerViewAdapter);
+        mNotebookSelectionPresenter.subscribeRecyclerViewForPagination(mNotebooksRecyclerView);
     }
 
     @Override
     public void updateRecyclerView() {
-        mNotebookSelectionRecyclerViewAdapter.notifyDataSetChanged();
+        mNotebooksRecyclerViewAdapter.notifyDataSetChanged();
         Logger.d("Recycler view is updated");
     }
 
