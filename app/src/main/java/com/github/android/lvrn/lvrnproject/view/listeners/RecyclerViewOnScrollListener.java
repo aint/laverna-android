@@ -65,14 +65,14 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
 
         public int offset;
 
-        public PaginationParams(@Size(min = 1) int limit, @Size(min = 2) int offset) {
+        public PaginationParams(@Size(min = 0) int limit, @Size(min = 1) int offset) {
             this.limit = limit;
             this.offset = offset;
         }
 
         public PaginationParams() {
             limit = 15;
-            offset = 1;
+            offset = 0;
         }
 
         @Override

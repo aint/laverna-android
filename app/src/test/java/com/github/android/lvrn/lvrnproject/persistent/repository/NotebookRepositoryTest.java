@@ -108,7 +108,7 @@ public class NotebookRepositoryTest {
         assertThat(notebookRepository.add(notebook3)).isFalse();
 
         List<Notebook> notebookEntities1 = notebookRepository
-                .getByProfile(profile.getId(), 1, 3);
+                .getByProfile(profile.getId(), 0, 3);
 
         assertThat(notebookEntities1.size()).isNotEqualTo(notebooks.size());
         assertThat(notebookEntities1.size()).isEqualTo(notebooks.size() - 1);
@@ -145,11 +145,11 @@ public class NotebookRepositoryTest {
         notebook2.setName("notebook2");
         notebookRepository.add(notebook2);
 
-        List<Notebook> result1 = notebookRepository.getByName(profile.getId(), "notebook", 1, 5);
+        List<Notebook> result1 = notebookRepository.getByName(profile.getId(), "notebook", 0, 5);
 
         assertThat(result1).hasSize(2);
 
-        List<Notebook> result2 = notebookRepository.getByName(profile.getId(), "notebook_n", 1, 5);
+        List<Notebook> result2 = notebookRepository.getByName(profile.getId(), "notebook_n", 0, 5);
 
         assertThat(result2).hasSize(1);
     }
@@ -164,7 +164,7 @@ public class NotebookRepositoryTest {
         notebookRepository.add(notebook2);
         notebookRepository.add(notebook3);
 
-        assertThat(notebookRepository.getChildren(notebook1.getId(), 1, 10)).hasSize(2);
+        assertThat(notebookRepository.getChildren(notebook1.getId(), 0, 10)).hasSize(2);
     }
 
     @Test
@@ -174,7 +174,7 @@ public class NotebookRepositoryTest {
         notebookRepository.add(notebook3);
         notebook3.setProfileId(profile.getId());
 
-        assertThat(notebookRepository.getRootParents(profile.getId(), 1, 10)).hasSize(1);
+        assertThat(notebookRepository.getRootParents(profile.getId(), 0, 10)).hasSize(1);
     }
 
     @After

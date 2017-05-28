@@ -142,7 +142,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @param noteId an id on a note.
      */
     private void createTagAndAddToNote(String profileId, String tagName, String noteId) {
-        List<Tag> tags = mTagService.getByName(profileId, tagName, 1, 1);
+        List<Tag> tags = mTagService.getByName(profileId, tagName, 0, 1);
         if (tags.size() != 0) {
             mNoteRepository.addTagToNote(noteId, tags.get(0).getId());
             return;
