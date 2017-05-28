@@ -62,24 +62,24 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
 
     @NonNull
     @Override
-    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, int from, int amount) {
-        return super.getByName(COLUMN_NAME, profileId, name, from, amount);
+    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, int offset, int limit) {
+        return super.getByName(COLUMN_NAME, profileId, name, offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getChildren(@NonNull String notebookId, @Size(min = 1) int from, @Size(min = 2) int amount) {
-        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, from, amount);
+    public List<Notebook> getChildren(@NonNull String notebookId, @Size(min = 1) int offset, @Size(min = 2) int limit) {
+        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getRootParents(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount) {
+    public List<Notebook> getRootParents(@NonNull String profileId, @Size(min = 1) int offset, @Size(min = 2) int limit) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + "='" + profileId + "'"
                 + " AND " + COLUMN_PARENT_ID + " IS NULL"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
+                + " LIMIT " + limit
+                + " OFFSET " + (offset - 1);
         System.out.println(query);
         return super.getByRawQuery(query);
     }

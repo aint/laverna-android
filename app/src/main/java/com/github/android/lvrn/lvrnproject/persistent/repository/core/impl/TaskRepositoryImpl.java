@@ -52,12 +52,12 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
 
     @NonNull
     @Override
-    public List<Task> getUncompletedByProfile(@NonNull String profileId, int from, int amount) {
+    public List<Task> getUncompletedByProfile(@NonNull String profileId, int offset, int limit) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "' AND "
                 + COLUMN_IS_COMPLETED + " = 0"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
+                + " LIMIT " + limit
+                + " OFFSET " + (offset - 1);
         return getByRawQuery(query);
     }
 

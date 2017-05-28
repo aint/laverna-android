@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 
@@ -15,12 +16,12 @@ public interface ProfileDependedRepository<T extends ProfileDependedEntity> exte
     /**
      * A method which retrieves an amount of entities from required position by a profile id.
      * @param profileId an id of required profile.
-     * @param from a start position of selection.
-     * @param amount a number of entities to select.
+     * @param offset a start position of selection.
+     * @param limit a number of entities to select.
      * @return a list of entities.
      */
     @NonNull
-    List<T> getByProfile(@NonNull String profileId, int from, int amount);
+    List<T> getByProfile(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit);
 
     /**
      * A method which updates certain fields of entity in a database.
