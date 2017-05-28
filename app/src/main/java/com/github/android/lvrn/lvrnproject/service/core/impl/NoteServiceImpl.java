@@ -68,20 +68,20 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int from, int amount) {
-        return mNoteRepository.getByTitle(profileId, title, from, amount);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int offset, int limit) {
+        return mNoteRepository.getByTitle(profileId, title, offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Note> getByNotebook(@NonNull String notebookId, int from, int amount) {
-        return mNoteRepository.getByNotebook(notebookId, from, amount);
+    public List<Note> getByNotebook(@NonNull String notebookId, int offset, int limit) {
+        return mNoteRepository.getByNotebook(notebookId, offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, int from, int amount) {
-        return mNoteRepository.getByTag(tagId, from, amount);
+    public List<Note> getByTag(@NonNull String tagId, int offset, int limit) {
+        return mNoteRepository.getByTag(tagId, offset, limit);
     }
 
     @Override

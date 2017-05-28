@@ -46,8 +46,8 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
 
     @NonNull
     @Override
-    public List<Task> getUncompletedByProfile(@NonNull String profileId, int from, int amount) {
-        return mTaskRepository.getUncompletedByProfile(profileId, from, amount);
+    public List<Task> getUncompletedByProfile(@NonNull String profileId, int offset, int limit) {
+        return mTaskRepository.getUncompletedByProfile(profileId, offset, limit);
     }
 
     @NonNull
