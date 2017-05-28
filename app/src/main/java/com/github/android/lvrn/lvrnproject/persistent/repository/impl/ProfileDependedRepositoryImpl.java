@@ -44,7 +44,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
         String query = "SELECT * FROM " + super.mTableName
                 + " WHERE " + columnName + " = '" + id + "'"
                 + " LIMIT " + limit
-                + " OFFSET " + (offset - 1);
+                + " OFFSET " + offset;
         return getByRawQuery(query);
     }
 
@@ -62,7 +62,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "'"
                 + " AND " + columnName + " LIKE '%" + name + "%'"
                 + " LIMIT " + limit
-                + " OFFSET " + (offset - 1);
+                + " OFFSET " + offset;
         return getByRawQuery(query);
     }
 

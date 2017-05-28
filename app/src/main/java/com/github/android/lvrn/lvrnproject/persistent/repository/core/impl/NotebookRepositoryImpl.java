@@ -79,7 +79,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
                 + " WHERE " + COLUMN_PROFILE_ID + "='" + profileId + "'"
                 + " AND " + COLUMN_PARENT_ID + " IS NULL"
                 + " LIMIT " + limit
-                + " OFFSET " + (offset - 1);
+                + " OFFSET " + offset;
         System.out.println(query);
         return super.getByRawQuery(query);
     }

@@ -129,7 +129,7 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
                 + "='" + tagId + "'"
                 + " LIMIT " + limit
-                + " OFFSET " + (offset - 1);
+                + " OFFSET " + offset;
         return getByRawQuery(query);
     }
 

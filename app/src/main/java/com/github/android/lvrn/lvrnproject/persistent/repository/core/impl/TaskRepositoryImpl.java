@@ -57,7 +57,7 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "' AND "
                 + COLUMN_IS_COMPLETED + " = 0"
                 + " LIMIT " + limit
-                + " OFFSET " + (offset - 1);
+                + " OFFSET " + offset;
         return getByRawQuery(query);
     }
 
