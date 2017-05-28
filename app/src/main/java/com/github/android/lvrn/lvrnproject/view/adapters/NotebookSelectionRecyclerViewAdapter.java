@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 
 import java.util.List;
 
@@ -19,9 +20,13 @@ import butterknife.ButterKnife;
  */
 
 public class NotebookSelectionRecyclerViewAdapter extends RecyclerView.Adapter<NotebookSelectionRecyclerViewAdapter.ViewHolder> {
+
+    private NotebookSelectionDialogFragmentImpl mNotebookSelectionDialogFragment;
+
     private List<Notebook> mNotebooks;
 
-    public NotebookSelectionRecyclerViewAdapter(List<Notebook> notebooks) {
+    public NotebookSelectionRecyclerViewAdapter(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment, List<Notebook> notebooks) {
+        mNotebookSelectionDialogFragment = notebookSelectionDialogFragment;
         mNotebooks = notebooks;
     }
 
@@ -37,6 +42,9 @@ public class NotebookSelectionRecyclerViewAdapter extends RecyclerView.Adapter<N
     public void onBindViewHolder(ViewHolder holder, int position) {
         String notebookName = mNotebooks.get(position).getName();
         holder.mNotebookNameTextView.setText(notebookName);
+
+        holder.itemView.setOnClickListener(v -> mNotebookSelectionDialogFragment
+                .setSelectedNotebook(mNotebooks.get(position)));
     }
 
     @Override

@@ -86,4 +86,10 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
                     throw new RuntimeException();
                 });
     }
+
+    @Override
+    public void setNotebookId(String notebookId) {
+        mNotebookId = notebookId;
+        System.out.println(notebookId);
+    }
 }

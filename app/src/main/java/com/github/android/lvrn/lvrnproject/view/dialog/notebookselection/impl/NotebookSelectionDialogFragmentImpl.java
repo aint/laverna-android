@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
+import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapters.NotebookSelectionRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
@@ -31,6 +33,7 @@ import butterknife.Unbinder;
 public class NotebookSelectionDialogFragmentImpl extends DialogFragment implements NotebookSelectionDialogFragment {
 
     public static final String RECYCLER_VIEW_STATE = "recycler_view_state";
+    public static final String DIALOG_TITLE = "Notebooks";
 
     @Inject NotebookService mNotebookService;
 
@@ -47,6 +50,12 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     private Unbinder mUnbinder;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Light_Dialog);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_fragment_notebook_selection, container, false);
@@ -56,6 +65,8 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         mNotebookSelectionPresenter = new NotebookSelectionPresenterImpl(mNotebookService);
 
         setUpNotebookSelectionRecyclerView();
+
+        getDialog().setTitle(DIALOG_TITLE);
 
         return view;
     }
@@ -84,6 +95,31 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         }
     }
 
+    @Override
+    public void updateRecyclerView() {
+        mNotebooksRecyclerViewAdapter.notifyDataSetChanged();
+        Logger.d("Recycler view is updated");
+    }
+
+    @Override
+    public void setSelectedNotebook(Notebook notebook) {
+        ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(notebook);
+        getDialog().dismiss();
+    }
+
+    @Override
+    public void onStop() {
+        mNotebookService.closeConnection();
+        mNotebookSelectionPresenter.unbindView();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        mUnbinder.unbind();
+        super.onDestroyView();
+    }
+
     /**
      * A method which makes set up of a recycler view with notebooks.
      */
@@ -94,28 +130,10 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         mNotebooksRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         mNotebooksRecyclerViewAdapter = new NotebookSelectionRecyclerViewAdapter(
-                mNotebookSelectionPresenter.getNotebooksForAdapter());
+                this, mNotebookSelectionPresenter.getNotebooksForAdapter());
+
         mNotebooksRecyclerView.setAdapter(mNotebooksRecyclerViewAdapter);
 
         mNotebookSelectionPresenter.subscribeRecyclerViewForPagination(mNotebooksRecyclerView);
-    }
-
-    @Override
-    public void updateRecyclerView() {
-        mNotebooksRecyclerViewAdapter.notifyDataSetChanged();
-        Logger.d("Recycler view is updated");
-    }
-
-    @Override
-    public void onStop() {
-        mNotebookSelectionPresenter.unbindView();
-        mNotebookService.closeConnection();
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        mUnbinder.unbind();
-        super.onDestroyView();
     }
 }

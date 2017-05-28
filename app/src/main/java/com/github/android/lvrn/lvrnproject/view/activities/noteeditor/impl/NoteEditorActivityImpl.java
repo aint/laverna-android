@@ -15,6 +15,7 @@ import android.widget.TabHost;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activities.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorActivity;
@@ -127,11 +128,14 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         return false;
     }
 
+    public void setNoteNotebooks(Notebook notebook) {
+        //TODO: send notebook id to its presenter, and name of notebook to UI
+        mNoteEditorPresenter.setNotebookId(notebook.getId());
+    }
+
+
     private void openNotebooksSelectionDialog() {
         NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
-//        Bundle args = new Bundle();
-//        args.putString("title", "Notebooks");
-//        notebookSelectionDialogFragment.setArguments(args);
         notebookSelectionDialogFragment.show(getSupportFragmentManager(), "notebook_selection_tag");
     }
 

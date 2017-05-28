@@ -33,4 +33,6 @@ public interface NoteEditorPresenter {
      * A method which saves new note.
      */
     void saveNewNote(/*String notebookId, */String title, String content, String htmlContent);
+
+    void setNotebookId(String notebookId);
 }
