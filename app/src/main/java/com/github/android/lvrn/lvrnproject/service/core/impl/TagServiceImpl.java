@@ -50,8 +50,8 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
 
     @NonNull
     @Override
-    public List<Tag> getByName(@NonNull String profileId, @NonNull String name, int from, int amount) {
-        return mTagRepository.getByName(profileId, name, from, amount);
+    public List<Tag> getByName(@NonNull String profileId, @NonNull String name, int offset, int limit) {
+        return mTagRepository.getByName(profileId, name, offset, limit);
     }
 
     @NonNull

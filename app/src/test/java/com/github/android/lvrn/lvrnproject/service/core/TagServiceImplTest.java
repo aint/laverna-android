@@ -56,7 +56,7 @@ public class TagServiceImplTest {
     public void serviceShouldGetEntityByName() {
         assertThat(tagService.create(new TagForm(profile.getId(), "#simple_tag")).isPresent())
                 .isTrue();
-        assertThat(tagService.getByName(profile.getId(), "tag", 1 ,1)).hasSize(1);
+        assertThat(tagService.getByName(profile.getId(), "tag", 0 ,1)).hasSize(1);
     }
 
     @After

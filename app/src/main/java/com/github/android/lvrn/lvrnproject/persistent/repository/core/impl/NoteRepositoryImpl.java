@@ -108,19 +108,19 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int from, int amount) {
-        return super.getByName(COLUMN_TITLE, profileId, title, from, amount);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int offset, int limit) {
+        return super.getByName(COLUMN_TITLE, profileId, title, offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Note> getByNotebook(@NonNull String notebookId, int from, int amount) {
-        return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, from, amount);
+    public List<Note> getByNotebook(@NonNull String notebookId, int offset, int limit) {
+        return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, int from, int amount) {
+    public List<Note> getByTag(@NonNull String tagId, int offset, int limit) {
         String query = "SELECT *"
                 + " FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
@@ -128,8 +128,8 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
                 + "=" + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
                 + "='" + tagId + "'"
-                + " LIMIT " + amount
-                + " OFFSET " + (from - 1);
+                + " LIMIT " + limit
+                + " OFFSET " + offset;
         return getByRawQuery(query);
     }
 

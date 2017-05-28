@@ -68,20 +68,20 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int from, int amount) {
-        return mNoteRepository.getByTitle(profileId, title, from, amount);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int offset, int limit) {
+        return mNoteRepository.getByTitle(profileId, title, offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Note> getByNotebook(@NonNull String notebookId, int from, int amount) {
-        return mNoteRepository.getByNotebook(notebookId, from, amount);
+    public List<Note> getByNotebook(@NonNull String notebookId, int offset, int limit) {
+        return mNoteRepository.getByNotebook(notebookId, offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, int from, int amount) {
-        return mNoteRepository.getByTag(tagId, from, amount);
+    public List<Note> getByTag(@NonNull String tagId, int offset, int limit) {
+        return mNoteRepository.getByTag(tagId, offset, limit);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @param noteId an id on a note.
      */
     private void createTagAndAddToNote(String profileId, String tagName, String noteId) {
-        List<Tag> tags = mTagService.getByName(profileId, tagName, 1, 1);
+        List<Tag> tags = mTagService.getByName(profileId, tagName, 0, 1);
         if (tags.size() != 0) {
             mNoteRepository.addTagToNote(noteId, tags.get(0).getId());
             return;

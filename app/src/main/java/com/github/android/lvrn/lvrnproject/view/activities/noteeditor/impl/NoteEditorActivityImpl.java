@@ -15,10 +15,12 @@ import android.widget.TabHost;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activities.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorPresenter;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 
 import javax.inject.Inject;
 
@@ -110,14 +112,6 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        //TODO: check thos method.
-        this.startActivity(new Intent(this, MainActivityImpl.class));
-        this.finish();
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.item_done) {
@@ -126,12 +120,23 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
                     mEditorEditText.getText().toString(),
                     mHtmlText);
             return true;
-        }
+        } else
         if (itemId == R.id.item_notebook) {
-            //TODO: open dialog with notebooks.
+            openNotebooksSelectionDialog();
             return true;
         }
-        return true;
+        return false;
+    }
+
+    public void setNoteNotebooks(Notebook notebook) {
+        //TODO: send notebook id to its presenter, and name of notebook to UI
+        mNoteEditorPresenter.setNotebookId(notebook.getId());
+    }
+
+
+    private void openNotebooksSelectionDialog() {
+        NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
+        notebookSelectionDialogFragment.show(getSupportFragmentManager(), "notebook_selection_tag");
     }
 
     private void setUpToolbar() {
@@ -139,6 +144,10 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mainToolbar.setNavigationOnClickListener(v -> {
+            this.startActivity(new Intent(this, MainActivityImpl.class));
+            this.finish();
+        });
     }
 
     /**
@@ -178,6 +187,9 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         tabHost.setOnTabChangedListener(tabId -> hideSoftKeyboard());
     }
 
+    /**
+     * A method which hides a soft keyboard when tabs are switched.
+     */
     private void hideSoftKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {

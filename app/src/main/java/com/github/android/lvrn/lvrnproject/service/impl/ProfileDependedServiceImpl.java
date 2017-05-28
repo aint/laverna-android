@@ -31,8 +31,8 @@ public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntit
 
     @NonNull
     @Override
-    public List<T1> getByProfile(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount) {
-        return mProfileDependedRepository.getByProfile(profileId, from, amount);
+    public List<T1> getByProfile(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit) {
+        return mProfileDependedRepository.getByProfile(profileId, offset, limit);
     }
 
     /**

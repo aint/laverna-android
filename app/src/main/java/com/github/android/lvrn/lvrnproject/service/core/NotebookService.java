@@ -18,10 +18,10 @@ public interface NotebookService extends ProfileDependedService<Notebook, Notebo
     /**
      * A method which retrieves an amount of entities from a start position by a name.
      * @param name a required name.
-     * @param from a start position.
-     * @param amount a number of entities to retrieve.
+     * @param offset a start position.
+     * @param limit a number of entities to retrieve.
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 0) int offset, @Size(min = 1) int limit);
 }

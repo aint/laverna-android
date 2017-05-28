@@ -110,7 +110,7 @@ public class TaskRepositoryTest {
         taskRepository.add(task3);
 
         List<Task> taskEntities1 = taskRepository
-                .getByProfile(profile.getId(), 1, 3);
+                .getByProfile(profile.getId(), 0, 3);
 
         assertThat(taskEntities1.size()).isNotEqualTo(tasks.size());
         assertThat(taskEntities1.size()).isEqualTo(tasks.size() - 1);
@@ -126,7 +126,7 @@ public class TaskRepositoryTest {
         taskRepository.add(task3);
 
         List<Task> taskEntities1 = taskRepository
-                .getUncompletedByProfile(profile.getId(), 1, 3);
+                .getUncompletedByProfile(profile.getId(), 0, 3);
 
         assertThat(taskEntities1.size()).isNotEqualTo(tasks.size());
         assertThat(taskEntities1.size()).isEqualTo(tasks.size() - 2);

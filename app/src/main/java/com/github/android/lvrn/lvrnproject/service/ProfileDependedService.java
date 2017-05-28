@@ -17,12 +17,12 @@ public interface ProfileDependedService<T1 extends ProfileDependedEntity, T2 ext
     /**
      * A method which returns an amount of entities from a start position by a profile id.
      * @param profileId an id of a profile.
-     * @param from a start position.
-     * @param amount a number of entities.
+     * @param offset a start position.
+     * @param limit a number of entities.
      * @return a list of entities.
      */
     @NonNull
-    List<T1> getByProfile(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<T1> getByProfile(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit);
 
     /**
      * A method which updates an entity.

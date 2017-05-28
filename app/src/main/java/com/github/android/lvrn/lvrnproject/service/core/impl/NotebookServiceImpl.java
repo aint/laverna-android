@@ -44,8 +44,8 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
 
     @NonNull
     @Override
-    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, int from, int amount) {
-        return mNotebookRepository.getByName(profileId, name, from, amount);
+    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, int offset, int limit) {
+        return mNotebookRepository.getByName(profileId, name, offset, limit);
     }
 
     @Override

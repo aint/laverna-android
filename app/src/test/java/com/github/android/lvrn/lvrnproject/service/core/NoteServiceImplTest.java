@@ -162,7 +162,7 @@ public class NoteServiceImplTest {
                 .isPresent())
                 .isTrue();
 
-        assertThat(noteService.getByTitle(profile.getId(), "note", 1, 100)).hasSize(1);
+        assertThat(noteService.getByTitle(profile.getId(), "note", 0, 100)).hasSize(1);
     }
 
     @Test
@@ -174,7 +174,7 @@ public class NoteServiceImplTest {
         assertThat(notebookIdOptional.isPresent()).isTrue();
         noteService.create(new NoteForm(profile.getId(), notebookIdOptional.get(), "new note", "yeah", "yeah", false));
 
-        assertThat(noteService.getByNotebook(notebookIdOptional.get(), 1, 100)).hasSize(1);
+        assertThat(noteService.getByNotebook(notebookIdOptional.get(), 0, 100)).hasSize(1);
     }
 
     @Test
@@ -187,7 +187,7 @@ public class NoteServiceImplTest {
 
         noteService.create(new NoteForm(profile.getId(), null, "new note", "#simple_tag", "#simple_tag", false));
 
-        assertThat(noteService.getByTag(tagIdOptional.get(), 1, 100)).hasSize(1);
+        assertThat(noteService.getByTag(tagIdOptional.get(), 0, 100)).hasSize(1);
 
         tagService.closeConnection();
     }

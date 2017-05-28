@@ -18,30 +18,30 @@ public interface NotebookRepository extends ProfileDependedRepository<Notebook> 
      * A method which retrieves an amount of entities from a start position by a name.
      * @param profileId an id of profile.
      * @param name a required name.
-     * @param from a start position.
-     * @param amount a number of entities to retrieve.
+     * @param offset a start position.
+     * @param limit a number of entities to retrieve.
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 0) int offset, @Size(min = 1) int limit);
 
     /**
      * A method which retrieves an amount of entities from a start position by a parent notebook's id.
      * @param notebookId an id of a parent notebook.
-     * @param from a start position.
-     * @param amount a number of entities to retrieve.
+     * @param offset a start position.
+     * @param limit a number of entities to retrieve.
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getChildren(@NonNull String notebookId, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Notebook> getChildren(@NonNull String notebookId, @Size(min = 0) int offset, @Size(min = 1) int limit);
 
     /**
      * A method which retrieves an amount of entities from a start position which are root parents (has no parent).
      * @param profileId an id of profile.
-     * @param from a start position.
-     * @param amount a number of entities to retrieve.
+     * @param offset a start position.
+     * @param limit a number of entities to retrieve.
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getRootParents(@NonNull String profileId, @Size(min = 1) int from, @Size(min = 2) int amount);
+    List<Notebook> getRootParents(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit);
 }

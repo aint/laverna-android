@@ -108,7 +108,7 @@ public class TagsRepositoryTest {
         tagRepository.add(tag3);
 
         List<Tag> tagEntities1 = tagRepository
-                .getByProfile(profile.getId(), 1, 3);
+                .getByProfile(profile.getId(), 0, 3);
 
         assertThat(tagEntities1.size()).isNotEqualTo(tags.size());
         assertThat(tagEntities1.size()).isEqualTo(tags.size() - 1);
@@ -168,11 +168,11 @@ public class TagsRepositoryTest {
         tag2.setName("name2");
         tagRepository.add(tag2);
 
-        List<Tag> result1 = tagRepository.getByName(profile.getId(), "name", 1, 5);
+        List<Tag> result1 = tagRepository.getByName(profile.getId(), "name", 0, 5);
 
         assertThat(result1).hasSize(2);
 
-        List<Tag> result2 = tagRepository.getByName(profile.getId(), "name_1", 1, 5);
+        List<Tag> result2 = tagRepository.getByName(profile.getId(), "name_1", 0, 5);
 
         assertThat(result2).hasSize(1);
     }
