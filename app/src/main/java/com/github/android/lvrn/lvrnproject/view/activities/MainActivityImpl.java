@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.fragments.NotebookFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.TaskFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragments.TrashFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.impl.AllNotesFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
@@ -72,9 +73,12 @@ public class MainActivityImpl extends AppCompatActivity
             menuStartSelectFragment(notebookFragment, TagFragmentConst.TAG_NOTEBOOK_FRAGMENT);
         } else if (R.id.nav_item_all_notes == id) {
             startAllNotesFragment();
-        } else if (R.id.nav_item_open_tasks == id){
+        } else if (R.id.nav_item_open_tasks == id) {
             TaskFragmentImpl taskFragment = new TaskFragmentImpl();
-            menuStartSelectFragment(taskFragment,TagFragmentConst.TAG_TASK_FRAGMENT);
+            menuStartSelectFragment(taskFragment, TagFragmentConst.TAG_TASK_FRAGMENT);
+        } else if (R.id.nav_item_trash == id) {
+            TrashFragmentImpl trashFragment = new TrashFragmentImpl();
+            menuStartSelectFragment(trashFragment,TagFragmentConst.TAG_TRASH_FRAGMENT);
         }
             mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
