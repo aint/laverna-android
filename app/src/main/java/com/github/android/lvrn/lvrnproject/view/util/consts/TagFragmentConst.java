@@ -12,5 +12,6 @@ public final class TagFragmentConst {
     public static final String TAG_ALL_NOTES_FRAGMENT = "AllNotesFragmentImpl";
     public static final String TAG_NOTEBOOK_FRAGMENT = "NotebookFragmentImpl";
     public static final String TAG_TASK_FRAGMENT = "TaskFragmentImpl";
+    public static final String TAG_TRASH_FRAGMENT = "TrashFragmentImpl";
 
 }
