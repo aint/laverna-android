@@ -18,6 +18,7 @@ import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import java.util.List;
@@ -68,20 +69,20 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int offset, int limit) {
-        return mNoteRepository.getByTitle(profileId, title, offset, limit);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, boolean isTrash, PaginationArgs paginationArgs) {
+        return mNoteRepository.getByTitle(profileId, title, isTrash, paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByNotebook(@NonNull String notebookId, int offset, int limit) {
-        return mNoteRepository.getByNotebook(notebookId, offset, limit);
+    public List<Note> getByNotebook(@NonNull String notebookId, boolean isTrash, PaginationArgs paginationArgs) {
+        return mNoteRepository.getByNotebook(notebookId, isTrash, paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, int offset, int limit) {
-        return mNoteRepository.getByTag(tagId, offset, limit);
+    public List<Note> getByTag(@NonNull String tagId, boolean isTrash, PaginationArgs paginationArgs) {
+        return mNoteRepository.getByTag(tagId, isTrash, paginationArgs);
     }
 
     @Override
@@ -142,7 +143,7 @@ public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> 
      * @param noteId an id on a note.
      */
     private void createTagAndAddToNote(String profileId, String tagName, String noteId) {
-        List<Tag> tags = mTagService.getByName(profileId, tagName, 0, 1);
+        List<Tag> tags = mTagService.getByName(profileId, tagName, new PaginationArgs(0, 1));
         if (tags.size() != 0) {
             mNoteRepository.addTagToNote(noteId, tags.get(0).getId());
             return;

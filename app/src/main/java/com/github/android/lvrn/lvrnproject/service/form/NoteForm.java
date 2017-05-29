@@ -10,7 +10,7 @@ import com.google.common.base.Optional;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteForm extends ProfileDependedForm<Note> {
+public class NoteForm extends TrashDependedForm<Note> {
 
     private String notebookId;
 
@@ -25,8 +25,14 @@ public class NoteForm extends ProfileDependedForm<Note> {
 
     private boolean isFavorite;
 
-    public NoteForm(String profileId, String notebookId, @NonNull String title, @NonNull String content, @NonNull String htmlContent, boolean isFavorite) {
-        super(profileId);
+    public NoteForm(@NonNull String profileId,
+                    boolean isTrash,
+                    String notebookId,
+                    @NonNull String title,
+                    @NonNull String content,
+                    @NonNull String htmlContent,
+                    boolean isFavorite) {
+        super(profileId, isTrash);
         this.notebookId = notebookId;
         this.title = title;
         this.content = content;
@@ -46,7 +52,8 @@ public class NoteForm extends ProfileDependedForm<Note> {
                 System.currentTimeMillis(),
                 content,
                 htmlContent,
-                isFavorite);
+                isFavorite,
+                isTrash);
     }
 
     public String getNotebookId() {
@@ -90,5 +97,13 @@ public class NoteForm extends ProfileDependedForm<Note> {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public boolean isTrash() {
+        return isTrash;
+    }
+
+    public void setTrash(boolean trash) {
+        isTrash = trash;
     }
 }

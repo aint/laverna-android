@@ -2,13 +2,13 @@ package com.github.android.lvrn.lvrnproject.service.impl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
-import com.github.android.lvrn.lvrnproject.service.form.Form;
+import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntity, T2 extends Form>
+public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm>
         extends BasicServiceImpl<T1, T2> implements ProfileDependedService<T1, T2> {
 
     private final ProfileDependedRepository<T1> mProfileDependedRepository;
@@ -31,8 +31,8 @@ public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntit
 
     @NonNull
     @Override
-    public List<T1> getByProfile(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit) {
-        return mProfileDependedRepository.getByProfile(profileId, offset, limit);
+    public List<T1> getByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
+        return mProfileDependedRepository.getByProfile(profileId, paginationArgs);
     }
 
     /**

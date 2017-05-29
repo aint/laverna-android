@@ -9,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.core.TaskService;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import java.util.List;
@@ -46,8 +47,8 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
 
     @NonNull
     @Override
-    public List<Task> getUncompletedByProfile(@NonNull String profileId, int offset, int limit) {
-        return mTaskRepository.getUncompletedByProfile(profileId, offset, limit);
+    public List<Task> getUncompletedByProfile(@NonNull String profileId, PaginationArgs paginationArgs) {
+        return mTaskRepository.getUncompletedByProfile(profileId, paginationArgs);
     }
 
     @NonNull

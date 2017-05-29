@@ -1,10 +1,10 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TrashDependedRepository;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
      * @return a list of entities.
      */
     @NonNull
-    List<Note> getByTitle(@NonNull String profileId, @NonNull String title, boolean isTrash, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Note> getByTitle(@NonNull String profileId, @NonNull String title, boolean isTrash, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position by a notebook id.
@@ -48,7 +48,7 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
      * @return a list of entities.
      */
     @NonNull
-    List<Note> getByNotebook(@NonNull String notebookId, boolean isTrash, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Note> getByNotebook(@NonNull String notebookId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position by a tag id.
@@ -58,5 +58,5 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
      * @return a list of entities.
      */
     @NonNull
-    List<Note> getByTag(@NonNull String tagId, boolean isTrash, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Note> getByTag(@NonNull String tagId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
 }

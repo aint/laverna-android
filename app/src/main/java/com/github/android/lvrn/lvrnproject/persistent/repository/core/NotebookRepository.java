@@ -1,10 +1,10 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TrashDependedRepository;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface NotebookRepository extends TrashDependedRepository<Notebook> {
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position by a parent notebook's id.
@@ -33,7 +33,7 @@ public interface NotebookRepository extends TrashDependedRepository<Notebook> {
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getChildren(@NonNull String notebookId, boolean isTrash, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Notebook> getChildren(@NonNull String notebookId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position which are root parents (has no parent).
@@ -43,5 +43,5 @@ public interface NotebookRepository extends TrashDependedRepository<Notebook> {
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getRootParents(@NonNull String profileId, boolean isTrash, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Notebook> getRootParents(@NonNull String profileId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
 }

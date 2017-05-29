@@ -1,10 +1,10 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface TaskRepository extends ProfileDependedRepository<Task> {
      * @return a list of entities.
      */
     @NonNull
-    List<Task> getUncompletedByProfile(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Task> getUncompletedByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves entities by a note id.

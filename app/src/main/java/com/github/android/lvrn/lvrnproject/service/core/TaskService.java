@@ -6,6 +6,7 @@ import android.support.annotation.Size;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface TaskService extends ProfileDependedService<Task, TaskForm> {
      * @return a list of entities.
      */
     @NonNull
-    List<Task> getUncompletedByProfile(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Task> getUncompletedByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves entities by a note id.

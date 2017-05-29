@@ -3,12 +3,12 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.core.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TrashDependedRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import java.util.List;
@@ -66,25 +66,25 @@ public class NotebookRepositoryImpl extends TrashDependedRepositoryImpl<Notebook
 
     @NonNull
     @Override
-    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, int offset, int limit) {
-        return super.getByName(COLUMN_NAME, profileId, name, getTrashClause(isTrash), offset, limit);
+    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
+        return super.getByName(COLUMN_NAME, profileId, name, getTrashClause(isTrash), paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getChildren(@NonNull String notebookId, boolean isTrash, @Size(min = 1) int offset, @Size(min = 2) int limit) {
-        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, getTrashClause(isTrash), offset, limit);
+    public List<Notebook> getChildren(@NonNull String notebookId, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
+        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, getTrashClause(isTrash), paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getRootParents(@NonNull String profileId, boolean isTrash, @Size(min = 1) int offset, @Size(min = 2) int limit) {
+    public List<Notebook> getRootParents(@NonNull String profileId, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + "='" + profileId + "'"
                 + " AND " + COLUMN_PARENT_ID + " IS NULL"
                 + getTrashClause(isTrash)
-                + " LIMIT " + limit
-                + " OFFSET " + offset;
+                + " LIMIT " + paginationArgs.limit
+                + " OFFSET " + paginationArgs.offset;
         System.out.println(query);
         return super.getByRawQuery(query);
     }

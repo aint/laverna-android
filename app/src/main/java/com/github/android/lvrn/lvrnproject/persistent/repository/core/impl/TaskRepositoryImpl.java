@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TaskRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -52,12 +53,12 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
 
     @NonNull
     @Override
-    public List<Task> getUncompletedByProfile(@NonNull String profileId, int offset, int limit) {
+    public List<Task> getUncompletedByProfile(@NonNull String profileId, PaginationArgs paginationArgs) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "' AND "
                 + COLUMN_IS_COMPLETED + " = 0"
-                + " LIMIT " + limit
-                + " OFFSET " + offset;
+                + " LIMIT " + paginationArgs.limit
+                + " OFFSET " + paginationArgs.offset;
         return getByRawQuery(query);
     }
 

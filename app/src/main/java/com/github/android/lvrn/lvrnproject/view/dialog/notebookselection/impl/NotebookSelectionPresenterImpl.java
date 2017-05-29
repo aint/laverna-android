@@ -7,7 +7,7 @@ import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
 import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener;
-import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener.PaginationParams;
+import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 
 import java.util.List;
@@ -26,7 +26,7 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
 
     private NotebookService mNotebookService;
 
-    private ReplaySubject<PaginationParams> mPaginationParamsReplaySubject;
+    private ReplaySubject<PaginationArgs> mPaginationArgsReplaySubject;
 
     private List<Notebook> mNotebooks;
 
@@ -50,19 +50,19 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
     public void subscribeRecyclerViewForPagination(RecyclerView recyclerView) {
         initPaginationDisposable();
         recyclerView.addOnScrollListener(
-                new RecyclerViewOnScrollListener(mPaginationParamsReplaySubject));
+                new RecyclerViewOnScrollListener(mPaginationArgsReplaySubject));
     }
 
     @Override
     public List<Notebook> getNotebooksForAdapter() {
-        PaginationParams paginationParams = new PaginationParams();
-        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, paginationParams.offset, paginationParams.limit);
+        PaginationArgs PaginationArgs = new PaginationArgs();
+        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, PaginationArgs.offset, PaginationArgs.limit);
         return mNotebooks;
     }
 
     private void initPaginationDisposable() {
-        mPaginationParamsReplaySubject = ReplaySubject.create();
-        mPaginationParamsReplaySubject
+        mPaginationArgsReplaySubject = ReplaySubject.create();
+        mPaginationArgsReplaySubject
                 .observeOn(Schedulers.io())
                 .map(this::loadMoreNotebooks)
                 .filter(this::isNotebooksListNotEmpty)
@@ -72,7 +72,7 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
                         throwable -> {/*TODO: find out what can happen here*/});
     }
 
-    private List<Notebook> loadMoreNotebooks(PaginationParams params) {
+    private List<Notebook> loadMoreNotebooks(PaginationArgs params) {
         List<Notebook> notebooks = mNotebookService.getByProfile(CurrentState.profileId, params.offset, params.limit);
         System.out.println(notebooks);
         return notebooks;

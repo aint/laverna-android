@@ -8,7 +8,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEnti
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class ProfileDependedForm<T extends ProfileDependedEntity> implements Form<T>{
+public abstract class ProfileDependedForm<T extends ProfileDependedEntity> implements Form<T> {
 
     @NonNull
     protected String profileId;
