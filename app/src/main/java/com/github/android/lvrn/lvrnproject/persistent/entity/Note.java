@@ -11,7 +11,7 @@ import com.google.common.base.Optional;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Note extends ProfileDependedEntity {
+public class Note extends TrashDependedEntity {
 
     /**
      * An id of a notebook, which the note is belonged. In case, if the note doesn't belong to any
@@ -55,7 +55,8 @@ public class Note extends ProfileDependedEntity {
                 long updateTime,
                 @NonNull String content,
                 @NonNull String htmlContent,
-                boolean isFavorite) {
+                boolean isFavorite,
+                boolean isTrash) {
         this.id = id;
         this.profileId = profileId;
         this.notebookId = notebookId;
@@ -65,6 +66,7 @@ public class Note extends ProfileDependedEntity {
         this.content = content;
         this.htmlContent = htmlContent;
         this.isFavorite = isFavorite;
+        this.isTrash = isTrash;
     }
 
     private Note(Parcel in) {
@@ -78,6 +80,7 @@ public class Note extends ProfileDependedEntity {
         content = in.readString();
         htmlContent = in.readString();
         isFavorite = in.readByte() != 0;
+        isTrash = in.readByte() != 0;
     }
 
     @NonNull
@@ -109,6 +112,7 @@ public class Note extends ProfileDependedEntity {
         dest.writeString(content);
         dest.writeString(htmlContent);
         dest.writeByte((byte) (isFavorite ? 1 : 0));
+        dest.writeByte((byte) (isTrash ? 1 : 0));
     }
 
     @NonNull
