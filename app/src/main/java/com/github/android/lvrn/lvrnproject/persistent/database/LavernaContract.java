@@ -50,6 +50,7 @@ public class LavernaContract {
         public static final String COLUMN_CREATION_TIME = "creation_time";
         public static final String COLUMN_UPDATE_TIME = "update_time";
         public static final String COLUMN_COUNT = "count";
+        public static final String COLUMN_TRASH = "trash";
 
         static final String SQL_CREATE_NOTEBOOKS_TABLE =
                 CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
@@ -60,6 +61,7 @@ public class LavernaContract {
                         + COLUMN_CREATION_TIME + " INTEGER,"
                         + COLUMN_UPDATE_TIME + " INTEGER,"
                         + COLUMN_COUNT + " INTEGER,"
+                        + COLUMN_TRASH + " BOOLEAN,"
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
                         + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE,"
                         + "FOREIGN KEY (" + COLUMN_PARENT_ID + ") REFERENCES "
@@ -82,6 +84,7 @@ public class LavernaContract {
         public static final String COLUMN_CONTENT = "content";
         public static final String COLUMN_HTML_CONTENT = "html_content";
         public static final String COLUMN_IS_FAVORITE = "is_favorite";
+        public static final String COLUMN_TRASH = "trash";
 
         static final String SQL_CREATE_NOTES_TABLE =
                 CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
@@ -94,6 +97,7 @@ public class LavernaContract {
                         + COLUMN_CONTENT + " TEXT,"
                         + COLUMN_HTML_CONTENT + " TEXT,"
                         + COLUMN_IS_FAVORITE + " BOOLEAN,"
+                        + COLUMN_TRASH + " BOOLEAN,"
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
                         + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE,"
                         + "FOREIGN KEY (" + COLUMN_NOTEBOOK_ID + ") REFERENCES "
