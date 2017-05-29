@@ -11,7 +11,7 @@ import com.google.common.base.Optional;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class Notebook extends ProfileDependedEntity {
+public class Notebook extends TrashDependedEntity {
 
     /**
      * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't
@@ -42,7 +42,8 @@ public class Notebook extends ProfileDependedEntity {
                     @NonNull String name,
                     long creationTime,
                     long updateTime,
-                    int count) {
+                    int count,
+                    boolean isTrash) {
         this.id = id;
         this.profileId = profileId;
         this.parentId = parentId;
@@ -50,6 +51,7 @@ public class Notebook extends ProfileDependedEntity {
         this.creationTime = creationTime;
         this.updateTime = updateTime;
         this.count = count;
+        this.isTrash = isTrash;
     }
 
     private Notebook(Parcel in) {
@@ -61,6 +63,7 @@ public class Notebook extends ProfileDependedEntity {
         creationTime = in.readLong();
         updateTime = in.readLong();
         count = in.readInt();
+        isTrash = in.readByte() != 0;
     }
 
     @NonNull
@@ -89,6 +92,7 @@ public class Notebook extends ProfileDependedEntity {
         dest.writeLong(creationTime);
         dest.writeLong(updateTime);
         dest.writeInt(count);
+        dest.writeByte((byte) (isTrash ? 1 : 0));
     }
 
     public Optional<String> getParentId() {

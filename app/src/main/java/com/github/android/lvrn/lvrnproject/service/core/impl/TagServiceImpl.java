@@ -9,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.core.TagService;
 import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import java.util.List;
@@ -50,8 +51,8 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
 
     @NonNull
     @Override
-    public List<Tag> getByName(@NonNull String profileId, @NonNull String name, int offset, int limit) {
-        return mTagRepository.getByName(profileId, name, offset, limit);
+    public List<Tag> getByName(@NonNull String profileId, @NonNull String name, PaginationArgs paginationArgs) {
+        return mTagRepository.getByName(profileId, name, paginationArgs);
     }
 
     @NonNull
@@ -69,8 +70,4 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
     private boolean validateForCreate(String profileId, String name) {
         return super.checkProfileExistence(profileId) && !TextUtils.isEmpty(name);
     }
-
-//    private void validateForUpdate(String name) {
-//        checkName(name);
-//    }
 }

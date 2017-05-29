@@ -2,15 +2,16 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
-import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_PROFILE_ID;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.ProfileDependedTable.COLUMN_PROFILE_ID;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TrashDependedTable.COLUMN_TRASH;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -26,8 +27,15 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
 
     @NonNull
     @Override
-    public List<T> getByProfile(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit) {
-        return getByIdCondition(COLUMN_PROFILE_ID, profileId, offset, limit);
+    public List<T> getByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
+        return getByIdCondition(COLUMN_PROFILE_ID, profileId, paginationArgs);
+    }
+
+    @NonNull
+    private List<T> getByIdCondition(String columnName,
+                                     String id,
+                                     @NonNull PaginationArgs paginationArgs) {
+        return getByIdCondition(columnName, id, "", paginationArgs);
     }
 
     /**
@@ -40,12 +48,24 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @return a list of entities
      */
     @NonNull
-    protected List<T> getByIdCondition(String columnName, String id, @Size(min = 0) int offset, @Size(min = 1) int limit) {
+    protected List<T> getByIdCondition(String columnName,
+                                       String id,
+                                       @NonNull String additionalClause,
+                                       @NonNull PaginationArgs paginationArgs) {
         String query = "SELECT * FROM " + super.mTableName
                 + " WHERE " + columnName + " = '" + id + "'"
-                + " LIMIT " + limit
-                + " OFFSET " + offset;
+                + additionalClause
+                + " LIMIT " + paginationArgs.limit
+                + " OFFSET " + paginationArgs.offset;
         return getByRawQuery(query);
+    }
+
+    @NonNull
+    protected List<T> getByName(@NonNull String columnName,
+                                @NonNull String profileId,
+                                @NonNull String name,
+                                @NonNull PaginationArgs paginationArgs) {
+        return getByName(columnName, profileId, name, "", paginationArgs);
     }
 
     /**
@@ -57,12 +77,17 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @return a list of entities.
      */
     @NonNull
-    protected List<T> getByName(@NonNull String columnName, @NonNull String profileId, @NonNull String name, @Size(min = 0) int offset, @Size(min = 1) int limit) {
+    protected List<T> getByName(@NonNull String columnName,
+                                @NonNull String profileId,
+                                @NonNull String name,
+                                @NonNull String additionalClause,
+                                @NonNull PaginationArgs paginationArgs) {
         String query = "SELECT * FROM " + mTableName
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "'"
                 + " AND " + columnName + " LIKE '%" + name + "%'"
-                + " LIMIT " + limit
-                + " OFFSET " + offset;
+                + additionalClause
+                + " LIMIT " + paginationArgs.limit
+                + " OFFSET " + paginationArgs.offset;
         return getByRawQuery(query);
     }
 
@@ -81,4 +106,6 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
         }
         return false;
     }
+
+
 }

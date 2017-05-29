@@ -1,10 +1,10 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface TagRepository extends ProfileDependedRepository<Tag> {
      * @return a list of entities.
      */
     @NonNull
-    List<Tag> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Tag> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves all entities by a note id.

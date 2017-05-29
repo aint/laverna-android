@@ -10,6 +10,7 @@ import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import java.util.List;
@@ -44,8 +45,8 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
 
     @NonNull
     @Override
-    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, int offset, int limit) {
-        return mNotebookRepository.getByName(profileId, name, offset, limit);
+    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
+        return mNotebookRepository.getByName(profileId, name, isTrash, paginationArgs);
     }
 
     @Override

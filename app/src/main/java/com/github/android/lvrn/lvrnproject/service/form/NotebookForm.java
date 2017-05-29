@@ -10,15 +10,15 @@ import com.google.common.base.Optional;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookForm extends ProfileDependedForm<Notebook> {
+public class NotebookForm extends TrashDependedForm<Notebook> {
 
     private String parentNotebookId;
 
     @NonNull
     private String name;
 
-    public NotebookForm(String profileId, String parentNotebookId, @NonNull String name) {
-        super(profileId);
+    public NotebookForm(@NonNull String profileId, boolean isTrash, String parentNotebookId, @NonNull String name) {
+        super(profileId, isTrash);
         this.parentNotebookId = parentNotebookId;
         this.name = name;
     }
@@ -33,7 +33,8 @@ public class NotebookForm extends ProfileDependedForm<Notebook> {
                 name,
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
-                0);
+                0,
+                isTrash);
     }
 
     public String getParentNotebookId() {
@@ -51,5 +52,13 @@ public class NotebookForm extends ProfileDependedForm<Notebook> {
 
     public void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    public boolean isTrash() {
+        return isTrash;
+    }
+
+    public void setTrash(boolean trash) {
+        isTrash = trash;
     }
 }

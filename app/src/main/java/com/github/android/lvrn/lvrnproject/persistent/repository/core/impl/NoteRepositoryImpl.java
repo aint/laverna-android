@@ -8,7 +8,8 @@ import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TrashDependedRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 import com.orhanobut.logger.Logger;
 
@@ -25,12 +26,13 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_UPDATE_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.TABLE_NAME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTagsTable;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TrashDependedTable.COLUMN_TRASH;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> implements NoteRepository {
+public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implements NoteRepository {
     private static final String TAG = "NoteRepoImpl";
 
     public NoteRepositoryImpl() {
@@ -66,7 +68,8 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
                 cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_CONTENT)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_HTML_CONTENT)),
-                cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE)) > 0);
+                cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE)) > 0,
+                cursor.getInt(cursor.getColumnIndex(COLUMN_TRASH)) > 0);
     }
 
     @Override
@@ -108,28 +111,28 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, int offset, int limit) {
-        return super.getByName(COLUMN_TITLE, profileId, title, offset, limit);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
+        return super.getByName(COLUMN_TITLE, profileId, title, getTrashClause(isTrash), paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByNotebook(@NonNull String notebookId, int offset, int limit) {
-        return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, offset, limit);
+    public List<Note> getByNotebook(@NonNull String notebookId, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
+        return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, getTrashClause(isTrash), paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, int offset, int limit) {
+    public List<Note> getByTag(@NonNull String tagId, boolean isTrash, PaginationArgs paginationArgs) {
         String query = "SELECT *"
                 + " FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
                 + " ON " + TABLE_NAME + "." + COLUMN_ID
                 + "=" + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
-                + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
-                + "='" + tagId + "'"
-                + " LIMIT " + limit
-                + " OFFSET " + offset;
+                + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID + "='" + tagId + "'"
+                + getTrashClause(isTrash)
+                + " LIMIT " + paginationArgs.limit
+                + " OFFSET " + paginationArgs.offset;
         return getByRawQuery(query);
     }
 
@@ -157,4 +160,6 @@ public class NoteRepositoryImpl extends ProfileDependedRepositoryImpl<Note> impl
         contentValues.put(NotesTagsTable.COLUMN_TAG_ID, tagId);
         return contentValues;
     }
+
+
 }

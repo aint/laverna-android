@@ -6,6 +6,7 @@ import android.support.annotation.Size;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -23,5 +24,5 @@ public interface NotebookService extends ProfileDependedService<Notebook, Notebo
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @Size(min = 0) int offset, @Size(min = 1) int limit);
+    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, @NonNull PaginationArgs paginationArgs);
 }

@@ -1,8 +1,9 @@
 package com.github.android.lvrn.lvrnproject.view.listeners;
 
-import android.support.annotation.Size;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import io.reactivex.subjects.Subject;
 
@@ -20,19 +21,19 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
 
     private boolean mLoading = false;
 
-    private Subject<PaginationParams> paginationParamsSubject;
+    private Subject<PaginationArgs> PaginationArgsSubject;
 
-    private PaginationParams mPaginationParams;
+    private PaginationArgs mPaginationArgs;
 
-    public RecyclerViewOnScrollListener(Subject<PaginationParams> subject, PaginationParams paginationParams, int visibleThreshold) {
-        paginationParamsSubject = subject;
-        mPaginationParams = paginationParams;
+    public RecyclerViewOnScrollListener(Subject<PaginationArgs> subject, PaginationArgs PaginationArgs, int visibleThreshold) {
+        PaginationArgsSubject = subject;
+        mPaginationArgs = PaginationArgs;
         mVisibleThreshold = visibleThreshold;
     }
 
-    public RecyclerViewOnScrollListener(Subject<PaginationParams> subject) {
-        paginationParamsSubject = subject;
-        mPaginationParams = new PaginationParams();
+    public RecyclerViewOnScrollListener(Subject<PaginationArgs> subject) {
+        PaginationArgsSubject = subject;
+        mPaginationArgs = new PaginationArgs();
         mVisibleThreshold = 5;
     }
 
@@ -55,32 +56,8 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
 
         if (!mLoading && layoutManager.findLastVisibleItemPosition() >= (mTotalItemCount - mVisibleThreshold)) {
             mLoading = true;
-            mPaginationParams.offset = mTotalItemCount + 1;
-            paginationParamsSubject.onNext(mPaginationParams);
-        }
-    }
-
-    public static class PaginationParams {
-        public int limit;
-
-        public int offset;
-
-        public PaginationParams(@Size(min = 0) int limit, @Size(min = 1) int offset) {
-            this.limit = limit;
-            this.offset = offset;
-        }
-
-        public PaginationParams() {
-            limit = 15;
-            offset = 0;
-        }
-
-        @Override
-        public String toString() {
-            return "PaginationParams{" +
-                    "limit=" + limit +
-                    ", offset=" + offset +
-                    '}';
+            mPaginationArgs.offset = mTotalItemCount + 1;
+            PaginationArgsSubject.onNext(mPaginationArgs);
         }
     }
 }
