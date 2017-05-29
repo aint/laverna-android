@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TrashDependedRepositoryImpl;
 import com.google.common.base.Optional;
 
 import java.util.List;
@@ -21,12 +21,14 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_PROFILE_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_UPDATE_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.TABLE_NAME;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_IS_FAVORITE;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TrashDependedTable.COLUMN_TRASH;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebook> implements NotebookRepository {
+public class NotebookRepositoryImpl extends TrashDependedRepositoryImpl<Notebook> implements NotebookRepository {
 
     public NotebookRepositoryImpl() {
         super(TABLE_NAME);
@@ -43,6 +45,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
         contentValues.put(COLUMN_CREATION_TIME, entity.getCreationTime());
         contentValues.put(COLUMN_UPDATE_TIME, entity.getUpdateTime());
         contentValues.put(COLUMN_COUNT, entity.getCount());
+        contentValues.put(COLUMN_IS_FAVORITE, entity.isTrash());
         return contentValues;
     }
 
@@ -57,27 +60,29 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
                 cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_CREATION_TIME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)),
-                cursor.getInt(cursor.getColumnIndex(COLUMN_COUNT)));
+                cursor.getInt(cursor.getColumnIndex(COLUMN_COUNT)),
+                cursor.getInt(cursor.getColumnIndex(COLUMN_TRASH)) > 0);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, int offset, int limit) {
-        return super.getByName(COLUMN_NAME, profileId, name, offset, limit);
+    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, int offset, int limit) {
+        return super.getByName(COLUMN_NAME, profileId, name, getTrashClause(isTrash), offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getChildren(@NonNull String notebookId, @Size(min = 1) int offset, @Size(min = 2) int limit) {
-        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, offset, limit);
+    public List<Notebook> getChildren(@NonNull String notebookId, boolean isTrash, @Size(min = 1) int offset, @Size(min = 2) int limit) {
+        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, getTrashClause(isTrash), offset, limit);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getRootParents(@NonNull String profileId, @Size(min = 1) int offset, @Size(min = 2) int limit) {
+    public List<Notebook> getRootParents(@NonNull String profileId, boolean isTrash, @Size(min = 1) int offset, @Size(min = 2) int limit) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + "='" + profileId + "'"
                 + " AND " + COLUMN_PARENT_ID + " IS NULL"
+                + getTrashClause(isTrash)
                 + " LIMIT " + limit
                 + " OFFSET " + offset;
         System.out.println(query);

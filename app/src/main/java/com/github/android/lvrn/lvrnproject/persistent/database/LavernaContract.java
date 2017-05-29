@@ -4,7 +4,7 @@ package com.github.android.lvrn.lvrnproject.persistent.database;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class LavernaContract {
+public final class LavernaContract {
     private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS";
     private static final String DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS";
 
@@ -17,17 +17,27 @@ public class LavernaContract {
         private LavernaBaseTable(){}
 
         public static final String COLUMN_ID = "id";
+    }
+
+    public static abstract class ProfileDependedTable extends LavernaBaseTable {
+        private ProfileDependedTable() {}
+
         public static final String COLUMN_PROFILE_ID = "profile_id";
+    }
+
+    public static abstract class TrashDependedTable extends ProfileDependedTable {
+        private TrashDependedTable() {}
+
+        public static final String COLUMN_TRASH = "trash";
     }
 
     /**
      * A table of profiles.
      */
-    public static class ProfilesTable {
+    public final static class ProfilesTable extends LavernaBaseTable {
         private ProfilesTable() {}
 
         public static final String TABLE_NAME = "profiles";
-        public static final String COLUMN_ID = "id";
         public static final String COLUMN_PROFILE_NAME = "profile_name";
 
         static final String SQL_CREATE_PROFILES_TABLE =
@@ -41,7 +51,7 @@ public class LavernaContract {
     /**
      * A table of notebooks.
      */
-    public static class NotebooksTable extends LavernaBaseTable {
+    public final static class NotebooksTable extends TrashDependedTable {
         private NotebooksTable() {}
 
         public static final String TABLE_NAME = "notebooks";
@@ -50,7 +60,6 @@ public class LavernaContract {
         public static final String COLUMN_CREATION_TIME = "creation_time";
         public static final String COLUMN_UPDATE_TIME = "update_time";
         public static final String COLUMN_COUNT = "count";
-        public static final String COLUMN_TRASH = "trash";
 
         static final String SQL_CREATE_NOTEBOOKS_TABLE =
                 CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
@@ -73,7 +82,7 @@ public class LavernaContract {
     /**
      * A table of notes.
      */
-    public static class NotesTable extends LavernaBaseTable {
+    public final static class NotesTable extends TrashDependedTable {
         private NotesTable() {}
 
         public static final String TABLE_NAME = "notes";
@@ -84,7 +93,6 @@ public class LavernaContract {
         public static final String COLUMN_CONTENT = "content";
         public static final String COLUMN_HTML_CONTENT = "html_content";
         public static final String COLUMN_IS_FAVORITE = "is_favorite";
-        public static final String COLUMN_TRASH = "trash";
 
         static final String SQL_CREATE_NOTES_TABLE =
                 CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_NAME + " ("
@@ -109,7 +117,7 @@ public class LavernaContract {
     /**
      * A table of tags.
      */
-    public static class TagsTable extends LavernaBaseTable {
+    public final static class TagsTable extends ProfileDependedTable {
         private TagsTable() {}
 
         public static final String TABLE_NAME = "tags";
@@ -135,7 +143,7 @@ public class LavernaContract {
     /**
      * A junction table of a many-to-many relationship between the notes table and the tags table.
      */
-    public static class NotesTagsTable {
+    public final static class NotesTagsTable {
         private NotesTagsTable() {}
 
         public static final String TABLE_NAME = "notes_tags";
@@ -158,7 +166,7 @@ public class LavernaContract {
     /**
      * A table of tasks.
      */
-    public static class TasksTable extends LavernaBaseTable {
+    public final static class TasksTable extends ProfileDependedTable {
         private TasksTable() {}
 
         public static final String TABLE_NAME = "tasks";

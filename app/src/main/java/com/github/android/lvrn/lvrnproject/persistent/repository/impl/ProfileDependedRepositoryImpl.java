@@ -10,7 +10,7 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
-import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable.COLUMN_PROFILE_ID;
+import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.ProfileDependedTable.COLUMN_PROFILE_ID;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -27,8 +27,14 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
     @NonNull
     @Override
     public List<T> getByProfile(@NonNull String profileId, @Size(min = 0) int offset, @Size(min = 1) int limit) {
-        return getByIdCondition(COLUMN_PROFILE_ID, profileId, offset, limit);
+        return getByIdCondition(COLUMN_PROFILE_ID, "", profileId, offset, limit);
     }
+
+    @NonNull
+    public List<T> getByProfile(@NonNull String profileId, @NonNull String additionalClause, @Size(min = 0) int offset, @Size(min = 1) int limit) {
+        return getByIdCondition(COLUMN_PROFILE_ID, additionalClause, profileId, offset, limit);
+    }
+
 
     /**
      * A method which retrieves an amount of objects from start position by an id of received
@@ -40,9 +46,14 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @return a list of entities
      */
     @NonNull
-    protected List<T> getByIdCondition(String columnName, String id, @Size(min = 0) int offset, @Size(min = 1) int limit) {
+    protected List<T> getByIdCondition(String columnName,
+                                       String id,
+                                       @NonNull String additionalClause,
+                                       @Size(min = 0) int offset,
+                                       @Size(min = 1) int limit) {
         String query = "SELECT * FROM " + super.mTableName
                 + " WHERE " + columnName + " = '" + id + "'"
+                + additionalClause
                 + " LIMIT " + limit
                 + " OFFSET " + offset;
         return getByRawQuery(query);
@@ -57,10 +68,16 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * @return a list of entities.
      */
     @NonNull
-    protected List<T> getByName(@NonNull String columnName, @NonNull String profileId, @NonNull String name, @Size(min = 0) int offset, @Size(min = 1) int limit) {
+    protected List<T> getByName(@NonNull String columnName,
+                                @NonNull String profileId,
+                                @NonNull String name,
+                                @NonNull String additionalClause,
+                                @Size(min = 0) int offset,
+                                @Size(min = 1) int limit) {
         String query = "SELECT * FROM " + mTableName
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "'"
                 + " AND " + columnName + " LIKE '%" + name + "%'"
+                + additionalClause
                 + " LIMIT " + limit
                 + " OFFSET " + offset;
         return getByRawQuery(query);
