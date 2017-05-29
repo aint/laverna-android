@@ -57,5 +57,7 @@
     <string name="hint_you_updated_time">Your updated time</string>
     <string name="hint_you_created_time">Your updated time</string>
     <string name="hint_prompt_text_detail_note">This is Prompt Text</string>
+    <string name="hint_you_tag_name">Your Tag name</string>
+    <string name="hint_your_task_name">Your task name</string>
 
 </resources>

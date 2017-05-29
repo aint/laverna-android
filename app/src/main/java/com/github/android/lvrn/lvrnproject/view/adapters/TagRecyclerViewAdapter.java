@@ -29,7 +29,7 @@ public class TagRecyclerViewAdapter extends RecyclerView.Adapter<TagRecyclerView
 
     @Override
     public TagEditingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tag, parent, false);
         return new TagEditingViewHolder(view);
     }
 

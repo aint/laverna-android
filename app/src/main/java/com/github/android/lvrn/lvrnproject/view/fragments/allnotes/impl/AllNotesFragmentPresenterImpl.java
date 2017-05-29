@@ -7,7 +7,7 @@ import android.support.v7.widget.SearchView;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.view.adapters.NotesRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragmentPresenter;
@@ -56,12 +56,12 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter 
 
     @Override
     public EndlessRecyclerViewScrollListener getEndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager,
-                                                                                  NotesRecyclerViewAdapter adapter,
+                                                                                  NoteRecyclerViewAdapter adapter,
                                                                                   List<Note> data) {
         EndlessRecyclerViewScrollListener mScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                data.addAll(mNoteService.getByProfile(CurrentState.profileId, totalItemsCount + 1, numberEntitiesDownloadItem));
+                data.addAll(mNoteService.getByProfile(CurrentState.profileId, totalItemsCount + 1, NUMBER_OF_ENTITIES_ITEM_DOWNLOAD));
                 view.post(() -> {
                     adapter.notifyItemRangeInserted(adapter.getItemCount(), data.size() - 1);
                 });

@@ -22,19 +22,19 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecyclerViewAdapter.NotesViewHolder> {
+public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.NotesViewHolder> {
 
     private ItemClickListener mItemClickListener;
     public List<Note> allNotesData = new ArrayList<>();
 
 
-    public NotesRecyclerViewAdapter(List<Note> data) {
+    public NoteRecyclerViewAdapter(List<Note> data) {
         allNotesData = data;
     }
 
     @Override
     public NotesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notes, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
         return new NotesViewHolder(view);
     }
 

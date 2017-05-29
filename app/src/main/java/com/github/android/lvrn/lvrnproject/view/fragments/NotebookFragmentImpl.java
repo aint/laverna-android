@@ -19,7 +19,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.view.adapters.NotebookRecyclerViewAdapter;
-import com.github.android.lvrn.lvrnproject.view.adapters.NotesRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookFragmentImpl extends Fragment implements NotesRecyclerViewAdapter.ItemClickListener {
+public class NotebookFragmentImpl extends Fragment implements NoteRecyclerViewAdapter.ItemClickListener {
     @BindView(R.id.recycler_view_all_notes)
     RecyclerView mRecyclerView;
     @Inject

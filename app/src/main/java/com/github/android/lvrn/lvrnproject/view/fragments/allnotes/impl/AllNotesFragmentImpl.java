@@ -30,7 +30,7 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapters.NotesRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragmentPresenter;
@@ -53,18 +53,18 @@ import butterknife.OnClick;
  */
 
 public class AllNotesFragmentImpl extends Fragment
-        implements NotesRecyclerViewAdapter.ItemClickListener, AllNotesFragment {
+        implements NoteRecyclerViewAdapter.ItemClickListener, AllNotesFragment {
     @Inject
     NoteService mNoteService;
     @BindView(R.id.recycler_view_all_notes)
     RecyclerView mRecyclerView;
     @BindView(R.id.floating_action_menu_all_notes)
     FloatingActionsMenu floatingActionsMenu;
-    final static private int startPositionDownloadItem = 1;
-    final static private int numberEntitiesDownloadItem = 7;
+    final static private int START_POSITION_ITEM_DOWNLOAD = 1;
+    final static private int NUMBER_OF_ENTITIES_ITEM_DOWNLOAD = 7;
     private List<Note> mDataAllNotes = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
-    private NotesRecyclerViewAdapter mAdapter;
+    private NoteRecyclerViewAdapter mAdapter;
     private SearchView mSearchView;
     private MenuItem menuSearch, menuSync, menuSortBy, menuSettings, menuAbout;
     private AllNotesFragmentPresenter mAllNotesFragmentPresenter;
@@ -207,8 +207,8 @@ public class AllNotesFragmentImpl extends Fragment
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mDataAllNotes.clear();
-        mDataAllNotes.addAll(mNoteService.getByProfile(CurrentState.profileId, startPositionDownloadItem, numberEntitiesDownloadItem));
-        mAdapter = new NotesRecyclerViewAdapter(mDataAllNotes);
+        mDataAllNotes.addAll(mNoteService.getByProfile(CurrentState.profileId, START_POSITION_ITEM_DOWNLOAD, NUMBER_OF_ENTITIES_ITEM_DOWNLOAD));
+        mAdapter = new NoteRecyclerViewAdapter(mDataAllNotes);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setClickListener(this);

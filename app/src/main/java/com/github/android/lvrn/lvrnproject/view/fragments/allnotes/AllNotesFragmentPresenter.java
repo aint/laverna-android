@@ -4,7 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.view.adapters.NotesRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface AllNotesFragmentPresenter {
 
-    int numberEntitiesDownloadItem = 7;
+    int NUMBER_OF_ENTITIES_ITEM_DOWNLOAD = 7;
 
     /**
      * A method which subscribe search view to hears when user input anything with defined
@@ -37,7 +37,7 @@ public interface AllNotesFragmentPresenter {
      * @return
      */
     EndlessRecyclerViewScrollListener getEndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager,
-                                                                           NotesRecyclerViewAdapter adapter,
+                                                                           NoteRecyclerViewAdapter adapter,
                                                                            List<Note> data);
 
     /**

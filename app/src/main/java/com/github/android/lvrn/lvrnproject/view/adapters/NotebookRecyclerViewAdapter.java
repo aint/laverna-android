@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 public class NotebookRecyclerViewAdapter  extends RecyclerView.Adapter<NotebookRecyclerViewAdapter.NotebookViewHolder> {
     private List<Notebook> mNotebookData = new ArrayList<>();
-    private NotesRecyclerViewAdapter.ItemClickListener mItemClickListener;
+    private NoteRecyclerViewAdapter.ItemClickListener mItemClickListener;
 
     public NotebookRecyclerViewAdapter(List<Notebook> mNotebookData) {
         this.mNotebookData = mNotebookData;
@@ -44,7 +44,7 @@ public class NotebookRecyclerViewAdapter  extends RecyclerView.Adapter<NotebookR
         return mNotebookData.size();
     }
 
-    public void setClickListener(NotesRecyclerViewAdapter.ItemClickListener itemClickListener) {
+    public void setClickListener(NoteRecyclerViewAdapter.ItemClickListener itemClickListener) {
         this.mItemClickListener = itemClickListener;
     }
 
@@ -54,7 +54,7 @@ public class NotebookRecyclerViewAdapter  extends RecyclerView.Adapter<NotebookR
         @BindView(R.id.image_btn_more_menu)
         ImageButton menu;
 
-        public NotebookViewHolder(View itemView) {
+         NotebookViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);

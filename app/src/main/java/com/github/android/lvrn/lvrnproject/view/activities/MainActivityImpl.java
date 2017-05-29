@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.fragments.NotebookFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragments.TaskFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.impl.AllNotesFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
@@ -69,10 +70,13 @@ public class MainActivityImpl extends AppCompatActivity
         if (R.id.nav_item_notebooks == id) {
             NotebookFragmentImpl notebookFragment = new NotebookFragmentImpl();
             menuStartSelectFragment(notebookFragment, TagFragmentConst.TAG_NOTEBOOK_FRAGMENT);
-        } else if(R.id.nav_item_all_notes == id){
+        } else if (R.id.nav_item_all_notes == id) {
             startAllNotesFragment();
+        } else if (R.id.nav_item_open_tasks == id){
+            TaskFragmentImpl taskFragment = new TaskFragmentImpl();
+            menuStartSelectFragment(taskFragment,TagFragmentConst.TAG_TASK_FRAGMENT);
         }
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -92,18 +96,19 @@ public class MainActivityImpl extends AppCompatActivity
      */
     private void startAllNotesFragment() {
         if (mSavedInstanceState == null) {
-        AllNotesFragmentImpl allNotesFragment = new AllNotesFragmentImpl();
-        fragmentManager.beginTransaction()
-                .add(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
-                .commit();
+            AllNotesFragmentImpl allNotesFragment = new AllNotesFragmentImpl();
+            fragmentManager.beginTransaction()
+                    .add(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
+                    .commit();
         }
     }
 
     /**
      * A method which create and replace new fragment in current container for fragment , with
      * adding to back stack
+     *
      * @param fragment a fragment what we create
-     * @param tag  a tag name of fragment
+     * @param tag      a tag name of fragment
      */
     private void menuStartSelectFragment(Fragment fragment, String tag) {
         if (mSavedInstanceState == null) {

@@ -12,6 +12,7 @@ import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragmentI
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragments.TaskFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.impl.AllNotesFragmentImpl;
 
 import dagger.Component;
@@ -38,5 +39,7 @@ public interface AppComponent {
     void inject(NotebookContentFragmentImpl noteAndNotebookTogetherFragment);
 
     void inject(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment);
+
+    void inject(TaskFragmentImpl taskFragment);
 
 }
