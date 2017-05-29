@@ -15,10 +15,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
-import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
-import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.view.adapters.TrashRecyclerViewAdapter;
-import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +55,8 @@ public class TrashFragmentImpl extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewTrash.setLayoutManager(linearLayoutManager);
         //TODO: temporary, remove later
-        mEntityData.addAll(mNoteService.getByProfile(CurrentState.profileId, 1, 6));
-        mEntityData.addAll(mNotebookService.getByProfile(CurrentState.profileId, 1, 2));
+//        mEntityData.addAll(mNoteService.getByProfile(CurrentState.profileId, 1, 6));
+//        mEntityData.addAll(mNotebookService.getByProfile(CurrentState.profileId, 1, 2));
         TrashRecyclerViewAdapter trashRecyclerViewAdapter = new TrashRecyclerViewAdapter(mEntityData);
         mRecyclerViewTrash.setAdapter(trashRecyclerViewAdapter);
     }
@@ -70,15 +67,15 @@ public class TrashFragmentImpl extends Fragment {
     }
     //TODO: temporary, remove later
     private void hardcode() {
-        mNoteService.openConnection();
-        mNotebookService.openConnection();
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Dog", "Content 1", "Content 1", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Cat", "Content 2", "Content 2", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Bird", "Content 3", "Content 3", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Pig", "Content 4", "Content 4", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Tiger", "Content 5", "Content 5", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Duck", "Content 6", "Content 6", false));
-        mNotebookService.create(new NotebookForm(CurrentState.profileId, null, "Animals"));
+//        mNoteService.openConnection();
+//        mNotebookService.openConnection();
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Dog", "Content 1", "Content 1", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Cat", "Content 2", "Content 2", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Bird", "Content 3", "Content 3", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Pig", "Content 4", "Content 4", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Tiger", "Content 5", "Content 5", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Duck", "Content 6", "Content 6", false));
+//        mNotebookService.create(new NotebookForm(CurrentState.profileId, null, "Animals"));
     }
 
 }

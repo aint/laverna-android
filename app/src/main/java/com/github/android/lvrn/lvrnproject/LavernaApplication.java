@@ -45,7 +45,7 @@ public class LavernaApplication extends Application {
 
 
         for(int i = 1; i <30; i++) {
-            notebookService.create(new NotebookForm(profileId, null, "notebook" + i));
+            notebookService.create(new NotebookForm(profileId, false, null, "notebook" + i));
         }
         notebookService.closeConnection();
     }

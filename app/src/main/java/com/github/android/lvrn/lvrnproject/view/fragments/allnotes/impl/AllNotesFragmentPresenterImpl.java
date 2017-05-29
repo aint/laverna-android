@@ -8,7 +8,6 @@ import android.support.v7.widget.SearchView;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
-import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragmentPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
@@ -35,6 +34,8 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter 
         this.mNoteService = mNoteService;
     }
 
+
+    //TODO: fix here
     @Override
     public void subscribeSearchView(SearchView searchView) {
         mDisposable = RxSearch.fromSearchView(searchView)

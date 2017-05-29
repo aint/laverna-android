@@ -74,7 +74,7 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
 
     @Override
     public void saveNewNote(String title, String content, String htmlContent) {
-        NoteForm noteForm = new NoteForm(CurrentState.profileId, mNotebookId, title, content, htmlContent, false);
+        NoteForm noteForm = new NoteForm(CurrentState.profileId, false, mNotebookId, title, content, htmlContent, false);
 
         Flowable.just(noteForm)
                 .doOnNext(noteFormToSend -> mNoteService.openConnection())

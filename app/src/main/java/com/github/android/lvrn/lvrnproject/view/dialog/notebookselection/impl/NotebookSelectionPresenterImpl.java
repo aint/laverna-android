@@ -4,10 +4,10 @@ import android.support.v7.widget.RecyclerView;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
 import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener;
-import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 
 import java.util.List;
@@ -49,14 +49,13 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
     @Override
     public void subscribeRecyclerViewForPagination(RecyclerView recyclerView) {
         initPaginationDisposable();
-        recyclerView.addOnScrollListener(
-                new RecyclerViewOnScrollListener(mPaginationArgsReplaySubject));
+        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListener(mPaginationArgsReplaySubject));
     }
 
     @Override
     public List<Notebook> getNotebooksForAdapter() {
-        PaginationArgs PaginationArgs = new PaginationArgs();
-        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, PaginationArgs.offset, PaginationArgs.limit);
+        PaginationArgs paginationArgs = new PaginationArgs();
+        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, paginationArgs);
         return mNotebooks;
     }
 
@@ -72,8 +71,8 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
                         throwable -> {/*TODO: find out what can happen here*/});
     }
 
-    private List<Notebook> loadMoreNotebooks(PaginationArgs params) {
-        List<Notebook> notebooks = mNotebookService.getByProfile(CurrentState.profileId, params.offset, params.limit);
+    private List<Notebook> loadMoreNotebooks(PaginationArgs paginationArgs) {
+        List<Notebook> notebooks = mNotebookService.getByProfile(CurrentState.profileId, paginationArgs);
         System.out.println(notebooks);
         return notebooks;
     }

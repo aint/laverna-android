@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
-import io.reactivex.subjects.Subject;
+import io.reactivex.subjects.ReplaySubject;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -17,37 +17,33 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
 
     private int mPreviousTotalItemCount = 0;
 
-    private int mTotalItemCount;
-
     private boolean mLoading = false;
-
-    private Subject<PaginationArgs> PaginationArgsSubject;
 
     private PaginationArgs mPaginationArgs;
 
-    public RecyclerViewOnScrollListener(Subject<PaginationArgs> subject, PaginationArgs PaginationArgs, int visibleThreshold) {
-        PaginationArgsSubject = subject;
-        mPaginationArgs = PaginationArgs;
-        mVisibleThreshold = visibleThreshold;
+    private ReplaySubject<PaginationArgs> mReplaySubject;
+
+
+    public RecyclerViewOnScrollListener(ReplaySubject<PaginationArgs> replaySubject) {
+        mReplaySubject = replaySubject;
     }
 
-    public RecyclerViewOnScrollListener(Subject<PaginationArgs> subject) {
-        PaginationArgsSubject = subject;
-        mPaginationArgs = new PaginationArgs();
-        mVisibleThreshold = 5;
+    public RecyclerViewOnScrollListener(ReplaySubject<PaginationArgs> replaySubject, PaginationArgs PaginationArgs, int visibleThreshold) {
+        mReplaySubject = replaySubject;
+        mPaginationArgs = PaginationArgs;
+        mVisibleThreshold = visibleThreshold;
     }
 
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-        System.out.println("mTotalItemCount" + mTotalItemCount);
     }
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         LinearLayoutManager layoutManager= (LinearLayoutManager) recyclerView.getLayoutManager();
 
-        mTotalItemCount = recyclerView.getLayoutManager().getItemCount();
+        int mTotalItemCount = recyclerView.getLayoutManager().getItemCount();
 
         if (mLoading && mTotalItemCount > mPreviousTotalItemCount) {
             mLoading = false;
@@ -57,7 +53,8 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
         if (!mLoading && layoutManager.findLastVisibleItemPosition() >= (mTotalItemCount - mVisibleThreshold)) {
             mLoading = true;
             mPaginationArgs.offset = mTotalItemCount + 1;
-            PaginationArgsSubject.onNext(mPaginationArgs);
+            mReplaySubject.onNext(mPaginationArgs);
         }
     }
+
 }

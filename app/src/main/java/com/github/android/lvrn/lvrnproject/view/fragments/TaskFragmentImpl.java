@@ -16,11 +16,8 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.TaskService;
-import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
-import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.TaskRecyclerViewAdapter;
-import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
@@ -77,7 +74,7 @@ public class TaskFragmentImpl extends Fragment
     private void initRecyclerView() {
         LinearLayoutManager linearLayout = new LinearLayoutManager(getActivity());
         mRecyclerViewNote.setLayoutManager(linearLayout);
-        mTaskData.addAll(mTaskService.getByProfile(CurrentState.profileId, 0, 7));
+//        mTaskData.addAll(mTaskService.getByProfile(CurrentState.profileId, 0, 7));
         mTaskRecyclerViewAdapter = new TaskRecyclerViewAdapter(mTaskData);
         mRecyclerViewNote.setAdapter(mTaskRecyclerViewAdapter);
         mTaskService.closeConnection();
@@ -91,10 +88,10 @@ public class TaskFragmentImpl extends Fragment
 
     //TODO: temporary, remove later
     private void hardcode() {
-        mTaskService.openConnection();
-        NoteForm mNote = new NoteForm(CurrentState.profileId, null, "Monkey", "This is monkey", "", false);
-        mNoteService.openConnection();
-        mTaskService.create(new TaskForm(CurrentState.profileId, mNoteService.create(mNote).get(), "Feed Animal", false));
+//        mTaskService.openConnection();
+//        NoteForm mNote = new NoteForm(CurrentState.profileId, null, "Monkey", "This is monkey", "", false);
+//        mNoteService.openConnection();
+//        mTaskService.create(new TaskForm(CurrentState.profileId, mNoteService.create(mNote).get(), "Feed Animal", false));
     }
 
 

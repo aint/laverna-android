@@ -5,7 +5,6 @@ import android.support.v7.widget.SearchView;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
-import com.github.android.lvrn.lvrnproject.view.adapters.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
 

@@ -17,10 +17,8 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
-import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
-import com.github.android.lvrn.lvrnproject.view.adapters.NotebookRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
-import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
+import com.github.android.lvrn.lvrnproject.view.adapters.NotebookRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +50,12 @@ public class NotebookFragmentImpl extends Fragment implements NoteRecyclerViewAd
         LavernaApplication.getsAppComponent().inject(this);
         reInitBaseView();
         //TODO: clean it, use ifPresent method on Optional.
-        mNotebookService.openConnection();
-        mNotebookService.create(new NotebookForm(CurrentState.profileId, null, "Animals"));
-        if (mNotebookService.getByProfile(CurrentState.profileId, 1, 10) != null) {
-            mNotebookData.addAll(mNotebookService.getByProfile(CurrentState.profileId, 1, 10));
-        }
-        mNotebookService.closeConnection();
+//        mNotebookService.openConnection();
+//        mNotebookService.create(new NotebookForm(CurrentState.profileId, null, "Animals"));
+//        if (mNotebookService.getByProfile(CurrentState.profileId, 1, 10) != null) {
+//            mNotebookData.addAll(mNotebookService.getByProfile(CurrentState.profileId, 1, 10));
+//        }
+//        mNotebookService.closeConnection();
         return rootView;
     }
 

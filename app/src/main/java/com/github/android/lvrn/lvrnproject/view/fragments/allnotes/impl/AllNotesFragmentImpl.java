@@ -24,17 +24,13 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
-import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragment;
 import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.AllNotesFragmentPresenter;
-import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
@@ -207,7 +203,8 @@ public class AllNotesFragmentImpl extends Fragment
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mDataAllNotes.clear();
-        mDataAllNotes.addAll(mNoteService.getByProfile(CurrentState.profileId, START_POSITION_ITEM_DOWNLOAD, NUMBER_OF_ENTITIES_ITEM_DOWNLOAD));
+        //TODO: provide pagaination args, and implement same principle with notebook selection for lazy loaind
+//        mDataAllNotes.addAll(mNoteService.getByProfile(CurrentState.profileId, START_POSITION_ITEM_DOWNLOAD, NUMBER_OF_ENTITIES_ITEM_DOWNLOAD));
         mAdapter = new NoteRecyclerViewAdapter(mDataAllNotes);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
@@ -245,26 +242,26 @@ public class AllNotesFragmentImpl extends Fragment
 
     //TODO: temporary, remove later
     private void hardcode() {
-        profileService = new ProfileServiceImpl(new ProfileRepositoryImpl());
-        profileService.openConnection();
-        for (Note note : mNoteService.getByProfile(CurrentState.profileId, 1, 200)) {
-            System.out.println(mNoteService.remove(note.getId()));
-        }
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Dog", "Content 1", "Content 1", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Cat", "Content 2", "Content 2", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Bird", "Content 3", "Content 3", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Pig", "Content 4", "Content 4", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Tiger", "Content 5", "Content 5", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Duck", "Content 6", "Content 6", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Wild Cat", "Content 7", "Content 7", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Goose", "Content 8", "Content 8", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Rat", "Content 9", "Content 9", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Butterfly", "Content 10", "Content 10", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Elephant", "Content 11", "Content 11", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Chicken", "Content 12", "Content 12", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Cock", "Content 13", "Content 13", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Bug", "Content 14", "Content 14", false));
-        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Snake", "Content 15", "Content 15", false));
+//        profileService = new ProfileServiceImpl(new ProfileRepositoryImpl());
+//        profileService.openConnection();
+//        for (Note note : mNoteService.getByProfile(CurrentState.profileId, 1, 200)) {
+//            System.out.println(mNoteService.remove(note.getId()));
+//        }
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Dog", "Content 1", "Content 1", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Cat", "Content 2", "Content 2", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Bird", "Content 3", "Content 3", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Pig", "Content 4", "Content 4", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Tiger", "Content 5", "Content 5", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Duck", "Content 6", "Content 6", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Wild Cat", "Content 7", "Content 7", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Goose", "Content 8", "Content 8", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Rat", "Content 9", "Content 9", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Butterfly", "Content 10", "Content 10", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Elephant", "Content 11", "Content 11", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Chicken", "Content 12", "Content 12", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Cock", "Content 13", "Content 13", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Bug", "Content 14", "Content 14", false));
+//        mNoteService.create(new NoteForm(CurrentState.profileId, null, "Snake", "Content 15", "Content 15", false));
     }
 
 }
