@@ -3,18 +3,18 @@ package com.github.android.lvrn.lvrnproject.dagger.components;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
-import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl;
+import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 
-import com.github.android.lvrn.lvrnproject.view.fragments.NotebookContentFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragments.NotebookFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.NotebookContentFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.NotebookFragmentImpl;
 
-import com.github.android.lvrn.lvrnproject.view.dialog.TagEditingDialogFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 
-import com.github.android.lvrn.lvrnproject.view.fragments.SingleNoteFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragments.TaskFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragments.TrashFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.TaskFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.TrashFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.impl.AllNotesFragmentImpl;
 
 import dagger.Component;
 

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".view.activities.MainActivityImpl"
+            android:name=".view.activity.MainActivityImpl"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.noteeditor.impl.NoteEditorActivityImpl" />
+        <activity android:name=".view.activity.noteeditor.impl.NoteEditorActivityImpl" />
     </application>
 
 </manifest>

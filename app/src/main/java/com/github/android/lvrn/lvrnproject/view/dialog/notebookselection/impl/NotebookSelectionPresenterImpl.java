@@ -7,7 +7,7 @@ import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
-import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener;
+import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 
 import java.util.List;

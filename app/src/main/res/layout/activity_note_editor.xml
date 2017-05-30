@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECE9DB"
-    tools:context="com.github.android.lvrn.lvrnproject.view.activities.noteeditor.impl.NoteEditorActivityImpl"
+    tools:context="com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
 

@@ -4,7 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.activities.MainActivityImpl;
+import com.github.android.lvrn.lvrnproject.view.activity.MainActivityImpl;
 
 import org.junit.Rule;
 import org.junit.Test;
