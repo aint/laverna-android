@@ -9,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagReposit
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NoteRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.TagRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -108,7 +109,7 @@ public class TagsRepositoryTest {
         tagRepository.add(tag3);
 
         List<Tag> tagEntities1 = tagRepository
-                .getByProfile(profile.getId(), 0, 3);
+                .getByProfile(profile.getId(), new PaginationArgs());
 
         assertThat(tagEntities1.size()).isNotEqualTo(tags.size());
         assertThat(tagEntities1.size()).isEqualTo(tags.size() - 1);
@@ -137,7 +138,7 @@ public class TagsRepositoryTest {
 
         NoteRepositoryImpl notesRepository = new NoteRepositoryImpl();
         notesRepository.openDatabaseConnection();
-        Note note1 = new Note("note_id_1","profile_id_1", Optional.absent(), "title", 1111, 2222, "dfdf", "dfdf", true);
+        Note note1 = new Note("note_id_1","profile_id_1", Optional.absent(), "title", 1111, 2222, "dfdf", "dfdf", true, false);
         notesRepository.add(note1);
         notesRepository.addTagToNote(note1.getId(), tag1.getId());
         notesRepository.addTagToNote(note1.getId(), tag2.getId());
@@ -168,11 +169,11 @@ public class TagsRepositoryTest {
         tag2.setName("name2");
         tagRepository.add(tag2);
 
-        List<Tag> result1 = tagRepository.getByName(profile.getId(), "name", 0, 5);
+        List<Tag> result1 = tagRepository.getByName(profile.getId(), "name", new PaginationArgs());
 
         assertThat(result1).hasSize(2);
 
-        List<Tag> result2 = tagRepository.getByName(profile.getId(), "name_1", 0, 5);
+        List<Tag> result2 = tagRepository.getByName(profile.getId(), "name_1", new PaginationArgs());
 
         assertThat(result2).hasSize(1);
     }

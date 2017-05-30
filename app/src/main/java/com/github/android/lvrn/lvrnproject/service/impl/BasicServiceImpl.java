@@ -26,6 +26,11 @@ public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form> imple
     }
 
     @Override
+    public boolean isConnectionOpened() {
+        return basicRepository.isConnectionOpened();
+    }
+
+    @Override
     public boolean closeConnection() {
         return basicRepository.closeDatabaseConnection();
     }

@@ -15,7 +15,6 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
-import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.NotebookRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -64,10 +63,10 @@ public class NotebookContentFragmentImpl extends Fragment {
     private void initRecyclerView() {
         mRecyclerViewNotebook.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewNote.setLayoutManager(new LinearLayoutManager(getActivity()));
-        NoteRecyclerViewAdapter notesRecyclerViewAdapter =new NoteRecyclerViewAdapter(mNoteData);
+//        NoteRecyclerViewAdapter notesRecyclerViewAdapter = new NoteRecyclerViewAdapter(mNoteData);
         NotebookRecyclerViewAdapter notebookRecyclerViewAdapter = new NotebookRecyclerViewAdapter(mNotebookData);
         mRecyclerViewNotebook.setAdapter(notebookRecyclerViewAdapter);
-        mRecyclerViewNote.setAdapter(notesRecyclerViewAdapter);
+//        mRecyclerViewNote.setAdapter(notesRecyclerViewAdapter);
     }
 
 //    //TODO: temporary, remove later

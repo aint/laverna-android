@@ -26,6 +26,7 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
 
     public RecyclerViewOnScrollListener(ReplaySubject<PaginationArgs> replaySubject) {
         mReplaySubject = replaySubject;
+        mPaginationArgs = new PaginationArgs();
     }
 
     public RecyclerViewOnScrollListener(ReplaySubject<PaginationArgs> replaySubject, PaginationArgs PaginationArgs, int visibleThreshold) {
@@ -43,7 +44,7 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         LinearLayoutManager layoutManager= (LinearLayoutManager) recyclerView.getLayoutManager();
 
-        int mTotalItemCount = recyclerView.getLayoutManager().getItemCount();
+        int mTotalItemCount = recyclerView.getLayoutManager().getItemCount() - 1;
 
         if (mLoading && mTotalItemCount > mPreviousTotalItemCount) {
             mLoading = false;
@@ -57,4 +58,17 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
         }
     }
 
+    public void changeSubject(ReplaySubject<PaginationArgs> replaySubject) {
+        mPreviousTotalItemCount = 0;
+        mLoading = false;
+        mReplaySubject = replaySubject;
+        mPaginationArgs = new PaginationArgs();
+
+    }
+
+    public void resetListener() {
+        mPreviousTotalItemCount = 0;
+        mLoading = false;
+        mPaginationArgs = new PaginationArgs();
+    }
 }

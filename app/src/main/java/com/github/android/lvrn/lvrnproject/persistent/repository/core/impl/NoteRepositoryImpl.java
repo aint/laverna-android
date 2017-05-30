@@ -52,6 +52,7 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
         contentValues.put(COLUMN_CONTENT, entity.getContent());
         contentValues.put(COLUMN_HTML_CONTENT, entity.getContent());
         contentValues.put(COLUMN_IS_FAVORITE, entity.isFavorite());
+        contentValues.put(COLUMN_TRASH, entity.isTrash());
         return contentValues;
     }
 

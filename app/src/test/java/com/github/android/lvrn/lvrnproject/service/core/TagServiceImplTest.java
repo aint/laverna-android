@@ -9,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.core.impl.TagServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.service.form.TagForm;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import org.junit.After;
 import org.junit.Before;
@@ -56,7 +57,7 @@ public class TagServiceImplTest {
     public void serviceShouldGetEntityByName() {
         assertThat(tagService.create(new TagForm(profile.getId(), "#simple_tag")).isPresent())
                 .isTrue();
-        assertThat(tagService.getByName(profile.getId(), "tag", 0 ,1)).hasSize(1);
+        assertThat(tagService.getByName(profile.getId(), "tag", new PaginationArgs(0, 1))).hasSize(1);
     }
 
     @After

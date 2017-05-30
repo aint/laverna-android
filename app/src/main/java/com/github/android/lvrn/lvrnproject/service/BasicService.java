@@ -30,6 +30,8 @@ public interface BasicService<T1 extends Entity, T2 extends Form> {
      */
     boolean closeConnection();
 
+    boolean isConnectionOpened();
+
     /**
      * A method which removes an entity by an id.
      * @param id an id of an entity.

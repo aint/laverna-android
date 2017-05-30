@@ -18,7 +18,7 @@ public interface NotebookSelectionPresenter {
 
     void subscribeRecyclerViewForPagination(RecyclerView recyclerView);
 
-//    NotebookSelectionRecyclerViewAdapter getAdapter();
+    void disposePagination();
 
     List<Notebook> getNotebooksForAdapter();
 }

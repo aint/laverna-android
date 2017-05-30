@@ -64,7 +64,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
         mNotebookSelectionPresenter = new NotebookSelectionPresenterImpl(mNotebookService);
 
-        setUpNotebookSelectionRecyclerView();
+        initRecyclerView();
 
         getDialog().setTitle(DIALOG_TITLE);
 
@@ -108,22 +108,25 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     }
 
     @Override
-    public void onStop() {
-        mNotebookService.closeConnection();
+    public void onPause() {
+        super.onPause();
         mNotebookSelectionPresenter.unbindView();
-        super.onStop();
+
     }
 
     @Override
     public void onDestroyView() {
-        mUnbinder.unbind();
         super.onDestroyView();
+        if (mUnbinder != null) {
+            mUnbinder.unbind();
+        }
+        mNotebookSelectionPresenter.disposePagination();
     }
 
     /**
      * A method which makes set up of a recycler view with notebooks.
      */
-    private void setUpNotebookSelectionRecyclerView() {
+    private void initRecyclerView() {
         mNotebooksRecyclerView.setHasFixedSize(true);
 
         mLinearLayoutManager = new LinearLayoutManager(getContext());

@@ -6,7 +6,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,7 +14,7 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class NotesViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.tv_title_note)
      TextView tvTitle;
@@ -29,12 +28,6 @@ public class NotesViewHolder extends RecyclerView.ViewHolder implements View.OnC
     public NotesViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        itemView.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (NoteRecyclerViewAdapter.mItemClickListener != null) NoteRecyclerViewAdapter.mItemClickListener.onClick(v, getAdapterPosition());
     }
 
     public TextView getTvTitle() {

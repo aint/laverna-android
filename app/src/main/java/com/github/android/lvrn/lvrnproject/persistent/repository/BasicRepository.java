@@ -45,5 +45,11 @@ public interface BasicRepository<T extends Entity> {
      * @return a status of the closing.
      */
     boolean closeDatabaseConnection();
+
+    /**
+     * A method which returns a status of connection opening.
+     * @return a status of the opening
+     */
+    boolean isConnectionOpened();
 }
 

@@ -16,7 +16,6 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.TaskService;
-import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.TaskRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
@@ -33,8 +32,7 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TaskFragmentImpl extends Fragment
-        implements NoteRecyclerViewAdapter.ItemClickListener {
+public class TaskFragmentImpl extends Fragment {
     @BindView(R.id.recycler_view_task)
     RecyclerView mRecyclerViewNote;
     @Inject
@@ -57,7 +55,7 @@ public class TaskFragmentImpl extends Fragment
         return view;
     }
 
-    @Override
+//    @Override
     public void onClick(View view, int position) {
         SingleNoteFragmentImpl singleNoteFragment = new SingleNoteFragmentImpl();
         Bundle bundle = new Bundle();

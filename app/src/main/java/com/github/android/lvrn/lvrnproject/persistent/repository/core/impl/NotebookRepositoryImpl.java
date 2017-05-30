@@ -21,7 +21,6 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_PROFILE_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_UPDATE_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.TABLE_NAME;
-import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_IS_FAVORITE;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TrashDependedTable.COLUMN_TRASH;
 
 /**
@@ -45,7 +44,7 @@ public class NotebookRepositoryImpl extends TrashDependedRepositoryImpl<Notebook
         contentValues.put(COLUMN_CREATION_TIME, entity.getCreationTime());
         contentValues.put(COLUMN_UPDATE_TIME, entity.getUpdateTime());
         contentValues.put(COLUMN_COUNT, entity.getCount());
-        contentValues.put(COLUMN_IS_FAVORITE, entity.isTrash());
+        contentValues.put(COLUMN_TRASH, entity.isTrash());
         return contentValues;
     }
 

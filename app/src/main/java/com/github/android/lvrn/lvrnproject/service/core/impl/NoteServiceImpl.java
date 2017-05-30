@@ -16,7 +16,7 @@ import com.github.android.lvrn.lvrnproject.service.core.TaskService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
-import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.impl.TrashDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
@@ -32,7 +32,7 @@ import javax.inject.Inject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteServiceImpl extends ProfileDependedServiceImpl<Note, NoteForm> implements NoteService {
+public class NoteServiceImpl extends TrashDependedServiceImpl<Note, NoteForm> implements NoteService {
 
     private final NoteRepository mNoteRepository;
 

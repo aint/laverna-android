@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskViewHolder> {
     public List<Task> mTaskData = new ArrayList<>();
-    private NoteRecyclerViewAdapter.ItemClickListener mItemClickListener;
+//    private NoteRecyclerViewAdapter.ItemClickListener mItemClickListener;
 
     public TaskRecyclerViewAdapter(List<Task> mTaskData) {
         this.mTaskData = mTaskData;
@@ -42,9 +42,9 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public int getItemCount() {
         return mTaskData.size();
     }
-    public void setClickListener(NoteRecyclerViewAdapter.ItemClickListener itemClickListener) {
-        this.mItemClickListener = itemClickListener;
-    }
+//    public void setClickListener(NoteRecyclerViewAdapter.ItemClickListener itemClickListener) {
+//        this.mItemClickListener = itemClickListener;
+//    }
 
 
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -59,7 +59,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
         @Override
         public void onClick(View v) {
-            if (mItemClickListener != null) mItemClickListener.onClick(v,getAdapterPosition());
+//            if (mItemClickListener != null) mItemClickListener.onClick(v,getAdapterPosition());
 
         }
     }

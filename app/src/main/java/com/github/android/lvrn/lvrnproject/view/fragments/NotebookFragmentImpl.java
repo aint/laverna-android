@@ -17,7 +17,6 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
-import com.github.android.lvrn.lvrnproject.view.adapters.NoteRecyclerViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapters.NotebookRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookFragmentImpl extends Fragment implements NoteRecyclerViewAdapter.ItemClickListener {
+public class NotebookFragmentImpl extends Fragment {
     @BindView(R.id.recycler_view_all_notes)
     RecyclerView mRecyclerView;
     @Inject
@@ -66,7 +65,7 @@ public class NotebookFragmentImpl extends Fragment implements NoteRecyclerViewAd
     }
 
 
-    @Override
+//    @Override
     public void onClick(View view, int position) {
         NotebookContentFragmentImpl noteAndNotebookFragment = new NotebookContentFragmentImpl();
         FragmentManager fragmentManager = getFragmentManager();
@@ -85,7 +84,7 @@ public class NotebookFragmentImpl extends Fragment implements NoteRecyclerViewAd
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new NotebookRecyclerViewAdapter(mNotebookData);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setClickListener(this);
+//        mAdapter.setClickListener(this);
     }
 
     /**

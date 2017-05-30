@@ -10,24 +10,24 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 
-    <item
-        android:id="@+id/item_action_sync"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_stat_sync_black_24dp"
-        android:title="@string/fragment_all_notes_menu_sync"
-        app:showAsAction="ifRoom"/>
+    <!--<item-->
+        <!--android:id="@+id/item_action_sync"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:icon="@drawable/ic_stat_sync_black_24dp"-->
+        <!--android:title="@string/fragment_all_notes_menu_sync"-->
+        <!--app:showAsAction="ifRoom"/>-->
 
-    <item
-        android:id="@+id/item_sort_by"
-        android:orderInCategory="100"
-        android:title="@string/fragment_all_notes_menu_sync_sort_by"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/item_sort_by"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/fragment_all_notes_menu_sync_sort_by"-->
+        <!--app:showAsAction="never"/>-->
 
-    <item
-        android:id="@+id/item_settings"
-        android:orderInCategory="100"
-        android:title="@string/fragment_all_notes_menu_sync_settings"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/item_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/fragment_all_notes_menu_sync_settings"-->
+        <!--app:showAsAction="never"/>-->
 
     <item
         android:id="@+id/item_about"

@@ -9,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.service.core.impl.NotebookServiceImpl
 import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -52,49 +53,49 @@ public class NotebookServiceImplTest {
 
     @Test
     public void serviceShouldCreateNotebook() {
-        assertThat(notebookService.create(new NotebookForm(profile.getId(), null, "new notebook"))
+        assertThat(notebookService.create(new NotebookForm(profile.getId(), false, null, "new notebook"))
                 .isPresent())
                 .isTrue();
     }
 
     @Test
     public void serviceShouldNotCreateNotebook() {
-        assertThat(notebookService.create(new NotebookForm(null, null, "new notebook"))
+        assertThat(notebookService.create(new NotebookForm(null, false, null, "new notebook"))
                 .isPresent())
                 .isFalse();
 
-        assertThat(notebookService.create(new NotebookForm(profile.getId(), null, ""))
+        assertThat(notebookService.create(new NotebookForm(profile.getId(), false, null, ""))
                 .isPresent())
                 .isFalse();
 
-        assertThat(notebookService.create(new NotebookForm(profile.getId(), "strang_id", "ddffdf"))
+        assertThat(notebookService.create(new NotebookForm(profile.getId(), false, "strang_id", "ddffdf"))
                 .isPresent())
                 .isFalse();
     }
 
     @Test
     public void serviceShouldUpdateEntity() {
-        Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), null, "new notebook"));
+        Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), false, null, "new notebook"));
         assertThat(notebookIdOptional.isPresent()).isTrue();
 
-        assertThat(notebookService.update(notebookIdOptional.get(), new NotebookForm(null, null, "New name"))).isTrue();
+        assertThat(notebookService.update(notebookIdOptional.get(), new NotebookForm(null, false, null, "New name"))).isTrue();
     }
 
     @Test
     public void serviceShouldNotUpdateEntity() {
-        Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), null, "new notebook"));
+        Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), false, null, "new notebook"));
         assertThat(notebookIdOptional.isPresent()).isTrue();
 
-        assertThat(notebookService.update(notebookIdOptional.get(), new NotebookForm(null, null, ""))).isFalse();
+        assertThat(notebookService.update(notebookIdOptional.get(), new NotebookForm(null, false, null, ""))).isFalse();
     }
 
     @Test
     public void serviceShouldGetEntityByName() {
-        assertThat(notebookService.create(new NotebookForm(profile.getId(), null, "new notebook"))
+        assertThat(notebookService.create(new NotebookForm(profile.getId(), false, null, "new notebook"))
                 .isPresent())
                 .isTrue();
 
-        assertThat(notebookService.getByName(profile.getId(), "new", 0, 100)).hasSize(1);
+        assertThat(notebookService.getByName(profile.getId(), "new", false, new PaginationArgs(0, 100))).hasSize(1);
     }
 
     @After

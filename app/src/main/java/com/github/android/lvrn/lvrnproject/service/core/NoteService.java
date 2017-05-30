@@ -1,10 +1,9 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
+import com.github.android.lvrn.lvrnproject.service.TrashDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
@@ -14,7 +13,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface NoteService extends ProfileDependedService<Note, NoteForm> {
+public interface NoteService extends TrashDependedService<Note, NoteForm> {
 
     /**
      * A method which retrieves an amount of entities from a start position by a title.

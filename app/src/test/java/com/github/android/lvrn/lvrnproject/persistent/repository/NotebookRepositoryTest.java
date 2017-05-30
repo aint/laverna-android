@@ -7,6 +7,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NotebookRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -64,7 +65,8 @@ public class NotebookRepositoryTest {
                 "notebook_name_1",
                 1111,
                 2222,
-                0
+                0,
+                false
         );
 
         notebook2 = new Notebook(
@@ -74,7 +76,8 @@ public class NotebookRepositoryTest {
                 "notebook_name_2",
                 1111,
                 2222,
-                0
+                0,
+                false
         );
 
         notebook3 = new Notebook(
@@ -84,7 +87,8 @@ public class NotebookRepositoryTest {
                 "notebook_name_3",
                 1111,
                 2222,
-                0
+                0,
+                false
         );
 
         notebooks = new ArrayList<>();
@@ -108,7 +112,7 @@ public class NotebookRepositoryTest {
         assertThat(notebookRepository.add(notebook3)).isFalse();
 
         List<Notebook> notebookEntities1 = notebookRepository
-                .getByProfile(profile.getId(), 0, 3);
+                .getByProfile(profile.getId(), false, new PaginationArgs(0, 100));
 
         assertThat(notebookEntities1.size()).isNotEqualTo(notebooks.size());
         assertThat(notebookEntities1.size()).isEqualTo(notebooks.size() - 1);
@@ -145,11 +149,11 @@ public class NotebookRepositoryTest {
         notebook2.setName("notebook2");
         notebookRepository.add(notebook2);
 
-        List<Notebook> result1 = notebookRepository.getByName(profile.getId(), "notebook", 0, 5);
+        List<Notebook> result1 = notebookRepository.getByName(profile.getId(), "notebook", false, new PaginationArgs());
 
         assertThat(result1).hasSize(2);
 
-        List<Notebook> result2 = notebookRepository.getByName(profile.getId(), "notebook_n", 0, 5);
+        List<Notebook> result2 = notebookRepository.getByName(profile.getId(), "notebook_n", false, new PaginationArgs());
 
         assertThat(result2).hasSize(1);
     }
@@ -164,7 +168,7 @@ public class NotebookRepositoryTest {
         notebookRepository.add(notebook2);
         notebookRepository.add(notebook3);
 
-        assertThat(notebookRepository.getChildren(notebook1.getId(), 0, 10)).hasSize(2);
+        assertThat(notebookRepository.getChildren(notebook1.getId(), false, new PaginationArgs(0, 10))).hasSize(2);
     }
 
     @Test
@@ -174,7 +178,7 @@ public class NotebookRepositoryTest {
         notebookRepository.add(notebook3);
         notebook3.setProfileId(profile.getId());
 
-        assertThat(notebookRepository.getRootParents(profile.getId(), 0, 10)).hasSize(1);
+        assertThat(notebookRepository.getRootParents(profile.getId(), false, new PaginationArgs(0, 10))).hasSize(1);
     }
 
     @After

@@ -9,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.core.TaskReposi
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NoteRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.TaskRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -58,7 +59,7 @@ public class TaskRepositoryTest {
 
         NoteRepositoryImpl notesRepository = new NoteRepositoryImpl();
         notesRepository.openDatabaseConnection();
-        notesRepository.add(new Note("node_id_1", profile.getId(), Optional.absent(), "title", 1111, 2222, "dfsdf", "dfsdf", true));
+        notesRepository.add(new Note("node_id_1", profile.getId(), Optional.absent(), "title", 1111, 2222, "dfsdf", "dfsdf", true, false));
         notesRepository.closeDatabaseConnection();
 
         taskRepository = new TaskRepositoryImpl();
@@ -110,7 +111,7 @@ public class TaskRepositoryTest {
         taskRepository.add(task3);
 
         List<Task> taskEntities1 = taskRepository
-                .getByProfile(profile.getId(), 0, 3);
+                .getByProfile(profile.getId(), new PaginationArgs());
 
         assertThat(taskEntities1.size()).isNotEqualTo(tasks.size());
         assertThat(taskEntities1.size()).isEqualTo(tasks.size() - 1);
@@ -126,7 +127,7 @@ public class TaskRepositoryTest {
         taskRepository.add(task3);
 
         List<Task> taskEntities1 = taskRepository
-                .getUncompletedByProfile(profile.getId(), 0, 3);
+                .getUncompletedByProfile(profile.getId(), new PaginationArgs());
 
         assertThat(taskEntities1.size()).isNotEqualTo(tasks.size());
         assertThat(taskEntities1.size()).isEqualTo(tasks.size() - 2);

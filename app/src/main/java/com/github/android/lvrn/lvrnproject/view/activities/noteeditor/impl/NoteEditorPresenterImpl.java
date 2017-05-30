@@ -6,7 +6,7 @@ import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activities.noteeditor.NoteEditorPresenter;
-import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl;
 import com.jakewharton.rxbinding2.widget.RxTextView;

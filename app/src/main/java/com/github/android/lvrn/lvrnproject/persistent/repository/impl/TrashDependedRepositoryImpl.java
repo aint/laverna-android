@@ -28,7 +28,7 @@ public abstract class TrashDependedRepositoryImpl<T extends TrashDependedEntity>
     @NonNull
     @Override
     public List<T> getByProfile(@NonNull String profileId, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
-        return getByIdCondition(COLUMN_PROFILE_ID, getTrashClause(isTrash), profileId, paginationArgs);
+        return getByIdCondition(COLUMN_PROFILE_ID, profileId, getTrashClause(isTrash), paginationArgs);
     }
 
     @Override
@@ -50,6 +50,6 @@ public abstract class TrashDependedRepositoryImpl<T extends TrashDependedEntity>
     }
 
     protected String getTrashClause(boolean isTrash) {
-        return " AND " + COLUMN_TRASH + "=" + (isTrash ? "1," : "0,");
+        return " AND " + COLUMN_TRASH + "=" + (isTrash ? "1" : "0");
     }
 }

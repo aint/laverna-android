@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapters.viewholders.NotesViewHolder;
+import com.github.android.lvrn.lvrnproject.view.fragments.allnotes.impl.AllNotesFragmentImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,12 +20,13 @@ import java.util.List;
 
 public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHolder> {
 
-    public static ItemClickListener mItemClickListener;
-    public List<Note> allNotesData = new ArrayList<>();
+    private AllNotesFragmentImpl mAllNotesFragment;
 
+    private List<Note> mNotes;
 
-    public NoteRecyclerViewAdapter(List<Note> data) {
-        allNotesData = data;
+    public NoteRecyclerViewAdapter(AllNotesFragmentImpl allNotesFragment, List<Note> notes) {
+        mAllNotesFragment = allNotesFragment;
+        mNotes = notes;
     }
 
     @Override
@@ -36,27 +37,15 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHolde
 
     @Override
     public void onBindViewHolder(NotesViewHolder holder, int position) {
-        holder.getTvTitle().setText(allNotesData.get(position).getTitle());
-        holder.getTvPromptText().setText(allNotesData.get(position).getContent());
+        holder.getTvTitle().setText(mNotes.get(position).getTitle());
+        holder.getTvPromptText().setText(mNotes.get(position).getContent());
+
+        holder.itemView.setOnClickListener(v -> mAllNotesFragment.showSelectedNote(mNotes.get(position)));
     }
 
     @Override
     public int getItemCount() {
-        return allNotesData.size();
-    }
-
-    public void setClickListener(ItemClickListener itemClickListener) {
-        mItemClickListener = itemClickListener;
-    }
-
-    public void setAllNotesData(List<Note> allNotesData) {
-        this.allNotesData = allNotesData;
-        notifyDataSetChanged();
-    }
-
-
-    public interface ItemClickListener {
-        void onClick(View view, int position);
+        return mNotes.size();
     }
 }
 

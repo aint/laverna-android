@@ -6,7 +6,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.adapters.NotebookRecyclerViewAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,7 +14,7 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class NotebookViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.text_view_notebook_name)
     TextView tvTitle;
@@ -25,12 +24,6 @@ public class NotebookViewHolder extends RecyclerView.ViewHolder implements View.
     public NotebookViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        itemView.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (NotebookRecyclerViewAdapter.mItemClickListener != null) NotebookRecyclerViewAdapter.mItemClickListener.onClick(v, getAdapterPosition());
     }
 
     public TextView getTvTitle() {

@@ -9,7 +9,7 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRe
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
-import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
+import com.github.android.lvrn.lvrnproject.service.impl.TrashDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
@@ -23,7 +23,7 @@ import javax.inject.Inject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, NotebookForm> implements NotebookService {
+public class NotebookServiceImpl extends TrashDependedServiceImpl<Notebook, NotebookForm> implements NotebookService {
 
     private final NotebookRepository mNotebookRepository;
 

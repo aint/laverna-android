@@ -110,6 +110,11 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
         return true;
     }
 
+    @Override
+    public boolean isConnectionOpened() {
+        return mDatabase != null;
+    }
+
     /**
      * A method which retrieves objects from the database by a raw SQL query.
      * @param query a {@code String} object of a raw SQL query

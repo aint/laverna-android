@@ -8,11 +8,12 @@ import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
 import com.github.android.lvrn.lvrnproject.view.listeners.RecyclerViewOnScrollListener;
-import com.github.android.lvrn.lvrnproject.view.util.CurrentState;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.ReplaySubject;
 
@@ -26,19 +27,20 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
 
     private NotebookService mNotebookService;
 
-    private ReplaySubject<PaginationArgs> mPaginationArgsReplaySubject;
+    private Disposable mPaginationDisposable;
 
     private List<Notebook> mNotebooks;
 
     NotebookSelectionPresenterImpl(NotebookService mNotebookService) {
-        this.mNotebookService = mNotebookService;
-        initPaginationDisposable();
-        mNotebookService.openConnection();
+        (this.mNotebookService = mNotebookService).openConnection();
     }
 
     @Override
     public void bindView(NotebookSelectionDialogFragment notebookSelectionDialogFragment) {
         mNotebookSelectionDialogFragment = notebookSelectionDialogFragment;
+        if (!mNotebookService.isConnectionOpened()) {
+            mNotebookService.openConnection();
+        }
     }
 
     @Override
@@ -48,36 +50,30 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
 
     @Override
     public void subscribeRecyclerViewForPagination(RecyclerView recyclerView) {
-        initPaginationDisposable();
-        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListener(mPaginationArgsReplaySubject));
-    }
+        ReplaySubject<PaginationArgs> paginationReplaySubject;
 
-    @Override
-    public List<Notebook> getNotebooksForAdapter() {
-        PaginationArgs paginationArgs = new PaginationArgs();
-        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, paginationArgs);
-        return mNotebooks;
-    }
-
-    private void initPaginationDisposable() {
-        mPaginationArgsReplaySubject = ReplaySubject.create();
-        mPaginationArgsReplaySubject
+        mPaginationDisposable = (paginationReplaySubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
-                .map(this::loadMoreNotebooks)
-                .filter(this::isNotebooksListNotEmpty)
+                .map(paginationArgs -> mNotebookService.getByProfile(CurrentState.profileId, paginationArgs))
+                .filter(notebooks -> !notebooks.isEmpty())
                 .map(newNotebooks -> mNotebooks.addAll(newNotebooks))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> mNotebookSelectionDialogFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
+
+        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListener(paginationReplaySubject));
     }
 
-    private List<Notebook> loadMoreNotebooks(PaginationArgs paginationArgs) {
-        List<Notebook> notebooks = mNotebookService.getByProfile(CurrentState.profileId, paginationArgs);
-        System.out.println(notebooks);
-        return notebooks;
+    @Override
+    public void disposePagination() {
+        if( mPaginationDisposable != null && !mPaginationDisposable.isDisposed()) {
+            mPaginationDisposable.dispose();
+        }
     }
 
-    private boolean isNotebooksListNotEmpty(List<Notebook> notebooks) {
-        return !notebooks.isEmpty();
+    @Override
+    public List<Notebook> getNotebooksForAdapter() {
+        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, false, new PaginationArgs());
+        return mNotebooks;
     }
 }

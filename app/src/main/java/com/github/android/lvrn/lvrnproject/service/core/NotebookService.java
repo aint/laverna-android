@@ -1,10 +1,9 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
+import com.github.android.lvrn.lvrnproject.service.TrashDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
@@ -14,7 +13,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface NotebookService extends ProfileDependedService<Notebook, NotebookForm> {
+public interface NotebookService extends TrashDependedService<Notebook, NotebookForm> {
 
     /**
      * A method which retrieves an amount of entities from a start position by a name.
