@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter;
+package com.github.android.lvrn.lvrnproject.view.adapter.impl;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NotebookViewHolder;
 
 import java.util.ArrayList;
@@ -15,12 +17,12 @@ import java.util.List;
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
-
-public class NotebookRecyclerViewAdapter  extends RecyclerView.Adapter<NotebookViewHolder> {
+//TODO: FIX!
+public class AllNotebooksAdapter extends RecyclerView.Adapter<NotebookViewHolder> implements DataPostSetAdapter<Note> {
     private List<Notebook> mNotebookData = new ArrayList<>();
-//    public static NoteRecyclerViewAdapter.ItemClickListener mItemClickListener;
+//    public static AllNotesAdapter.ItemClickListener mItemClickListener;
 
-    public NotebookRecyclerViewAdapter(List<Notebook> mNotebookData) {
+    public AllNotebooksAdapter(List<Notebook> mNotebookData) {
         this.mNotebookData = mNotebookData;
     }
 
@@ -40,7 +42,12 @@ public class NotebookRecyclerViewAdapter  extends RecyclerView.Adapter<NotebookV
         return mNotebookData.size();
     }
 
-//    public void setClickListener(NoteRecyclerViewAdapter.ItemClickListener itemClickListener) {
+    @Override
+    public void setData(List<Note> data) {
+
+    }
+
+//    public void setClickListener(AllNotesAdapter.ItemClickListener itemClickListener) {
 //        mItemClickListener = itemClickListener;
 //    }
 

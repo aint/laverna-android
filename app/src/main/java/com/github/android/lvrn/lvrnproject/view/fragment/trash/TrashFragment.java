@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allnotes;
+package com.github.android.lvrn.lvrnproject.view.fragment.trash;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 
@@ -6,7 +6,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public interface AllNotesFragment {
+public interface TrashFragment {
 
     void updateRecyclerView();
 

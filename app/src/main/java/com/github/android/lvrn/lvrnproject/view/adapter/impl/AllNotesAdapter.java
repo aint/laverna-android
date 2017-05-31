@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter;
+package com.github.android.lvrn.lvrnproject.view.adapter.impl;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,9 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NotesViewHolder;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NoteViewHolder;
+import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesFragment;
 
 import java.util.List;
 
@@ -18,25 +19,24 @@ import java.util.List;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHolder> {
+public class AllNotesAdapter extends RecyclerView.Adapter<NoteViewHolder> implements DataPostSetAdapter<Note> {
 
-    private AllNotesFragmentImpl mAllNotesFragment;
+    private AllNotesFragment mAllNotesFragment;
 
     private List<Note> mNotes;
 
-    public NoteRecyclerViewAdapter(AllNotesFragmentImpl allNotesFragment, List<Note> notes) {
+    public AllNotesAdapter(AllNotesFragment allNotesFragment) {
         mAllNotesFragment = allNotesFragment;
-        mNotes = notes;
     }
 
     @Override
-    public NotesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
-        return new NotesViewHolder(view);
+        return new NoteViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(NotesViewHolder holder, int position) {
+    public void onBindViewHolder(NoteViewHolder holder, int position) {
         holder.getTvTitle().setText(mNotes.get(position).getTitle());
         holder.getTvPromptText().setText(mNotes.get(position).getContent());
 
@@ -46,6 +46,11 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHolde
     @Override
     public int getItemCount() {
         return mNotes.size();
+    }
+
+    @Override
+    public void setData(List<Note> data) {
+        mNotes = data;
     }
 }
 

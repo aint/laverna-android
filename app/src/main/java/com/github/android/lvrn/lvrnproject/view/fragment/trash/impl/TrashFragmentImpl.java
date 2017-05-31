@@ -1,7 +1,6 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allnotes.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.trash.impl;
 
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,16 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllNotesAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.impl.TrashAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesFragment;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.trash.TrashFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.trash.TrashPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 import com.orhanobut.logger.Logger;
@@ -36,44 +33,41 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
+public class TrashFragmentImpl extends Fragment implements TrashFragment {
 
-    public static final String TOOLBAR_TITLE = "All Notes";
+    public static final String TOOLBAR_TITLE = "Trash";
 
     @Inject NoteService mNoteService;
 
-    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
-
-    @BindView(R.id.floating_action_menu_all_notes) FloatingActionsMenu floatingActionsMenu;
+    @BindView(R.id.recycler_view_trash) RecyclerView mNotesRecyclerView;
 
     private Unbinder mUnbinder;
 
     private LinearLayoutManager mLinearLayoutManager;
 
-    private AllNotesAdapter mNotesRecyclerViewAdapter;
+    private TrashAdapter mNotesRecyclerViewAdapter;
 
     private SearchView mSearchView;
 
     private MenuItem menuSearch;
     //, menuSync, menuSortBy, menuSettings, menuAbout;
 
-    private AllNotesPresenter mAllNotesPresenter;
+    private TrashPresenter trashPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_all_notes, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_trash, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
 
-        mAllNotesPresenter = new AllNotesPresenterImpl(mNoteService);
+        trashPresenter = new TrashPresenterImpl(mNoteService);
 
         setUpToolbar();
         initRecyclerView();
@@ -84,17 +78,16 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(mAllNotesPresenter == null) {
-            mAllNotesPresenter = new AllNotesPresenterImpl(mNoteService);
+        if(trashPresenter == null) {
+            trashPresenter = new TrashPresenterImpl(mNoteService);
         }
-        mAllNotesPresenter.bindView(this);
+        trashPresenter.bindView(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        floatingActionsMenu.collapse();
-        mAllNotesPresenter.unbindView();
+        trashPresenter.unbindView();
     }
 
     @Override
@@ -109,7 +102,7 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
 
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
 
-        mAllNotesPresenter.subscribeSearchView(menuSearch);
+        trashPresenter.subscribeSearchView(menuSearch);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -121,7 +114,7 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
-        mAllNotesPresenter.disposePaginationAndSearch();
+        trashPresenter.disposePaginationAndSearch();
     }
 
     @Override
@@ -131,6 +124,10 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
     }
 
     @Override
+    public String getSearchQuery() {
+        return mSearchView.getQuery().toString();
+    }
+
     public void showSelectedNote(Note note) {
         SingleNoteFragmentImpl singleNoteFragmentImpl = new SingleNoteFragmentImpl();
 
@@ -145,26 +142,6 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
                 .commit();
     }
 
-    @Override
-    public String getSearchQuery() {
-        return mSearchView.getQuery().toString();
-    }
-
-    /**
-     * A method which hears when user click on button and opens new activity
-     */
-    @OnClick(R.id.floating_btn_start_note)
-    public void startNoteEditorActivity() {
-        getActivity().startActivity(new Intent(getActivity(), NoteEditorActivityImpl.class));
-        getActivity().finish();
-    }
-
-    @OnClick(R.id.floating_btn_start_notebook)
-    public void openNotebooksCreationDialog() {
-        //TODO: Change method with implement need functionality
-        floatingActionsMenu.collapse();
-    }
-
     /**
      * A method which initializes recycler view with data
      */
@@ -174,10 +151,10 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mNotesRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mNotesRecyclerViewAdapter = new AllNotesAdapter(this, mAllNotesPresenter.getNotesForAdapter());
+        mNotesRecyclerViewAdapter = new TrashAdapter(this, trashPresenter.getNotesForAdapter());
         mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
 
-        mAllNotesPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
+        trashPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
     }
 
     /**
@@ -190,8 +167,6 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
     }
 
     public void startSearchMode() {
-        floatingActionsMenu.collapse();
-        floatingActionsMenu.setVisibility(View.GONE);
 //        menuSync.setVisible(false);
 //        menuAbout.setVisible(false);
 //        menuSortBy.setVisible(false);
@@ -206,12 +181,9 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
     }
 
     public void startNormalMode() {
-        floatingActionsMenu.setVisibility(View.VISIBLE);
 //        menuSync.setVisible(true);
 //        menuAbout.setVisible(true);
 //        menuSortBy.setVisible(true);
 //        menuSettings.setVisible(true);
     }
-
-
 }

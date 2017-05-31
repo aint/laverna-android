@@ -15,7 +15,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapter.NotebookSelectionRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebookSelectionAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
 import com.orhanobut.logger.Logger;
@@ -43,7 +43,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
     private NotebookSelectionPresenter mNotebookSelectionPresenter;
 
-    private NotebookSelectionRecyclerViewAdapter mNotebooksRecyclerViewAdapter;
+    private NotebookSelectionAdapter mNotebooksRecyclerViewAdapter;
 
     private LinearLayoutManager mLinearLayoutManager;
 
@@ -132,7 +132,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mNotebooksRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mNotebooksRecyclerViewAdapter = new NotebookSelectionRecyclerViewAdapter(
+        mNotebooksRecyclerViewAdapter = new NotebookSelectionAdapter(
                 this, mNotebookSelectionPresenter.getNotebooksForAdapter());
 
         mNotebooksRecyclerView.setAdapter(mNotebooksRecyclerViewAdapter);

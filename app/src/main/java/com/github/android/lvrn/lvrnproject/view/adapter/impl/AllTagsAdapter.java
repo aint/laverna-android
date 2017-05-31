@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter;
+package com.github.android.lvrn.lvrnproject.view.adapter.impl;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
-
-public class TagRecyclerViewAdapter extends RecyclerView.Adapter<TagRecyclerViewAdapter.TagEditingViewHolder> {
+//TODO: FIX!
+public class AllTagsAdapter extends RecyclerView.Adapter<AllTagsAdapter.TagEditingViewHolder>{
     private List<Tag> mDataSet = new ArrayList<>();
 
-    public TagRecyclerViewAdapter(List<Tag> data) {
+    public AllTagsAdapter(List<Tag> data) {
         mDataSet = data;
     }
 

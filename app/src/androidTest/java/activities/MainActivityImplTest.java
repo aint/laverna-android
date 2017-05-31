@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.activity.MainActivityImpl;
+import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 
 import org.junit.Rule;
 import org.junit.Test;

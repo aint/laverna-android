@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment;
+package com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +17,8 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
-import com.github.android.lvrn.lvrnproject.view.adapter.NotebookRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllNotebooksAdapter;
+import com.github.android.lvrn.lvrnproject.view.fragment.NotebookContentFragmentImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +32,14 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookFragmentImpl extends Fragment {
+public class AllNotebooksFragmentImpl extends Fragment {
     @BindView(R.id.recycler_view_all_notes)
     RecyclerView mRecyclerView;
     @Inject
     NotebookService mNotebookService;
     private List<Notebook> mNotebookData = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
-    private NotebookRecyclerViewAdapter mAdapter;
+    private AllNotebooksAdapter mAdapter;
 
     @Nullable
     @Override
@@ -82,7 +83,7 @@ public class NotebookFragmentImpl extends Fragment {
     private void initRecyclerView() {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new NotebookRecyclerViewAdapter(mNotebookData);
+        mAdapter = new AllNotebooksAdapter(mNotebookData);
         mRecyclerView.setAdapter(mAdapter);
 //        mAdapter.setClickListener(this);
     }

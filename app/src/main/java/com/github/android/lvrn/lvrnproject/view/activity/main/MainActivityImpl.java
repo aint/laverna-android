@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.activity;
+package com.github.android.lvrn.lvrnproject.view.activity.main;
 
 
 import android.content.pm.ActivityInfo;
@@ -14,10 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.fragment.NotebookFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.TaskFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.TrashFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNotebooksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.trash.impl.TrashFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
 import butterknife.BindView;
@@ -69,12 +69,12 @@ public class MainActivityImpl extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (R.id.nav_item_notebooks == id) {
-            NotebookFragmentImpl notebookFragment = new NotebookFragmentImpl();
+            AllNotebooksFragmentImpl notebookFragment = new AllNotebooksFragmentImpl();
             menuStartSelectFragment(notebookFragment, TagFragmentConst.TAG_NOTEBOOK_FRAGMENT);
         } else if (R.id.nav_item_all_notes == id) {
             startAllNotesFragment();
         } else if (R.id.nav_item_open_tasks == id) {
-            TaskFragmentImpl taskFragment = new TaskFragmentImpl();
+            AllTasksFragmentImpl taskFragment = new AllTasksFragmentImpl();
             menuStartSelectFragment(taskFragment, TagFragmentConst.TAG_TASK_FRAGMENT);
         } else if (R.id.nav_item_trash == id) {
             TrashFragmentImpl trashFragment = new TrashFragmentImpl();

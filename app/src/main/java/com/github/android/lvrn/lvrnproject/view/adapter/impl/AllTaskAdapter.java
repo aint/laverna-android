@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter;
+package com.github.android.lvrn.lvrnproject.view.adapter.impl;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,12 +18,12 @@ import butterknife.ButterKnife;
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
-
-public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskViewHolder> {
+//TODO: FIX!
+public class AllTaskAdapter extends RecyclerView.Adapter<AllTaskAdapter.TaskViewHolder> {
     public List<Task> mTaskData = new ArrayList<>();
-//    private NoteRecyclerViewAdapter.ItemClickListener mItemClickListener;
+//    private AllNotesAdapter.ItemClickListener mItemClickListener;
 
-    public TaskRecyclerViewAdapter(List<Task> mTaskData) {
+    public AllTaskAdapter(List<Task> mTaskData) {
         this.mTaskData = mTaskData;
     }
 
@@ -42,7 +42,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public int getItemCount() {
         return mTaskData.size();
     }
-//    public void setClickListener(NoteRecyclerViewAdapter.ItemClickListener itemClickListener) {
+//    public void setClickListener(AllNotesAdapter.ItemClickListener itemClickListener) {
 //        this.mItemClickListener = itemClickListener;
 //    }
 

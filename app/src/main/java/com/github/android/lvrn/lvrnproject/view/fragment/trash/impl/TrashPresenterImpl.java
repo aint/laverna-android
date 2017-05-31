@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allnotes.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.trash.impl;
 
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,8 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesFragment;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesFragmentPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.trash.TrashFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.trash.TrashPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
 import com.github.android.lvrn.lvrnproject.view.listener.SearchViewOnQueryTextListener;
 
@@ -26,10 +26,10 @@ import io.reactivex.subjects.ReplaySubject;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter, MenuItemCompat.OnActionExpandListener {
+public class TrashPresenterImpl implements TrashPresenter, MenuItemCompat.OnActionExpandListener {
     private NoteService mNoteService;
 
-    private AllNotesFragment mAllNotesFragment;
+    private TrashFragment mTrashFragment;
 
     private RecyclerViewOnScrollListener mRecyclerViewOnScrollLister;
 
@@ -45,13 +45,13 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter,
 
     private List<Note> mNotes;
 
-    public AllNotesFragmentPresenterImpl(NoteService mNoteService) {
+    public TrashPresenterImpl(NoteService mNoteService) {
         (this.mNoteService = mNoteService).openConnection();
     }
 
     @Override
-    public void bindView(AllNotesFragment allNotesFragment) {
-        mAllNotesFragment = allNotesFragment;
+    public void bindView(TrashFragment trashFragment) {
+        mTrashFragment = trashFragment;
         if (!mNoteService.isConnectionOpened()) {
             mNoteService.openConnection();
         }
@@ -59,7 +59,7 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter,
 
     @Override
     public void unbindView() {
-        mAllNotesFragment = null;
+        mTrashFragment = null;
         mNoteService.closeConnection();
     }
 
@@ -85,7 +85,7 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter,
      */
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
-        mAllNotesFragment.startSearchMode();
+        mTrashFragment.startSearchMode();
         mRecyclerViewOnScrollLister.changeSubject(mFoundedPaginationSubject);
         return true;
     }
@@ -97,10 +97,10 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter,
      */
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
-        mAllNotesFragment.startNormalMode();
+        mTrashFragment.startNormalMode();
         mRecyclerViewOnScrollLister.changeSubject(mPaginationSubject);
-        addFirstFoundedItemsToList(mNoteService.getByProfile(CurrentState.profileId, false, new PaginationArgs()));
-        mAllNotesFragment.updateRecyclerView();
+        addFirstFoundedItemsToList(mNoteService.getByProfile(CurrentState.profileId, true, new PaginationArgs()));
+        mTrashFragment.updateRecyclerView();
         return true;
     }
 
@@ -123,6 +123,16 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter,
         return mNotes;
     }
 
+    @Override
+    public void removeNoteForever() {
+        //TODO: implement
+    }
+
+    @Override
+    public void restoreNote() {
+        //TODO: Implement
+    }
+
     private void initPaginationSubject() {
         mPaginationDisposable = (mPaginationSubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
@@ -130,7 +140,7 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter,
                 .filter(notes -> !notes.isEmpty())
                 .map(newNotes -> mNotes.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllNotesFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mTrashFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
     }
 
@@ -144,7 +154,7 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter,
                 .map(this::addFirstFoundedItemsToList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllNotesFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mTrashFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
 
         searchView.setOnQueryTextListener(new SearchViewOnQueryTextListener(searchQuerySubject));
@@ -160,11 +170,11 @@ public class AllNotesFragmentPresenterImpl implements AllNotesFragmentPresenter,
     private void initFoundedPaginationSubject() {
         mFoundedPaginationDisposable = (mFoundedPaginationSubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
-                .map(paginationArgs -> mNoteService.getByTitle(CurrentState.profileId, mAllNotesFragment.getSearchQuery(), false, paginationArgs))
+                .map(paginationArgs -> mNoteService.getByTitle(CurrentState.profileId, mTrashFragment.getSearchQuery(), false, paginationArgs))
                 .filter(notes -> !notes.isEmpty())
                 .map(newNotes -> mNotes.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllNotesFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mTrashFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
     }
 }

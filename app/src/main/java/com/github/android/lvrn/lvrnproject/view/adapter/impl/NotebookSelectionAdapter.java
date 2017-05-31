@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter;
+package com.github.android.lvrn.lvrnproject.view.adapter.impl;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,13 +19,13 @@ import butterknife.ButterKnife;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookSelectionRecyclerViewAdapter extends RecyclerView.Adapter<NotebookSelectionRecyclerViewAdapter.ViewHolder> {
+public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelectionAdapter.ViewHolder> {
 
     private NotebookSelectionDialogFragmentImpl mNotebookSelectionDialogFragment;
 
     private List<Notebook> mNotebooks;
 
-    public NotebookSelectionRecyclerViewAdapter(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment, List<Notebook> notebooks) {
+    public NotebookSelectionAdapter(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment, List<Notebook> notebooks) {
         mNotebookSelectionDialogFragment = notebookSelectionDialogFragment;
         mNotebooks = notebooks;
     }
@@ -52,6 +52,7 @@ public class NotebookSelectionRecyclerViewAdapter extends RecyclerView.Adapter<N
         return mNotebooks.size();
     }
 
+    //TODO: Use notebook view holder
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_view_notebook_name) TextView mNotebookNameTextView;

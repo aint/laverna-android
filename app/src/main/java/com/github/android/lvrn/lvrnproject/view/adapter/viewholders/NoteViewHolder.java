@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotesViewHolder extends RecyclerView.ViewHolder {
+public class NoteViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.tv_title_note)
      TextView tvTitle;
@@ -25,7 +25,7 @@ public class NotesViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.im_btn_favorite)
     ImageButton imBtnFavorite;
 
-    public NotesViewHolder(View itemView) {
+    public NoteViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

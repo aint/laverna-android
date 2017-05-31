@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment;
+package com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +16,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.TaskService;
-import com.github.android.lvrn.lvrnproject.view.adapter.TaskRecyclerViewAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllTaskAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
@@ -33,14 +33,14 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TaskFragmentImpl extends Fragment {
+public class AllTasksFragmentImpl extends Fragment {
     @BindView(R.id.recycler_view_task)
     RecyclerView mRecyclerViewNote;
     @Inject
     TaskService mTaskService;
     @Inject
     NoteService mNoteService;
-    private  TaskRecyclerViewAdapter mTaskRecyclerViewAdapter;
+    private AllTaskAdapter mAllTaskAdapter;
     private List<Task> mTaskData = new ArrayList<>();
 
     @Nullable
@@ -61,7 +61,7 @@ public class TaskFragmentImpl extends Fragment {
         SingleNoteFragmentImpl singleNoteFragment = new SingleNoteFragmentImpl();
         Bundle bundle = new Bundle();
         //TODO: temporary, change later
-        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY,mTaskRecyclerViewAdapter.mTaskData.get(position));
+        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY, mAllTaskAdapter.mTaskData.get(position));
         singleNoteFragment.setArguments(bundle);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -74,10 +74,10 @@ public class TaskFragmentImpl extends Fragment {
         LinearLayoutManager linearLayout = new LinearLayoutManager(getActivity());
         mRecyclerViewNote.setLayoutManager(linearLayout);
 //        mTaskData.addAll(mTaskService.getByProfile(CurrentState.profileId, 0, 7));
-        mTaskRecyclerViewAdapter = new TaskRecyclerViewAdapter(mTaskData);
-        mRecyclerViewNote.setAdapter(mTaskRecyclerViewAdapter);
+        mAllTaskAdapter = new AllTaskAdapter(mTaskData);
+        mRecyclerViewNote.setAdapter(mAllTaskAdapter);
         mTaskService.closeConnection();
-//        mTaskRecyclerViewAdapter.setClickListener(this);
+//        mAllTaskAdapter.setClickListener(this);
     }
 
     private void reInitBaseView() {
