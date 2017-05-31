@@ -26,6 +26,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -36,6 +37,7 @@ public class NotebookFragmentImpl extends Fragment {
     RecyclerView mRecyclerView;
     @Inject
     NotebookService mNotebookService;
+    private Unbinder mUnbinder;
     private List<Notebook> mNotebookData = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
     private NotebookRecyclerViewAdapter mAdapter;
@@ -44,10 +46,10 @@ public class NotebookFragmentImpl extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_all_notes, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
         initRecyclerView();
         LavernaApplication.getsAppComponent().inject(this);
-        reInitBaseView();
+        setUpToolbar();
         //TODO: clean it, use ifPresent method on Optional.
 //        mNotebookService.openConnection();
 //        mNotebookService.create(new NotebookForm(CurrentState.profileId, null, "Animals"));
@@ -64,8 +66,15 @@ public class NotebookFragmentImpl extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mUnbinder != null){
+            mUnbinder.unbind();
+        }
+    }
 
-//    @Override
+    //    @Override
     public void onClick(View view, int position) {
         NotebookContentFragmentImpl noteAndNotebookFragment = new NotebookContentFragmentImpl();
         FragmentManager fragmentManager = getFragmentManager();
@@ -90,7 +99,7 @@ public class NotebookFragmentImpl extends Fragment {
     /**
      * A method which sets defined view of main toolbar
      */
-    private void reInitBaseView() {
+    private void setUpToolbar() {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("All Notebook");
     }

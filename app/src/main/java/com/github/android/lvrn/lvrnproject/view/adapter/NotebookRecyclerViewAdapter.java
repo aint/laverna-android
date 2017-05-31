@@ -18,7 +18,6 @@ import java.util.List;
 
 public class NotebookRecyclerViewAdapter  extends RecyclerView.Adapter<NotebookViewHolder> {
     private List<Notebook> mNotebookData = new ArrayList<>();
-//    public static NoteRecyclerViewAdapter.ItemClickListener mItemClickListener;
 
     public NotebookRecyclerViewAdapter(List<Notebook> mNotebookData) {
         this.mNotebookData = mNotebookData;
@@ -39,9 +38,5 @@ public class NotebookRecyclerViewAdapter  extends RecyclerView.Adapter<NotebookV
     public int getItemCount() {
         return mNotebookData.size();
     }
-
-//    public void setClickListener(NoteRecyclerViewAdapter.ItemClickListener itemClickListener) {
-//        mItemClickListener = itemClickListener;
-//    }
 
 }

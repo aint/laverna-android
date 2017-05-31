@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -38,6 +39,7 @@ public class NotebookContentFragmentImpl extends Fragment {
     RecyclerView mRecyclerViewNotebook;
     @BindView(R.id.recycler_view_notes_together)
     RecyclerView mRecyclerViewNote;
+    private Unbinder mUnbinder;
     private List<Note> mNoteData = new ArrayList<>();
     private List<Notebook> mNotebookData = new ArrayList<>();
 
@@ -45,7 +47,7 @@ public class NotebookContentFragmentImpl extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notebok_content, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         LavernaApplication.getsAppComponent().inject(this);
         initRecyclerView();
 //        hardcodeNote();
@@ -55,6 +57,14 @@ public class NotebookContentFragmentImpl extends Fragment {
 //        mNoteService.closeConnection();
 //        mNotebookService.closeConnection();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mUnbinder != null){
+            mUnbinder.unbind();
+        }
     }
 
     /**

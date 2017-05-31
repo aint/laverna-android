@@ -16,6 +16,7 @@ import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -26,13 +27,14 @@ public class NoteDetailsFragmentImpl extends Fragment {
     @BindView(R.id.tv_update_date_detail_note) TextView mTextViewUpdateNote;
     @BindView(R.id.tv_create_date_detail_note) TextView mTextViewCreateNote;
     @BindView(R.id.tv_notebook_name_detail_note) TextView mTextViewNotebookName;
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note_details, container, false);
-        ButterKnife.bind(this, rootView);
-        reInitBaseView();
+        mUnbinder = ButterKnife.bind(this, rootView);
+        setUpToolbar();
         getParcelableDataAndSetInView();
         return rootView;
     }
@@ -45,10 +47,18 @@ public class NoteDetailsFragmentImpl extends Fragment {
         getActivity().onBackPressed();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mUnbinder != null){
+            mUnbinder.unbind();
+        }
+    }
+
     /**
      * A method which sets defined view of main toolbar
      */
-    private void reInitBaseView() {
+    private void setUpToolbar() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 

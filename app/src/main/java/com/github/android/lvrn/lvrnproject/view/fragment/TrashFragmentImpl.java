@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -37,18 +38,27 @@ public class TrashFragmentImpl extends Fragment {
     @Inject
     NotebookService mNotebookService;
     private List<Entity> mEntityData = new ArrayList<>();
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trash, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder =  ButterKnife.bind(this, view);
         LavernaApplication.getsAppComponent().inject(this);
         //TODO: temporary, remove later
         hardcode();
-        reInitBaseView();
+        setUpToolbar();
         initRecyclerView();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mUnbinder != null){
+            mUnbinder.unbind();
+        }
     }
 
     private void initRecyclerView() {
@@ -61,7 +71,7 @@ public class TrashFragmentImpl extends Fragment {
         mRecyclerViewTrash.setAdapter(trashRecyclerViewAdapter);
     }
 
-    private void reInitBaseView() {
+    private void setUpToolbar() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Trash");
         setHasOptionsMenu(true);
     }

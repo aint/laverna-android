@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_create_notebook_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/dialog_fragment_creating_notebook_creating_notebook"
+        android:textColor="@color/main_green_themes_app"
+        android:textSize="24sp" />
+
+    <View
+        android:id="@+id/view_separator_dialog_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/tv_create_notebook_dialog"
+        android:background="@color/main_green_themes_app" />
+
+    <EditText
+        android:id="@+id/edit_text_notebook_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_separator_dialog_fragment"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/black"
+        android:hint="@string/hint_enter_your_notebook_name"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_create_notebook_choose_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_notebook_name"
+        android:layout_margin="16dp"
+        android:text="Chosse notebook parent"
+        android:textColor="@color/main_green_themes_app"
+        android:textSize="20sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_notebook_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_create_notebook_choose_parent"
+        android:layout_above="@+id/relative_layout_create_notebook"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:scrollbars="vertical" />
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_create_notebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp">
+
+        <Button
+            android:id="@+id/btn_create_notebook_cancel"
+            android:layout_width="64dp"
+            android:layout_height="36dp"
+            android:layout_toLeftOf="@+id/btn_create_notebook_ok"
+            android:background="@android:color/transparent"
+            android:text="@string/dialog_fragment_creating_notebook_cancel"
+            android:textColor="@color/main_green_themes_app"/>
+
+        <Button
+            android:id="@+id/btn_create_notebook_ok"
+            android:layout_width="64dp"
+            android:layout_height="36dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="8dp"
+            android:text="@string/dialog_fragment_creating_notebook_ok"
+            android:textColor="@color/main_green_themes_app"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

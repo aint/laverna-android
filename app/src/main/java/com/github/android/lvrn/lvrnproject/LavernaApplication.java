@@ -5,12 +5,15 @@ import android.app.Application;
 import com.github.android.lvrn.lvrnproject.dagger.components.AppComponent;
 import com.github.android.lvrn.lvrnproject.dagger.components.DaggerAppComponent;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
@@ -43,9 +46,10 @@ public class LavernaApplication extends Application {
         profileId = profiles.get(0).getId();
         profileService.closeConnection();
         notebookService.openConnection();
-
-
-        for(int i = 1; i <30; i++) {
+        for (Notebook note : notebookService.getByProfile(CurrentState.profileId,false,new PaginationArgs(1,100))) {
+            System.out.println(notebookService.remove(note.getId()));
+        }
+        for(int i = 1; i <20; i++) {
             notebookService.create(new NotebookForm(profileId, false, null, "notebook" + i));
         }
         notebookService.closeConnection();
@@ -57,10 +61,6 @@ public class LavernaApplication extends Application {
 //            noteService.create(new NoteForm(profileId, false, null, "lol note" + i, "lol dfsdf", "lol dfsdf", false));
 //        }
 //        noteService.closeConnection();
-
-
-
-
 
 
     }

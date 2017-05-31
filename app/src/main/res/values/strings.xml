@@ -27,6 +27,10 @@
     <string name="note_detail_label_created">Created</string>
     <string name="note_detail_label_updated">Updated</string>
     <string name="hint_you_edit_tags">Your Edit Tags</string>
+    <!--dialog fragment create dialog -->
+    <string name="dialog_fragment_creating_notebook_creating_notebook">Creating notebook</string>
+    <string name="dialog_fragment_creating_notebook_ok">OK</string>
+    <string name="dialog_fragment_creating_notebook_cancel">Cancel</string>
     <!--
                   MENU                                     -->
     <!--drawer menu  -->
@@ -59,5 +63,7 @@
     <string name="hint_prompt_text_detail_note">This is Prompt Text</string>
     <string name="hint_you_tag_name">Your Tag name</string>
     <string name="hint_your_task_name">Your task name</string>
+    <string name="hint_enter_your_notebook_name">Enter your notebook name</string>
+
 
 </resources>
