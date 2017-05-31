@@ -11,7 +11,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNo
 import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.impl.AllNotesFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.trash.impl.TrashFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.impl.TrashFragmentImpl;
 
 import dagger.Component;
 

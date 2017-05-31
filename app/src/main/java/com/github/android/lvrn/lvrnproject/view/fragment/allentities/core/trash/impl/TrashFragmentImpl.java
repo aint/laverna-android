@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.trash.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.impl;
 
 
 import android.graphics.drawable.Drawable;
@@ -23,8 +23,8 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.TrashAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.trash.TrashFragment;
-import com.github.android.lvrn.lvrnproject.view.fragment.trash.TrashPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.TrashFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.TrashPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 import com.orhanobut.logger.Logger;
@@ -48,8 +48,6 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
     @BindView(R.id.recycler_view_trash) RecyclerView mNotesRecyclerView;
 
     private Unbinder mUnbinder;
-
-    private LinearLayoutManager mLinearLayoutManager;
 
     private TrashAdapter mNotesRecyclerViewAdapter;
 
@@ -128,6 +126,29 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
         return mSearchView.getQuery().toString();
     }
 
+    @Override
+    public void switchToNormalMode(){
+//        menuSync.setVisible(true);
+//        menuAbout.setVisible(true);
+//        menuSortBy.setVisible(true);
+//        menuSettings.setVisible(true);
+    }
+
+    @Override
+    public void switchToSearchMode() {
+//        menuSync.setVisible(false);
+//        menuAbout.setVisible(false);
+//        menuSortBy.setVisible(false);
+//        menuSettings.setVisible(false);
+        mSearchView.setQueryHint(getString(R.string.fragment_all_notes_menu_search_query_hint));
+        mSearchView.requestFocus();
+        Drawable bottomUnderline = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            bottomUnderline = getResources().getDrawable(R.drawable.search_view_bottom_underline, null);
+        }
+        mSearchView.setBackground(bottomUnderline);
+    }
+
     public void showSelectedNote(Note note) {
         SingleNoteFragmentImpl singleNoteFragmentImpl = new SingleNoteFragmentImpl();
 
@@ -148,10 +169,10 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
     private void initRecyclerView() {
         mNotesRecyclerView.setHasFixedSize(true);
 
-        mLinearLayoutManager = new LinearLayoutManager(getContext());
-        mNotesRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mNotesRecyclerViewAdapter = new TrashAdapter(this, trashPresenter.getNotesForAdapter());
+        mNotesRecyclerViewAdapter = new TrashAdapter(this);
+        trashPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
         mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
 
         trashPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
@@ -164,26 +185,5 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(TOOLBAR_TITLE);
-    }
-
-    public void startSearchMode() {
-//        menuSync.setVisible(false);
-//        menuAbout.setVisible(false);
-//        menuSortBy.setVisible(false);
-//        menuSettings.setVisible(false);
-        mSearchView.setQueryHint(getString(R.string.fragment_all_notes_menu_search_query_hint));
-        mSearchView.requestFocus();
-        Drawable bottomUnderline = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            bottomUnderline = getResources().getDrawable(R.drawable.search_view_bottom_underline, null);
-        }
-        mSearchView.setBackground(bottomUnderline);
-    }
-
-    public void startNormalMode() {
-//        menuSync.setVisible(true);
-//        menuAbout.setVisible(true);
-//        menuSortBy.setVisible(true);
-//        menuSettings.setVisible(true);
     }
 }

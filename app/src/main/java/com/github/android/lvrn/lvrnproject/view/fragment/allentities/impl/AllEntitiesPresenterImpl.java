@@ -44,7 +44,7 @@ public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity,
 
     private ReplaySubject<PaginationArgs> mFoundedPaginationSubject;
 
-    private List<T1> mEntities;
+    protected List<T1> mEntities;
 
     public AllEntitiesPresenterImpl(ProfileDependedService<T1, T2> entityService) {
         (mEntityService = entityService).openConnection();

@@ -8,8 +8,9 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
+import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NoteViewHolder;
-import com.github.android.lvrn.lvrnproject.view.fragment.trash.TrashFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.TrashFragment;
 
 import java.util.List;
 
@@ -18,15 +19,14 @@ import java.util.List;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TrashAdapter extends RecyclerView.Adapter<NoteViewHolder> {
+public class TrashAdapter extends RecyclerView.Adapter<NoteViewHolder> implements DataPostSetAdapter<Note> {
 
     private TrashFragment mAllNotesFragment;
 
     private List<Note> mNotes;
 
-    public TrashAdapter(TrashFragment allNotesFragment, List<Note> notes) {
+    public TrashAdapter(TrashFragment allNotesFragment) {
         mAllNotesFragment = allNotesFragment;
-        mNotes = notes;
     }
 
     @Override
@@ -46,6 +46,11 @@ public class TrashAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     @Override
     public int getItemCount() {
         return mNotes.size();
+    }
+
+    @Override
+    public void setData(List<Note> data) {
+        mNotes = data;
     }
 }
 
