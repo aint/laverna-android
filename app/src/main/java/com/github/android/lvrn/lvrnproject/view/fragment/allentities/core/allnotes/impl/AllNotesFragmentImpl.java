@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allnotes.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.impl;
 
 
 import android.content.Intent;
@@ -25,9 +25,9 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllNotesAdapter;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.AllNotesFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.AllNotesPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesFragment;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 import com.orhanobut.logger.Logger;
@@ -55,14 +55,14 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
 
     private Unbinder mUnbinder;
 
-    private LinearLayoutManager mLinearLayoutManager;
-
     private AllNotesAdapter mNotesRecyclerViewAdapter;
 
     private SearchView mSearchView;
 
-    private MenuItem menuSearch;
-    //, menuSync, menuSortBy, menuSettings, menuAbout;
+    private MenuItem mMenuSearch;
+
+//    TODO: introduce in future milestones
+//    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
 
     private AllNotesPresenter mAllNotesPresenter;
 
@@ -101,15 +101,16 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_all_notes, menu);
 
-        menuSearch = menu.findItem(R.id.item_action_search);
+        mMenuSearch = menu.findItem(R.id.item_action_search);
+//        TODO: introduce in future milestones
 //        menuSync = menu.findItem(R.id.item_action_sync);
 //        menuAbout = menu.findItem(R.id.item_about);
 //        menuSortBy = menu.findItem(R.id.item_sort_by);
 //        menuSettings = menu.findItem(R.id.item_settings);
 
-        mSearchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mMenuSearch);
 
-        mAllNotesPresenter.subscribeSearchView(menuSearch);
+        mAllNotesPresenter.subscribeSearchView(mMenuSearch);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -150,6 +151,35 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
         return mSearchView.getQuery().toString();
     }
 
+    @Override
+    public void switchToSearchMode() {
+        floatingActionsMenu.collapse();
+        floatingActionsMenu.setVisibility(View.GONE);
+//        TODO: introduce in future milestones
+//        menuSync.setVisible(false);
+//        menuAbout.setVisible(false);
+//        menuSortBy.setVisible(false);
+//        menuSettings.setVisible(false);
+        mSearchView.setQueryHint(getString(R.string.fragment_all_notes_menu_search_query_hint));
+        mSearchView.requestFocus();
+        Drawable bottomUnderline = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            bottomUnderline = getResources().getDrawable(R.drawable.search_view_bottom_underline, null);
+        }
+        mSearchView.setBackground(bottomUnderline);
+    }
+
+    @Override
+    public void switchToNormalMode() {
+        floatingActionsMenu.setVisibility(View.VISIBLE);
+//        TODO: introduce in future milestones
+//        menuSync.setVisible(true);
+//        menuAbout.setVisible(true);
+//        menuSortBy.setVisible(true);
+//        menuSettings.setVisible(true);
+    }
+
+
     /**
      * A method which hears when user click on button and opens new activity
      */
@@ -171,10 +201,10 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
     private void initRecyclerView() {
         mNotesRecyclerView.setHasFixedSize(true);
 
-        mLinearLayoutManager = new LinearLayoutManager(getContext());
-        mNotesRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mNotesRecyclerViewAdapter = new AllNotesAdapter(this, mAllNotesPresenter.getNotesForAdapter());
+        mNotesRecyclerViewAdapter = new AllNotesAdapter(this);
+        mAllNotesPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
         mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
 
         mAllNotesPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
@@ -185,33 +215,9 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
      */
     private void setUpToolbar() {
         setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(TOOLBAR_TITLE);
-    }
-
-    public void startSearchMode() {
-        floatingActionsMenu.collapse();
-        floatingActionsMenu.setVisibility(View.GONE);
-//        menuSync.setVisible(false);
-//        menuAbout.setVisible(false);
-//        menuSortBy.setVisible(false);
-//        menuSettings.setVisible(false);
-        mSearchView.setQueryHint(getString(R.string.fragment_all_notes_menu_search_query_hint));
-        mSearchView.requestFocus();
-        Drawable bottomUnderline = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            bottomUnderline = getResources().getDrawable(R.drawable.search_view_bottom_underline, null);
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(TOOLBAR_TITLE);
         }
-        mSearchView.setBackground(bottomUnderline);
     }
-
-    public void startNormalMode() {
-        floatingActionsMenu.setVisibility(View.VISIBLE);
-//        menuSync.setVisible(true);
-//        menuAbout.setVisible(true);
-//        menuSortBy.setVisible(true);
-//        menuSettings.setVisible(true);
-    }
-
-
 }

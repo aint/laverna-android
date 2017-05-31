@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.abstractimpl;
+package com.github.android.lvrn.lvrnproject.view.fragment.allentities;
 
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;

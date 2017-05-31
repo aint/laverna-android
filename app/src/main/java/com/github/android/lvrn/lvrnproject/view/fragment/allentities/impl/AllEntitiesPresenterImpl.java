@@ -1,16 +1,17 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allnotes.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.allentities.impl;
 
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.util.CurrentState;
+import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
+import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
+import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesFragment;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesPresenter;
+import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.AllEntitiesFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.AllEntitiesPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
 import com.github.android.lvrn.lvrnproject.view.listener.SearchViewOnQueryTextListener;
 
@@ -23,13 +24,13 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.ReplaySubject;
 
 /**
- * @author Andrii Bei <psihey1@gmail.com>
+ * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class AllNotesPresenterImpl implements AllNotesPresenter, MenuItemCompat.OnActionExpandListener {
-    private NoteService mNoteService;
+public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm> implements AllEntitiesPresenter<T1, T2> {
+    private ProfileDependedService<T1,T2> mEntityService;
 
-    private AllNotesFragment mAllNotesFragment;
+    private AllEntitiesFragment mAllEntitiesFragment;
 
     private RecyclerViewOnScrollListener mRecyclerViewOnScrollLister;
 
@@ -43,24 +44,24 @@ public class AllNotesPresenterImpl implements AllNotesPresenter, MenuItemCompat.
 
     private ReplaySubject<PaginationArgs> mFoundedPaginationSubject;
 
-    private List<Note> mNotes;
+    private List<T1> mEntities;
 
-    public AllNotesPresenterImpl(NoteService mNoteService) {
-        (this.mNoteService = mNoteService).openConnection();
+    public AllEntitiesPresenterImpl(ProfileDependedService<T1, T2> entityService) {
+        (mEntityService = entityService).openConnection();
     }
 
     @Override
-    public void bindView(AllNotesFragment allNotesFragment) {
-        mAllNotesFragment = allNotesFragment;
-        if (!mNoteService.isConnectionOpened()) {
-            mNoteService.openConnection();
+    public void bindView(AllEntitiesFragment allNotesFragment) {
+        mAllEntitiesFragment = allNotesFragment;
+        if (!mEntityService.isConnectionOpened()) {
+            mEntityService.openConnection();
         }
     }
 
     @Override
     public void unbindView() {
-        mAllNotesFragment = null;
-        mNoteService.closeConnection();
+        mAllEntitiesFragment = null;
+        mEntityService.closeConnection();
     }
 
     @Override
@@ -85,7 +86,7 @@ public class AllNotesPresenterImpl implements AllNotesPresenter, MenuItemCompat.
      */
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
-        mAllNotesFragment.startSearchMode();
+        mAllEntitiesFragment.switchToSearchMode();
         mRecyclerViewOnScrollLister.changeSubject(mFoundedPaginationSubject);
         return true;
     }
@@ -97,10 +98,10 @@ public class AllNotesPresenterImpl implements AllNotesPresenter, MenuItemCompat.
      */
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
-        mAllNotesFragment.startNormalMode();
+        mAllEntitiesFragment.switchToNormalMode();
         mRecyclerViewOnScrollLister.changeSubject(mPaginationSubject);
-        addFirstFoundedItemsToList(mNoteService.getByProfile(CurrentState.profileId, false, new PaginationArgs()));
-        mAllNotesFragment.updateRecyclerView();
+        addFirstFoundedItemsToList(loadMoreForPagination(new PaginationArgs()));
+        mAllEntitiesFragment.updateRecyclerView();
         return true;
     }
 
@@ -118,20 +119,9 @@ public class AllNotesPresenterImpl implements AllNotesPresenter, MenuItemCompat.
     }
 
     @Override
-    public List<Note> getNotesForAdapter() {
-        mNotes = mNoteService.getByProfile(CurrentState.profileId, false, new PaginationArgs());
-        return mNotes;
-    }
-
-    private void initPaginationSubject() {
-        mPaginationDisposable = (mPaginationSubject = ReplaySubject.create())
-                .observeOn(Schedulers.io())
-                .map(paginationArgs -> mNoteService.getByProfile(CurrentState.profileId, false, paginationArgs))
-                .filter(notes -> !notes.isEmpty())
-                .map(newNotes -> mNotes.addAll(newNotes))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllNotesFragment.updateRecyclerView(),
-                        throwable -> {/*TODO: find out what can happen here*/});
+    public void setDataToAdapter(DataPostSetAdapter<T1> dataPostSetAdapter) {
+        mEntities = loadMoreForPagination(new PaginationArgs());
+        dataPostSetAdapter.setData(mEntities);
     }
 
     private void initSearchSubject(SearchView searchView) {
@@ -140,31 +130,46 @@ public class AllNotesPresenterImpl implements AllNotesPresenter, MenuItemCompat.
         mSearchDisposable = (searchQuerySubject = ReplaySubject.create())
                 .debounce(400, TimeUnit.MILLISECONDS)
                 .filter(title -> title.length() > 0)
-                .map(title -> mNoteService.getByTitle(CurrentState.profileId, title, false, new PaginationArgs()))
+                .map(title -> loadMoreForSearch(title, new PaginationArgs()))
                 .map(this::addFirstFoundedItemsToList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllNotesFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mAllEntitiesFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
 
         searchView.setOnQueryTextListener(new SearchViewOnQueryTextListener(searchQuerySubject));
     }
 
-    private boolean addFirstFoundedItemsToList(List<Note> firstFoundedNotes) {
+    private boolean addFirstFoundedItemsToList(List<T1> firstFoundedNotes) {
         mRecyclerViewOnScrollLister.resetListener();
-        mNotes.clear();
-        mNotes.addAll(firstFoundedNotes);
+        mEntities.clear();
+        mEntities.addAll(firstFoundedNotes);
         return true;
+    }
+
+    private void initPaginationSubject() {
+        mPaginationDisposable = (mPaginationSubject = ReplaySubject.create())
+                .observeOn(Schedulers.io())
+                .map(paginationArgs -> loadMoreForPagination(paginationArgs))
+                .filter(notes -> !notes.isEmpty())
+                .map(newNotes -> mEntities.addAll(newNotes))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aBoolean -> mAllEntitiesFragment.updateRecyclerView(),
+                        throwable -> {/*TODO: find out what can happen here*/});
     }
 
     private void initFoundedPaginationSubject() {
         mFoundedPaginationDisposable = (mFoundedPaginationSubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
-                .map(paginationArgs -> mNoteService.getByTitle(CurrentState.profileId, mAllNotesFragment.getSearchQuery(), false, paginationArgs))
+                .map(paginationArgs -> loadMoreForSearch(mAllEntitiesFragment.getSearchQuery(), paginationArgs))
                 .filter(notes -> !notes.isEmpty())
-                .map(newNotes -> mNotes.addAll(newNotes))
+                .map(newNotes -> mEntities.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllNotesFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mAllEntitiesFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
     }
+
+    protected abstract List<T1> loadMoreForPagination(PaginationArgs paginationArgs);
+
+    protected abstract List<T1> loadMoreForSearch(String query, PaginationArgs paginationArgs);
 }

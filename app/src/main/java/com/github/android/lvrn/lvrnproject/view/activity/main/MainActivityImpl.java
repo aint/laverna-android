@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNotebooksFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.impl.AllNotesFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.trash.impl.TrashFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;

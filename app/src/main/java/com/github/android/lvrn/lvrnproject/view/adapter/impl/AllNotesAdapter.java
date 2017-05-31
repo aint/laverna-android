@@ -10,7 +10,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NoteViewHolder;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotes.AllNotesFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.AllNotesFragment;
 
 import java.util.List;
 

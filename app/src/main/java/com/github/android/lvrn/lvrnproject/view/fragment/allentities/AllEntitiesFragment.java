@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.abstractimpl;
+package com.github.android.lvrn.lvrnproject.view.fragment.allentities;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
