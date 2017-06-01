@@ -27,10 +27,12 @@
     <string name="note_detail_label_created">Created</string>
     <string name="note_detail_label_updated">Updated</string>
     <string name="hint_you_edit_tags">Your Edit Tags</string>
-    <!--dialog fragment create dialog -->
+    <!--dialog fragment create notebook -->
     <string name="dialog_fragment_creating_notebook_creating_notebook">Creating notebook</string>
     <string name="dialog_fragment_creating_notebook_ok">OK</string>
     <string name="dialog_fragment_creating_notebook_cancel">Cancel</string>
+    <!--dialog fragment create notebook selection-->
+
     <!--
                   MENU                                     -->
     <!--drawer menu  -->
@@ -64,6 +66,9 @@
     <string name="hint_you_tag_name">Your Tag name</string>
     <string name="hint_your_task_name">Your task name</string>
     <string name="hint_enter_your_notebook_name">Enter your notebook name</string>
+    <string name="dialog_fragment_notebook_selection_get_notebook">Get Notebook</string>
+    <string name="dialog_fragment_notebook_selection_create_notebook">Create notebook</string>
+    <string name="dialog_fragment_notebook_selection_choose_notebook">Choose notebook</string>
 
 
 </resources>
