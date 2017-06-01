@@ -28,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_separator_dialog_fragment"
         android:layout_margin="16dp"
+        android:inputType="text"
+        android:imeOptions="actionDone"
         android:backgroundTint="@android:color/black"
         android:hint="@string/hint_enter_your_notebook_name"
         android:textSize="16sp" />

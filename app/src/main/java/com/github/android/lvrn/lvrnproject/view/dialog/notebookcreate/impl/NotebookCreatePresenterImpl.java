@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
@@ -82,7 +83,7 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
     @Override
     public void getNotebookId(String notebookId) {
-        if (notebookId != null && notebookId.isEmpty()) {
+        if (!TextUtils.isEmpty(notebookId)) {
             parentId = notebookId;
         }
     }
