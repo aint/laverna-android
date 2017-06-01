@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,8 +19,8 @@ import butterknife.ButterKnife;
  */
 //TODO: FIX!
 public class AllTaskAdapter extends RecyclerView.Adapter<AllTaskAdapter.TaskViewHolder> {
-    public List<Task> mTaskData = new ArrayList<>();
-//    private AllNotesAdapter.ItemClickListener mItemClickListener;
+    public List<Task> mTaskData;
+
 
     public AllTaskAdapter(List<Task> mTaskData) {
         this.mTaskData = mTaskData;

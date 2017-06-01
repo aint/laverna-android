@@ -34,6 +34,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -49,14 +50,15 @@ public class SingleNoteFragmentImpl extends Fragment {
     @Inject NotebookService mNotebookService;
     private Note mSelectNote;
     private String mNoteBookName;
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_single_note, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
-        reInitBaseView();
+        setUpToolbar();
         getParcelableDataAndSetInView();
         return rootView;
     }
@@ -94,9 +96,17 @@ public class SingleNoteFragmentImpl extends Fragment {
                 .addToBackStack(null);
         Bundle bundle =new Bundle();
         bundle.putString(BundleKeysConst.BUNDLE_NOTE_ID_KEY,mSelectNote.getId());
-        DialogFragment dialogFragment = TagEditingDialogFragmentImpl.newInstance();
+        DialogFragment dialogFragment = new TagEditingDialogFragmentImpl();
         dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mUnbinder != null){
+            mUnbinder.unbind();
+        }
     }
 
     /**
@@ -151,7 +161,7 @@ public class SingleNoteFragmentImpl extends Fragment {
     /**
      * A method which sets defined view of main toolbar
      */
-    private void reInitBaseView() {
+    private void setUpToolbar() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 

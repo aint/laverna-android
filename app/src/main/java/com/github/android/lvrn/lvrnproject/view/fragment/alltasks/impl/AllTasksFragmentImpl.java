@@ -28,6 +28,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -42,21 +43,30 @@ public class AllTasksFragmentImpl extends Fragment {
     NoteService mNoteService;
     private AllTaskAdapter mAllTaskAdapter;
     private List<Task> mTaskData = new ArrayList<>();
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         LavernaApplication.getsAppComponent().inject(this);
         //TODO: temporary, remove later
         hardcode();
-        reInitBaseView();
+        setUpToolbar();
         initRecyclerView();
         return view;
     }
 
-//    @Override
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mUnbinder != null){
+            mUnbinder.unbind();
+        }
+    }
+
+    //    @Override
     public void onClick(View view, int position) {
         SingleNoteFragmentImpl singleNoteFragment = new SingleNoteFragmentImpl();
         Bundle bundle = new Bundle();
@@ -80,7 +90,7 @@ public class AllTasksFragmentImpl extends Fragment {
 //        mAllTaskAdapter.setClickListener(this);
     }
 
-    private void reInitBaseView() {
+    private void setUpToolbar() {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("All Tasks");
     }

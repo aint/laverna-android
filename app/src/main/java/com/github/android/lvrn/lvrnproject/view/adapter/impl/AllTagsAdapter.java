@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,7 +20,7 @@ import butterknife.ButterKnife;
  */
 //TODO: FIX!
 public class AllTagsAdapter extends RecyclerView.Adapter<AllTagsAdapter.TagEditingViewHolder>{
-    private List<Tag> mDataSet = new ArrayList<>();
+    private List<Tag> mDataSet;
 
     public AllTagsAdapter(List<Tag> data) {
         mDataSet = data;

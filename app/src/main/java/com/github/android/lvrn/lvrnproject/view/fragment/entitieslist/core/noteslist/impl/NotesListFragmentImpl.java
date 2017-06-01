@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +27,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllNotesAdapter;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
@@ -191,7 +194,11 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
     @OnClick(R.id.floating_btn_start_notebook)
     public void openNotebooksCreationDialog() {
-        //TODO: Change method with implement need functionality
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null);
+        DialogFragment dialogFragment = new NotebookCreateDialogFragmentImpl();
+        dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
         floatingActionsMenu.collapse();
     }
 

@@ -37,14 +37,9 @@ public class TagEditingDialogFragmentImpl extends DialogFragment {
     public TagEditingDialogFragmentImpl() {
     }
 
-    public static TagEditingDialogFragmentImpl newInstance() {
-
-        return new TagEditingDialogFragmentImpl();
-    }
-
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
