@@ -69,7 +69,7 @@ public class NoteServiceImpl extends TrashDependedServiceImpl<Note, NoteForm> im
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, PaginationArgs paginationArgs) {
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs) {
         return mNoteRepository.getByTitle(profileId, title, paginationArgs);
     }
 
@@ -81,13 +81,25 @@ public class NoteServiceImpl extends TrashDependedServiceImpl<Note, NoteForm> im
 
     @NonNull
     @Override
-    public List<Note> getByNotebook(@NonNull String notebookId, PaginationArgs paginationArgs) {
+    public List<Note> getByNotebook(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs) {
         return mNoteRepository.getByNotebook(notebookId, paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, PaginationArgs paginationArgs) {
+    public List<Note> getFavourites(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
+        return mNoteRepository.getFavourites(profileId, paginationArgs);
+    }
+
+    @NonNull
+    @Override
+    public List<Note> getFavouritesByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs) {
+        return mNoteRepository.getFavouritesByTitle(profileId, title, paginationArgs);
+    }
+
+    @NonNull
+    @Override
+    public List<Note> getByTag(@NonNull String tagId, @NonNull PaginationArgs paginationArgs) {
         return mNoteRepository.getByTag(tagId, paginationArgs);
     }
 

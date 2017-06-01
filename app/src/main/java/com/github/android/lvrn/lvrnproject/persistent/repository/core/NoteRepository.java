@@ -46,6 +46,9 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
     @NonNull
     List<Note> getFavourites(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
+    @NonNull
+    List<Note> getFavouritesByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
+
     /**
      * A method which retrieves an amount of entities from a start position by a notebook id.
      * @param notebookId an id of the notebook.

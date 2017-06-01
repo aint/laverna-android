@@ -8,10 +8,11 @@ import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.No
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.NotebookContentFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNotebooksFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
 
 import dagger.Component;
 
@@ -41,5 +42,7 @@ public interface AppComponent {
     void inject(AllTasksFragmentImpl taskFragment);
 
     void inject(TrashListFragmentImpl trashFragment);
+
+    void inject(FavouritesListFragmentImpl favouritesListFragment);
 
 }

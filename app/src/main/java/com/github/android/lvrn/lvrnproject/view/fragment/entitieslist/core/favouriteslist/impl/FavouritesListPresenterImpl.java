@@ -25,13 +25,11 @@ public class FavouritesListPresenterImpl extends EntitiesListPresenterImpl<Note,
 
     @Override
     protected List<Note> loadMoreForPagination(PaginationArgs paginationArgs) {
-        //TODO: change on new method
-        return mNoteService.getByProfile(CurrentState.profileId, paginationArgs);
+        return mNoteService.getFavourites(CurrentState.profileId, paginationArgs);
     }
 
     @Override
     protected List<Note> loadMoreForSearch(String query, PaginationArgs paginationArgs) {
-        //TODO: change on new method
-        return mNoteService.getByTitle(CurrentState.profileId, query, paginationArgs);
+        return mNoteService.getFavouritesByTitle(CurrentState.profileId, query, paginationArgs);
     }
 }

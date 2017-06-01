@@ -113,10 +113,13 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
     @NonNull
     @Override
     public List<Note> getFavourites(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
-        String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_PROFILE_ID + "='" + profileId + "',"
-                + " AND " + COLUMN_IS_FAVORITE + "=1";
-        return super.getByRawQuery(query);
+        return super.getByIdCondition(COLUMN_PROFILE_ID, profileId, getIsFavouriteClause(true) + getTrashClause(false), paginationArgs);
+    }
+
+    @NonNull
+    @Override
+    public List<Note> getFavouritesByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs) {
+        return super.getByName(COLUMN_TITLE, profileId, title, getIsFavouriteClause(true) + getTrashClause(false), paginationArgs);
     }
 
     @NonNull
@@ -174,5 +177,9 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
         contentValues.put(NotesTagsTable.COLUMN_NOTE_ID, noteId);
         contentValues.put(NotesTagsTable.COLUMN_TAG_ID, tagId);
         return contentValues;
+    }
+
+    private String getIsFavouriteClause(boolean isFavourite) {
+        return " AND " + COLUMN_IS_FAVORITE + "=" + (isFavourite ? "1" : "0");
     }
 }

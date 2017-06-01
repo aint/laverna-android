@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNotebooksFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
@@ -79,8 +80,11 @@ public class MainActivityImpl extends AppCompatActivity
         } else if (R.id.nav_item_trash == id) {
             TrashListFragmentImpl trashFragment = new TrashListFragmentImpl();
             menuStartSelectFragment(trashFragment,TagFragmentConst.TAG_TRASH_FRAGMENT);
+        } else if (R.id.nav_item_favorites == id) {
+            FavouritesListFragmentImpl favouritesListFragment = new FavouritesListFragmentImpl();
+            menuStartSelectFragment(favouritesListFragment, TagFragmentConst.TAG_FAVOURITES_FRAGMENT);
         }
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
