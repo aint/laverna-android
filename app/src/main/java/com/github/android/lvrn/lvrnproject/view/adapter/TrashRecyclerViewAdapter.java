@@ -12,7 +12,6 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NotebookViewHolder;
 import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NotesViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ import java.util.List;
 
 public class TrashRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Entity> mEntityData = new ArrayList<>();
+    private List<Entity> mEntityData;
 
     private final int NOTE = 0, NOTEBOOK = 1;
 

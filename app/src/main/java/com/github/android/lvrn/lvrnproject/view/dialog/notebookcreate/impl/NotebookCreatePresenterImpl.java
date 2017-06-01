@@ -30,7 +30,7 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
     private RecyclerViewOnScrollListener mRecyclerViewOnScrollLister;
     private ReplaySubject<PaginationArgs> mPaginationSubject;
     private Disposable mPaginationDisposable;
-
+    private String parentId;
 
 
     public NotebookCreatePresenterImpl(NotebookService mNotebookService) {
@@ -39,12 +39,12 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
     @Override
     public List<Notebook> getNotebooksForAdapter() {
-        mNotebookData = mNotebookService.getByProfile(CurrentState.profileId,false,new PaginationArgs(1,16));
+        mNotebookData = mNotebookService.getByProfile(CurrentState.profileId, false, new PaginationArgs(1, 16));
         return mNotebookData;
     }
 
     @Override
-    public void bindView(NotebookCreateDialogFragmentImpl notebookCreateDialogFragment) {
+    public void bindView(NotebookCreateDialogFragment notebookCreateDialogFragment) {
         mNotebookCreateDialogFragment = notebookCreateDialogFragment;
         if (!mNotebookService.isConnectionOpened()) {
             mNotebookService.openConnection();
@@ -53,7 +53,7 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
     @Override
     public void unbindView() {
-        if(mNotebookCreateDialogFragment != null){
+        if (mNotebookCreateDialogFragment != null) {
             mNotebookCreateDialogFragment = null;
         }
         mNotebookService.closeConnection();
@@ -61,7 +61,7 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
     @Override
     public void createNotebook(String name) {
-        mNotebookService.create(new NotebookForm(CurrentState.profileId,false,null,name));
+        mNotebookService.create(new NotebookForm(CurrentState.profileId, false, parentId, name));
         mNotebookCreateDialogFragment.updateRecyclerView();
     }
 
@@ -80,6 +80,13 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
         }
     }
 
+    @Override
+    public void getNotebookId(String notebookId) {
+        if (notebookId != null && notebookId.isEmpty()) {
+            parentId = notebookId;
+        }
+    }
+
     private void initPaginationSubject() {
         mPaginationDisposable = (mPaginationSubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
@@ -90,4 +97,5 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
                 .subscribe(aBoolean -> mNotebookCreateDialogFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
     }
+
 }

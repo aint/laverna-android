@@ -9,7 +9,6 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NotebookViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 public class NotebookRecyclerViewAdapter  extends RecyclerView.Adapter<NotebookViewHolder> {
-    private List<Notebook> mNotebookData = new ArrayList<>();
+    private List<Notebook> mNotebookData;
 
     public NotebookRecyclerViewAdapter(List<Notebook> mNotebookData) {
         this.mNotebookData = mNotebookData;

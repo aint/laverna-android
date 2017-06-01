@@ -43,10 +43,6 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment
     public NotebookCreateDialogFragmentImpl() {
     }
 
-    public static NotebookCreateDialogFragmentImpl newInstance() {
-        return new NotebookCreateDialogFragmentImpl();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,15 +55,15 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment
     }
 
     @Override
-    public void updateRecyclerView() {
-     mNotebookAdapter.notifyDataSetChanged();
+    public void onStart() {
+        super.onStart();
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mNotebookCreatePresenterImpl.bindView(this);
-        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     @Override
@@ -85,23 +81,28 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment
         mNotebookCreatePresenterImpl.disposePaginationAndSearch();
     }
 
+    @Override
+    public void updateRecyclerView() {
+        mNotebookAdapter.notifyDataSetChanged();
+    }
+
     @OnClick(R.id.btn_create_notebook_ok)
     public void createNotebook() {
         String nameNotebook = mEditText.getText().toString();
         mNotebookCreatePresenterImpl.createNotebook(nameNotebook);
-        Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity),"Notebook "+nameNotebook+" has created ",Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
         getActivity().onBackPressed();
     }
 
     @OnClick(R.id.btn_create_notebook_cancel)
-    public void cancelDialog(){
+    public void cancelDialog() {
         getActivity().onBackPressed();
     }
 
     private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewNotebook.setLayoutManager(layoutManager);
-        mNotebookAdapter = new NotebookCreateViewAdapter(mNotebookCreatePresenterImpl.getNotebooksForAdapter(), this);
+        mNotebookAdapter = new NotebookCreateViewAdapter(mNotebookCreatePresenterImpl.getNotebooksForAdapter(), mNotebookCreatePresenterImpl);
         mRecyclerViewNotebook.setAdapter(mNotebookAdapter);
         mNotebookCreatePresenterImpl.subscribeRecyclerViewForPagination(mRecyclerViewNotebook);
     }

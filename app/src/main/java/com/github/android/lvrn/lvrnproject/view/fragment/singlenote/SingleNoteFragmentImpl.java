@@ -96,7 +96,7 @@ public class SingleNoteFragmentImpl extends Fragment {
                 .addToBackStack(null);
         Bundle bundle =new Bundle();
         bundle.putString(BundleKeysConst.BUNDLE_NOTE_ID_KEY,mSelectNote.getId());
-        DialogFragment dialogFragment = TagEditingDialogFragmentImpl.newInstance();
+        DialogFragment dialogFragment = new TagEditingDialogFragmentImpl();
         dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT);
     }

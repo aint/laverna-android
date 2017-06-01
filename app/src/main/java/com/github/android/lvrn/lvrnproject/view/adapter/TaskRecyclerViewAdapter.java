@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,7 +19,7 @@ import butterknife.ButterKnife;
  */
 
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskViewHolder> {
-    public List<Task> mTaskData = new ArrayList<>();
+    public List<Task> mTaskData;
 //    private NoteRecyclerViewAdapter.ItemClickListener mItemClickListener;
 
     public TaskRecyclerViewAdapter(List<Task> mTaskData) {

@@ -152,7 +152,7 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
          FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
-        DialogFragment dialogFragment = NotebookCreateDialogFragmentImpl.newInstance();
+        DialogFragment dialogFragment = new NotebookCreateDialogFragmentImpl();
         dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
         floatingActionsMenu.collapse();
     }
