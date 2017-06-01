@@ -19,14 +19,10 @@ public abstract class TrashDependedServiceImpl <T1 extends TrashDependedEntity, 
         extends ProfileDependedServiceImpl<T1, T2> implements TrashDependedService<T1, T2> {
 
     private final TrashDependedRepository<T1> mTrashDependedRepository;
-
-//    private final ProfileService mProfileService;
-
+    
     public TrashDependedServiceImpl(@NonNull TrashDependedRepository<T1> trashDependedRepository, @NonNull ProfileService profileService) {
         super(trashDependedRepository, profileService);
         mTrashDependedRepository = trashDependedRepository;
-//        mProfileService = profileService;
-
     }
 
     @NonNull

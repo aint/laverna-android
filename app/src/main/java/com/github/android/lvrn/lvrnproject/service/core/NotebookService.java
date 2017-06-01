@@ -17,9 +17,9 @@ public interface NotebookService extends ProfileDependedService<Notebook, Notebo
 
     /**
      * A method which retrieves an amount of entities from a start position by a name.
+     * @param profileId an id of a profile.
      * @param name a required name.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
     @NonNull

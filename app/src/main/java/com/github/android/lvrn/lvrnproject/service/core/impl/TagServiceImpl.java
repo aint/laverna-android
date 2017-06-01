@@ -51,7 +51,7 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
 
     @NonNull
     @Override
-    public List<Tag> getByName(@NonNull String profileId, @NonNull String name, PaginationArgs paginationArgs) {
+    public List<Tag> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs) {
         return mTagRepository.getByName(profileId, name, paginationArgs);
     }
 

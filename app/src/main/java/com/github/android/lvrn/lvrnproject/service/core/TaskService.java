@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
@@ -20,8 +19,7 @@ public interface TaskService extends ProfileDependedService<Task, TaskForm> {
      * A method which retrieves an amount of uncompleted tasks from a start position by a profile
      * id.
      * @param profileId an id of a profile.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
     @NonNull

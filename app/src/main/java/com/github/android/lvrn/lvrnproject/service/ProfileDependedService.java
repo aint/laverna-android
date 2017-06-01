@@ -3,7 +3,6 @@ package com.github.android.lvrn.lvrnproject.service;
 import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
-import com.github.android.lvrn.lvrnproject.service.form.Form;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
@@ -18,8 +17,7 @@ public interface ProfileDependedService<T1 extends ProfileDependedEntity, T2 ext
     /**
      * A method which returns an amount of entities from a start position by a profile id.
      * @param profileId an id of a profile.
-     * @param offset a start position.
-     * @param limit a number of entities.
+     * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
     @NonNull

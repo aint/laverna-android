@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
@@ -19,11 +18,9 @@ public interface TagService extends ProfileDependedService<Tag, TagForm> {
     /**
      * A method which retrieves an amount of entities from a start position by a name.
      * @param name a required name.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    //TODO: does it depend to profile?
     @NonNull
     List<Tag> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs);
 

@@ -17,39 +17,56 @@ public interface NoteService extends TrashDependedService<Note, NoteForm> {
 
     /**
      * A method which retrieves an amount of entities from a start position by a title.
+     * @param profileId an id of a profile.
      * @param title a required name.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
     @NonNull
     List<Note> getByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
 
+    /**
+     * A method which retrieves an amount of trash entities from a start position by a title
+     * @param profileId an id of a profile.
+     * @param title a required name.
+     * @param paginationArgs arguments of pagination such as offset and limit.
+     * @return a list of entities.
+     */
     @NonNull
     List<Note> getTrashByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position by a notebook id.
      * @param notebookId an id of the notebook.
-     * @param offset a start position
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
     @NonNull
     List<Note> getByNotebook(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs);
 
+    /**
+     * A method which retrieves an amount of favourite entities from a start position.
+     * @param profileId an id of a profile.
+     * @param paginationArgs arguments of pagination such as offset and limit.
+     * @return a list of entities.
+     */
     @NonNull
     List<Note> getFavourites(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
+    /**
+     * A method which retrieves an amount of favourite entities from a start position by a title.
+     * @param profileId an id of a profile.
+     * @param title a required name.
+     * @param paginationArgs arguments of pagination such as offset and limit.
+     * @return a list of entities.
+     */
     @NonNull
     List<Note> getFavouritesByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
-
 
     /**
      * A method which retrieves an amount of entities from a start position by a tag id.
      * @param tagId an id of the tag.
-     * @param offset a start position
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
     @NonNull
