@@ -53,7 +53,7 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
 
     @NonNull
     @Override
-    public List<Task> getUncompletedByProfile(@NonNull String profileId, PaginationArgs paginationArgs) {
+    public List<Task> getUncompletedByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "' AND "
                 + COLUMN_IS_COMPLETED + " = 0"

@@ -23,7 +23,6 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  */
 
 public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRepository<T> {
-    private static final String TAG = "BasicRepoImpl";
 
     /**
      * A name of a table represented by the repository.
@@ -118,7 +117,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     /**
      * A method which retrieves objects from the database by a raw SQL query.
      * @param query a {@code String} object of a raw SQL query
-     * @return a lis of objects.
+     * @return a list of objects.
      */
     @NonNull
     protected List<T> getByRawQuery(String query) {

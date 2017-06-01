@@ -32,28 +32,47 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
 
     /**
      * A method which retrieves an amount of entities from a start position by a title.
+     * @param profileId an id of profile.
      * @param title a required name.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
     @NonNull
     List<Note> getByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
 
+    /**
+     * A method which retrieves an amount of trash entities from a start position by a title.
+     * @param profileId an id of profile.
+     * @param title a required name.
+     * @param paginationArgs a limit and a offset of a pagination.
+     * @return a list of entities.
+     */
     @NonNull
     List<Note> getTrashByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
 
+    /**
+     * A method which retrieves an amount of favourite notes from a start position.
+     * @param profileId an id of profile.
+     * @param paginationArgs a limit and a offset of a pagination.
+     * @return a list of entities.
+     */
     @NonNull
     List<Note> getFavourites(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
+    /**
+     * A method which retrieves an amount of favourite notes from a start position by a title.
+     * @param profileId an id of profile.
+     * @param title a required name.
+     * @param paginationArgs a limit and a offset of a pagination.
+     * @return a list of entities.
+     */
     @NonNull
     List<Note> getFavouritesByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position by a notebook id.
      * @param notebookId an id of the notebook.
-     * @param offset a start position
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
     @NonNull
@@ -62,11 +81,9 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
     /**
      * A method which retrieves an amount of entities from a start position by a tag id.
      * @param tagId an id of the tag.
-     * @param offset a start position
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
     @NonNull
     List<Note> getByTag(@NonNull String tagId, @NonNull PaginationArgs paginationArgs);
-
 }

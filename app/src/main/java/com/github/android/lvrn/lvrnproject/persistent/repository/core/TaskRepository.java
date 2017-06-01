@@ -18,8 +18,7 @@ public interface TaskRepository extends ProfileDependedRepository<Task> {
      * A method which retrieves an amount of uncompleted tasks from a start position by a profile
      * id.
      * @param profileId an id of a profile.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
     @NonNull
@@ -28,7 +27,7 @@ public interface TaskRepository extends ProfileDependedRepository<Task> {
     /**
      * A method which retrieves entities by a note id.
      * @param noteId an id of note.
-     * @return a list of entites.
+     * @return a list of entities.
      */
     @NonNull
     List<Task> getByNote(String noteId);

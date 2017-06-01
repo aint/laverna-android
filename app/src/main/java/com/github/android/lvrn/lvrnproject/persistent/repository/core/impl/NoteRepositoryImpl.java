@@ -142,7 +142,7 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, PaginationArgs paginationArgs) {
+    public List<Note> getByTag(@NonNull String tagId, @NonNull PaginationArgs paginationArgs) {
         String query = "SELECT *"
                 + " FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
@@ -179,6 +179,11 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
         return contentValues;
     }
 
+    /**
+     * A method which returns a 'WHERE' clause with a positive or negative 'isFavorite' condition.
+     * @param isFavourite a boolean condition.
+     * @return a 'WHERE' clause.
+     */
     private String getIsFavouriteClause(boolean isFavourite) {
         return " AND " + COLUMN_IS_FAVORITE + "=" + (isFavourite ? "1" : "0");
     }

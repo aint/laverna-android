@@ -56,7 +56,7 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
 
     @NonNull
     @Override
-    public List<Tag> getByName(@NonNull String profileId, @NonNull String name, PaginationArgs paginationArgs) {
+    public List<Tag> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs) {
         return super.getByName(COLUMN_NAME, profileId, name, paginationArgs);
     }
 

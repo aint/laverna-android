@@ -11,7 +11,6 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.ProfileDependedTable.COLUMN_PROFILE_ID;
-import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TrashDependedTable.COLUMN_TRASH;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -19,7 +18,6 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 
 public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEntity>
         extends BasicRepositoryImpl<T> implements ProfileDependedRepository<T> {
-    private static final String TAG = "ProfileDependedRepoImpl";
 
     public ProfileDependedRepositoryImpl(String mTableName) {
         super(mTableName);
@@ -31,6 +29,14 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
         return getByIdCondition(COLUMN_PROFILE_ID, profileId, paginationArgs);
     }
 
+    /**
+     * A method which retrieves an amount of objects from start position by an id of received
+     * column.
+     * @param columnName a name of a column for a WHERE clause.
+     * @param id an id for a required column
+     * @param paginationArgs a limit and a offset of a pagination.
+     * @return a list of entities
+     */
     @NonNull
     protected List<T> getByIdCondition(String columnName,
                                      String id,
@@ -43,8 +49,8 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
      * column.
      * @param columnName a name of a column for a WHERE clause.
      * @param id an id for a required column
-     * @param offset a position to start from
-     * @param limit a number of objects to retrieve.
+     * @param additionalClause an additional sql 'WHERE' clause.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities
      */
     @NonNull
@@ -60,6 +66,14 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
         return getByRawQuery(query);
     }
 
+    /**
+     * A method which retrieves objects from the database by a query with LIKE operator.
+     * @param columnName a name of the column to find by.
+     * @param profileId an id of a profile.
+     * @param name a value for a find by.
+     * @param paginationArgs a limit and a offset of a pagination.
+     * @return a list of entities.
+     */
     @NonNull
     protected List<T> getByName(@NonNull String columnName,
                                 @NonNull String profileId,
@@ -71,9 +85,10 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
     /**
      * A method which retrieves objects from the database by a query with LIKE operator.
      * @param columnName a name of the column to find by.
+     * @param profileId an id of a profile.
      * @param name a value for a find by.
-     * @param offset a start position for selection.
-     * @param limit a number of entities to retrieve.
+     * @param additionalClause an additional sql 'WHERE' clause.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
     @NonNull

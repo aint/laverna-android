@@ -18,8 +18,7 @@ public interface NotebookRepository extends ProfileDependedRepository<Notebook> 
      * A method which retrieves an amount of entities from a start position by a name.
      * @param profileId an id of profile.
      * @param name a required name.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
     @NonNull
@@ -28,8 +27,7 @@ public interface NotebookRepository extends ProfileDependedRepository<Notebook> 
     /**
      * A method which retrieves an amount of entities from a start position by a parent notebook's id.
      * @param notebookId an id of a parent notebook.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
     @NonNull
@@ -38,8 +36,7 @@ public interface NotebookRepository extends ProfileDependedRepository<Notebook> 
     /**
      * A method which retrieves an amount of entities from a start position which are root parents (has no parent).
      * @param profileId an id of profile.
-     * @param offset a start position.
-     * @param limit a number of entities to retrieve.
+     * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
     @NonNull
