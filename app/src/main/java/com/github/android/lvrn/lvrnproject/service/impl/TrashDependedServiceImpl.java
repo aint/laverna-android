@@ -20,19 +20,25 @@ public abstract class TrashDependedServiceImpl <T1 extends TrashDependedEntity, 
 
     private final TrashDependedRepository<T1> mTrashDependedRepository;
 
-    private final ProfileService mProfileService;
+//    private final ProfileService mProfileService;
 
     public TrashDependedServiceImpl(@NonNull TrashDependedRepository<T1> trashDependedRepository, @NonNull ProfileService profileService) {
         super(trashDependedRepository, profileService);
         mTrashDependedRepository = trashDependedRepository;
-        mProfileService = profileService;
+//        mProfileService = profileService;
 
     }
 
     @NonNull
     @Override
-    public List<T1> getByProfile(@NonNull String profileId, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
-        return mTrashDependedRepository.getByProfile(profileId, isTrash, paginationArgs);
+    public List<T1> getByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
+        return mTrashDependedRepository.getByProfile(profileId, paginationArgs);
+    }
+
+    @NonNull
+    @Override
+    public List<T1> getTrashByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
+        return mTrashDependedRepository.getTrashByProfile(profileId, paginationArgs);
     }
 
     @Override

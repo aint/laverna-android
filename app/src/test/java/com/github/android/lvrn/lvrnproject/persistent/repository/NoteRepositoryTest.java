@@ -146,7 +146,7 @@ public class NoteRepositoryTest {
         noteRepository.add(note3);
 
         List<Note> noteEntities1 = noteRepository
-                .getByNotebook(notebook.getId(), false, new PaginationArgs());
+                .getByNotebook(notebook.getId(), new PaginationArgs());
 
         assertThat(noteEntities1.size()).isNotEqualTo(notes.size());
         assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
@@ -169,7 +169,7 @@ public class NoteRepositoryTest {
         noteRepository.addTagToNote(note1.getId(), tag.getId());
         noteRepository.addTagToNote(note2.getId(), tag.getId());
 
-        List<Note> notes1 = noteRepository.getByTag(tag.getId(), false, new PaginationArgs());
+        List<Note> notes1 = noteRepository.getByTag(tag.getId(), new PaginationArgs());
 
         assertThat(notes1.size()).isNotEqualTo(notes.size());
         assertThat(notes1.size()).isEqualTo(notes.size() - 1);
@@ -196,7 +196,7 @@ public class NoteRepositoryTest {
 
         noteRepository.removeTagFromNote(note1.getId(), tag.getId());
 
-        List<Note> notes1 = noteRepository.getByTag(tag.getId(), false, new PaginationArgs());
+        List<Note> notes1 = noteRepository.getByTag(tag.getId(), new PaginationArgs());
 
         assertThat(notes1.size()).isNotEqualTo(notes.size());
         assertThat(notes1.size()).isEqualTo(notes.size() - 2);
@@ -234,11 +234,11 @@ public class NoteRepositoryTest {
         note2.setTitle("title2");
         noteRepository.add(note2);
 
-        List<Note> result1 = noteRepository.getByTitle(profile.getId(), "title", false, new PaginationArgs());
+        List<Note> result1 = noteRepository.getByTitle(profile.getId(), "title", new PaginationArgs());
 
         assertThat(result1).hasSize(2);
 
-        List<Note> result2 = noteRepository.getByTitle(profile.getId(), "title_1", false,  new PaginationArgs());
+        List<Note> result2 = noteRepository.getByTitle(profile.getId(), "title_1", new PaginationArgs());
 
         assertThat(result2).hasSize(1);
     }

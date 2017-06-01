@@ -69,20 +69,26 @@ public class NoteServiceImpl extends TrashDependedServiceImpl<Note, NoteForm> im
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, boolean isTrash, PaginationArgs paginationArgs) {
-        return mNoteRepository.getByTitle(profileId, title, isTrash, paginationArgs);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, PaginationArgs paginationArgs) {
+        return mNoteRepository.getByTitle(profileId, title, paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByNotebook(@NonNull String notebookId, boolean isTrash, PaginationArgs paginationArgs) {
-        return mNoteRepository.getByNotebook(notebookId, isTrash, paginationArgs);
+    public List<Note> getTrashByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs) {
+        return mNoteRepository.getTrashByTitle(profileId, title, paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, boolean isTrash, PaginationArgs paginationArgs) {
-        return mNoteRepository.getByTag(tagId, isTrash, paginationArgs);
+    public List<Note> getByNotebook(@NonNull String notebookId, PaginationArgs paginationArgs) {
+        return mNoteRepository.getByNotebook(notebookId, paginationArgs);
+    }
+
+    @NonNull
+    @Override
+    public List<Note> getByTag(@NonNull String tagId, PaginationArgs paginationArgs) {
+        return mNoteRepository.getByTag(tagId, paginationArgs);
     }
 
     @Override

@@ -73,7 +73,7 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
 
     @Override
     public List<Notebook> getNotebooksForAdapter() {
-        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, false, new PaginationArgs());
+        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, new PaginationArgs());
         return mNotebooks;
     }
 }

@@ -15,7 +15,10 @@ import java.util.List;
 public interface TrashDependedService <T1 extends TrashDependedEntity, T2 extends TrashDependedForm> extends ProfileDependedService<T1, T2> {
 
     @NonNull
-    List<T1> getByProfile(@NonNull String profileId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    List<T1> getByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
+
+    @NonNull
+    List<T1> getTrashByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which changes entity's trash status on true.

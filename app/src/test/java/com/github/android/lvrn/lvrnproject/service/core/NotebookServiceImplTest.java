@@ -95,7 +95,7 @@ public class NotebookServiceImplTest {
                 .isPresent())
                 .isTrue();
 
-        assertThat(notebookService.getByName(profile.getId(), "new", false, new PaginationArgs(0, 100))).hasSize(1);
+        assertThat(notebookService.getByName(profile.getId(), "new", new PaginationArgs(0, 100))).hasSize(1);
     }
 
     @After

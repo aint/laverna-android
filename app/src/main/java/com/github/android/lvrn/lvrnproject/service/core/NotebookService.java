@@ -3,7 +3,7 @@ package com.github.android.lvrn.lvrnproject.service.core;
 import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.service.TrashDependedService;
+import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface NotebookService extends TrashDependedService<Notebook, NotebookForm> {
+public interface NotebookService extends ProfileDependedService<Notebook, NotebookForm> {
 
     /**
      * A method which retrieves an amount of entities from a start position by a name.
@@ -23,5 +23,5 @@ public interface NotebookService extends TrashDependedService<Notebook, Notebook
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs);
 }
