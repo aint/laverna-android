@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allentities;
+package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist;
 
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +12,9 @@ import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface AllEntitiesPresenter<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm> extends MenuItemCompat.OnActionExpandListener {
+public interface EntitiesListPresenter<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm> extends MenuItemCompat.OnActionExpandListener {
 
-    void bindView(AllEntitiesFragment allNotesFragment);
+    void bindView(EntitiesListFragment allNotesFragment);
 
     void unbindView();
 

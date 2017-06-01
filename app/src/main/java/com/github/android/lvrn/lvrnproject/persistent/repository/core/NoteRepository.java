@@ -38,7 +38,10 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
      * @return a list of entities.
      */
     @NonNull
-    List<Note> getByTitle(@NonNull String profileId, @NonNull String title, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    List<Note> getByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
+
+    @NonNull
+    List<Note> getTrashByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position by a notebook id.
@@ -48,7 +51,7 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
      * @return a list of entities.
      */
     @NonNull
-    List<Note> getByNotebook(@NonNull String notebookId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    List<Note> getByNotebook(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position by a tag id.
@@ -58,5 +61,5 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
      * @return a list of entities.
      */
     @NonNull
-    List<Note> getByTag(@NonNull String tagId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    List<Note> getByTag(@NonNull String tagId, @NonNull PaginationArgs paginationArgs);
 }

@@ -1,10 +1,10 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allentities;
+package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface AllEntitiesFragment {
+public interface EntitiesListFragment {
 
     void updateRecyclerView();
 

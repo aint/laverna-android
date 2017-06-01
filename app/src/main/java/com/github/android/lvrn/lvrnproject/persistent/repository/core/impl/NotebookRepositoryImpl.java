@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TrashDependedRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
@@ -27,7 +27,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookRepositoryImpl extends TrashDependedRepositoryImpl<Notebook> implements NotebookRepository {
+public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebook> implements NotebookRepository {
 
     public NotebookRepositoryImpl() {
         super(TABLE_NAME);
@@ -65,23 +65,22 @@ public class NotebookRepositoryImpl extends TrashDependedRepositoryImpl<Notebook
 
     @NonNull
     @Override
-    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
-        return super.getByName(COLUMN_NAME, profileId, name, getTrashClause(isTrash), paginationArgs);
+    public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs) {
+        return super.getByName(COLUMN_NAME, profileId, name, paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getChildren(@NonNull String notebookId, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
-        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, getTrashClause(isTrash), paginationArgs);
+    public List<Notebook> getChildren(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs) {
+        return super.getByIdCondition(COLUMN_PARENT_ID, notebookId, paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Notebook> getRootParents(@NonNull String profileId, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
+    public List<Notebook> getRootParents(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_PROFILE_ID + "='" + profileId + "'"
                 + " AND " + COLUMN_PARENT_ID + " IS NULL"
-                + getTrashClause(isTrash)
                 + " LIMIT " + paginationArgs.limit
                 + " OFFSET " + paginationArgs.offset;
         System.out.println(query);

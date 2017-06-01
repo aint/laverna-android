@@ -10,7 +10,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NoteViewHolder;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.TrashFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment;
 
 import java.util.List;
 
@@ -21,11 +21,11 @@ import java.util.List;
 
 public class TrashAdapter extends RecyclerView.Adapter<NoteViewHolder> implements DataPostSetAdapter<Note> {
 
-    private TrashFragment mAllNotesFragment;
+    private TrashListFragment mAllNotesFragment;
 
     private List<Note> mNotes;
 
-    public TrashAdapter(TrashFragment allNotesFragment) {
+    public TrashAdapter(TrashListFragment allNotesFragment) {
         mAllNotesFragment = allNotesFragment;
     }
 

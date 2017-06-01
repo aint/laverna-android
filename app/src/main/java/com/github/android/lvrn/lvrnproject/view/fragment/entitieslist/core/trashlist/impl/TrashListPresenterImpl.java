@@ -1,12 +1,12 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.impl.AllEntitiesPresenterImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.TrashPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListPresenterImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ import java.util.List;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TrashPresenterImpl extends AllEntitiesPresenterImpl<Note, NoteForm> implements TrashPresenter {
+public class TrashListPresenterImpl extends EntitiesListPresenterImpl<Note, NoteForm> implements TrashListPresenter {
 
     private NoteService mNoteService;
 
-    public TrashPresenterImpl(NoteService entityService) {
+    public TrashListPresenterImpl(NoteService entityService) {
         super(entityService);
         mNoteService = entityService;
     }

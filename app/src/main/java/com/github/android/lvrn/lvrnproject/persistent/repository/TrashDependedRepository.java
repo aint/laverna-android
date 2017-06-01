@@ -13,7 +13,11 @@ import java.util.List;
 
 public interface TrashDependedRepository<T extends TrashDependedEntity> extends ProfileDependedRepository<T> {
 
-    List<T> getByProfile(@NonNull String profileId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    @NonNull
+    List<T> getByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
+
+    @NonNull
+    List<T> getTrashByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which changes entity's trash status on true.

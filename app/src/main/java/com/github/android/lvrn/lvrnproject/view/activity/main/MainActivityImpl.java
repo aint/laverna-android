@@ -15,9 +15,9 @@ import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNotebooksFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.impl.TrashFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 
 import butterknife.BindView;
@@ -77,7 +77,7 @@ public class MainActivityImpl extends AppCompatActivity
             AllTasksFragmentImpl taskFragment = new AllTasksFragmentImpl();
             menuStartSelectFragment(taskFragment, TagFragmentConst.TAG_TASK_FRAGMENT);
         } else if (R.id.nav_item_trash == id) {
-            TrashFragmentImpl trashFragment = new TrashFragmentImpl();
+            TrashListFragmentImpl trashFragment = new TrashListFragmentImpl();
             menuStartSelectFragment(trashFragment,TagFragmentConst.TAG_TRASH_FRAGMENT);
         }
             mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -100,7 +100,7 @@ public class MainActivityImpl extends AppCompatActivity
      */
     private void startAllNotesFragment() {
         if (mSavedInstanceState == null) {
-            AllNotesFragmentImpl allNotesFragment = new AllNotesFragmentImpl();
+            NotesListFragmentImpl allNotesFragment = new NotesListFragmentImpl();
             fragmentManager.beginTransaction()
                     .add(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
                     .commit();

@@ -8,10 +8,10 @@ import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.No
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.NotebookContentFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNotebooksFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.impl.TrashFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
 
 import dagger.Component;
 
@@ -24,7 +24,7 @@ public interface AppComponent {
     //TODO:temp compoment, remove and change it later.
     void inject(LavernaApplication application);
 
-    void inject(AllNotesFragmentImpl allNotesFragment);
+    void inject(NotesListFragmentImpl allNotesFragment);
 
     void inject(SingleNoteFragmentImpl singleNoteFragmentImpl);
 
@@ -40,6 +40,6 @@ public interface AppComponent {
 
     void inject(AllTasksFragmentImpl taskFragment);
 
-    void inject(TrashFragmentImpl trashFragment);
+    void inject(TrashListFragmentImpl trashFragment);
 
 }

@@ -32,7 +32,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
     }
 
     @NonNull
-    private List<T> getByIdCondition(String columnName,
+    protected List<T> getByIdCondition(String columnName,
                                      String id,
                                      @NonNull PaginationArgs paginationArgs) {
         return getByIdCondition(columnName, id, "", paginationArgs);
@@ -106,6 +106,4 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
         }
         return false;
     }
-
-
 }

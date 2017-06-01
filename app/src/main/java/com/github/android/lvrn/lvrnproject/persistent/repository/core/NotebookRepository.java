@@ -3,7 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.persistent.repository.TrashDependedRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface NotebookRepository extends TrashDependedRepository<Notebook> {
+public interface NotebookRepository extends ProfileDependedRepository<Notebook> {
 
     /**
      * A method which retrieves an amount of entities from a start position by a name.
@@ -23,7 +23,7 @@ public interface NotebookRepository extends TrashDependedRepository<Notebook> {
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position by a parent notebook's id.
@@ -33,7 +33,7 @@ public interface NotebookRepository extends TrashDependedRepository<Notebook> {
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getChildren(@NonNull String notebookId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    List<Notebook> getChildren(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs);
 
     /**
      * A method which retrieves an amount of entities from a start position which are root parents (has no parent).
@@ -43,5 +43,5 @@ public interface NotebookRepository extends TrashDependedRepository<Notebook> {
      * @return a list of entities.
      */
     @NonNull
-    List<Notebook> getRootParents(@NonNull String profileId, boolean isTrash, @NonNull PaginationArgs paginationArgs);
+    List<Notebook> getRootParents(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 }

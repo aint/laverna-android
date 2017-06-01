@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl;
 
 
 import android.graphics.drawable.Drawable;
@@ -23,8 +23,8 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.TrashAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.TrashFragment;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.trash.TrashPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 import com.orhanobut.logger.Logger;
@@ -39,7 +39,7 @@ import butterknife.Unbinder;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TrashFragmentImpl extends Fragment implements TrashFragment {
+public class TrashListFragmentImpl extends Fragment implements TrashListFragment {
 
     public static final String TOOLBAR_TITLE = "Trash";
 
@@ -53,10 +53,10 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
 
     private SearchView mSearchView;
 
-    private MenuItem menuSearch;
+    private MenuItem mMenuSearch;
     //, menuSync, menuSortBy, menuSettings, menuAbout;
 
-    private TrashPresenter trashPresenter;
+    private TrashListPresenter mTrashListPresenter;
 
     @Nullable
     @Override
@@ -65,7 +65,7 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
 
-        trashPresenter = new TrashPresenterImpl(mNoteService);
+        mTrashListPresenter = new TrashListPresenterImpl(mNoteService);
 
         setUpToolbar();
         initRecyclerView();
@@ -76,31 +76,31 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(trashPresenter == null) {
-            trashPresenter = new TrashPresenterImpl(mNoteService);
+        if(mTrashListPresenter == null) {
+            mTrashListPresenter = new TrashListPresenterImpl(mNoteService);
         }
-        trashPresenter.bindView(this);
+        mTrashListPresenter.bindView(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        trashPresenter.unbindView();
+        mTrashListPresenter.unbindView();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_all_notes, menu);
 
-        menuSearch = menu.findItem(R.id.item_action_search);
+        mMenuSearch = menu.findItem(R.id.item_action_search);
 //        menuSync = menu.findItem(R.id.item_action_sync);
 //        menuAbout = menu.findItem(R.id.item_about);
 //        menuSortBy = menu.findItem(R.id.item_sort_by);
 //        menuSettings = menu.findItem(R.id.item_settings);
 
-        mSearchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mMenuSearch);
 
-        trashPresenter.subscribeSearchView(menuSearch);
+        mTrashListPresenter.subscribeSearchView(mMenuSearch);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -112,7 +112,7 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
-        trashPresenter.disposePaginationAndSearch();
+        mTrashListPresenter.disposePaginationAndSearch();
     }
 
     @Override
@@ -172,10 +172,10 @@ public class TrashFragmentImpl extends Fragment implements TrashFragment {
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mNotesRecyclerViewAdapter = new TrashAdapter(this);
-        trashPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
+        mTrashListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
         mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
 
-        trashPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
+        mTrashListPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
     }
 
     /**

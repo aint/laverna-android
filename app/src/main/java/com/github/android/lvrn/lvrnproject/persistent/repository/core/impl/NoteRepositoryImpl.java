@@ -112,26 +112,31 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
 
     @NonNull
     @Override
-    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
-        return super.getByName(COLUMN_TITLE, profileId, title, getTrashClause(isTrash), paginationArgs);
+    public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs) {
+        return super.getByName(COLUMN_TITLE, profileId, title, getTrashClause(false), paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByNotebook(@NonNull String notebookId, boolean isTrash, @NonNull PaginationArgs paginationArgs) {
-        return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, getTrashClause(isTrash), paginationArgs);
+    public List<Note> getTrashByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs) {
+        return super.getByName(COLUMN_TITLE, profileId, title, getTrashClause(true), paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Note> getByTag(@NonNull String tagId, boolean isTrash, PaginationArgs paginationArgs) {
+    public List<Note> getByNotebook(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs) {
+        return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, paginationArgs);
+    }
+
+    @NonNull
+    @Override
+    public List<Note> getByTag(@NonNull String tagId, PaginationArgs paginationArgs) {
         String query = "SELECT *"
                 + " FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME
                 + " ON " + TABLE_NAME + "." + COLUMN_ID
                 + "=" + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
                 + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID + "='" + tagId + "'"
-                + getTrashClause(isTrash)
                 + " LIMIT " + paginationArgs.limit
                 + " OFFSET " + paginationArgs.offset;
         return getByRawQuery(query);
@@ -161,6 +166,4 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
         contentValues.put(NotesTagsTable.COLUMN_TAG_ID, tagId);
         return contentValues;
     }
-
-
 }

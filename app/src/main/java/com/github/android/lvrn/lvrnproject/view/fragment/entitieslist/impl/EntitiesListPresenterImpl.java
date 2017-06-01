@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allentities.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl;
 
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +10,8 @@ import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.AllEntitiesFragment;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.AllEntitiesPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
 import com.github.android.lvrn.lvrnproject.view.listener.SearchViewOnQueryTextListener;
 
@@ -27,10 +27,10 @@ import io.reactivex.subjects.ReplaySubject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm> implements AllEntitiesPresenter<T1, T2> {
+public abstract class EntitiesListPresenterImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm> implements EntitiesListPresenter<T1, T2> {
     private ProfileDependedService<T1,T2> mEntityService;
 
-    private AllEntitiesFragment mAllEntitiesFragment;
+    private EntitiesListFragment mEntitiesListFragment;
 
     private RecyclerViewOnScrollListener mRecyclerViewOnScrollLister;
 
@@ -46,13 +46,13 @@ public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity,
 
     protected List<T1> mEntities;
 
-    public AllEntitiesPresenterImpl(ProfileDependedService<T1, T2> entityService) {
+    public EntitiesListPresenterImpl(ProfileDependedService<T1, T2> entityService) {
         (mEntityService = entityService).openConnection();
     }
 
     @Override
-    public void bindView(AllEntitiesFragment allNotesFragment) {
-        mAllEntitiesFragment = allNotesFragment;
+    public void bindView(EntitiesListFragment allNotesFragment) {
+        mEntitiesListFragment = allNotesFragment;
         if (!mEntityService.isConnectionOpened()) {
             mEntityService.openConnection();
         }
@@ -60,7 +60,7 @@ public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity,
 
     @Override
     public void unbindView() {
-        mAllEntitiesFragment = null;
+        mEntitiesListFragment = null;
         mEntityService.closeConnection();
     }
 
@@ -86,7 +86,7 @@ public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity,
      */
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
-        mAllEntitiesFragment.switchToSearchMode();
+        mEntitiesListFragment.switchToSearchMode();
         mRecyclerViewOnScrollLister.changeSubject(mFoundedPaginationSubject);
         return true;
     }
@@ -98,10 +98,10 @@ public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity,
      */
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
-        mAllEntitiesFragment.switchToNormalMode();
+        mEntitiesListFragment.switchToNormalMode();
         mRecyclerViewOnScrollLister.changeSubject(mPaginationSubject);
         addFirstFoundedItemsToList(loadMoreForPagination(new PaginationArgs()));
-        mAllEntitiesFragment.updateRecyclerView();
+        mEntitiesListFragment.updateRecyclerView();
         return true;
     }
 
@@ -134,7 +134,7 @@ public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity,
                 .map(this::addFirstFoundedItemsToList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllEntitiesFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mEntitiesListFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
 
         searchView.setOnQueryTextListener(new SearchViewOnQueryTextListener(searchQuerySubject));
@@ -154,18 +154,18 @@ public abstract class AllEntitiesPresenterImpl<T1 extends ProfileDependedEntity,
                 .filter(notes -> !notes.isEmpty())
                 .map(newNotes -> mEntities.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllEntitiesFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mEntitiesListFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
     }
 
     private void initFoundedPaginationSubject() {
         mFoundedPaginationDisposable = (mFoundedPaginationSubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
-                .map(paginationArgs -> loadMoreForSearch(mAllEntitiesFragment.getSearchQuery(), paginationArgs))
+                .map(paginationArgs -> loadMoreForSearch(mEntitiesListFragment.getSearchQuery(), paginationArgs))
                 .filter(notes -> !notes.isEmpty())
                 .map(newNotes -> mEntities.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mAllEntitiesFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mEntitiesListFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
     }
 

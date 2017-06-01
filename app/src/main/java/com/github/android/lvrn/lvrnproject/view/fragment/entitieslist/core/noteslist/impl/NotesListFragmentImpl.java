@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.impl;
+package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl;
 
 
 import android.content.Intent;
@@ -25,8 +25,8 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllNotesAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.AllNotesFragment;
-import com.github.android.lvrn.lvrnproject.view.fragment.allentities.core.allnotes.AllNotesPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
@@ -43,7 +43,7 @@ import butterknife.Unbinder;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
+public class NotesListFragmentImpl extends Fragment implements NotesListFragment {
 
     public static final String TOOLBAR_TITLE = "All Notes";
 
@@ -64,7 +64,7 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
 //    TODO: introduce in future milestones
 //    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
 
-    private AllNotesPresenter mAllNotesPresenter;
+    private NotesListPresenter mNotesListPresenter;
 
     @Nullable
     @Override
@@ -73,7 +73,7 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
 
-        mAllNotesPresenter = new AllNotesPresenterImpl(mNoteService);
+        mNotesListPresenter = new NotesListPresenterImpl(mNoteService);
 
         setUpToolbar();
         initRecyclerView();
@@ -84,17 +84,17 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(mAllNotesPresenter == null) {
-            mAllNotesPresenter = new AllNotesPresenterImpl(mNoteService);
+        if(mNotesListPresenter == null) {
+            mNotesListPresenter = new NotesListPresenterImpl(mNoteService);
         }
-        mAllNotesPresenter.bindView(this);
+        mNotesListPresenter.bindView(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         floatingActionsMenu.collapse();
-        mAllNotesPresenter.unbindView();
+        mNotesListPresenter.unbindView();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
 
         mSearchView = (SearchView) MenuItemCompat.getActionView(mMenuSearch);
 
-        mAllNotesPresenter.subscribeSearchView(mMenuSearch);
+        mNotesListPresenter.subscribeSearchView(mMenuSearch);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -122,7 +122,7 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
-        mAllNotesPresenter.disposePaginationAndSearch();
+        mNotesListPresenter.disposePaginationAndSearch();
     }
 
     @Override
@@ -204,10 +204,10 @@ public class AllNotesFragmentImpl extends Fragment implements AllNotesFragment {
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mNotesRecyclerViewAdapter = new AllNotesAdapter(this);
-        mAllNotesPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
+        mNotesListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
         mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
 
-        mAllNotesPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
+        mNotesListPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
     }
 
     /**
