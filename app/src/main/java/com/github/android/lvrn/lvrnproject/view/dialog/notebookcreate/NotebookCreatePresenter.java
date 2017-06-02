@@ -15,7 +15,7 @@ public interface NotebookCreatePresenter {
 
     void unbindView();
 
-    void createNotebook(String name);
+    boolean createNotebook(String name);
 
     void subscribeRecyclerViewForPagination(RecyclerView recyclerView);
 

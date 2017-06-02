@@ -2,6 +2,7 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,9 +89,12 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
     @OnClick(R.id.btn_create_notebook_ok)
     public void createNotebook() {
         String nameNotebook = mEditText.getText().toString();
-        mNotebookCreatePresenter.createNotebook(nameNotebook);
-//        Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
-        getActivity().onBackPressed();
+        if (mNotebookCreatePresenter.createNotebook(nameNotebook)) {
+            Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
+            getActivity().onBackPressed();
+            return;
+        }
+        Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " hasn't created ", Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.btn_create_notebook_cancel)

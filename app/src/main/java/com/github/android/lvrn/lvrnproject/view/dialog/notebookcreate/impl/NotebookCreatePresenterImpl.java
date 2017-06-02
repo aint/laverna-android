@@ -12,6 +12,7 @@ import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreateDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreatePresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
+import com.google.common.base.Optional;
 
 import java.util.List;
 
@@ -55,9 +56,10 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
     }
 
     @Override
-    public void createNotebook(String name) {
-        mNotebookService.create(new NotebookForm(CurrentState.profileId, false, parentId, name));
+    public boolean createNotebook(String name) {
+        Optional<String> newNotebookId = mNotebookService.create(new NotebookForm(CurrentState.profileId, false, parentId, name));
         mNotebookCreateDialogFragment.updateRecyclerView();
+        return  newNotebookId.isPresent();
     }
 
     @Override
