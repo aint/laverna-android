@@ -1,4 +1,4 @@
-package fragments;
+package com.github.android.lvrn.lvrnproject.fragments;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;

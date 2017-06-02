@@ -15,6 +15,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.adapter.NotebookCreateViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreateDialogFragment;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreatePresenter;
 
 import javax.inject.Inject;
 
@@ -27,20 +28,19 @@ import butterknife.Unbinder;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookCreateDialogFragmentImpl extends DialogFragment
-        implements NotebookCreateDialogFragment {
-    @BindView(R.id.recycler_view_notebook_create)
-    RecyclerView mRecyclerViewNotebook;
-    @BindView(R.id.edit_text_notebook_name)
-    EditText mEditText;
-    @Inject
-    NotebookService mNotebookService;
-    private Unbinder mUnbinder;
-    private NotebookCreatePresenterImpl mNotebookCreatePresenterImpl;
-    private NotebookCreateViewAdapter mNotebookAdapter;
+public class NotebookCreateDialogFragmentImpl extends DialogFragment implements NotebookCreateDialogFragment {
 
-    public NotebookCreateDialogFragmentImpl() {
-    }
+    @BindView(R.id.recycler_view_notebook_create) RecyclerView mRecyclerViewNotebook;
+
+    @BindView(R.id.edit_text_notebook_name) EditText mEditText;
+
+    @Inject NotebookService mNotebookService;
+
+    private Unbinder mUnbinder;
+
+    private NotebookCreatePresenter mNotebookCreatePresenter;
+
+    private NotebookCreateViewAdapter mNotebookAdapter;
 
     @Nullable
     @Override
@@ -48,7 +48,7 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment
         View view = inflater.inflate(R.layout.dialog_fragment_notebook_create, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         LavernaApplication.getsAppComponent().inject(this);
-        mNotebookCreatePresenterImpl = new NotebookCreatePresenterImpl(mNotebookService);
+        mNotebookCreatePresenter = new NotebookCreatePresenterImpl(mNotebookService);
         initRecyclerView();
         return view;
     }
@@ -62,13 +62,13 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment
     @Override
     public void onResume() {
         super.onResume();
-        mNotebookCreatePresenterImpl.bindView(this);
+        mNotebookCreatePresenter.bindView(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mNotebookCreatePresenterImpl.unbindView();
+        mNotebookCreatePresenter.unbindView();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
-        mNotebookCreatePresenterImpl.disposePaginationAndSearch();
+        mNotebookCreatePresenter.disposePaginationAndSearch();
     }
 
     @Override
@@ -88,7 +88,7 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment
     @OnClick(R.id.btn_create_notebook_ok)
     public void createNotebook() {
         String nameNotebook = mEditText.getText().toString();
-        mNotebookCreatePresenterImpl.createNotebook(nameNotebook);
+        mNotebookCreatePresenter.createNotebook(nameNotebook);
 //        Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
         getActivity().onBackPressed();
     }
@@ -101,9 +101,12 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment
     private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewNotebook.setLayoutManager(layoutManager);
-        mNotebookAdapter = new NotebookCreateViewAdapter(mNotebookCreatePresenterImpl.getNotebooksForAdapter(), mNotebookCreatePresenterImpl);
+
+        mNotebookAdapter = new NotebookCreateViewAdapter(mNotebookCreatePresenter);
+        mNotebookCreatePresenter.setDataToAdapter(mNotebookAdapter);
+
         mRecyclerViewNotebook.setAdapter(mNotebookAdapter);
-        mNotebookCreatePresenterImpl.subscribeRecyclerViewForPagination(mRecyclerViewNotebook);
+        mNotebookCreatePresenter.subscribeRecyclerViewForPagination(mRecyclerViewNotebook);
     }
 
 }
