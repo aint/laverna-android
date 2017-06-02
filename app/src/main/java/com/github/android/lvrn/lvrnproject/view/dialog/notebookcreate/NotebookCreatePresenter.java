@@ -3,8 +3,7 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate;
 import android.support.v7.widget.RecyclerView;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-
-import java.util.List;
+import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -12,13 +11,11 @@ import java.util.List;
 
 public interface NotebookCreatePresenter {
 
-    List<Notebook> getNotebooksForAdapter();
-
     void bindView(NotebookCreateDialogFragment notebookCreateDialogFragment);
 
     void unbindView();
 
-    void createNotebook(String name);
+    boolean createNotebook(String name);
 
     void subscribeRecyclerViewForPagination(RecyclerView recyclerView);
 
@@ -26,4 +23,5 @@ public interface NotebookCreatePresenter {
 
     void getNotebookId(String notebookId);
 
+    void setDataToAdapter(DataPostSetAdapter<Notebook> dataPostSetAdapter);
 }

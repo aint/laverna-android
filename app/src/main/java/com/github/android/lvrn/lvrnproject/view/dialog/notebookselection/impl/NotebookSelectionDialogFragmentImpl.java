@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,14 +17,17 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebookSelectionAdapter;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
+import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -33,11 +37,11 @@ import butterknife.Unbinder;
 public class NotebookSelectionDialogFragmentImpl extends DialogFragment implements NotebookSelectionDialogFragment {
 
     public static final String RECYCLER_VIEW_STATE = "recycler_view_state";
-    public static final String DIALOG_TITLE = "Notebooks";
+//    public static final String DIALOG_TITLE = "Notebooks";
 
     @Inject NotebookService mNotebookService;
 
-    @BindView(R.id.recycler_view_notebooks) RecyclerView mNotebooksRecyclerView;
+    @BindView(R.id.recycler_view_notebooks_dialog_fragment_selection) RecyclerView mNotebooksRecyclerView;
 
     private Parcelable mRecyclerViewState;
 
@@ -52,7 +56,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Light_Dialog);
+//        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Light_Dialog);
     }
 
     @Override
@@ -66,9 +70,18 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
         initRecyclerView();
 
-        getDialog().setTitle(DIALOG_TITLE);
+//        getDialog().setTitle(DIALOG_TITLE);
 
         return view;
+    }
+
+    @OnClick(R.id.btn_create_notebook_dialog_fragment_selection)
+    public void createNotebook(){
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null);
+        DialogFragment dialogFragment = new NotebookCreateDialogFragmentImpl();
+        dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
     }
 
     @Override
@@ -84,6 +97,12 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         if (savedInstanceState != null) {
             mRecyclerViewState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     @Override

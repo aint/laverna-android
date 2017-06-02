@@ -24,7 +24,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <!--TODO: possibly, provide a simple layout as fragments container instead of including -->
+        <!--TODO: possibly, provide a simple layout as com.github.android.lvrn.lvrnproject.fragments container instead of including -->
         <include layout="@layout/partial_content_main" />
 
     </android.support.design.widget.CoordinatorLayout>

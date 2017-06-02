@@ -20,20 +20,18 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCreateViewAdapter.NotebookCreateViewHolder> {
+public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCreateViewAdapter.NotebookCreateViewHolder> implements DataPostSetAdapter<Notebook>  {
 
     private List<Notebook> mNotebook;
-    private NotebookCreatePresenter mNotebookCreateDialogFragment;
+    private NotebookCreatePresenter mNotebookCreatePresenter;
     private int mSelecteditem = -1;
 
-    public NotebookCreateViewAdapter(List<Notebook> mNotebook, NotebookCreatePresenter notebookCreatePresenter) {
-        this.mNotebook = mNotebook;
-        this.mNotebookCreateDialogFragment = notebookCreatePresenter;
+    public NotebookCreateViewAdapter(NotebookCreatePresenter notebookCreatePresenter) {
+        this.mNotebookCreatePresenter = notebookCreatePresenter;
     }
 
     @Override
     public NotebookCreateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notebook_create, parent, false);
         return new NotebookCreateViewHolder(view);
     }
@@ -51,10 +49,10 @@ public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCrea
         holder.itemView.setOnClickListener(v -> {
             if (mSelecteditem == position) {
                 mSelecteditem = -1;
-                mNotebookCreateDialogFragment.getNotebookId(null);
+                mNotebookCreatePresenter.getNotebookId(null);
             } else {
                 mSelecteditem = position;
-                mNotebookCreateDialogFragment.getNotebookId(mNotebook.get(position).getId());
+                mNotebookCreatePresenter.getNotebookId(mNotebook.get(position).getId());
             }
             notifyDataSetChanged();
         });
@@ -64,6 +62,11 @@ public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCrea
     @Override
     public int getItemCount() {
         return mNotebook.size();
+    }
+
+    @Override
+    public void setData(List<Notebook> data) {
+        mNotebook = data;
     }
 
     public class NotebookCreateViewHolder extends RecyclerView.ViewHolder {

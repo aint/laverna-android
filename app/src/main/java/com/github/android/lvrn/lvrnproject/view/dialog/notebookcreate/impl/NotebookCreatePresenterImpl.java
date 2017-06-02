@@ -1,15 +1,18 @@
 package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreateDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreatePresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
+import com.google.common.base.Optional;
 
 import java.util.List;
 
@@ -24,10 +27,9 @@ import io.reactivex.subjects.ReplaySubject;
 
 public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
-    private List<Notebook> mNotebookData;
+    private List<Notebook> mNotebooks;
     private NotebookService mNotebookService;
     private NotebookCreateDialogFragment mNotebookCreateDialogFragment;
-    private RecyclerViewOnScrollListener mRecyclerViewOnScrollLister;
     private ReplaySubject<PaginationArgs> mPaginationSubject;
     private Disposable mPaginationDisposable;
     private String parentId;
@@ -35,12 +37,6 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
     public NotebookCreatePresenterImpl(NotebookService mNotebookService) {
         (this.mNotebookService = mNotebookService).openConnection();
-    }
-
-    @Override
-    public List<Notebook> getNotebooksForAdapter() {
-        mNotebookData = mNotebookService.getByProfile(CurrentState.profileId, new PaginationArgs());
-        return mNotebookData;
     }
 
     @Override
@@ -60,16 +56,16 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
     }
 
     @Override
-    public void createNotebook(String name) {
-        mNotebookService.create(new NotebookForm(CurrentState.profileId, false, parentId, name));
+    public boolean createNotebook(String name) {
+        Optional<String> newNotebookId = mNotebookService.create(new NotebookForm(CurrentState.profileId, false, parentId, name));
         mNotebookCreateDialogFragment.updateRecyclerView();
+        return  newNotebookId.isPresent();
     }
 
     @Override
     public void subscribeRecyclerViewForPagination(RecyclerView recyclerView) {
         initPaginationSubject();
-        mRecyclerViewOnScrollLister = new RecyclerViewOnScrollListener(mPaginationSubject);
-        recyclerView.addOnScrollListener(mRecyclerViewOnScrollLister);
+        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListener(mPaginationSubject));
 
     }
 
@@ -82,9 +78,15 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
     @Override
     public void getNotebookId(String notebookId) {
-        if (notebookId != null && notebookId.isEmpty()) {
+        if (!TextUtils.isEmpty(notebookId)) {
             parentId = notebookId;
         }
+    }
+
+    @Override
+    public void setDataToAdapter(DataPostSetAdapter<Notebook> dataPostSetAdapter) {
+        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, new PaginationArgs());
+        dataPostSetAdapter.setData(mNotebooks);
     }
 
     private void initPaginationSubject() {
@@ -92,7 +94,7 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
                 .observeOn(Schedulers.io())
                 .map(paginationArgs -> mNotebookService.getByProfile(CurrentState.profileId, paginationArgs))
                 .filter(notes -> !notes.isEmpty())
-                .map(newNotes -> mNotebookData.addAll(newNotes))
+                .map(newNotes -> mNotebooks.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> mNotebookCreateDialogFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});

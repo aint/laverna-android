@@ -33,7 +33,7 @@ public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelec
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_notebook_small, parent, false);
+                .inflate(R.layout.item_notebook_create, parent, false);
 
         return new ViewHolder(view);
     }

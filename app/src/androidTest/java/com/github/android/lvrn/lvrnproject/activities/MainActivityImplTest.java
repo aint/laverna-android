@@ -1,4 +1,4 @@
-package activities;
+package com.github.android.lvrn.lvrnproject.activities;
 
 
 import android.support.test.rule.ActivityTestRule;
