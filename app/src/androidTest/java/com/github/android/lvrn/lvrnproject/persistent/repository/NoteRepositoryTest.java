@@ -1,6 +1,9 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
-import com.github.android.lvrn.lvrnproject.BuildConfig;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.MediumTest;
+import android.support.test.runner.AndroidJUnit4;
+
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
@@ -18,9 +21,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +32,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(AndroidJUnit4.class)
+@MediumTest
 public class NoteRepositoryTest {
 
     private NoteRepository noteRepository;
@@ -52,7 +52,7 @@ public class NoteRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(RuntimeEnvironment.application);
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
 
         ProfileRepositoryImpl profilesRepository = new ProfileRepositoryImpl();
         profilesRepository.openDatabaseConnection();
@@ -136,7 +136,7 @@ public class NoteRepositoryTest {
         assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
 
         notes.remove(note3);
-        assertThat((Object) noteEntities1).isEqualToComparingFieldByFieldRecursively(notes);
+        assertThat((Object) noteEntities1).isEqualToComparingFieldByField(notes);
     }
 
     @Test
@@ -152,7 +152,7 @@ public class NoteRepositoryTest {
         assertThat(noteEntities1.size()).isEqualTo(notes.size() - 1);
 
         notes.remove(note3);
-        assertThat((Object) noteEntities1).isEqualToComparingFieldByFieldRecursively(notes);
+        assertThat((Object) noteEntities1).isEqualToComparingFieldByField(notes);
     }
 
     @Test
@@ -175,7 +175,7 @@ public class NoteRepositoryTest {
         assertThat(notes1.size()).isEqualTo(notes.size() - 1);
 
         notes.remove(note3);
-        assertThat((Object) notes1).isEqualToComparingFieldByFieldRecursively(notes);
+        assertThat((Object) notes1).isEqualToComparingFieldByField(notes);
     }
 
     @Test
@@ -203,7 +203,7 @@ public class NoteRepositoryTest {
 
         notes.remove(note1);
         notes.remove(note3);
-        assertThat((Object) notes1).isEqualToComparingFieldByFieldRecursively(notes);
+        assertThat((Object) notes1).isEqualToComparingFieldByField(notes);
     }
 
     @Test

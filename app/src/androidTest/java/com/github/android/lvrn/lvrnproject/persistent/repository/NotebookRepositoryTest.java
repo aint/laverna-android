@@ -1,6 +1,9 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
-import com.github.android.lvrn.lvrnproject.BuildConfig;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.MediumTest;
+import android.support.test.runner.AndroidJUnit4;
+
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
@@ -14,9 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(AndroidJUnit4.class)
+@MediumTest
 public class NotebookRepositoryTest {
 
     private NotebookRepository notebookRepository;
@@ -46,7 +46,7 @@ public class NotebookRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(RuntimeEnvironment.application);
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
 
 
         ProfileRepositoryImpl profilesRepository = new ProfileRepositoryImpl();
@@ -118,7 +118,7 @@ public class NotebookRepositoryTest {
         assertThat(notebookEntities1.size()).isEqualTo(notebooks.size() - 1);
 
         assertThat(notebooks.remove(notebook3)).isTrue();
-        assertThat((Object) notebookEntities1).isEqualToComparingFieldByFieldRecursively(notebooks);
+        assertThat((Object) notebookEntities1).isEqualToComparingFieldByField(notebooks);
     }
 
     @Test

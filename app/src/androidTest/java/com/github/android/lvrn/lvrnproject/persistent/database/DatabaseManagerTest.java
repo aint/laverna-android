@@ -2,16 +2,14 @@ package com.github.android.lvrn.lvrnproject.persistent.database;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
-
-import com.github.android.lvrn.lvrnproject.BuildConfig;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.MediumTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(AndroidJUnit4.class)
+@MediumTest
 public class DatabaseManagerTest {
 
     @Nullable
@@ -29,7 +27,7 @@ public class DatabaseManagerTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(RuntimeEnvironment.application);
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
         mDataBaseManager = DatabaseManager.getInstance();
     }
 

@@ -1,6 +1,9 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
-import com.github.android.lvrn.lvrnproject.BuildConfig;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.MediumTest;
+import android.support.test.runner.AndroidJUnit4;
+
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
@@ -16,9 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(AndroidJUnit4.class)
+@MediumTest
 public class TagsRepositoryTest {
 
     private TagRepository tagRepository;
@@ -47,7 +47,7 @@ public class TagsRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(RuntimeEnvironment.application);
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
 
         ProfileRepositoryImpl profilesRepository = new ProfileRepositoryImpl();
         profilesRepository.openDatabaseConnection();
@@ -115,7 +115,7 @@ public class TagsRepositoryTest {
         assertThat(tagEntities1.size()).isEqualTo(tags.size() - 1);
 
         tags.remove(tag3);
-        assertThat((Object) tagEntities1).isEqualToComparingFieldByFieldRecursively(tags);
+        assertThat((Object) tagEntities1).isEqualToComparingFieldByField(tags);
     }
 
     @Test
@@ -150,7 +150,7 @@ public class TagsRepositoryTest {
         assertThat(tags1.size()).isEqualTo(tags.size() - 1);
 
         tags.remove(tag3);
-        assertThat((Object) tags1).isEqualToComparingFieldByFieldRecursively(tags);
+        assertThat((Object) tags1).isEqualToComparingFieldByField(tags);
     }
 
 
