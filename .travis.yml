@@ -1,6 +1,6 @@
 language: android
-sudo: false
-install: true
+# dist: trusty
+# sudo: required
 android:
 components:
 - tools
@@ -24,29 +24,22 @@ licenses:
 - 'google-gdk-license-.+'
 
 jdk: oraclejdk8
-os:
-- linux
+
+addons:
+  sonarqube:
+    branches: 
+      - master
+      - develop
+      - issue_66
+
 before_install:
 - mkdir "$ANDROID_HOME/licenses" || true
 - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 
 script:
-- ./gradlew sonarqube
+- ./gradlew sonarqube -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=vboitsov-github -Dsonar.login=$SONAR_TOKEN
 - ./gradlew clean build
-
-addons:
-sonarqube:
-organization: "vboitsov-github"
-token:
-secure: "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAxynnEaEzEKAQF9c1MUUVEldeqOOcExp9fk8leH0IKzLTo06MChscQMeJ0tCwK25DL0M+0EIb9Az/S0RwKfbq/jfbiLhLUiUWpyG5Z/WExgQfvHcbsxvljCuKlJA2iS+d2htUPY9X0ybfwOygHMbj+qvWxpvknJSjQOn1yxuVgk8sgLlhlOti5lmkjP6LE7qIL8acg2fdTsb0FYvA/yJmbBNta2Joe+yBrnvnUecWMEbaQ3d1Wp2uy9qDuZiex6Kc4gbKUPuGdvR5t6ENJAbVxz9DUjom6qOHgUhXb3CFP7z5I+fNtlSvjbqGXwd6Y6lpVKBiQO4Gf0T/bxKa8LVB9ZB0vwDnMG1ZGfEAn90ASmgFMfTtPu20KgfNbfnXznhr5gTh9RwCy3bHRwXrFT3dYsiLDFJTfyeVKYBGSpHklH7EFR5ZZr8v3RCz6Opw4+F4qGiMbJOA4hI41ESedMCnquw1hqD7U1nF9ilABJsfUUtyLs1bfwyfyPfOM1HHciDmUWUKpSnjiS0POWXiiXzVyK8sADf89htkMGxDD0QaLj10xrQWkmLwAnkTxUJR2lJLclL3ScC9m6y7vebY5b6GDr5Tzr2cNFCAzMYJ4MXBlv9M7Zli4Y4gXOHnVWiAOIxwmLXhbweid6ZLCTDmxWir+zdM+HPBoAnE8zmlRvtMkrcCAwEAAQ=="
-
-cache:
-directories:
-- '$HOME/.m2/repository'
-- '$HOME/.sonar/cache'
-- '$HOME/.gradle'
-- '.gradle'
 
 # Emulator Management: Create, Start and Wait
 #before_script:

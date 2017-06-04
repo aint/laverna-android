@@ -32,6 +32,18 @@ android {
     }
 }
 
+sonarqube {
+    properties {
+        property "sonar.projectKey", "laverna-android:app"
+        property "sonar.projectName", "Laverna Android"
+        property "sonar.projectVersion", "1.0"
+        property "sonar.branch", "master"
+        property "sonar.branch", "develop"
+        property "sonar.branch", "issue_.*"
+    }
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
