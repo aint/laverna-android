@@ -19,7 +19,7 @@ import com.github.android.lvrn.lvrnproject.service.core.TaskService;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllTaskAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +75,7 @@ public class AllTasksFragmentImpl extends Fragment {
         singleNoteFragment.setArguments(bundle);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.constraint_container,singleNoteFragment, TagFragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
+                .replace(R.id.constraint_container,singleNoteFragment, FragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

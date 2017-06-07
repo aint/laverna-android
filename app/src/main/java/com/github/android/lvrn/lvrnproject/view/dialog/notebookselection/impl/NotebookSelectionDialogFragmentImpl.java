@@ -20,7 +20,7 @@ import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebookSelectionAd
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
-import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
@@ -53,6 +53,8 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
     private Unbinder mUnbinder;
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +82,13 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
-        DialogFragment dialogFragment = new NotebookCreateDialogFragmentImpl();
-        dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
+        DialogFragment dialogFragment = NotebookCreateDialogFragmentImpl.newInstance(FragmentConst.DIALOG_OPEN_FROM_NOTEBOOK_SELECTION_DIALOG_FRAGMENT);
+        dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
+    }
+
+    @OnClick(R.id.btn_create_notebook_ok_dialog_fragment_selection)
+    public void dismissDialog(){
+        getDialog().dismiss();
     }
 
     @Override
@@ -122,8 +129,10 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
     @Override
     public void setSelectedNotebook(Notebook notebook) {
-        ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(notebook);
-        getDialog().dismiss();
+        if (notebook != null) {
+            ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(notebook);
+        }
+
     }
 
     @Override

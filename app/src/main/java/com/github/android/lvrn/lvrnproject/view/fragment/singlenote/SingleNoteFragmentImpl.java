@@ -27,7 +27,7 @@ import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.NoteDetailsFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
 import javax.inject.Inject;
 
@@ -98,7 +98,7 @@ public class SingleNoteFragmentImpl extends Fragment {
         bundle.putString(BundleKeysConst.BUNDLE_NOTE_ID_KEY,mSelectNote.getId());
         DialogFragment dialogFragment = new TagEditingDialogFragmentImpl();
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT);
+        dialogFragment.show(fragmentTransaction, FragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class SingleNoteFragmentImpl extends Fragment {
             fragment.setSharedElementEnterTransition(changeBounds);
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.constraint_container, fragment,TagFragmentConst.TAG_NOTE_DETAIL_FRAGMENT)
+                    .replace(R.id.constraint_container, fragment, FragmentConst.TAG_NOTE_DETAIL_FRAGMENT)
                     .addSharedElement(mImageButtonInfo, mImageButtonInfo.getTransitionName())
                     .addToBackStack(null)
                     .commit();
@@ -136,7 +136,7 @@ public class SingleNoteFragmentImpl extends Fragment {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                .replace(R.id.constraint_container, fragment,TagFragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT)
+                .replace(R.id.constraint_container, fragment, FragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

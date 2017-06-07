@@ -12,7 +12,6 @@
     <item
         android:id="@+id/item_notebook"
         android:orderInCategory="99"
-        android:icon="@drawable/ic_menu_book_black_24dp"
         android:title="@string/active_note_menu_notebook"
         app:showAsAction="ifRoom"/>
 </menu>

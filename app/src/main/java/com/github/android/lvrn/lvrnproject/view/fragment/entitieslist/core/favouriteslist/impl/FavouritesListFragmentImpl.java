@@ -29,7 +29,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favou
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
@@ -142,7 +142,7 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, singleNoteFragmentImpl, TagFragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
+                .replace(R.id.constraint_container, singleNoteFragmentImpl, FragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

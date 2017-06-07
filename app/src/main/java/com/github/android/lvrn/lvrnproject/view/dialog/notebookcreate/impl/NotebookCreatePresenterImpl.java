@@ -33,6 +33,7 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
     private ReplaySubject<PaginationArgs> mPaginationSubject;
     private Disposable mPaginationDisposable;
     private String parentId;
+    private NotebookForm notebookForm;
 
 
     public NotebookCreatePresenterImpl(NotebookService mNotebookService) {
@@ -57,7 +58,9 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
     @Override
     public boolean createNotebook(String name) {
-        Optional<String> newNotebookId = mNotebookService.create(new NotebookForm(CurrentState.profileId, false, parentId, name));
+        notebookForm = new NotebookForm(CurrentState.profileId, false, parentId, name);
+        Optional<String> newNotebookId = mNotebookService.create(notebookForm);
+        mNotebookCreateDialogFragment.getNotebook(mNotebookService.getById(newNotebookId.get()).get());
         mNotebookCreateDialogFragment.updateRecyclerView();
         return  newNotebookId.isPresent();
     }
@@ -88,6 +91,8 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
         mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, new PaginationArgs());
         dataPostSetAdapter.setData(mNotebooks);
     }
+
+
 
     private void initPaginationSubject() {
         mPaginationDisposable = (mPaginationSubject = ReplaySubject.create())

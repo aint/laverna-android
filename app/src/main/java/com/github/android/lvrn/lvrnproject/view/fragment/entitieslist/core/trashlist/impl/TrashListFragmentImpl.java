@@ -26,7 +26,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFr
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
@@ -158,7 +158,7 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, singleNoteFragmentImpl, TagFragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
+                .replace(R.id.constraint_container, singleNoteFragmentImpl, FragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
