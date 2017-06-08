@@ -2,6 +2,8 @@ package com.github.android.lvrn.lvrnproject.view.activity.noteeditor;
 
 import android.widget.EditText;
 
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -34,5 +36,7 @@ public interface NoteEditorPresenter {
      */
     void saveNewNote(/*String notebookId, */String title, String content, String htmlContent);
 
-    void setNotebookId(String notebookId);
+    void setNotebook(Notebook notebook);
+
+    Notebook getNotebook();
 }

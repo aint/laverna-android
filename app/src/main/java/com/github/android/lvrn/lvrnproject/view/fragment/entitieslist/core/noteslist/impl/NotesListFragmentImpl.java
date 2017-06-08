@@ -189,7 +189,6 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
     @OnClick(R.id.floating_btn_start_note)
     public void startNoteEditorActivity() {
         getActivity().startActivity(new Intent(getActivity(), NoteEditorActivityImpl.class));
-        getActivity().finish();
     }
 
     @OnClick(R.id.floating_btn_start_notebook)

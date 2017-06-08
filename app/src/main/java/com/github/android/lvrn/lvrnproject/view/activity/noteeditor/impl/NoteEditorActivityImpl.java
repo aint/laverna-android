@@ -3,6 +3,7 @@ package com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -62,7 +63,6 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
 
     private NoteEditorPresenter mNoteEditorPresenter;
     private String mHtmlText = "";
-    private Notebook mNotebook;
     private MenuItem mNotebookMenu;
 
     @Override
@@ -74,7 +74,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         mPreviewWebView.getSettings().setJavaScriptEnabled(true);
         setUpToolbar();
         initTabs();
-            restoreSavedInstance(savedInstanceState);
+        restoreSavedInstance(savedInstanceState);
     }
 
     @Override
@@ -116,9 +116,6 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
-            mNotebookMenu.setIcon(R.drawable.ic_menu_book_black_24dp);
-
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -138,7 +135,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
                     mTitleEditText.getText().toString(),
                     mEditorEditText.getText().toString(),
                     mHtmlText);
-            return true;
+            Snackbar.make(findViewById(R.id.relative_layout_container_activity_note_editor), "Note " + mTitleEditText.getText().toString() + " has been created", Snackbar.LENGTH_LONG).show();
         } else if (itemId == R.id.item_notebook) {
             openNotebooksSelectionDialog();
             return true;
@@ -147,10 +144,13 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     }
 
     public void setNoteNotebooks(Notebook notebook) {
-        mNotebookMenu.setIcon(R.drawable.ic_menu_book_white_24dp);
         //TODO: send mNotebook id to its presenter, and name of mNotebook to UI
-        this.mNotebook = notebook;
-        mNoteEditorPresenter.setNotebookId(notebook.getId());
+        if(notebook != null){
+            mNoteEditorPresenter.setNotebook(notebook);}
+        else {
+            mNoteEditorPresenter.setNotebook(null);
+        }
+
     }
 
 
@@ -158,7 +158,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         FragmentTransaction fragmentTransaction = getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
-        NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
+        NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = NotebookSelectionDialogFragmentImpl.newInstance(mNoteEditorPresenter.getNotebook());
         notebookSelectionDialogFragment.show(fragmentTransaction, "notebook_selection_tag");
     }
 

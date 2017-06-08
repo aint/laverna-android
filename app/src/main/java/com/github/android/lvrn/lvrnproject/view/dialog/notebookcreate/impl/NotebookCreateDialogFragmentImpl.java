@@ -22,6 +22,7 @@ import com.github.android.lvrn.lvrnproject.view.adapter.NotebookCreateViewAdapte
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreateDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreatePresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
 import javax.inject.Inject;
 
@@ -114,18 +115,10 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
         this.notebook =notebook;
     }
 
-//    @Override
-//    public void setSelectedNotebook(Notebook notebook) {
-//        if (notebook != null) {
-//
-//        }
-//
-//    }
-
     @OnClick(R.id.btn_create_notebook_ok)
     public void createNotebook() {
         String nameNotebook = mEditText.getText().toString();
-        if (TextUtils.equals(previousFragmentName, BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY)) {
+        if (TextUtils.equals(previousFragmentName, FragmentConst.DIALOG_OPEN_FROM_NOTES_LIST_FRAGMENT)) {
             if (mNotebookCreatePresenter.createNotebook(nameNotebook)) {
                 Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
                 getActivity().onBackPressed();

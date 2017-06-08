@@ -25,7 +25,7 @@ public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelec
     private NotebookSelectionDialogFragmentImpl mNotebookSelectionDialogFragment;
 
     private List<Notebook> mNotebooks;
-    private int mSelecteditem = -1;
+    private int mSelectedItem = -1;
 
     public NotebookSelectionAdapter(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment, List<Notebook> notebooks) {
         mNotebookSelectionDialogFragment = notebookSelectionDialogFragment;
@@ -45,24 +45,26 @@ public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelec
         String notebookName = mNotebooks.get(position).getName();
         holder.mNotebookNameTextView.setText(notebookName);
 
-        if (mSelecteditem == position)
+        if (mSelectedItem == position)
             holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
         else
             holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
-        
+
         holder.itemView.setOnClickListener(v -> {
-            if (mSelecteditem == position) {
-                mSelecteditem = -1;
+            if (mSelectedItem == position) {
+                mSelectedItem = -1;
                 mNotebookSelectionDialogFragment
                         .setSelectedNotebook(null);
             } else {
-                mSelecteditem = position;
+                mSelectedItem = position;
                 mNotebookSelectionDialogFragment
                         .setSelectedNotebook(mNotebooks.get(position));
             }
+
             notifyDataSetChanged();
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -72,7 +74,8 @@ public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelec
     //TODO: Use notebook view holder
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_view_notebook_name) TextView mNotebookNameTextView;
+        @BindView(R.id.text_view_notebook_name)
+        TextView mNotebookNameTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);

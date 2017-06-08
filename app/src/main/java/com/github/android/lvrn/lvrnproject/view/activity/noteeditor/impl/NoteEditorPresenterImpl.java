@@ -2,11 +2,12 @@ package com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl;
 
 import android.widget.EditText;
 
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorPresenter;
-import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -35,6 +36,8 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
     private Disposable mEditorEditTextDisposable;
 
     private String mNotebookId;
+
+    private Notebook mNotebook;
 
     NoteEditorPresenterImpl(NoteService noteService) {
         mNoteService = noteService;
@@ -88,8 +91,17 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
     }
 
     @Override
-    public void setNotebookId(String notebookId) {
-        mNotebookId = notebookId;
-        System.out.println(notebookId);
+    public void setNotebook(Notebook notebook) {
+        mNotebook = notebook;
+        if (notebook != null){
+            mNotebookId = notebook.getId();
+        } else  mNotebookId = null;
+        System.out.println(mNotebookId);
     }
+
+    @Override
+    public Notebook getNotebook() {
+        return mNotebook;
+    }
+
 }

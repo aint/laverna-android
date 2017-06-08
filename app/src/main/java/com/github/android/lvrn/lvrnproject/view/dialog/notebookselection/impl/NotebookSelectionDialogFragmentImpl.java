@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
@@ -39,9 +40,14 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     public static final String RECYCLER_VIEW_STATE = "recycler_view_state";
 //    public static final String DIALOG_TITLE = "Notebooks";
 
-    @Inject NotebookService mNotebookService;
+    @Inject
+    NotebookService mNotebookService;
 
-    @BindView(R.id.recycler_view_notebooks_dialog_fragment_selection) RecyclerView mNotebooksRecyclerView;
+    @BindView(R.id.recycler_view_notebooks_dialog_fragment_selection)
+    RecyclerView mNotebooksRecyclerView;
+
+    @BindView(R.id.tv_create_notebook_dialog_dialog_fragment_selection)
+    TextView mTextViewNotebookName;
 
     private Parcelable mRecyclerViewState;
 
@@ -53,7 +59,18 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
     private Unbinder mUnbinder;
 
+    private Notebook mNotebook;
 
+    private Notebook mSelectedNotebook;
+
+    public static NotebookSelectionDialogFragmentImpl newInstance(Notebook notebook) {
+        NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("1", notebook);
+
+        notebookSelectionDialogFragment.setArguments(bundle);
+        return notebookSelectionDialogFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,15 +87,25 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
         mNotebookSelectionPresenter = new NotebookSelectionPresenterImpl(mNotebookService);
 
+        mNotebook = getArguments().getParcelable("1");
+
         initRecyclerView();
+
+        initTextView();
+
 
 //        getDialog().setTitle(DIALOG_TITLE);
 
         return view;
     }
 
+    private void initTextView() {
+        if (mNotebook == null){
+        }else mTextViewNotebookName.setText(mNotebook.getName());
+    }
+
     @OnClick(R.id.btn_create_notebook_dialog_fragment_selection)
-    public void createNotebook(){
+    public void createNotebook() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
@@ -86,8 +113,15 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
     }
 
-    @OnClick(R.id.btn_create_notebook_ok_dialog_fragment_selection)
-    public void dismissDialog(){
+    @OnClick(R.id.btn_select_notebook_ok_dialog_fragment_selection)
+    public void acceptChange() {
+        ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(mSelectedNotebook);
+        getDialog().dismiss();
+    }
+
+    @OnClick(R.id.btn_select_notebook_reset_dialog_fragment_selection)
+    public void resetChange() {
+        ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(null);
         getDialog().dismiss();
     }
 
@@ -129,11 +163,10 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
     @Override
     public void setSelectedNotebook(Notebook notebook) {
-        if (notebook != null) {
-            ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(notebook);
-        }
+        mSelectedNotebook = notebook;
 
     }
+
 
     @Override
     public void onPause() {
@@ -166,5 +199,6 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         mNotebooksRecyclerView.setAdapter(mNotebooksRecyclerViewAdapter);
 
         mNotebookSelectionPresenter.subscribeRecyclerViewForPagination(mNotebooksRecyclerView);
+
     }
 }
