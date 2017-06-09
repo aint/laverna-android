@@ -30,8 +30,13 @@
     <!--dialog fragment create notebook -->
     <string name="dialog_fragment_creating_notebook_creating_notebook">Creating notebook</string>
     <string name="dialog_fragment_creating_notebook_ok">OK</string>
-    <string name="dialog_fragment_creating_notebook_cancel">Cancel</string>
+    <string name="dialog_fragment_creating_notebook_reset">Reset</string>
     <!--dialog fragment create notebook selection-->
+    <string name="dialog_fragment_notebook_selection_get_notebook">Get Notebook</string>
+    <string name="dialog_fragment_notebook_selection_create_notebook">Create notebook</string>
+    <string name="dialog_fragment_notebook_selection_choose_notebook">Choose notebook</string>
+    <string name="dialog_fragment_creating_notebook_cancel" >Cancel</string>
+    <string name="dialog_fragment_notebook_selection_reset_notebook">reset notebook</string>
 
     <!--
                   MENU                                     -->
@@ -66,9 +71,8 @@
     <string name="hint_you_tag_name">Your Tag name</string>
     <string name="hint_your_task_name">Your task name</string>
     <string name="hint_enter_your_notebook_name">Enter your notebook name</string>
-    <string name="dialog_fragment_notebook_selection_get_notebook">Get Notebook</string>
-    <string name="dialog_fragment_notebook_selection_create_notebook">Create notebook</string>
-    <string name="dialog_fragment_notebook_selection_choose_notebook">Choose notebook</string>
+    <string name="hint_dialog_notebook_selection_notebook_not_choose">Notebook not chosen</string>
+
 
 
 </resources>

@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,14 @@ import android.widget.EditText;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
+import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.NotebookCreateViewAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreateDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreatePresenter;
+import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
 import javax.inject.Inject;
 
@@ -31,17 +37,32 @@ import butterknife.Unbinder;
 
 public class NotebookCreateDialogFragmentImpl extends DialogFragment implements NotebookCreateDialogFragment {
 
-    @BindView(R.id.recycler_view_notebook_create) RecyclerView mRecyclerViewNotebook;
+    @BindView(R.id.recycler_view_notebook_create)
+    RecyclerView mRecyclerViewNotebook;
 
-    @BindView(R.id.edit_text_notebook_name) EditText mEditText;
+    @BindView(R.id.edit_text_notebook_name)
+    EditText mEditText;
 
-    @Inject NotebookService mNotebookService;
+    @Inject
+    NotebookService mNotebookService;
 
     private Unbinder mUnbinder;
 
     private NotebookCreatePresenter mNotebookCreatePresenter;
 
     private NotebookCreateViewAdapter mNotebookAdapter;
+
+    private String previousFragmentName;
+
+    private Notebook notebook;
+
+    public static NotebookCreateDialogFragmentImpl newInstance(String previousFragment) {
+        NotebookCreateDialogFragmentImpl notebookCreateDialogFragment = new NotebookCreateDialogFragmentImpl();
+        Bundle bundle = new Bundle();
+        bundle.putString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY, previousFragment);
+        notebookCreateDialogFragment.setArguments(bundle);
+        return notebookCreateDialogFragment;
+    }
 
     @Nullable
     @Override
@@ -51,6 +72,9 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
         LavernaApplication.getsAppComponent().inject(this);
         mNotebookCreatePresenter = new NotebookCreatePresenterImpl(mNotebookService);
         initRecyclerView();
+        if (getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY) != null) {
+            previousFragmentName = getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY);
+        }
         return view;
     }
 
@@ -86,15 +110,29 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
         mNotebookAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void getNotebook(Notebook notebook) {
+        this.notebook = notebook;
+    }
+
     @OnClick(R.id.btn_create_notebook_ok)
     public void createNotebook() {
         String nameNotebook = mEditText.getText().toString();
-        if (mNotebookCreatePresenter.createNotebook(nameNotebook)) {
-            Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
-            getActivity().onBackPressed();
+        if (TextUtils.equals(previousFragmentName, FragmentConst.DIALOG_OPEN_FROM_NOTES_LIST_FRAGMENT)) {
+            if (mNotebookCreatePresenter.createNotebook(nameNotebook)) {
+                Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
+                getActivity().onBackPressed();
+                return;
+            }
+            Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " hasn't created ", Snackbar.LENGTH_LONG).show();
             return;
         }
-        Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " hasn't created ", Snackbar.LENGTH_LONG).show();
+        if (mNotebookCreatePresenter.createNotebook(nameNotebook)) {
+            ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(notebook);
+            Snackbar.make(getActivity().findViewById(R.id.relative_layout_container_activity_note_editor), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
+            getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        }
     }
 
     @OnClick(R.id.btn_create_notebook_cancel)
@@ -112,5 +150,6 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
         mRecyclerViewNotebook.setAdapter(mNotebookAdapter);
         mNotebookCreatePresenter.subscribeRecyclerViewForPagination(mRecyclerViewNotebook);
     }
+
 
 }

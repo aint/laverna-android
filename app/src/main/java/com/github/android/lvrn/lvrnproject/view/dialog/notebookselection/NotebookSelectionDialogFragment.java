@@ -11,4 +11,5 @@ public interface NotebookSelectionDialogFragment {
     void updateRecyclerView();
 
     void setSelectedNotebook(Notebook notebook);
+
 }

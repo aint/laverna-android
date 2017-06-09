@@ -32,7 +32,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notes
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
@@ -144,7 +144,7 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, singleNoteFragmentImpl, TagFragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
+                .replace(R.id.constraint_container, singleNoteFragmentImpl, FragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
@@ -189,7 +189,6 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
     @OnClick(R.id.floating_btn_start_note)
     public void startNoteEditorActivity() {
         getActivity().startActivity(new Intent(getActivity(), NoteEditorActivityImpl.class));
-        getActivity().finish();
     }
 
     @OnClick(R.id.floating_btn_start_notebook)
@@ -197,8 +196,8 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
-        DialogFragment dialogFragment = new NotebookCreateDialogFragmentImpl();
-        dialogFragment.show(fragmentTransaction, TagFragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
+        DialogFragment dialogFragment = NotebookCreateDialogFragmentImpl.newInstance(FragmentConst.DIALOG_OPEN_FROM_NOTES_LIST_FRAGMENT);
+        dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
         floatingActionsMenu.collapse();
     }
 

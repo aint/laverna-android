@@ -3,6 +3,8 @@ package com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -33,17 +35,23 @@ import butterknife.ButterKnife;
 
 public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEditorActivity {
 
-    @Inject NoteService noteService;
+    @Inject
+    NoteService noteService;
 
-    @BindView(R.id.toolbar_main) Toolbar mainToolbar;
+    @BindView(R.id.toolbar_main)
+    Toolbar mainToolbar;
 
-    @BindView(R.id.edit_text_title) EditText mTitleEditText;
+    @BindView(R.id.edit_text_title)
+    EditText mTitleEditText;
 
-    @BindView(R.id.edit_text_editor) EditText mEditorEditText;
+    @BindView(R.id.edit_text_editor)
+    EditText mEditorEditText;
 
-    @BindView(R.id.web_view_preview) WebView mPreviewWebView;
+    @BindView(R.id.web_view_preview)
+    WebView mPreviewWebView;
 
-    @BindView(R.id.tab_host) TabHost tabHost;
+    @BindView(R.id.tab_host)
+    TabHost tabHost;
 
     private static final String EDITOR_TEXT_KEY = "editorText";
     private static final String TITLE_TEXT_KEY = "titleText";
@@ -55,6 +63,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
 
     private NoteEditorPresenter mNoteEditorPresenter;
     private String mHtmlText = "";
+    private MenuItem mNotebookMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +115,15 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_note_editor, menu);
+        mNotebookMenu = menu.findItem(R.id.item_notebook);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -119,9 +135,8 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
                     mTitleEditText.getText().toString(),
                     mEditorEditText.getText().toString(),
                     mHtmlText);
-            return true;
-        } else
-        if (itemId == R.id.item_notebook) {
+            Snackbar.make(findViewById(R.id.relative_layout_container_activity_note_editor), "Note " + mTitleEditText.getText().toString() + " has been created", Snackbar.LENGTH_LONG).show();
+        } else if (itemId == R.id.item_notebook) {
             openNotebooksSelectionDialog();
             return true;
         }
@@ -129,14 +144,22 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     }
 
     public void setNoteNotebooks(Notebook notebook) {
-        //TODO: send notebook id to its presenter, and name of notebook to UI
-        mNoteEditorPresenter.setNotebookId(notebook.getId());
+        //TODO: send mNotebook id to its presenter, and name of mNotebook to UI
+        if (notebook != null) {
+            mNoteEditorPresenter.setNotebook(notebook);
+        } else {
+            mNoteEditorPresenter.setNotebook(null);
+        }
+        mNoteEditorPresenter.subscribeMenuForNotebook(mNotebookMenu);
     }
 
 
     private void openNotebooksSelectionDialog() {
-        NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
-        notebookSelectionDialogFragment.show(getSupportFragmentManager(), "notebook_selection_tag");
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null);
+        NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = NotebookSelectionDialogFragmentImpl.newInstance(mNoteEditorPresenter.getNotebook());
+        notebookSelectionDialogFragment.show(fragmentTransaction, "notebook_selection_tag");
     }
 
     private void setUpToolbar() {
@@ -152,6 +175,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
 
     /**
      * A method which restores activity state
+     *
      * @param savedInstanceState a bundle with restored data.
      */
     private void restoreSavedInstance(Bundle savedInstanceState) {
@@ -193,7 +217,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     private void hideSoftKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }

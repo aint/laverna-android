@@ -19,7 +19,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favou
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.util.consts.TagFragmentConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,18 +71,18 @@ public class MainActivityImpl extends AppCompatActivity
         int id = item.getItemId();
         if (R.id.nav_item_notebooks == id) {
             AllNotebooksFragmentImpl notebookFragment = new AllNotebooksFragmentImpl();
-            menuStartSelectFragment(notebookFragment, TagFragmentConst.TAG_NOTEBOOK_FRAGMENT);
+            menuStartSelectFragment(notebookFragment, FragmentConst.TAG_NOTEBOOK_FRAGMENT);
         } else if (R.id.nav_item_all_notes == id) {
             startAllNotesFragment();
         } else if (R.id.nav_item_open_tasks == id) {
             AllTasksFragmentImpl taskFragment = new AllTasksFragmentImpl();
-            menuStartSelectFragment(taskFragment, TagFragmentConst.TAG_TASK_FRAGMENT);
+            menuStartSelectFragment(taskFragment, FragmentConst.TAG_TASK_FRAGMENT);
         } else if (R.id.nav_item_trash == id) {
             TrashListFragmentImpl trashFragment = new TrashListFragmentImpl();
-            menuStartSelectFragment(trashFragment,TagFragmentConst.TAG_TRASH_FRAGMENT);
+            menuStartSelectFragment(trashFragment, FragmentConst.TAG_TRASH_FRAGMENT);
         } else if (R.id.nav_item_favorites == id) {
             FavouritesListFragmentImpl favouritesListFragment = new FavouritesListFragmentImpl();
-            menuStartSelectFragment(favouritesListFragment, TagFragmentConst.TAG_FAVOURITES_FRAGMENT);
+            menuStartSelectFragment(favouritesListFragment, FragmentConst.TAG_FAVOURITES_FRAGMENT);
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -106,7 +106,7 @@ public class MainActivityImpl extends AppCompatActivity
         if (mSavedInstanceState == null) {
             NotesListFragmentImpl allNotesFragment = new NotesListFragmentImpl();
             fragmentManager.beginTransaction()
-                    .add(R.id.constraint_container, allNotesFragment, TagFragmentConst.TAG_ALL_NOTES_FRAGMENT)
+                    .add(R.id.constraint_container, allNotesFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT)
                     .commit();
         }
     }

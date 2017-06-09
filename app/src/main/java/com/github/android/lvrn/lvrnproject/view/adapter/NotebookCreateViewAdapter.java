@@ -24,7 +24,7 @@ public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCrea
 
     private List<Notebook> mNotebook;
     private NotebookCreatePresenter mNotebookCreatePresenter;
-    private int mSelecteditem = -1;
+    private int mSelectedItem = -1;
 
     public NotebookCreateViewAdapter(NotebookCreatePresenter notebookCreatePresenter) {
         this.mNotebookCreatePresenter = notebookCreatePresenter;
@@ -39,7 +39,7 @@ public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCrea
     @Override
     public void onBindViewHolder(NotebookCreateViewHolder holder, int position) {
 
-        if (mSelecteditem == position)
+        if (mSelectedItem == position)
             holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
         else
             holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -47,11 +47,11 @@ public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCrea
         holder.tvTitle.setText(mNotebook.get(position).getName());
 
         holder.itemView.setOnClickListener(v -> {
-            if (mSelecteditem == position) {
-                mSelecteditem = -1;
+            if (mSelectedItem == position) {
+                mSelectedItem = -1;
                 mNotebookCreatePresenter.getNotebookId(null);
             } else {
-                mSelecteditem = position;
+                mSelectedItem = position;
                 mNotebookCreatePresenter.getNotebookId(mNotebook.get(position).getId());
             }
             notifyDataSetChanged();

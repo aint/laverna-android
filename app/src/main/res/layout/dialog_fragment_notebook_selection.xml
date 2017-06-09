@@ -10,12 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/dialog_fragment_notebook_selection_get_notebook"
-        android:textColor="@color/main_green_themes_app"
-        android:textSize="24sp" />
+        android:hint="@string/hint_dialog_notebook_selection_notebook_not_choose"
+        android:textColor="#ff5722"
+        android:textColorHint="#ff5722"
+        android:drawableLeft="@drawable/ic_menu_book_green_24dp"
+        android:drawablePadding="5dp"
+        android:textSize="20sp" />
 
     <View
-        android:id="@+id/view_separator_dialog_fragment_dialog_fragment_selection"
+        android:id="@+id/view_separator_dialog_fragment_selection"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginLeft="16dp"
@@ -25,23 +28,40 @@
 
     <Button
         android:id="@+id/btn_create_notebook_dialog_fragment_selection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view_separator_dialog_fragment_dialog_fragment_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_below="@+id/view_separator_dialog_fragment_selection"
         android:layout_margin="16dp"
+        android:layout_alignParentLeft="true"
         android:background="@color/main_green_themes_app"
         android:text="@string/dialog_fragment_notebook_selection_create_notebook"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+    <Button
+        android:id="@+id/btn_reset_notebook_dialog_fragment_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_below="@+id/view_separator_dialog_fragment_selection"
+        android:layout_toRightOf="@+id/btn_create_notebook_dialog_fragment_selection"
+        android:layout_margin="16dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/main_green_themes_app"
+        android:text="@string/dialog_fragment_notebook_selection_reset_notebook"
+        android:padding="5dp"
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/tv_create_notebook_choose_parent_dialog_fragment_selection"
+        android:id="@+id/tv_create_notebook_dialog_fragment_selection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_create_notebook_dialog_fragment_selection"
         android:layout_margin="16dp"
         android:text="@string/dialog_fragment_notebook_selection_choose_notebook"
-        android:textColor="@color/main_green_themes_app"
+        android:drawableLeft="@drawable/ic_chosen_point_green_24dp"
+        android:drawablePadding="5dp"
+        android:textColor="@color/text_view_choose_notebook"
         android:textSize="20sp" />
 
     <android.support.v7.widget.RecyclerView
@@ -49,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/relative_layout_create_notebook_dialog_fragment_selection"
-        android:layout_below="@+id/tv_create_notebook_choose_parent_dialog_fragment_selection"
+        android:layout_below="@+id/tv_create_notebook_dialog_fragment_selection"
         android:scrollbars="vertical"/>
 
     <RelativeLayout
@@ -60,23 +80,23 @@
         android:layout_margin="16dp">
 
         <Button
-            android:id="@+id/btn_create_notebook_cancel_dialog_fragment_selection"
+            android:id="@+id/btn_cancel_dialog_fragment_selection"
             android:layout_width="64dp"
             android:layout_height="36dp"
-            android:layout_toLeftOf="@+id/btn_create_notebook_ok_dialog_fragment_selection"
+            android:layout_toLeftOf="@+id/btn_ok_dialog_fragment_selection"
             android:background="@android:color/transparent"
             android:text="@string/dialog_fragment_creating_notebook_cancel"
-            android:textColor="@color/main_green_themes_app"/>
+            android:textColor="@color/btn_choose_notebook"/>
 
         <Button
-            android:id="@+id/btn_create_notebook_ok_dialog_fragment_selection"
+            android:id="@+id/btn_ok_dialog_fragment_selection"
             android:layout_width="64dp"
             android:layout_height="36dp"
             android:background="@android:color/transparent"
             android:layout_alignParentRight="true"
             android:paddingRight="8dp"
             android:text="@string/dialog_fragment_creating_notebook_ok"
-            android:textColor="@color/main_green_themes_app"/>
+            android:textColor="@color/btn_choose_notebook"/>
 
     </RelativeLayout>
 

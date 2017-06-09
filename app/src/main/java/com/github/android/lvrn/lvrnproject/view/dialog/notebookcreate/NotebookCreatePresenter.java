@@ -24,4 +24,5 @@ public interface NotebookCreatePresenter {
     void getNotebookId(String notebookId);
 
     void setDataToAdapter(DataPostSetAdapter<Notebook> dataPostSetAdapter);
+
 }
