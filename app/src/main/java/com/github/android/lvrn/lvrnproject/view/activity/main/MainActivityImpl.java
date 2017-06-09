@@ -1,11 +1,14 @@
 package com.github.android.lvrn.lvrnproject.view.activity.main;
 
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,24 +16,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNotebooksFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivityImpl extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
-    @BindView(R.id.toolbar)
-    Toolbar mToolBar;
+    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+
+    @BindView(R.id.toolbar) Toolbar mToolBar;
+
+    @BindView(R.id.floating_action_menu_all_notes) public FloatingActionsMenu floatingActionsMenu;
+
+
     private Bundle mSavedInstanceState;
     FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -51,18 +61,18 @@ public class MainActivityImpl extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        floatingActionsMenu.collapse();
+    }
+
+    @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -128,4 +138,19 @@ public class MainActivityImpl extends AppCompatActivity
 
     }
 
+    @OnClick(R.id.floating_btn_start_note)
+    public void startNoteEditorActivity() {
+        startActivity(new Intent(this, NoteEditorActivityImpl.class));
+        finish();
+    }
+
+    @OnClick(R.id.floating_btn_start_notebook)
+    public void openNotebooksCreationDialog() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null);
+        DialogFragment dialogFragment = new NotebookCreateDialogFragmentImpl();
+        dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
+        floatingActionsMenu.collapse();
+    }
 }

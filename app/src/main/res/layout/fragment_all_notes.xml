@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/relative_layout_container_all_notes"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<RelativeLayout
-    android:id="@+id/relative_layout_container_recycler"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,44 +8,5 @@
         android:id="@+id/recycler_view_all_notes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-</RelativeLayout>
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/floating_action_menu_all_notes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@android:drawable/ic_menu_share"
-        fab:fab_addButtonColorNormal="@color/fab_colorNormal"
-        fab:fab_addButtonColorPressed="@color/fab_colorPressed"
-        fab:fab_addButtonPlusIconColor="@color/cardview_light_background"
-        fab:fab_labelStyle="@style/menu_labels_style">
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_btn_start_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/fab_colorNormal"
-            fab:fab_size="mini"
-            fab:fab_title="@string/fab_start_note"
-            fab:fab_icon="@drawable/ic_menu_file_white_24dp"
-            fab:fab_colorPressed="@color/fab_colorPressed"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_btn_start_notebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_size="mini"
-            fab:fab_colorNormal="@color/fab_colorNormal"
-            fab:fab_icon="@drawable/ic_menu_book_white_24dp"
-            fab:fab_title="@string/fab_start_notebook"
-            fab:fab_colorPressed="@color/fab_colorPressed"/>
-
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </RelativeLayout>

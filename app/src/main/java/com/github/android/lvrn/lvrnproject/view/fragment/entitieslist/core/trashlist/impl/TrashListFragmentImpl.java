@@ -45,7 +45,7 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
 
     @Inject NoteService mNoteService;
 
-    @BindView(R.id.recycler_view_trash) RecyclerView mNotesRecyclerView;
+    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
 
     private Unbinder mUnbinder;
 
@@ -61,7 +61,7 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_trash, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_all_notes, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
 
