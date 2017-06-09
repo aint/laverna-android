@@ -145,12 +145,12 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
 
     public void setNoteNotebooks(Notebook notebook) {
         //TODO: send mNotebook id to its presenter, and name of mNotebook to UI
-        if(notebook != null){
-            mNoteEditorPresenter.setNotebook(notebook);}
-        else {
+        if (notebook != null) {
+            mNoteEditorPresenter.setNotebook(notebook);
+        } else {
             mNoteEditorPresenter.setNotebook(null);
         }
-
+        mNoteEditorPresenter.subscribeMenuForNotebook(mNotebookMenu);
     }
 
 

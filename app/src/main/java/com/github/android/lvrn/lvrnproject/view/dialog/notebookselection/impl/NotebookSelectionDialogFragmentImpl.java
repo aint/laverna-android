@@ -21,6 +21,7 @@ import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebookSelectionAd
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
+import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.orhanobut.logger.Logger;
 
@@ -66,7 +67,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     public static NotebookSelectionDialogFragmentImpl newInstance(Notebook notebook) {
         NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("1", notebook);
+        bundle.putParcelable(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_SELECTION_KEY, notebook);
 
         notebookSelectionDialogFragment.setArguments(bundle);
         return notebookSelectionDialogFragment;
@@ -87,7 +88,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
         mNotebookSelectionPresenter = new NotebookSelectionPresenterImpl(mNotebookService);
 
-        mNotebook = getArguments().getParcelable("1");
+        mNotebook = getArguments().getParcelable(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_SELECTION_KEY);
 
         initRecyclerView();
 
@@ -113,15 +114,20 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
     }
 
-    @OnClick(R.id.btn_select_notebook_ok_dialog_fragment_selection)
-    public void acceptChange() {
+    @OnClick(R.id.btn_ok_dialog_fragment_selection)
+    public void acceptChanges() {
         ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(mSelectedNotebook);
         getDialog().dismiss();
     }
 
-    @OnClick(R.id.btn_select_notebook_reset_dialog_fragment_selection)
-    public void resetChange() {
+    @OnClick(R.id.btn_reset_notebook_dialog_fragment_selection)
+    public void resetChanges() {
         ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(null);
+        getDialog().dismiss();
+    }
+
+    @OnClick(R.id.btn_cancel_dialog_fragment_selection)
+    public void cancelDialog(){
         getDialog().dismiss();
     }
 

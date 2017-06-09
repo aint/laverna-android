@@ -72,7 +72,7 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
         LavernaApplication.getsAppComponent().inject(this);
         mNotebookCreatePresenter = new NotebookCreatePresenterImpl(mNotebookService);
         initRecyclerView();
-        if (getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY) !=null){
+        if (getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY) != null) {
             previousFragmentName = getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY);
         }
         return view;
@@ -112,7 +112,7 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
 
     @Override
     public void getNotebook(Notebook notebook) {
-        this.notebook =notebook;
+        this.notebook = notebook;
     }
 
     @OnClick(R.id.btn_create_notebook_ok)
@@ -125,14 +125,14 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
                 return;
             }
             Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " hasn't created ", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        if (mNotebookCreatePresenter.createNotebook(nameNotebook)) {
+            ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(notebook);
+            Snackbar.make(getActivity().findViewById(R.id.relative_layout_container_activity_note_editor), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
+            getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-        }else {
-            if (mNotebookCreatePresenter.createNotebook(nameNotebook)) {
-                ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(notebook);
-                Snackbar.make(getActivity().findViewById(R.id.relative_layout_container_activity_note_editor), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
-                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }}
-
+        }
     }
 
     @OnClick(R.id.btn_create_notebook_cancel)
@@ -150,7 +150,6 @@ public class NotebookCreateDialogFragmentImpl extends DialogFragment implements 
         mRecyclerViewNotebook.setAdapter(mNotebookAdapter);
         mNotebookCreatePresenter.subscribeRecyclerViewForPagination(mRecyclerViewNotebook);
     }
-
 
 
 }

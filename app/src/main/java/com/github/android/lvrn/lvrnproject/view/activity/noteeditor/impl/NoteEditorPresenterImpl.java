@@ -1,7 +1,9 @@
 package com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl;
 
+import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
@@ -102,6 +104,15 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
     @Override
     public Notebook getNotebook() {
         return mNotebook;
+    }
+
+    @Override
+    public void subscribeMenuForNotebook(MenuItem menuItem) {
+        if (mNotebook == null) {
+            menuItem.setIcon(R.drawable.ic_menu_book_black_24dp);
+            return;
+        }
+        menuItem.setIcon(R.drawable.ic_menu_book_green_24dp);
     }
 
 }

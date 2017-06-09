@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/dialog_fragment_creating_notebook_creating_notebook"
-        android:textColor="@color/main_green_themes_app"
+        android:textColor="@android:color/black"
+        android:drawableLeft="@drawable/ic_menu_book_green_24dp"
+        android:drawablePadding="5dp"
         android:textSize="24sp" />
 
     <View
@@ -30,7 +32,7 @@
         android:layout_margin="16dp"
         android:inputType="text"
         android:imeOptions="actionDone"
-        android:backgroundTint="@android:color/black"
+        android:backgroundTint="@color/main_green_themes_app"
         android:hint="@string/hint_enter_your_notebook_name"
         android:textSize="16sp" />
 
@@ -41,7 +43,9 @@
         android:layout_below="@+id/edit_text_notebook_name"
         android:layout_margin="16dp"
         android:text="Choose notebook parent"
-        android:textColor="@color/main_green_themes_app"
+        android:drawableLeft="@drawable/ic_chosen_point_green_24dp"
+        android:drawablePadding="5dp"
+        android:textColor="@android:color/black"
         android:textSize="20sp" />
 
     <android.support.v7.widget.RecyclerView
@@ -68,7 +72,7 @@
             android:layout_toLeftOf="@+id/btn_create_notebook_ok"
             android:background="@android:color/transparent"
             android:text="@string/dialog_fragment_creating_notebook_cancel"
-            android:textColor="@color/main_green_themes_app"/>
+            android:textColor="@color/btn_choose_notebook"/>
 
         <Button
             android:id="@+id/btn_create_notebook_ok"
@@ -78,7 +82,7 @@
             android:layout_alignParentRight="true"
             android:paddingRight="8dp"
             android:text="@string/dialog_fragment_creating_notebook_ok"
-            android:textColor="@color/main_green_themes_app"/>
+            android:textColor="@color/btn_choose_notebook"/>
 
     </RelativeLayout>
 

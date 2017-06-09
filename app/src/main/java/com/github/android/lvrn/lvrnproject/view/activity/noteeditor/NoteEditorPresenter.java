@@ -1,5 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.activity.noteeditor;
 
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
@@ -39,4 +40,6 @@ public interface NoteEditorPresenter {
     void setNotebook(Notebook notebook);
 
     Notebook getNotebook();
+
+    void subscribeMenuForNotebook(MenuItem menuItem);
 }
