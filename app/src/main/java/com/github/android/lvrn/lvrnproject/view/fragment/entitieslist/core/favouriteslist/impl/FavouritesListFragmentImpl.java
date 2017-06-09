@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl;
 
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,12 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
+import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.FavouritesAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
@@ -36,7 +34,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -50,8 +47,6 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
     @Inject NoteService mNoteService;
 
     @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
-
-    @BindView(R.id.floating_action_menu_all_notes) FloatingActionsMenu floatingActionsMenu;
 
     private Unbinder mUnbinder;
 
@@ -94,7 +89,6 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
     @Override
     public void onPause() {
         super.onPause();
-        floatingActionsMenu.collapse();
         mFavouritesListPresenter.unbindView();
     }
 
@@ -154,8 +148,8 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
     @Override
     public void switchToSearchMode() {
-        floatingActionsMenu.collapse();
-        floatingActionsMenu.setVisibility(View.GONE);
+        ((MainActivityImpl) getActivity()).floatingActionsMenu.collapse();
+        ((MainActivityImpl) getActivity()).floatingActionsMenu.setVisibility(View.GONE);
 //        TODO: introduce in future milestones
 //        menuSync.setVisible(false);
 //        menuAbout.setVisible(false);
@@ -172,28 +166,12 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
     @Override
     public void switchToNormalMode() {
-        floatingActionsMenu.setVisibility(View.VISIBLE);
+        ((MainActivityImpl) getActivity()).floatingActionsMenu.setVisibility(View.VISIBLE);
 //        TODO: introduce in future milestones
 //        menuSync.setVisible(true);
 //        menuAbout.setVisible(true);
 //        menuSortBy.setVisible(true);
 //        menuSettings.setVisible(true);
-    }
-
-
-    /**
-     * A method which hears when user click on button and opens new activity
-     */
-    @OnClick(R.id.floating_btn_start_note)
-    public void startNoteEditorActivity() {
-        getActivity().startActivity(new Intent(getActivity(), NoteEditorActivityImpl.class));
-        getActivity().finish();
-    }
-
-    @OnClick(R.id.floating_btn_start_notebook)
-    public void openNotebooksCreationDialog() {
-        //TODO: Change method with implement need functionality
-        floatingActionsMenu.collapse();
     }
 
     /**

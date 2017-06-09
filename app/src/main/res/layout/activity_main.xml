@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
@@ -26,6 +27,42 @@
 
         <!--TODO: possibly, provide a simple layout as com.github.android.lvrn.lvrnproject.view.fragments container instead of including -->
         <include layout="@layout/partial_content_main" />
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/floating_action_menu_all_notes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="bottom|end"
+            android:src="@android:drawable/ic_menu_share"
+            fab:fab_addButtonColorNormal="@color/fab_colorNormal"
+            fab:fab_addButtonColorPressed="@color/fab_colorPressed"
+            fab:fab_addButtonPlusIconColor="@color/cardview_light_background"
+            fab:fab_labelStyle="@style/menu_labels_style">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floating_btn_start_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/fab_colorNormal"
+                fab:fab_size="mini"
+                fab:fab_title="@string/fab_start_note"
+                fab:fab_icon="@drawable/ic_menu_file_white_24dp"
+                fab:fab_colorPressed="@color/fab_colorPressed"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floating_btn_start_notebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_size="mini"
+                fab:fab_colorNormal="@color/fab_colorNormal"
+                fab:fab_icon="@drawable/ic_menu_book_white_24dp"
+                fab:fab_title="@string/fab_start_notebook"
+                fab:fab_colorPressed="@color/fab_colorPressed"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </android.support.design.widget.CoordinatorLayout>
 
