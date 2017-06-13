@@ -8,20 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_content_icon"
             android:layout_marginTop="8dp"
             android:textSize="24sp"
-            android:text="NOTE"
+            android:text="NOTEBOOKS"
             android:gravity="center"
             android:textColorHint="@color/main_green_themes_app"
             android:textColor="@color/main_green_themes_app"
             android:background="@color/color_edit_text_title_note"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_notes_together"
+            android:id="@+id/recycler_view_notebooks"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_weight="2"/>
@@ -32,18 +33,17 @@
             android:layout_below="@+id/layout_content_icon"
             android:layout_marginTop="8dp"
             android:textSize="24sp"
-            android:text="NOTEBOOK"
+            android:text="NOTES"
             android:gravity="center"
             android:textColorHint="@color/main_green_themes_app"
             android:textColor="@color/main_green_themes_app"
             android:background="@color/color_edit_text_title_note"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_notebook_together"
+            android:id="@+id/recycler_view_notes"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_weight="2"/>
 
     </LinearLayout>
-
 </ScrollView>

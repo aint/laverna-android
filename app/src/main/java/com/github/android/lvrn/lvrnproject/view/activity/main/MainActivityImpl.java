@@ -20,8 +20,6 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.allnotebooks.impl.AllNotebooksFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.alltasks.impl.AllTasksFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
@@ -80,13 +78,13 @@ public class MainActivityImpl extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (R.id.nav_item_notebooks == id) {
-            AllNotebooksFragmentImpl notebookFragment = new AllNotebooksFragmentImpl();
-            menuStartSelectFragment(notebookFragment, FragmentConst.TAG_NOTEBOOK_FRAGMENT);
+//            AllNotebooksFragmentImpl notebookFragment = new AllNotebooksFragmentImpl();
+//            menuStartSelectFragment(notebookFragment, FragmentConst.TAG_NOTEBOOK_FRAGMENT);
         } else if (R.id.nav_item_all_notes == id) {
             startAllNotesFragment();
         } else if (R.id.nav_item_open_tasks == id) {
-            AllTasksFragmentImpl taskFragment = new AllTasksFragmentImpl();
-            menuStartSelectFragment(taskFragment, FragmentConst.TAG_TASK_FRAGMENT);
+//            AllTasksFragmentImpl taskFragment = new AllTasksFragmentImpl();
+//            menuStartSelectFragment(taskFragment, FragmentConst.TAG_TASK_FRAGMENT);
         } else if (R.id.nav_item_trash == id) {
             TrashListFragmentImpl trashFragment = new TrashListFragmentImpl();
             menuStartSelectFragment(trashFragment, FragmentConst.TAG_TRASH_FRAGMENT);

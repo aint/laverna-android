@@ -24,7 +24,7 @@ public class NotebookContentFragmentImpl extends Fragment {
 //    @Nullable
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_notebok_content, container, false);
+//        View view = inflater.inflate(R.layout.fragment_notebooks_list, container, false);
 //        mUnbinder = ButterKnife.bind(this, view);
 //        LavernaApplication.getsAppComponent().inject(this);
 //        initRecyclerView();
