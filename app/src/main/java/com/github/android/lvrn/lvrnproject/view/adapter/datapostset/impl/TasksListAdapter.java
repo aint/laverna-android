@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter.impl;
+package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,25 +41,13 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.Task
     public int getItemCount() {
         return mTaskData.size();
     }
-//    public void setClickListener(NotesListAdapter.ItemClickListener itemClickListener) {
-//        this.mItemClickListener = itemClickListener;
-//    }
 
+    class TaskViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.text_view_task_description) TextView tvTaskDescription;
 
-    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.text_view_task_description)
-        TextView tvTaskDescription;
-
-         TaskViewHolder(View itemView) {
+        TaskViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-             itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-//            if (mItemClickListener != null) mItemClickListener.onClick(v,getAdapterPosition());
-
         }
     }
 }

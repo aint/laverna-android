@@ -6,7 +6,7 @@ import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
-import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -22,7 +22,9 @@ public interface EntitiesListPresenter<T1 extends ProfileDependedEntity, T2 exte
 
     void subscribeSearchView(MenuItem searchItem);
 
-    void disposePaginationAndSearch();
+    void disposePagination();
+
+    void disposeSearch();
 
     void setDataToAdapter(DataPostSetAdapter<T1> dataPostSetAdapter);
 }

@@ -7,12 +7,12 @@ import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEdi
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.NotebookContentFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.notebookchildren.NotebookChildrenListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 
 import dagger.Component;
 
@@ -27,7 +27,7 @@ public interface AppComponent {
 
     void inject(NotesListFragmentImpl allNotesFragment);
 
-    void inject(SingleNoteFragmentImpl singleNoteFragmentImpl);
+    void inject(NoteContentFragmentImpl noteContentFragmentImpl);
 
     void inject(TagEditingDialogFragmentImpl tagEditingDialogFragment);
 
@@ -35,7 +35,7 @@ public interface AppComponent {
 
     void inject(NotebooksListFragmentImpl notebooksListFragment);
 
-    void inject(NotebookContentFragmentImpl noteAndNotebookTogetherFragment);
+    void inject(NotebookChildrenListFragmentImpl noteAndNotebookTogetherFragment);
 
     void inject(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment);
 

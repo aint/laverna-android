@@ -21,8 +21,8 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.TrashListAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TrashListAdapter;
+import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
@@ -61,7 +61,7 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_all_notes, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
 
@@ -112,7 +112,8 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
-        mTrashListPresenter.disposePaginationAndSearch();
+        mTrashListPresenter.disposePagination();
+        mTrashListPresenter.disposeSearch();
     }
 
     @Override
@@ -150,15 +151,15 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
     }
 
     public void showSelectedNote(Note note) {
-        SingleNoteFragmentImpl singleNoteFragmentImpl = new SingleNoteFragmentImpl();
+        NoteContentFragmentImpl noteContentFragmentImpl = new NoteContentFragmentImpl();
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY, note);
-        singleNoteFragmentImpl.setArguments(bundle);
+        noteContentFragmentImpl.setArguments(bundle);
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, singleNoteFragmentImpl, FragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
+                .replace(R.id.constraint_container, noteContentFragmentImpl, FragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

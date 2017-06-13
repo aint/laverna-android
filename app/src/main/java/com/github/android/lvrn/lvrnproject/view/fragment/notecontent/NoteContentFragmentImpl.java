@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment.singlenote;
+package com.github.android.lvrn.lvrnproject.view.fragment.notecontent;
 
 
 import android.os.Build;
@@ -25,7 +25,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.NoteDetailsFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.notedetails.NoteDetailsFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
@@ -41,7 +41,7 @@ import butterknife.Unbinder;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class SingleNoteFragmentImpl extends Fragment {
+public class NoteContentFragmentImpl extends Fragment {
     @BindView(R.id.im_btn_information) ImageButton mImageButtonInfo;
     @BindView(R.id.im_btn_arrow_back_single_note) ImageButton mImageButtonBackArrow;
     @BindView(R.id.edit_text_title_single_note) EditText mEditTextTitle;
@@ -55,7 +55,7 @@ public class SingleNoteFragmentImpl extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_single_note, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_note_content, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
         setUpToolbar();

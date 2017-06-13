@@ -1,23 +1,26 @@
-package com.github.android.lvrn.lvrnproject.view.adapter.impl;
+package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NotebookViewHolder;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebooksListAdapter extends RecyclerView.Adapter<NotebookViewHolder> implements DataPostSetAdapter<Notebook> {
+public class NotebooksListAdapter extends RecyclerView.Adapter<NotebooksListAdapter.NotebookViewHolder> implements DataPostSetAdapter<Notebook> {
 
     private NotebooksListFragment mNotebooksListFragment;
 
@@ -36,7 +39,8 @@ public class NotebooksListAdapter extends RecyclerView.Adapter<NotebookViewHolde
 
     @Override
     public void onBindViewHolder(NotebookViewHolder holder, int position) {
-        //TODO:
+        holder.notebookNameTextView.setText(mNotebooks.get(position).getName());
+        //TODO: provide on click listener
     }
 
     @Override
@@ -47,5 +51,15 @@ public class NotebooksListAdapter extends RecyclerView.Adapter<NotebookViewHolde
     @Override
     public void setData(List<Notebook> data) {
         mNotebooks = data;
+    }
+
+    class NotebookViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.text_view_notebook_name) TextView notebookNameTextView;
+
+        NotebookViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }

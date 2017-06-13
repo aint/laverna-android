@@ -24,4 +24,23 @@ public interface NotebookService extends ProfileDependedService<Notebook, Notebo
      */
     @NonNull
     List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs);
+
+    /**
+     * A method which retrieves an amount of entities from a start position by a parent notebook's id.
+     * @param notebookId an id of a parent notebook.
+     * @param paginationArgs a limit and a offset of a pagination.
+     * @return a list of entities.
+     */
+    @NonNull
+    List<Notebook> getChildren(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs);
+
+    /**
+     * A method which retrieves an amount of entities from a start position which are root parents (has no parent).
+     * @param profileId an id of profile.
+     * @param paginationArgs a limit and a offset of a pagination.
+     * @return a list of entities.
+     */
+    @NonNull
+    List<Notebook> getRootParents(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
+
 }

@@ -18,7 +18,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebookCreationAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotebookCreationAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;

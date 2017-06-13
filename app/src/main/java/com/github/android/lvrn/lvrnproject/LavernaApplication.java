@@ -42,15 +42,12 @@ public class LavernaApplication extends Application {
         profileId = profiles.get(0).getId();
         profileService.closeConnection();
 //        notebookService.openConnection();
-//        for (Notebook note : notebookService.getByProfile(CurrentState.profileId, new PaginationArgs(1,100))) {
-//            System.out.println(notebookService.remove(note.getId()));
-//        }
-//        for(int i = 1; i <20; i++) {
+//        for(int i = 1; i <150; i++) {
 //            notebookService.create(new NotebookForm(profileId, false, null, "notebook" + i));
 //        }
 //        notebookService.closeConnection();
-
-
+//
+//
 //        noteService.openConnection();
 //        for (int i = 0; i < 150; i++) {
 //            noteService.create(new NoteForm(profileId, true, null, "note" + i, "dfsdf", "dfsdf", true));

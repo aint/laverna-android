@@ -56,7 +56,9 @@ public class MainActivityImpl extends AppCompatActivity
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         ((NavigationView) findViewById(R.id.nav_view)).setNavigationItemSelectedListener(this);
-        startAllNotesFragment();
+
+        NotesListFragmentImpl notesListFragment = new NotesListFragmentImpl();
+        menuStartSelectFragment(notesListFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT);
     }
 
     @Override
@@ -82,7 +84,8 @@ public class MainActivityImpl extends AppCompatActivity
             NotebooksListFragmentImpl notebooksListFragment = new NotebooksListFragmentImpl();
             menuStartSelectFragment(notebooksListFragment, FragmentConst.TAG_NOTEBOOK_FRAGMENT);
         } else if (R.id.nav_item_all_notes == id) {
-            startAllNotesFragment();
+            NotesListFragmentImpl notesListFragment = new NotesListFragmentImpl();
+            menuStartSelectFragment(notesListFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT);
         } else if (R.id.nav_item_open_tasks == id) {
 //            AllTasksFragmentImpl taskFragment = new AllTasksFragmentImpl();
 //            menuStartSelectFragment(taskFragment, FragmentConst.TAG_TASK_FRAGMENT);
@@ -104,19 +107,6 @@ public class MainActivityImpl extends AppCompatActivity
     private void setOrientationByUserDeviceConfiguration() {
         if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-    }
-
-    /**
-     * A method which create and replace new fragment in current container for fragment, without
-     * adding to back stack
-     */
-    private void startAllNotesFragment() {
-        if (mSavedInstanceState == null) {
-            NotesListFragmentImpl allNotesFragment = new NotesListFragmentImpl();
-            fragmentManager.beginTransaction()
-                    .add(R.id.constraint_container, allNotesFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT)
-                    .commit();
         }
     }
 

@@ -14,7 +14,7 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.service.core.TagService;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.TagsListAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TagsListAdapter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 
 import java.util.ArrayList;

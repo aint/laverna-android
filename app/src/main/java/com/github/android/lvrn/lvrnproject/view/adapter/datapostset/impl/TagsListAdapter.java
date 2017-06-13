@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter.impl;
+package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -43,9 +43,8 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.TagEdi
         return mDataSet.size();
     }
 
-    static class TagEditingViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.checked_text_view_tags)
-        TextView textViewTag;
+    class TagEditingViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.checked_text_view_tags) TextView textViewTag;
 
         TagEditingViewHolder(View itemView) {
             super(itemView);

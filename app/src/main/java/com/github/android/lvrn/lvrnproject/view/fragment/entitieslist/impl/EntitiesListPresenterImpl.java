@@ -9,7 +9,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEnti
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
@@ -106,12 +106,16 @@ public abstract class EntitiesListPresenterImpl<T1 extends ProfileDependedEntity
     }
 
     @Override
-    public void disposePaginationAndSearch() {
-        if (mSearchDisposable != null && !mSearchDisposable.isDisposed()) {
-            mSearchDisposable.dispose();
-        }
+    public void disposePagination() {
         if (mPaginationDisposable != null && !mPaginationDisposable.isDisposed()) {
             mPaginationDisposable.dispose();
+        }
+    }
+
+    @Override
+    public void disposeSearch() {
+        if (mSearchDisposable != null && !mSearchDisposable.isDisposed()) {
+            mSearchDisposable.dispose();
         }
         if (mFoundedPaginationDisposable != null && !mFoundedPaginationDisposable.isDisposed()) {
             mFoundedPaginationDisposable.dispose();

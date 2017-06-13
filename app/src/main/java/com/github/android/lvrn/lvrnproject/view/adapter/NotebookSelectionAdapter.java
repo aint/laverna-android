@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter.impl;
+package com.github.android.lvrn.lvrnproject.view.adapter;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelectionAdapter.ViewHolder> {
+public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelectionAdapter.NotebookViewHolder>  {
 
     private NotebookSelectionDialogFragmentImpl mNotebookSelectionDialogFragment;
 
@@ -33,15 +33,15 @@ public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelec
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NotebookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_notebook_create, parent, false);
 
-        return new ViewHolder(view);
+        return new NotebookViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(NotebookViewHolder holder, int position) {
         String notebookName = mNotebooks.get(position).getName();
         holder.mNotebookNameTextView.setText(notebookName);
 
@@ -60,28 +60,22 @@ public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelec
                 mNotebookSelectionDialogFragment
                         .setSelectedNotebook(mNotebooks.get(position));
             }
-
             notifyDataSetChanged();
         });
     }
-
 
     @Override
     public int getItemCount() {
         return mNotebooks.size();
     }
 
-    //TODO: Use notebook view holder
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class NotebookViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_view_notebook_name)
-        TextView mNotebookNameTextView;
+        @BindView(R.id.text_view_notebook_name) TextView mNotebookNameTextView;
 
-        public ViewHolder(View itemView) {
+        NotebookViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
-
-
 }

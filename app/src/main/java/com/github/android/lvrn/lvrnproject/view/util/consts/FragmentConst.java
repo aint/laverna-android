@@ -9,7 +9,7 @@ public final class FragmentConst {
     private FragmentConst() {
     }
 
-    public static final String TAG_SINGLE_NOTE_FRAGMENT = "SingleNoteFragmentImpl";
+    public static final String TAG_SINGLE_NOTE_FRAGMENT = "NoteContentFragmentImpl";
     public static final String TAG_TAG_EDITING_DIALOG_FRAGMENT = "TagEditingDialogFragmentImpl";
     public static final String TAG_NOTE_DETAIL_FRAGMENT = "NoteDetailFragmentImpl";
     public static final String TAG_NOTES_LIST_FRAGMENT = "AllNotesFragmentImpl";

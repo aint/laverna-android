@@ -25,7 +25,7 @@ public class NotebooksListPresenterImpl extends EntitiesListPresenterImpl<Notebo
 
     @Override
     protected List<Notebook> loadMoreForPagination(PaginationArgs paginationArgs) {
-        return mNotebookService.getByProfile(CurrentState.profileId, paginationArgs);
+        return mNotebookService.getRootParents(CurrentState.profileId, paginationArgs);
     }
 
     @Override

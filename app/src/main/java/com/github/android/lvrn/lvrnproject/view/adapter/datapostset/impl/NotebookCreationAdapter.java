@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter.impl;
+package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter;
 
 import java.util.List;
@@ -21,10 +21,11 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookCreationAdapter extends RecyclerView.Adapter<NotebookCreationAdapter.NotebookCreateViewHolder> implements DataPostSetAdapter<Notebook> {
-
+public class NotebookCreationAdapter extends RecyclerView.Adapter<NotebookCreationAdapter.NotebookViewHolder> implements DataPostSetAdapter<Notebook> {
     private List<Notebook> mNotebook;
+
     private NotebookCreationPresenter mNotebookCreationPresenter;
+
     private int mSelectedItem = -1;
 
     public NotebookCreationAdapter(NotebookCreationPresenter notebookCreationPresenter) {
@@ -32,13 +33,13 @@ public class NotebookCreationAdapter extends RecyclerView.Adapter<NotebookCreati
     }
 
     @Override
-    public NotebookCreateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NotebookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notebook_create, parent, false);
-        return new NotebookCreateViewHolder(view);
+        return new NotebookViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(NotebookCreateViewHolder holder, int position) {
+    public void onBindViewHolder(NotebookViewHolder holder, int position) {
 
         if (mSelectedItem == position)
             holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
@@ -70,11 +71,11 @@ public class NotebookCreationAdapter extends RecyclerView.Adapter<NotebookCreati
         mNotebook = data;
     }
 
-    public class NotebookCreateViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.text_view_notebook_name)
-        TextView tvTitle;
+    class NotebookViewHolder extends RecyclerView.ViewHolder {
 
-        public NotebookCreateViewHolder(View itemView) {
+        @BindView(R.id.text_view_notebook_name) TextView tvTitle;
+
+        NotebookViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

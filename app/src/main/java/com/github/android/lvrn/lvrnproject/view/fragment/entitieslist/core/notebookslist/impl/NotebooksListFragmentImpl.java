@@ -20,7 +20,7 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebooksListAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotebooksListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListPresenter;
 import com.orhanobut.logger.Logger;
@@ -58,7 +58,7 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_all_notes, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
 
@@ -110,7 +110,8 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
-        mNotebooksListPresenter.disposePaginationAndSearch();
+        mNotebooksListPresenter.disposePagination();
+        mNotebooksListPresenter.disposeSearch();
     }
 
     @Override

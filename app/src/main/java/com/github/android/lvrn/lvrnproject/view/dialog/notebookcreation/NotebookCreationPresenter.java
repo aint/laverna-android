@@ -3,7 +3,7 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation;
 import android.support.v7.widget.RecyclerView;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>

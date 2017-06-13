@@ -29,14 +29,6 @@
                 android:textColorHint="@color/main_green_themes_app"
                 android:hint="@string/hint_you_notebook_name"/>
 
-            <ImageButton
-                android:id="@+id/image_btn_more_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ic_more_vert_black_24dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"/>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

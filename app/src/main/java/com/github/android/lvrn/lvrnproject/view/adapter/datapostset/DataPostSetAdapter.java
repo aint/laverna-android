@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter;
+package com.github.android.lvrn.lvrnproject.view.adapter.datapostset;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 

@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.fragment;
+package com.github.android.lvrn.lvrnproject.view.fragment.notedetails;
 
 
 import android.os.Bundle;

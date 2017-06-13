@@ -49,6 +49,18 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
         return mNotebookRepository.getByName(profileId, name, paginationArgs);
     }
 
+    @NonNull
+    @Override
+    public List<Notebook> getChildren(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs) {
+        return mNotebookRepository.getChildren(notebookId, paginationArgs);
+    }
+
+    @NonNull
+    @Override
+    public List<Notebook> getRootParents(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
+        return mNotebookRepository.getRootParents(profileId, paginationArgs);
+    }
+
     @Override
     public boolean update(@NonNull String id, @NonNull NotebookForm notebookForm) {
         return validateForUpdate(notebookForm.getParentNotebookId(), notebookForm.getName())
