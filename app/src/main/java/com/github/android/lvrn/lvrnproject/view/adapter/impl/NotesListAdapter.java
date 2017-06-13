@@ -10,7 +10,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapter.viewholders.NoteViewHolder;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
 
 import java.util.List;
 
@@ -19,13 +19,13 @@ import java.util.List;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class FavouritesAdapter extends RecyclerView.Adapter<NoteViewHolder> implements DataPostSetAdapter<Note> {
+public class NotesListAdapter extends RecyclerView.Adapter<NoteViewHolder> implements DataPostSetAdapter<Note> {
 
-    private FavouritesListFragment mAllNotesFragment;
+    private NotesListFragment mAllNotesFragment;
 
     private List<Note> mNotes;
 
-    public FavouritesAdapter(FavouritesListFragment allNotesFragment) {
+    public NotesListAdapter(NotesListFragment allNotesFragment) {
         mAllNotesFragment = allNotesFragment;
     }
 

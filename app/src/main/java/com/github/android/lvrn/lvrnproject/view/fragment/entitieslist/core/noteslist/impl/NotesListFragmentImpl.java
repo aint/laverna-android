@@ -22,7 +22,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllNotesAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
@@ -50,7 +50,7 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
     private Unbinder mUnbinder;
 
-    private AllNotesAdapter mNotesRecyclerViewAdapter;
+    private NotesListAdapter mNotesRecyclerViewAdapter;
 
     private SearchView mSearchView;
 
@@ -181,7 +181,7 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mNotesRecyclerViewAdapter = new AllNotesAdapter(this);
+        mNotesRecyclerViewAdapter = new NotesListAdapter(this);
         mNotesListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
         mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
 

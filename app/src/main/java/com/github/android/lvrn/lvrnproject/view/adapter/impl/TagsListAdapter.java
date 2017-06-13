@@ -19,10 +19,10 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 //TODO: FIX!
-public class AllTagsAdapter extends RecyclerView.Adapter<AllTagsAdapter.TagEditingViewHolder>{
+public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.TagEditingViewHolder>{
     private List<Tag> mDataSet;
 
-    public AllTagsAdapter(List<Tag> data) {
+    public TagsListAdapter(List<Tag> data) {
         mDataSet = data;
     }
 

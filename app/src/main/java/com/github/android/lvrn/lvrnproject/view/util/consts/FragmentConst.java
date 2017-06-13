@@ -17,7 +17,7 @@ public final class FragmentConst {
     public static final String TAG_TASK_FRAGMENT = "AllTasksFragmentImpl";
     public static final String TAG_TRASH_FRAGMENT = "TrashFragmentImpl";
     public static final String TAG_FAVOURITES_FRAGMENT = "FavouritesFragmentImpl";
-    public static final String TAG_NOTEBOOK_CREATE_FRAGMENT = "NotebookCreateDialogFragmentImpl";
+    public static final String TAG_NOTEBOOK_CREATE_FRAGMENT = "NotebookCreationDialogFragmentImpl";
     public static final String DIALOG_OPEN_FROM_NOTES_LIST_FRAGMENT = "OpenFromNotesList";
     public static final String DIALOG_OPEN_FROM_NOTEBOOK_SELECTION_DIALOG_FRAGMENT = "OpenFromNotebookSelectionDialog";
 

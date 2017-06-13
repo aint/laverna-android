@@ -4,7 +4,7 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.NotebookContentFragmentImpl;
@@ -45,6 +45,6 @@ public interface AppComponent {
 
     void inject(FavouritesListFragmentImpl favouritesListFragment);
 
-    void inject(NotebookCreateDialogFragmentImpl notebookCreateDialogFragment);
+    void inject(NotebookCreationDialogFragmentImpl notebookCreateDialogFragment);
 
 }

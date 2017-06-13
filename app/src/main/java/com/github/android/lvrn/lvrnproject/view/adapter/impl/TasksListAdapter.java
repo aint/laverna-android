@@ -18,11 +18,11 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 //TODO: FIX!
-public class AllTaskAdapter extends RecyclerView.Adapter<AllTaskAdapter.TaskViewHolder> {
+public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> {
     public List<Task> mTaskData;
 
 
-    public AllTaskAdapter(List<Task> mTaskData) {
+    public TasksListAdapter(List<Task> mTaskData) {
         this.mTaskData = mTaskData;
     }
 
@@ -41,7 +41,7 @@ public class AllTaskAdapter extends RecyclerView.Adapter<AllTaskAdapter.TaskView
     public int getItemCount() {
         return mTaskData.size();
     }
-//    public void setClickListener(AllNotesAdapter.ItemClickListener itemClickListener) {
+//    public void setClickListener(NotesListAdapter.ItemClickListener itemClickListener) {
 //        this.mItemClickListener = itemClickListener;
 //    }
 

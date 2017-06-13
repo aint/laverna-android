@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl;
+package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,8 +9,8 @@ import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreateDialogFragment;
-import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreatePresenter;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationDialogFragment;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
 import com.google.common.base.Optional;
 
@@ -25,24 +25,24 @@ import io.reactivex.subjects.ReplaySubject;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
+public class NotebookCreationPresenterImpl implements NotebookCreationPresenter {
 
     private List<Notebook> mNotebooks;
     private NotebookService mNotebookService;
-    private NotebookCreateDialogFragment mNotebookCreateDialogFragment;
+    private NotebookCreationDialogFragment mNotebookCreationDialogFragment;
     private ReplaySubject<PaginationArgs> mPaginationSubject;
     private Disposable mPaginationDisposable;
     private String parentId;
     private NotebookForm notebookForm;
 
 
-    public NotebookCreatePresenterImpl(NotebookService mNotebookService) {
+    public NotebookCreationPresenterImpl(NotebookService mNotebookService) {
         (this.mNotebookService = mNotebookService).openConnection();
     }
 
     @Override
-    public void bindView(NotebookCreateDialogFragment notebookCreateDialogFragment) {
-        mNotebookCreateDialogFragment = notebookCreateDialogFragment;
+    public void bindView(NotebookCreationDialogFragment notebookCreationDialogFragment) {
+        mNotebookCreationDialogFragment = notebookCreationDialogFragment;
         if (!mNotebookService.isConnectionOpened()) {
             mNotebookService.openConnection();
         }
@@ -50,8 +50,8 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
 
     @Override
     public void unbindView() {
-        if (mNotebookCreateDialogFragment != null) {
-            mNotebookCreateDialogFragment = null;
+        if (mNotebookCreationDialogFragment != null) {
+            mNotebookCreationDialogFragment = null;
         }
         mNotebookService.closeConnection();
     }
@@ -60,8 +60,8 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
     public boolean createNotebook(String name) {
         notebookForm = new NotebookForm(CurrentState.profileId, false, parentId, name);
         Optional<String> newNotebookId = mNotebookService.create(notebookForm);
-        mNotebookCreateDialogFragment.getNotebook(mNotebookService.getById(newNotebookId.get()).get());
-        mNotebookCreateDialogFragment.updateRecyclerView();
+        mNotebookCreationDialogFragment.getNotebook(mNotebookService.getById(newNotebookId.get()).get());
+        mNotebookCreationDialogFragment.updateRecyclerView();
         return  newNotebookId.isPresent();
     }
 
@@ -101,7 +101,7 @@ public class NotebookCreatePresenterImpl implements NotebookCreatePresenter {
                 .filter(notes -> !notes.isEmpty())
                 .map(newNotes -> mNotebooks.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> mNotebookCreateDialogFragment.updateRecyclerView(),
+                .subscribe(aBoolean -> mNotebookCreationDialogFragment.updateRecyclerView(),
                         throwable -> {/*TODO: find out what can happen here*/});
     }
 }

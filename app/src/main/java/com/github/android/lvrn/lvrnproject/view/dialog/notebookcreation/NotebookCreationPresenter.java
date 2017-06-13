@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate;
+package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -9,9 +9,9 @@ import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public interface NotebookCreatePresenter {
+public interface NotebookCreationPresenter {
 
-    void bindView(NotebookCreateDialogFragment notebookCreateDialogFragment);
+    void bindView(NotebookCreationDialogFragment notebookCreationDialogFragment);
 
     void unbindView();
 

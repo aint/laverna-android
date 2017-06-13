@@ -20,7 +20,7 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllNotebooksAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebooksListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListPresenter;
 import com.orhanobut.logger.Logger;
@@ -44,7 +44,7 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
 
     private Unbinder mUnbinder;
 
-    private AllNotebooksAdapter mNotebooksRecyclerViewAdapter;
+    private NotebooksListAdapter mNotebooksRecyclerViewAdapter;
 
     private SearchView mSearchView;
 
@@ -160,7 +160,7 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
 
         mNotebooksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mNotebooksRecyclerViewAdapter = new AllNotebooksAdapter(this);
+        mNotebooksRecyclerViewAdapter = new NotebooksListAdapter(this);
         mNotebooksListPresenter.setDataToAdapter(mNotebooksRecyclerViewAdapter);
         mNotebooksRecyclerView.setAdapter(mNotebooksRecyclerViewAdapter);
 

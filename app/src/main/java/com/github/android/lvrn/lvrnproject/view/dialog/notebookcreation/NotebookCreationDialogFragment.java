@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate;
+package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 
@@ -6,7 +6,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public interface NotebookCreateDialogFragment {
+public interface NotebookCreationDialogFragment {
 
     void updateRecyclerView();
 

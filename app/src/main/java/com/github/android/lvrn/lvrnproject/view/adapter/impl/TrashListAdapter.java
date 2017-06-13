@@ -19,13 +19,13 @@ import java.util.List;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TrashAdapter extends RecyclerView.Adapter<NoteViewHolder> implements DataPostSetAdapter<Note> {
+public class TrashListAdapter extends RecyclerView.Adapter<NoteViewHolder> implements DataPostSetAdapter<Note> {
 
     private TrashListFragment mAllNotesFragment;
 
     private List<Note> mNotes;
 
-    public TrashAdapter(TrashListFragment allNotesFragment) {
+    public TrashListAdapter(TrashListFragment allNotesFragment) {
         mAllNotesFragment = allNotesFragment;
     }
 

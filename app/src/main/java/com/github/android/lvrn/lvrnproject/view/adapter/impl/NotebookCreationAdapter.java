@@ -1,4 +1,4 @@
-package com.github.android.lvrn.lvrnproject.view.adapter;
+package com.github.android.lvrn.lvrnproject.view.adapter.impl;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.NotebookCreatePresenter;
+import com.github.android.lvrn.lvrnproject.view.adapter.DataPostSetAdapter;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter;
 
 import java.util.List;
 
@@ -20,14 +21,14 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCreateViewAdapter.NotebookCreateViewHolder> implements DataPostSetAdapter<Notebook>  {
+public class NotebookCreationAdapter extends RecyclerView.Adapter<NotebookCreationAdapter.NotebookCreateViewHolder> implements DataPostSetAdapter<Notebook> {
 
     private List<Notebook> mNotebook;
-    private NotebookCreatePresenter mNotebookCreatePresenter;
+    private NotebookCreationPresenter mNotebookCreationPresenter;
     private int mSelectedItem = -1;
 
-    public NotebookCreateViewAdapter(NotebookCreatePresenter notebookCreatePresenter) {
-        this.mNotebookCreatePresenter = notebookCreatePresenter;
+    public NotebookCreationAdapter(NotebookCreationPresenter notebookCreationPresenter) {
+        this.mNotebookCreationPresenter = notebookCreationPresenter;
     }
 
     @Override
@@ -49,10 +50,10 @@ public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCrea
         holder.itemView.setOnClickListener(v -> {
             if (mSelectedItem == position) {
                 mSelectedItem = -1;
-                mNotebookCreatePresenter.getNotebookId(null);
+                mNotebookCreationPresenter.getNotebookId(null);
             } else {
                 mSelectedItem = position;
-                mNotebookCreatePresenter.getNotebookId(mNotebook.get(position).getId());
+                mNotebookCreationPresenter.getNotebookId(mNotebook.get(position).getId());
             }
             notifyDataSetChanged();
         });
@@ -78,5 +79,4 @@ public class NotebookCreateViewAdapter extends RecyclerView.Adapter<NotebookCrea
             ButterKnife.bind(this, itemView);
         }
     }
-
 }

@@ -21,7 +21,7 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.TrashAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.impl.TrashListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
@@ -49,7 +49,7 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
 
     private Unbinder mUnbinder;
 
-    private TrashAdapter mNotesRecyclerViewAdapter;
+    private TrashListAdapter mNotesRecyclerViewAdapter;
 
     private SearchView mSearchView;
 
@@ -171,7 +171,7 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
 
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mNotesRecyclerViewAdapter = new TrashAdapter(this);
+        mNotesRecyclerViewAdapter = new TrashListAdapter(this);
         mTrashListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
         mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
 

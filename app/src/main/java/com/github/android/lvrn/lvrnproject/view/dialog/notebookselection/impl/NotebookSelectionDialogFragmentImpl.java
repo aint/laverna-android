@@ -18,7 +18,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebookSelectionAdapter;
-import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
@@ -110,7 +110,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
-        DialogFragment dialogFragment = NotebookCreateDialogFragmentImpl.newInstance(FragmentConst.DIALOG_OPEN_FROM_NOTEBOOK_SELECTION_DIALOG_FRAGMENT);
+        DialogFragment dialogFragment = NotebookCreationDialogFragmentImpl.newInstance(FragmentConst.DIALOG_OPEN_FROM_NOTEBOOK_SELECTION_DIALOG_FRAGMENT);
         dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
     }
 

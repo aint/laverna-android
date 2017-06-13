@@ -19,8 +19,9 @@ import android.view.MenuItem;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreate.impl.NotebookCreateDialogFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
@@ -78,8 +79,8 @@ public class MainActivityImpl extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (R.id.nav_item_notebooks == id) {
-//            AllNotebooksFragmentImpl notebookFragment = new AllNotebooksFragmentImpl();
-//            menuStartSelectFragment(notebookFragment, FragmentConst.TAG_NOTEBOOK_FRAGMENT);
+            NotebooksListFragmentImpl notebooksListFragment = new NotebooksListFragmentImpl();
+            menuStartSelectFragment(notebooksListFragment, FragmentConst.TAG_NOTEBOOK_FRAGMENT);
         } else if (R.id.nav_item_all_notes == id) {
             startAllNotesFragment();
         } else if (R.id.nav_item_open_tasks == id) {
@@ -147,7 +148,7 @@ public class MainActivityImpl extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
-        DialogFragment dialogFragment = new NotebookCreateDialogFragmentImpl();
+        DialogFragment dialogFragment = new NotebookCreationDialogFragmentImpl();
         dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
         floatingActionsMenu.collapse();
     }

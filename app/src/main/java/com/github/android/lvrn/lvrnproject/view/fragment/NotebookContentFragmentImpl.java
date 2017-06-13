@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.view.fragment;
 
 import android.support.v4.app.Fragment;
 
-//import com.github.android.lvrn.lvrnproject.view.adapter.impl.AllNotebooksAdapter;
+//import com.github.android.lvrn.lvrnproject.view.adapter.impl.NotebooksListAdapter;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -51,8 +51,8 @@ public class NotebookContentFragmentImpl extends Fragment {
 //    private void initRecyclerView() {
 //        mRecyclerViewNotebook.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        mRecyclerViewNote.setLayoutManager(new LinearLayoutManager(getActivity()));
-////        AllNotesAdapter notesRecyclerViewAdapter = new AllNotesAdapter(mNoteData);
-//        AllNotebooksAdapter allNotebooksAdapter = new AllNotebooksAdapter(mNotebookData);
+////        NotesListAdapter notesRecyclerViewAdapter = new NotesListAdapter(mNoteData);
+//        NotebooksListAdapter allNotebooksAdapter = new NotebooksListAdapter(mNotebookData);
 //        mRecyclerViewNotebook.setAdapter(allNotebooksAdapter);
 ////        mRecyclerViewNote.setAdapter(notesRecyclerViewAdapter);
 //    }

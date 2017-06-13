@@ -17,14 +17,14 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class AllNotebooksAdapter extends RecyclerView.Adapter<NotebookViewHolder> implements DataPostSetAdapter<Notebook> {
+public class NotebooksListAdapter extends RecyclerView.Adapter<NotebookViewHolder> implements DataPostSetAdapter<Notebook> {
 
     private NotebooksListFragment mNotebooksListFragment;
 
     private List<Notebook> mNotebooks;
 
 
-    public AllNotebooksAdapter(NotebooksListFragment notebooksListFragment) {
+    public NotebooksListAdapter(NotebooksListFragment notebooksListFragment) {
         mNotebooksListFragment = notebooksListFragment;
     }
 

@@ -22,7 +22,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
-import com.github.android.lvrn.lvrnproject.view.adapter.impl.FavouritesAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.impl.FavouritesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.singlenote.SingleNoteFragmentImpl;
@@ -50,7 +50,7 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
     private Unbinder mUnbinder;
 
-    private FavouritesAdapter mFavouritesRecyclerViewAdapter;
+    private FavouritesListAdapter mFavouritesRecyclerViewAdapter;
 
     private SearchView mSearchView;
 
@@ -182,7 +182,7 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mFavouritesRecyclerViewAdapter = new FavouritesAdapter(this);
+        mFavouritesRecyclerViewAdapter = new FavouritesListAdapter(this);
         mFavouritesListPresenter.setDataToAdapter(mFavouritesRecyclerViewAdapter);
         mNotesRecyclerView.setAdapter(mFavouritesRecyclerViewAdapter);
 
