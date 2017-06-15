@@ -20,11 +20,10 @@ import android.view.ViewGroup;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TrashListAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.orhanobut.logger.Logger;
@@ -40,12 +39,11 @@ import butterknife.Unbinder;
  */
 
 public class TrashListFragmentImpl extends Fragment implements TrashListFragment {
+    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
+
+    @Inject TrashListPresenter mTrashListPresenter;
 
     public static final String TOOLBAR_TITLE = "Trash";
-
-    @Inject NoteService mNoteService;
-
-    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
 
     private Unbinder mUnbinder;
 
@@ -56,30 +54,23 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
     private MenuItem mMenuSearch;
     //, menuSync, menuSortBy, menuSettings, menuAbout;
 
-    private TrashListPresenter mTrashListPresenter;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
-
-        mTrashListPresenter = new TrashListPresenterImpl(mNoteService);
-
         setUpToolbar();
         initRecyclerView();
-
         return rootView;
     }
     
     @Override
     public void onResume() {
         super.onResume();
-        if(mTrashListPresenter == null) {
-            mTrashListPresenter = new TrashListPresenterImpl(mNoteService);
+        if(mTrashListPresenter != null) {
+            mTrashListPresenter.bindView(this);
         }
-        mTrashListPresenter.bindView(this);
     }
 
     @Override

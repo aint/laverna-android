@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
@@ -41,12 +40,11 @@ import butterknife.Unbinder;
  */
 
 public class NotesListFragmentImpl extends Fragment implements NotesListFragment {
+    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
+
+    @Inject NotesListPresenter mNotesListPresenter;
 
     public static final String TOOLBAR_TITLE = "All Notes";
-
-    @Inject NoteService mNoteService;
-
-    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
 
     private Unbinder mUnbinder;
 
@@ -59,7 +57,6 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 //    TODO: introduce in future milestones
 //    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
 
-    private NotesListPresenter mNotesListPresenter;
 
     @Nullable
     @Override
@@ -67,22 +64,17 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
         View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
-
-        mNotesListPresenter = new NotesListPresenterImpl(mNoteService);
-
         setUpToolbar();
         initRecyclerView();
-
         return rootView;
     }
     
     @Override
     public void onResume() {
         super.onResume();
-        if(mNotesListPresenter == null) {
-            mNotesListPresenter = new NotesListPresenterImpl(mNoteService);
+        if(mNotesListPresenter != null) {
+            mNotesListPresenter.bindView(this);
         }
-        mNotesListPresenter.bindView(this);
     }
 
     @Override

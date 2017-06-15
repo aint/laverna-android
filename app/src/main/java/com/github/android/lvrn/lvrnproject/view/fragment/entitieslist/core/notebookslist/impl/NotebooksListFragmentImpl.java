@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotebooksListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
@@ -36,11 +35,11 @@ import butterknife.Unbinder;
  */
 
 public class NotebooksListFragmentImpl extends Fragment implements NotebooksListFragment {
-    public static final String TOOLBAR_TITLE = "All Notes";
-
-    @Inject NotebookService mNotebookService;
-
     @BindView(R.id.recycler_view_all_notes) RecyclerView mNotebooksRecyclerView;
+
+    @Inject NotebooksListPresenter mNotebooksListPresenter;
+
+    public static final String TOOLBAR_TITLE = "All Notes";
 
     private Unbinder mUnbinder;
 
@@ -53,30 +52,23 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
 //    TODO: introduce in future milestones
 //    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
 
-    private NotebooksListPresenter mNotebooksListPresenter;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
-
-        mNotebooksListPresenter = new NotebooksListPresenterImpl(mNotebookService);
-
         setUpToolbar();
         initRecyclerView();
-
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(mNotebooksListPresenter == null) {
-            mNotebooksListPresenter = new NotebooksListPresenterImpl(mNotebookService);
+        if(mNotebooksListPresenter != null) {
+            mNotebooksListPresenter.bindView(this);
         }
-        mNotebooksListPresenter.bindView(this);
     }
 
     @Override

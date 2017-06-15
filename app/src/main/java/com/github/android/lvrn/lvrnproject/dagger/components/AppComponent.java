@@ -1,13 +1,14 @@
 package com.github.android.lvrn.lvrnproject.dagger.components;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
+import com.github.android.lvrn.lvrnproject.dagger.modules.PresenterModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.notebookchildren.NotebookChildrenListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl.NotebookChildrenFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
@@ -20,7 +21,7 @@ import dagger.Component;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@Component(modules = {RepositoryModule.class, ServiceModule.class})
+@Component(modules = {RepositoryModule.class, ServiceModule.class, PresenterModule.class})
 public interface AppComponent {
     //TODO:temp compoment, remove and change it later.
     void inject(LavernaApplication application);
@@ -35,7 +36,7 @@ public interface AppComponent {
 
     void inject(NotebooksListFragmentImpl notebooksListFragment);
 
-    void inject(NotebookChildrenListFragmentImpl noteAndNotebookTogetherFragment);
+    void inject(NotebookChildrenFragmentImpl noteAndNotebookTogetherFragment);
 
     void inject(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment);
 

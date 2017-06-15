@@ -5,8 +5,8 @@ import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListPresenterImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListWithSearchPresenterImpl;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TrashListPresenterImpl extends EntitiesListPresenterImpl<Note, NoteForm> implements TrashListPresenter {
+public class TrashListPresenterImpl extends EntitiesListWithSearchPresenterImpl<Note, NoteForm> implements TrashListPresenter {
 
     private NoteService mNoteService;
 

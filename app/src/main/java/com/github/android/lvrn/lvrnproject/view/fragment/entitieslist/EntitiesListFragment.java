@@ -8,9 +8,4 @@ public interface EntitiesListFragment {
 
     void updateRecyclerView();
 
-    String getSearchQuery();
-
-    void switchToNormalMode();
-
-    void switchToSearchMode();
 }

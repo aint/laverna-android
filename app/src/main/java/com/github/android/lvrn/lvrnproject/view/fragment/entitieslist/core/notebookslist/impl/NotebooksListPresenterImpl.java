@@ -6,7 +6,7 @@ import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListPresenter;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListPresenterImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListWithSearchPresenterImpl;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebooksListPresenterImpl extends EntitiesListPresenterImpl<Notebook, NotebookForm> implements NotebooksListPresenter {
+public class NotebooksListPresenterImpl extends EntitiesListWithSearchPresenterImpl<Notebook, NotebookForm> implements NotebooksListPresenter {
 
     private NotebookService mNotebookService;
 

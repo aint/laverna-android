@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.FavouritesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
@@ -41,12 +40,11 @@ import butterknife.Unbinder;
  */
 
 public class FavouritesListFragmentImpl extends Fragment implements FavouritesListFragment {
+    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
+
+    @Inject FavouritesListPresenter mFavouritesListPresenter;
 
     public static final String TOOLBAR_TITLE = "Favourites";
-
-    @Inject NoteService mNoteService;
-
-    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
 
     private Unbinder mUnbinder;
 
@@ -59,30 +57,23 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 //    TODO: introduce in future milestones
 //    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
 
-    private FavouritesListPresenter mFavouritesListPresenter;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         LavernaApplication.getsAppComponent().inject(this);
-
-        mFavouritesListPresenter = new FavouritesListPresenterImpl(mNoteService);
-
         setUpToolbar();
         initRecyclerView();
-
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(mFavouritesListPresenter == null) {
-            mFavouritesListPresenter = new FavouritesListPresenterImpl(mNoteService);
+        if(mFavouritesListPresenter != null) {
+            mFavouritesListPresenter.bindView(this);
         }
-        mFavouritesListPresenter.bindView(this);
     }
 
     @Override

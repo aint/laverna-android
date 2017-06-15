@@ -6,18 +6,21 @@ import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListPresenterImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListWithSearchPresenterImpl;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class FavouritesListPresenterImpl extends EntitiesListPresenterImpl<Note, NoteForm> implements FavouritesListPresenter {
+public class FavouritesListPresenterImpl extends EntitiesListWithSearchPresenterImpl<Note, NoteForm> implements FavouritesListPresenter {
 
     private NoteService mNoteService;
 
+    @Inject
     public FavouritesListPresenterImpl(NoteService entityService) {
         super(entityService);
         mNoteService = entityService;
