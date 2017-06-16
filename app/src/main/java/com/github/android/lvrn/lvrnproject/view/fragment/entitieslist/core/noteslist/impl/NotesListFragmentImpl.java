@@ -40,7 +40,7 @@ import butterknife.Unbinder;
  */
 
 public class NotesListFragmentImpl extends Fragment implements NotesListFragment {
-    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
+    @BindView(R.id.recycler_view_all_entities) RecyclerView mNotesRecyclerView;
 
     @Inject NotesListPresenter mNotesListPresenter;
 
@@ -56,7 +56,6 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
 //    TODO: introduce in future milestones
 //    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
-
 
     @Nullable
     @Override
@@ -85,7 +84,7 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_all_notes, menu);
+        inflater.inflate(R.menu.fragment_entities_list, menu);
 
         mMenuSearch = menu.findItem(R.id.item_action_search);
 //        TODO: introduce in future milestones

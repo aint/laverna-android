@@ -25,7 +25,7 @@ import io.reactivex.subjects.ReplaySubject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class EntitiesListWithSearchPresenterImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm> extends EntitiesListPresenterImpl<T1, T2> implements EntitiesListWithSearchPresenter<T1, T2> {
+public abstract class EntitiesListWithSearchPresenterImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm<T1>> extends EntitiesListPresenterImpl<T1, T2> implements EntitiesListWithSearchPresenter<T1, T2> {
     private Disposable mSearchDisposable;
 
     private Disposable mFoundedPaginationDisposable;

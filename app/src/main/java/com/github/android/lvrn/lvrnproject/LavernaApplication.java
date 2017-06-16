@@ -9,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 
 import java.util.List;
@@ -42,6 +43,9 @@ public class LavernaApplication extends Application {
         profileId = profiles.get(0).getId();
         profileService.closeConnection();
 
+
+
+
 //        noteService.openConnection();
 //        notebookService.openConnection();
 //        for(int i = 1; i <= 3; i++) {
@@ -69,7 +73,13 @@ public class LavernaApplication extends Application {
 //            noteService.create(new NoteForm(profileId, false, null, "kek note" + i, "lol dfsdf", "lol dfsdf", true));
 //        }
 //        noteService.closeConnection();
+        noteService.openConnection();
+        noteService.create(new NoteForm(profileId, false, null, "title 1", "content\n" +
+                "[] first task\n" +
+                "[] second task\n" +
+                "[X] completed task", "htmlContent",false));
 
+        noteService.closeConnection();
 
 
 

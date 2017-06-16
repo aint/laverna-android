@@ -40,7 +40,7 @@ import butterknife.Unbinder;
  */
 
 public class FavouritesListFragmentImpl extends Fragment implements FavouritesListFragment {
-    @BindView(R.id.recycler_view_all_notes) RecyclerView mNotesRecyclerView;
+    @BindView(R.id.recycler_view_all_entities) RecyclerView mNotesRecyclerView;
 
     @Inject FavouritesListPresenter mFavouritesListPresenter;
 
@@ -84,7 +84,7 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_all_notes, menu);
+        inflater.inflate(R.menu.fragment_entities_list, menu);
 
         mMenuSearch = menu.findItem(R.id.item_action_search);
 //        TODO: introduce in future milestones

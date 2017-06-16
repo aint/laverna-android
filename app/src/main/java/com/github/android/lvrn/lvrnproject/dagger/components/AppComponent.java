@@ -12,6 +12,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteb
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 
@@ -26,26 +27,25 @@ public interface AppComponent {
     //TODO:temp compoment, remove and change it later.
     void inject(LavernaApplication application);
 
-    void inject(NotesListFragmentImpl allNotesFragment);
+    void inject(NotesListFragmentImpl notesListFragment);
 
-    void inject(NoteContentFragmentImpl noteContentFragmentImpl);
+    void inject(NoteContentFragmentImpl noteContentFragment);
 
     void inject(TagEditingDialogFragmentImpl tagEditingDialogFragment);
 
-    void inject(NoteEditorActivityImpl noteEditorActivityImpl);
+    void inject(NoteEditorActivityImpl noteEditorActivity);
 
     void inject(NotebooksListFragmentImpl notebooksListFragment);
 
-    void inject(NotebookChildrenFragmentImpl noteAndNotebookTogetherFragment);
+    void inject(NotebookChildrenFragmentImpl notebookChildrenFragment);
 
     void inject(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment);
 
-//    void inject(AllTasksFragmentImpl taskFragment);
+    void inject(TasksListFragmentImpl tasksListFragment);
 
-    void inject(TrashListFragmentImpl trashFragment);
+    void inject(TrashListFragmentImpl trashListFragment);
 
     void inject(FavouritesListFragmentImpl favouritesListFragment);
 
-    void inject(NotebookCreationDialogFragmentImpl notebookCreateDialogFragment);
-
+    void inject(NotebookCreationDialogFragmentImpl notebookCreationDialogFragment);
 }

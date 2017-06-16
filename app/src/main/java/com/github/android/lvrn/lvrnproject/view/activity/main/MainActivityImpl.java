@@ -23,6 +23,7 @@ import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.Not
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
@@ -76,7 +77,6 @@ public class MainActivityImpl extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -87,8 +87,8 @@ public class MainActivityImpl extends AppCompatActivity
             NotesListFragmentImpl notesListFragment = new NotesListFragmentImpl();
             menuStartSelectFragment(notesListFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT);
         } else if (R.id.nav_item_open_tasks == id) {
-//            AllTasksFragmentImpl taskFragment = new AllTasksFragmentImpl();
-//            menuStartSelectFragment(taskFragment, FragmentConst.TAG_TASK_FRAGMENT);
+            TasksListFragmentImpl taskFragment = new TasksListFragmentImpl();
+            menuStartSelectFragment(taskFragment, FragmentConst.TAG_TASK_FRAGMENT);
         } else if (R.id.nav_item_trash == id) {
             TrashListFragmentImpl trashFragment = new TrashListFragmentImpl();
             menuStartSelectFragment(trashFragment, FragmentConst.TAG_TRASH_FRAGMENT);

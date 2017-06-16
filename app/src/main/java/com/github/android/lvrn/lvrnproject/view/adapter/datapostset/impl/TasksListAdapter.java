@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
 
 import java.util.List;
 
@@ -17,13 +19,14 @@ import butterknife.ButterKnife;
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
-//TODO: FIX!
-public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> {
-    public List<Task> mTaskData;
+public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> implements DataPostSetAdapter<Task> {
+
+    private TasksListFragment mTaskListFragment;
+    private List<Task> mTasks;
 
 
-    public TasksListAdapter(List<Task> mTaskData) {
-        this.mTaskData = mTaskData;
+    public TasksListAdapter(TasksListFragment tasksListFragment) {
+        mTaskListFragment = tasksListFragment;
     }
 
     @Override
@@ -34,12 +37,18 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.Task
 
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
-        holder.tvTaskDescription.setText(mTaskData.get(position).getDescription());
+        holder.tvTaskDescription.setText(mTasks.get(position).getDescription());
+        holder.itemView.setOnClickListener(v -> mTaskListFragment.openRelatedNote(mTasks.get(position)));
     }
 
     @Override
     public int getItemCount() {
-        return mTaskData.size();
+        return mTasks.size();
+    }
+
+    @Override
+    public void setData(List<Task> data) {
+        mTasks = data;
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
