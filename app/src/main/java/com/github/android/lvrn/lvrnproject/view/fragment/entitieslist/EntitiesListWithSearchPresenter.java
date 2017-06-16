@@ -10,8 +10,7 @@ import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public interface EntitiesListWithSearchPresenter<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm>
-        extends EntitiesListPresenter<T1, T2> , MenuItemCompat.OnActionExpandListener{
+public interface EntitiesListWithSearchPresenter<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm<T1>> extends EntitiesListPresenter<T1, T2> , MenuItemCompat.OnActionExpandListener{
 
     void disposeSearch();
 
