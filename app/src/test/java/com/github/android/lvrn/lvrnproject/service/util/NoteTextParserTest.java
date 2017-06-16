@@ -1,13 +1,10 @@
 package com.github.android.lvrn.lvrnproject.service.util;
 
-import com.github.android.lvrn.lvrnproject.BuildConfig;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(MockitoJUnitRunner.class)
+//@Config(constants = BuildConfig.class)
 public class NoteTextParserTest {
 
     private String textExample;

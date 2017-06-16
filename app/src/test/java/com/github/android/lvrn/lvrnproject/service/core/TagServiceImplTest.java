@@ -1,67 +1,83 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
-import com.github.android.lvrn.lvrnproject.BuildConfig;
-import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.TagRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagRepository;
 import com.github.android.lvrn.lvrnproject.service.core.impl.TagServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.google.common.base.Optional;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(MockitoJUnitRunner.class)
 public class TagServiceImplTest {
-
-    private Profile profile;
-
+    private final String profileId = "profileId";
+    private final String tagName = "tagName";
+    private final String notebookId = "notebookId";
+    private final String noteId = "noteId";
+    private final String profileName = "profileName";
+    private final String tagId ="tagId";
+    private final int count = 30 ;
+    @Mock
+    private TagRepository tagRepository;
+    @Mock
+    private ProfileService profileService;
     private TagService tagService;
+    private TagForm tagForm;
+    private Tag tag;
+    private PaginationArgs paginationArgs;
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(RuntimeEnvironment.application);
-
-        ProfileService profileService = new ProfileServiceImpl(new ProfileRepositoryImpl());
-        profileService.openConnection();
-        profileService.create(new ProfileForm("Temp profile"));
-        profile = profileService.getAll().get(0);
-        profileService.closeConnection();
-
-        tagService = new TagServiceImpl(new TagRepositoryImpl(), profileService);
-        tagService.openConnection();
+        MockitoAnnotations.initMocks(this);
+        tagService = new TagServiceImpl(tagRepository,profileService);
+        tagForm = new TagForm(profileId,tagName);
+        tag = new Tag(tagId,profileId,tagName,System.currentTimeMillis(),System.currentTimeMillis(),count);
+        paginationArgs = new PaginationArgs();
     }
 
     @Test
-    public void serviceShouldCreateEntity() {
-        assertThat(tagService.create(new TagForm(profile.getId(), "#simple_tag")).isPresent())
-                .isTrue();
+    public void create(){
+        when(tagRepository.add(any())).thenReturn(true);
+        when(profileService.getById(profileId)).thenReturn(Optional.of(new Profile(profileId, profileName)));
+
+        Optional<String> result = tagService.create(tagForm);
+        assertThat(result.isPresent()).isTrue();
     }
 
     @Test
-    public void serviceShouldGetEntityByName() {
-        assertThat(tagService.create(new TagForm(profile.getId(), "#simple_tag")).isPresent())
-                .isTrue();
-        assertThat(tagService.getByName(profile.getId(), "tag", new PaginationArgs(0, 1))).hasSize(1);
+    public void getByName(){
+        List<Tag> expected = new ArrayList<>();
+        tagRepository.getByName(profileId,tagName,paginationArgs);
+
+        List<Tag> result = tagService.getByName(profileId,tagName,paginationArgs);
+        assertThat(result).isEqualTo(expected);
     }
 
-    @After
-    public void finish() {
-        tagService.closeConnection();
+    @Test
+    public void getByNote(){
+        List<Tag> expected = new ArrayList<>();
+        tagRepository.getByNote(noteId);
+
+        List<Tag> result = tagService.getByNote(noteId);
+        assertThat(result).isEqualTo(expected);
     }
+
 }

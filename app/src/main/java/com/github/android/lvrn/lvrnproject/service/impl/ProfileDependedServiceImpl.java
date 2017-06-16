@@ -42,7 +42,8 @@ public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntit
      */
     protected boolean checkProfileExistence(@Nullable String id) {
         mProfileService.openConnection();
-        boolean result = !(id == null || !mProfileService.getById(id).isPresent());
+        System.out.println(mProfileService.getById(id).isPresent());
+        boolean result = id == null || mProfileService.getById(id).isPresent();
         mProfileService.closeConnection();
         return result;
     }

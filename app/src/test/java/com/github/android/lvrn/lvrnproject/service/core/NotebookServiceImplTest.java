@@ -1,105 +1,83 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
-import com.github.android.lvrn.lvrnproject.BuildConfig;
-import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NotebookRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.service.core.impl.NotebookServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
-import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(MockitoJUnitRunner.class)
 public class NotebookServiceImplTest {
-
     private NotebookService notebookService;
-
-    private Profile profile;
+    private final String id = "testid";
+    private final String profileId = "testprofile";
+    private final String parentId = "parentid";
+    private final String notebookId = "notebookId";
+    private final boolean isTrash = true;
+    private final String name = "name";
+    @Mock
+    private NotebookRepository notebookRepository;
+    @Mock
+    private ProfileService profileService;
+    private NotebookForm notebookForm;
+    private Notebook notebook;
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(RuntimeEnvironment.application);
-
-        ProfileService profileService = new ProfileServiceImpl(new ProfileRepositoryImpl());
-        profileService.openConnection();
-        profileService.create(new ProfileForm("Temp profile"));
-        profile = profileService.getAll().get(0);
-        profileService.closeConnection();
-
-        notebookService = new NotebookServiceImpl(new NotebookRepositoryImpl(), profileService);
-        notebookService.openConnection();
-    }
-
-
-    @Test
-    public void serviceShouldCreateNotebook() {
-        assertThat(notebookService.create(new NotebookForm(profile.getId(), false, null, "new notebook"))
-                .isPresent())
-                .isTrue();
+        MockitoAnnotations.initMocks(this);
+        notebookService = new NotebookServiceImpl(notebookRepository, profileService);
+        notebookForm = new NotebookForm(profileId, isTrash, parentId, name);
+        notebook = new Notebook(notebookId, profileId, Optional.of(parentId), name, System.currentTimeMillis(), System.currentTimeMillis(), 0, isTrash);
     }
 
     @Test
-    public void serviceShouldNotCreateNotebook() {
-        assertThat(notebookService.create(new NotebookForm(null, false, null, "new notebook"))
-                .isPresent())
-                .isFalse();
+    public void getByName() throws Exception {
+        final PaginationArgs paginationArgs = new PaginationArgs();
+        final List<Notebook> expected = new ArrayList<>();
+        when(notebookRepository.getByName(profileId, name, paginationArgs)).thenReturn(expected);
 
-        assertThat(notebookService.create(new NotebookForm(profile.getId(), false, null, ""))
-                .isPresent())
-                .isFalse();
-
-        assertThat(notebookService.create(new NotebookForm(profile.getId(), false, "strang_id", "ddffdf"))
-                .isPresent())
-                .isFalse();
+        List<Notebook> result = notebookService.getByName(profileId, name, paginationArgs);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void serviceShouldUpdateEntity() {
-        Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), false, null, "new notebook"));
-        assertThat(notebookIdOptional.isPresent()).isTrue();
+    public void create() throws Exception {
+        when(notebookRepository.add(any())).thenReturn(true);
+        when(notebookRepository.getById(anyString())).thenReturn(Optional.of(notebook));
+        when(profileService.getById(profileId)).thenReturn(Optional.of(new Profile(profileId, name)));
 
-        assertThat(notebookService.update(notebookIdOptional.get(), new NotebookForm(null, false, null, "New name"))).isTrue();
+        Optional<String> result = notebookService.create(notebookForm);
+        assertThat(result.isPresent()).isTrue();
     }
 
     @Test
-    public void serviceShouldNotUpdateEntity() {
-        Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), false, null, "new notebook"));
-        assertThat(notebookIdOptional.isPresent()).isTrue();
+    public void update() throws Exception {
+        when(notebookRepository.update(any())).thenReturn(true);
+        when(notebookRepository.getById(anyString())).thenReturn(Optional.of(notebook));
 
-        assertThat(notebookService.update(notebookIdOptional.get(), new NotebookForm(null, false, null, ""))).isFalse();
-    }
+        boolean result = notebookService.update(id, notebookForm);
+        assertThat(result).isTrue();
 
-    @Test
-    public void serviceShouldGetEntityByName() {
-        assertThat(notebookService.create(new NotebookForm(profile.getId(), false, null, "new notebook"))
-                .isPresent())
-                .isTrue();
-
-        assertThat(notebookService.getByName(profile.getId(), "new", new PaginationArgs(0, 100))).hasSize(1);
-    }
-
-    @After
-    public void finish() {
-        notebookService.closeConnection();
     }
 }
