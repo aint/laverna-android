@@ -10,6 +10,7 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -83,12 +84,12 @@ public abstract class EntitiesListPresenterImpl<T1 extends ProfileDependedEntity
     private void initPaginationSubject() {
         mPaginationDisposable = (mPaginationSubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
-                .map(paginationArgs -> loadMoreForPagination(paginationArgs))
+                .map(this::loadMoreForPagination)
                 .filter(notes -> !notes.isEmpty())
                 .map(newNotes -> mEntities.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> mEntitiesListFragment.updateRecyclerView(),
-                        throwable -> {/*TODO: find out what can happen here*/});
+                        throwable -> Logger.e(throwable, "Something really strange happened with pagination!"));
     }
 
     protected abstract List<T1> loadMoreForPagination(PaginationArgs paginationArgs);

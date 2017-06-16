@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment;
 
 import java.util.List;
 
@@ -20,27 +20,26 @@ import butterknife.ButterKnife;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebooksListAdapter extends RecyclerView.Adapter<NotebooksListAdapter.NotebookViewHolder> implements DataPostSetAdapter<Notebook> {
+public class ChildNotebooksAdapter extends RecyclerView.Adapter<ChildNotebooksAdapter.ChildNotebooksViewHolder> implements DataPostSetAdapter<Notebook> {
 
-    private NotebooksListFragment mNotebooksListFragment;
+    private NotebookChildrenFragment mNotebooksChildrenFragment;
 
     private List<Notebook> mNotebooks;
 
-
-    public NotebooksListAdapter(NotebooksListFragment notebooksListFragment) {
-        mNotebooksListFragment = notebooksListFragment;
+    public ChildNotebooksAdapter(NotebookChildrenFragment mNotebooksChildrenFragment) {
+        this.mNotebooksChildrenFragment = mNotebooksChildrenFragment;
     }
 
     @Override
-    public NotebookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ChildNotebooksAdapter.ChildNotebooksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notebook, parent, false);
-        return new NotebookViewHolder(view);
+        return new ChildNotebooksViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(NotebookViewHolder holder, int position) {
+    public void onBindViewHolder(ChildNotebooksAdapter.ChildNotebooksViewHolder holder, int position) {
         holder.notebookNameTextView.setText(mNotebooks.get(position).getName());
-        holder.itemView.setOnClickListener(v -> mNotebooksListFragment.openNotebook(mNotebooks.get(position)));
+        holder.itemView.setOnClickListener(v -> mNotebooksChildrenFragment.openNotebook(mNotebooks.get(position)));
     }
 
     @Override
@@ -53,11 +52,11 @@ public class NotebooksListAdapter extends RecyclerView.Adapter<NotebooksListAdap
         mNotebooks = data;
     }
 
-    class NotebookViewHolder extends RecyclerView.ViewHolder {
+    class ChildNotebooksViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_view_notebook_name) TextView notebookNameTextView;
 
-        NotebookViewHolder(View itemView) {
+        ChildNotebooksViewHolder (View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

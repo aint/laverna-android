@@ -10,10 +10,15 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotebooksListAdapter;
-import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotesListAdapter;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNotebooksAdapter;
+import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNotesAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenPresenter;
+import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
@@ -22,7 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-//import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotebooksListAdapter;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst.BUNDLE_NOTEBOOK_OBJECT_KEY;
+
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -37,21 +43,34 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
 
     private Unbinder mUnbinder;
 
-    private NotesListAdapter mNotesRecyclerViewAdapter;
+    private ChildNotesAdapter mChildNotesAdapter;
 
-    private NotebooksListAdapter mNotebooksRecyclerViewAdapter;
+    private ChildNotebooksAdapter mChildNotebooksAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notebook_content, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         LavernaApplication.getsAppComponent().inject(this);
-        //TODO: find out way to take notebook id
-        mNotebookChildrenPresenter.initializeListsPresenters(new String());
-
+        initListPresenters();
         initRecyclerViews();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mNotebookChildrenPresenter != null) {
+            mNotebookChildrenPresenter.getNotebooksListPresenter().bindView(this);
+            mNotebookChildrenPresenter.getNotesListPresenter().bindView(this);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mNotebookChildrenPresenter.getNotebooksListPresenter().unbindView();
+        mNotebookChildrenPresenter.getNotesListPresenter().unbindView();
     }
 
     @Override
@@ -59,6 +78,16 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
         super.onDestroyView();
         if(mUnbinder != null){
             mUnbinder.unbind();
+        }
+        mNotebookChildrenPresenter.getNotebooksListPresenter().disposePagination();
+        mNotebookChildrenPresenter.getNotesListPresenter().disposePagination();
+    }
+
+    private void initListPresenters() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mNotebookChildrenPresenter
+                    .initializeListsPresenters(bundle.getParcelable(BUNDLE_NOTEBOOK_OBJECT_KEY));
         }
     }
 
@@ -75,10 +104,9 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
 
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //TODO: change adapter.
-        mNotesRecyclerViewAdapter = new NotesListAdapter(this);
-        mNotebookChildrenPresenter.getNotesListPresenter().setDataToAdapter(mNotesRecyclerViewAdapter);
-        mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
+        mChildNotesAdapter = new ChildNotesAdapter(this);
+        mNotebookChildrenPresenter.getNotesListPresenter().setDataToAdapter(mChildNotesAdapter);
+        mNotesRecyclerView.setAdapter(mChildNotesAdapter);
 
         mNotebookChildrenPresenter.getNotesListPresenter().subscribeRecyclerViewForPagination(mNotesRecyclerView);
     }
@@ -88,18 +116,47 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
 
         mNotebooksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //TODO: change adapter.
-        mNotebooksRecyclerViewAdapter = new NotebooksListAdapter(this);
-        mNotebookChildrenPresenter.getNotebooksListPresenter().setDataToAdapter(mNotebooksRecyclerViewAdapter);
-        mNotebooksRecyclerView.setAdapter(mNotebooksRecyclerViewAdapter);
+        mChildNotebooksAdapter = new ChildNotebooksAdapter(this);
+        mNotebookChildrenPresenter.getNotebooksListPresenter().setDataToAdapter(mChildNotebooksAdapter);
+        mNotebooksRecyclerView.setAdapter(mChildNotebooksAdapter);
 
         mNotebookChildrenPresenter.getNotebooksListPresenter().subscribeRecyclerViewForPagination(mNotebooksRecyclerView);
     }
 
     @Override
     public void updateRecyclerView() {
-        mNotebooksRecyclerViewAdapter.notifyDataSetChanged();
-        mNotesRecyclerViewAdapter.notifyDataSetChanged();
+        mChildNotesAdapter.notifyDataSetChanged();
+        mChildNotebooksAdapter.notifyDataSetChanged();
         Logger.d("Recycler view is updated");
+    }
+
+    @Override
+    public void showSelectedNote(Note note) {
+        NoteContentFragmentImpl noteContentFragment = new NoteContentFragmentImpl();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY, note);
+        noteContentFragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.constraint_container, noteContentFragment, FragmentConst.TAG_NOTE_CONTENT_FRAGMENT)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void openNotebook(Notebook notebook) {
+        NotebookChildrenFragmentImpl notebookChildrenFragment = new NotebookChildrenFragmentImpl();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BUNDLE_NOTEBOOK_OBJECT_KEY, notebook);
+        notebookChildrenFragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.constraint_container, notebookChildrenFragment, FragmentConst.TAG_NOTEBOOK_CHILDREN_FRAGMENT)
+                .addToBackStack(null)
+                .commit();
     }
 }

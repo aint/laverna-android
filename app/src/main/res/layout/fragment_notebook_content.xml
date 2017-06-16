@@ -19,6 +19,7 @@
             android:gravity="center"
             android:textColorHint="@color/main_green_themes_app"
             android:textColor="@color/main_green_themes_app"
+            android:elevation="2dp"
             android:background="@color/color_edit_text_title_note"/>
 
         <android.support.v7.widget.RecyclerView
@@ -37,6 +38,7 @@
             android:gravity="center"
             android:textColorHint="@color/main_green_themes_app"
             android:textColor="@color/main_green_themes_app"
+            android:elevation="2dp"
             android:background="@color/color_edit_text_title_note"/>
 
         <android.support.v7.widget.RecyclerView

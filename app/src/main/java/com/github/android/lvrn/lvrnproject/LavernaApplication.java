@@ -41,11 +41,25 @@ public class LavernaApplication extends Application {
         List<Profile> profiles = profileService.getAll();
         profileId = profiles.get(0).getId();
         profileService.closeConnection();
+
+//        noteService.openConnection();
 //        notebookService.openConnection();
-//        for(int i = 1; i <150; i++) {
-//            notebookService.create(new NotebookForm(profileId, false, null, "notebook" + i));
+//        for(int i = 1; i <= 3; i++) {
+//
+//            Optional<String> optionalStringID = notebookService.create(new NotebookForm(profileId, false, null, "notebook" + i));
+//            for(int j = 1; j <=20; j++) {
+//                Optional<String> otherString = notebookService.create(new NotebookForm(profileId, false, optionalStringID.get(), "inner noteboook for " + i + " num " + j));
+//                for(int k = 1; k <= 20; k++) {
+//                    notebookService.create(new NotebookForm(profileId, false, otherString.get(), "inner noteboook for " + i +" for " + j + " num " + k));
+//                    noteService.create(new NoteForm(profileId, false, otherString.get(), "note " + i + " " + j + " " + k, "content", "content", false));
+//                }
+//                noteService.create(new NoteForm(profileId, false, optionalStringID.get(), "note " + i + " " + j, "content", "content", false));
+//            }
+//
+//
 //        }
 //        notebookService.closeConnection();
+//        noteService.closeConnection();
 //
 //
 //        noteService.openConnection();
@@ -55,6 +69,9 @@ public class LavernaApplication extends Application {
 //            noteService.create(new NoteForm(profileId, false, null, "kek note" + i, "lol dfsdf", "lol dfsdf", true));
 //        }
 //        noteService.closeConnection();
+
+
+
 
 
     }

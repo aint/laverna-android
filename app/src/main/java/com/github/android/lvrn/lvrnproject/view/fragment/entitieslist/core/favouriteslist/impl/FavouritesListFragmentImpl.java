@@ -127,7 +127,7 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, noteContentFragmentImpl, FragmentConst.TAG_SINGLE_NOTE_FRAGMENT)
+                .replace(R.id.constraint_container, noteContentFragmentImpl, FragmentConst.TAG_NOTE_CONTENT_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

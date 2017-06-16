@@ -12,11 +12,9 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesLi
 
 public interface NotebookChildrenPresenter {
 
-    void initializeListsPresenters(String mNotebookId);
+    void initializeListsPresenters(Notebook notebook);
 
     EntitiesListPresenter<Note, NoteForm> getNotesListPresenter();
 
     EntitiesListPresenter<Notebook, NotebookForm> getNotebooksListPresenter();
-
-
 }

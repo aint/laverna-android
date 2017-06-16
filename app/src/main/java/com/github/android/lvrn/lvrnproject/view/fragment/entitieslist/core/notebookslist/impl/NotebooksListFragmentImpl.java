@@ -18,10 +18,14 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotebooksListAdapter;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl.NotebookChildrenFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListPresenter;
+import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
+import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
@@ -143,6 +147,21 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
 //        menuAbout.setVisible(true);
 //        menuSortBy.setVisible(true);
 //        menuSettings.setVisible(true);
+    }
+
+    @Override
+    public void openNotebook(Notebook notebook) {
+        NotebookChildrenFragmentImpl notebookChildrenFragment = new NotebookChildrenFragmentImpl();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTEBOOK_OBJECT_KEY, notebook);
+        notebookChildrenFragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.constraint_container, notebookChildrenFragment, FragmentConst.TAG_NOTEBOOK_CHILDREN_FRAGMENT)
+                .addToBackStack(null)
+                .commit();
     }
 
     /**

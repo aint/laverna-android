@@ -21,13 +21,14 @@ import javax.inject.Inject;
 
 public class NotebookChildrenPresenterImpl implements NotebookChildrenPresenter {
 
-    private NotebooksListPresenterImpl mNotebooksListPresenter;
+    private ChildNotebooksListPresenterImpl mNotebooksListPresenter;
 
-    private NotesListPresenterImpl mNotesListPresenter;
+    private ChildNotesListPresenterImpl mNotesListPresenter;
 
     private NotebookService mNotebookService;
 
     private NoteService mNoteService;
+
 
     @Inject
     public NotebookChildrenPresenterImpl(NotebookService notebookService, NoteService noteService) {
@@ -36,9 +37,9 @@ public class NotebookChildrenPresenterImpl implements NotebookChildrenPresenter 
     }
 
     @Override
-    public void initializeListsPresenters(String mNotebookId) {
-        mNotebooksListPresenter = new NotebooksListPresenterImpl(mNotebookService, mNotebookId);
-        mNotesListPresenter = new NotesListPresenterImpl(mNoteService, mNotebookId);
+    public void initializeListsPresenters(Notebook notebook) {
+        mNotebooksListPresenter = new ChildNotebooksListPresenterImpl(mNotebookService, notebook.getId());
+        mNotesListPresenter = new ChildNotesListPresenterImpl(mNoteService, notebook.getId());
     }
 
     @Override
@@ -51,13 +52,13 @@ public class NotebookChildrenPresenterImpl implements NotebookChildrenPresenter 
         return mNotebooksListPresenter;
     }
 
-    private static class NotebooksListPresenterImpl extends EntitiesListPresenterImpl<Notebook, NotebookForm> {
+    private static class ChildNotebooksListPresenterImpl extends EntitiesListPresenterImpl<Notebook, NotebookForm> {
 
         private NotebookService mNotebookService;
 
         private String mParentNotebookId;
 
-        NotebooksListPresenterImpl(NotebookService entityService, String parentNotebookId) {
+        ChildNotebooksListPresenterImpl(NotebookService entityService, String parentNotebookId) {
             super(entityService);
             mNotebookService = entityService;
             mParentNotebookId = parentNotebookId;
@@ -69,13 +70,13 @@ public class NotebookChildrenPresenterImpl implements NotebookChildrenPresenter 
         }
     }
 
-    private static class NotesListPresenterImpl extends EntitiesListPresenterImpl<Note, NoteForm> {
+    private static class ChildNotesListPresenterImpl extends EntitiesListPresenterImpl<Note, NoteForm> {
 
         private NoteService mNoteService;
 
         private String mParentNotebookId;
 
-        NotesListPresenterImpl(NoteService entityService, String parentNotebookId) {
+        ChildNotesListPresenterImpl(NoteService entityService, String parentNotebookId) {
             super(entityService);
             mNoteService = entityService;
             mParentNotebookId = parentNotebookId;

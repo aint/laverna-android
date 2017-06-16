@@ -11,6 +11,7 @@ import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListWithSearchFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListWithSearchPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.SearchViewOnQueryTextListener;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -79,8 +80,6 @@ public abstract class EntitiesListWithSearchPresenterImpl<T1 extends ProfileDepe
         return true;
     }
 
-
-
     private void initSearchSubject(SearchView searchView) {
         ReplaySubject<String> searchQuerySubject;
 
@@ -92,7 +91,7 @@ public abstract class EntitiesListWithSearchPresenterImpl<T1 extends ProfileDepe
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> mEntitiesListFragment.updateRecyclerView(),
-                        throwable -> {/*TODO: find out what can happen here*/});
+                        throwable -> Logger.e(throwable, "Something really strange happened with search!"));
 
         searchView.setOnQueryTextListener(new SearchViewOnQueryTextListener(searchQuerySubject));
     }
@@ -105,7 +104,7 @@ public abstract class EntitiesListWithSearchPresenterImpl<T1 extends ProfileDepe
                 .map(newNotes -> mEntities.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> mEntitiesListFragment.updateRecyclerView(),
-                        throwable -> {/*TODO: find out what can happen here*/});
+                        throwable -> Logger.e(throwable, "Something really strange happened with search pagination!"));
     }
 
     protected abstract List<T1> loadMoreForSearch(String query, PaginationArgs paginationArgs);
