@@ -1,200 +1,150 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
-import com.github.android.lvrn.lvrnproject.BuildConfig;
-import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NoteRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NotebookRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.TagRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.TaskRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.android.lvrn.lvrnproject.service.core.impl.NoteServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.core.impl.NotebookServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.core.impl.TagServiceImpl;
-import com.github.android.lvrn.lvrnproject.service.core.impl.TaskServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
-import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
-import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
-import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(MockitoJUnitRunner.class)
 public class NoteServiceImplTest {
-
-    private Profile profile;
-
+    private final String profileId = "testprofileid";
+    private final String title = "testtitle";
+    private final String notebookId = "test";
+    private final String tagId = "tagIdtest";
+    private final boolean isTrash = false;
+    private final String content = "my content test";
+    private final String htmlContent = "my html content test";
+    private final boolean isFavourite = true;
+    private final String profileName = "profile name";
+    private final String noteId = "noteid";
+    private final String parentId = "parentid";
+    private final String notebookName = "my notebook name";
+    private final int counter = 10;
+    private PaginationArgs paginationArgs;
+    private Note note;
+    private Notebook notebook;
     private NoteService noteService;
+    private NoteForm noteForm;
+    private Profile profile;
+    @Mock
+    private NoteRepository noteRepository;
+    @Mock
+    private TaskService taskService;
+    @Mock
+    private TagService tagService;
+    @Mock
+    private ProfileService profileService;
+    @Mock
+    private NotebookService notebookService;
+
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(RuntimeEnvironment.application);
+        MockitoAnnotations.initMocks(this);
+        noteService = new NoteServiceImpl(noteRepository, taskService, tagService, profileService, notebookService);
+        noteForm = new NoteForm(profileId,isTrash,notebookId,title,content,htmlContent,isFavourite);
+        note = new Note(noteId,profileId,Optional.of(notebookId),title,System.currentTimeMillis(),System.currentTimeMillis(),content,htmlContent,isFavourite,isTrash);
+        notebook = new Notebook(notebookId,profileId,Optional.of(parentId),notebookName,System.currentTimeMillis(),System.currentTimeMillis(),counter,isTrash);
+        profile = new Profile(profileId,profileName);
+        paginationArgs = new PaginationArgs();
 
-        ProfileService profileService = new ProfileServiceImpl(new ProfileRepositoryImpl());
-        profileService.openConnection();
-        profileService.create(new ProfileForm("Temp profile"));
-        profile = profileService.getAll().get(0);
-        profileService.closeConnection();
-
-        noteService = new NoteServiceImpl(
-                new NoteRepositoryImpl(),
-                new TaskServiceImpl(new TaskRepositoryImpl(), profileService),
-                new TagServiceImpl(new TagRepositoryImpl(), profileService),
-                profileService,
-                new NotebookServiceImpl(new NotebookRepositoryImpl(), profileService));
-
-        noteService.openConnection();
     }
 
     @Test
-    public void serviceShouldCreateNote() {
-        assertThat(noteService.create(new NoteForm(profile.getId(), false, null, "Note Title", "Content", "Content", false))
-                .isPresent())
-                .isTrue();
+    public void create(){
+        when(noteRepository.add(any())).thenReturn(true);
+        when(profileService.getById(profileId)).thenReturn(Optional.of(profile));
+        when(notebookService.getById(notebookId)).thenReturn(Optional.of(notebook));
+
+        Optional<String> result = noteService.create(noteForm);
+        assertThat(result.isPresent()).isTrue();
     }
 
     @Test
-    public void serviceShouldNotCreateNote() {
-        assertThat(noteService.create(new NoteForm(profile.getId(), false, null, "", "Content", "Content", false))
-                .isPresent())
-                .isFalse();
+    public void update(){
+        when(noteRepository.update(any())).thenReturn(true);
+        when(noteRepository.getById(noteId)).thenReturn(Optional.of(note));
+        when(notebookService.getById(notebookId)).thenReturn(Optional.of(notebook));
 
-        assertThat(noteService.create(new NoteForm(null, false, null, "hjkh", "Content", "Content", false))
-                .isPresent())
-                .isFalse();
-
-        assertThat(noteService.create(new NoteForm(profile.getId(), false, "dfdfs", "hjkh", "Content", "Content", false))
-                .isPresent())
-                .isFalse();
+        boolean result = noteService.update(noteId,noteForm);
+        assertThat(result).isTrue();
     }
 
     @Test
-    public void serviceShouldUpdateNote() {
-        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), false, null, "Note Title", "Content", "Content", false));
-        assertThat(noteIdOptional.isPresent()).isTrue();
+    public void getByTitle() {
+        final List<Note> expected = new ArrayList<>();
+        when(noteRepository.getByTitle(profileId, title, paginationArgs)).thenReturn(expected);
 
-        assertThat(noteService.update(noteIdOptional.get(), new NoteForm(null, false, null, "new Title", "new content", "new content", true)))
-                .isTrue();
+        List<Note> result = noteService.getByTitle(profileId, title, paginationArgs);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void serviceShouldAddTagsAndTasksToDatabase() {
-        String content = "Content\n #my_first_tag #my_second tag\n well#it's_not_a_tag\n"
-                + "[] what about task?\n" +
-                "[X] of course\n"
-                + "[]That's not a task";
+    public void getTrashByTitle(){
+        final List<Note> expected = new ArrayList<>();
+        when(noteRepository.getTrashByTitle(profileId,title,paginationArgs)).thenReturn(expected);
 
-        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), false, null, "Note Title", content, content, false));
-        assertThat(noteIdOptional.isPresent()).isTrue();
-
-        TagService tagService = new TagServiceImpl(new TagRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
-        tagService.openConnection();
-        List<Tag> tags = tagService.getByNote(noteIdOptional.get());
-        tagService.closeConnection();
-
-        assertThat(tags).hasSize(2);
-
-        TaskService taskService = new TaskServiceImpl(new TaskRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
-        taskService.openConnection();
-        List<Task> tasks = taskService.getByNote(noteIdOptional.get());
-        taskService.closeConnection();
-
-        assertThat(tasks).hasSize(2);
+        List<Note> result = noteService.getTrashByTitle(profileId, title, paginationArgs);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void serviceShouldUpdateTagsAndTasksInDatabase() {
-        String content1 = "Content\n #my_first_tag #my_second tag\n well#it's_not_a_tag\n"
-                + "[] what about task?\n" +
-                "[X] of course\n"
-                + "[]That's not a task";
+    public void getByNotebook(){
+        final List<Note> expected = new ArrayList<>();
+        when(noteRepository.getByNotebook(notebookId,paginationArgs)).thenReturn(expected);
 
-        Optional<String> noteIdOptional = noteService.create(new NoteForm(profile.getId(), false, null, "Note Title", content1, content1, false));
-        assertThat(noteIdOptional.isPresent()).isTrue();
-
-        String content2 = "Content\n #my_second tag_first_delted\n well#it''s_not_a_tag\n"
-                + "#new_third_tag #and_new_fourth_tag\n"
-                + "[X] of course\n"
-                + "[]That''s not a task\n"
-                + "[] new task, yeap\n"
-                + "[X] another one";
-
-        assertThat(noteService.update(noteIdOptional.get(), new NoteForm(profile.getId(), false, null, "new title", content2, content1, true)));
-
-        TagService tagService = new TagServiceImpl(new TagRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
-        tagService.openConnection();
-        List<Tag> tags = tagService.getByNote(noteIdOptional.get());
-        tagService.closeConnection();
-
-        assertThat(tags).hasSize(3);
-
-        TaskService taskService = new TaskServiceImpl(new TaskRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
-        taskService.openConnection();
-        List<Task> tasks = taskService.getByNote(noteIdOptional.get());
-        taskService.closeConnection();
-
-        assertThat(tasks).hasSize(3);
+        List<Note> result = noteService.getByNotebook(notebookId, paginationArgs);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void serviceShouldGetEntityByTitle() {
-        assertThat(noteService.create(new NoteForm(profile.getId(), false, null, "Note Title", "Content", "Content", false))
-                .isPresent())
-                .isTrue();
+    public void getFavourites(){
+        final List<Note> expected = new ArrayList<>();
+        when(noteRepository.getFavourites(profileId,paginationArgs)).thenReturn(expected);
 
-        assertThat(noteService.getByTitle(profile.getId(), "note", new PaginationArgs(0, 100))).hasSize(1);
+        List<Note> result = noteService.getFavourites(profileId, paginationArgs);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void serviceShouldGetEntityByNotebook() {
-        NotebookService notebookService = new NotebookServiceImpl(new NotebookRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
-        notebookService.openConnection();
-        Optional<String> notebookIdOptional = notebookService.create(new NotebookForm(profile.getId(), false, null, "notebook"));
-        notebookService.closeConnection();
-        assertThat(notebookIdOptional.isPresent()).isTrue();
-        noteService.create(new NoteForm(profile.getId(), false, notebookIdOptional.get(), "new note", "yeah", "yeah", false));
+    public void getFavouritesByTitle(){
+        final List<Note> expected = new ArrayList<>();
+        when(noteRepository.getFavouritesByTitle(profileId,title,paginationArgs)).thenReturn(expected);
 
-        assertThat(noteService.getByNotebook(notebookIdOptional.get(), new PaginationArgs(0, 100))).hasSize(1);
+        List<Note> result = noteService.getFavouritesByTitle(profileId,title, paginationArgs);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void serviceShouldGetEntityByTag() {
-        TagService tagService = new TagServiceImpl(new TagRepositoryImpl(), new ProfileServiceImpl(new ProfileRepositoryImpl()));
-        tagService.openConnection();
-        Optional<String> tagIdOptional = tagService.create(new TagForm(profile.getId(), "#simple_tag"));
-        assertThat(tagIdOptional.isPresent()).isTrue();
+    public void getByTag(){
+        final List<Note> expected = new ArrayList<>();
+        when(noteRepository.getByTag(tagId,paginationArgs)).thenReturn(expected);
 
-
-        noteService.create(new NoteForm(profile.getId(), false, null, "new note", "#simple_tag", "#simple_tag", false));
-
-        assertThat(noteService.getByTag(tagIdOptional.get(), new PaginationArgs(0, 100))).hasSize(1);
-
-        tagService.closeConnection();
+        List<Note> result = noteService.getByTag(tagId, paginationArgs);
+        assertThat(result).isEqualTo(expected);
     }
 
-    @After
-    public void finish() {
-        noteService.closeConnection();
-    }
 }

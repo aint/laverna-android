@@ -94,6 +94,7 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
      * @return a boolean result of a validation.
      */
     private boolean checkNotebookExistence(@Nullable String notebookId) {
-        return !(notebookId != null && !getById(notebookId).isPresent());
+        return notebookId == null || getById(notebookId).isPresent();
+//        return !(notebookId != null && !getById(notebookId).isPresent());
     }
 }
