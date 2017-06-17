@@ -104,6 +104,16 @@ public class NoteServiceImpl extends TrashDependedServiceImpl<Note, NoteForm> im
     }
 
     @Override
+    public boolean setNoteFavourite(String entityId) {
+        return mNoteRepository.changeNoteFavouriteStatus(entityId, true);
+    }
+
+    @Override
+    public boolean setNoteUnFavourite(String entityId) {
+        return mNoteRepository.changeNoteFavouriteStatus(entityId,false);
+    }
+
+    @Override
     public boolean update(@NonNull String id, @NonNull NoteForm noteForm) {
         noteForm.setContent(NoteTextParser.parseSingleQuotes(noteForm.getContent()));
         if (validateForUpdate(noteForm.getNotebookId(), noteForm.getTitle()) && mNoteRepository.update(noteForm.toEntity(id))) {

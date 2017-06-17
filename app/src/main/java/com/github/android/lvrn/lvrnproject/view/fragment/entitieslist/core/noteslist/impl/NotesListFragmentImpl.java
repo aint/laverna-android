@@ -173,7 +173,7 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mNotesRecyclerViewAdapter = new NotesListAdapter(this);
+        mNotesRecyclerViewAdapter = new NotesListAdapter(this,mNotesListPresenter);
         mNotesListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
         mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
 

@@ -155,6 +155,15 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
     }
 
     @Override
+    public boolean changeNoteFavouriteStatus(@NonNull String entityId, boolean status) {
+        String query = "UPDATE " + TABLE_NAME
+                + " SET "
+                + COLUMN_IS_FAVORITE + "='" + status + "'"
+                + " WHERE " + COLUMN_ID + "='" + entityId + "'";
+        return super.rawUpdateQuery(query);
+    }
+
+    @Override
     public boolean update(@NonNull Note entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
@@ -181,6 +190,7 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
 
     /**
      * A method which returns a 'WHERE' clause with a positive or negative 'isFavorite' condition.
+     *
      * @param isFavourite a boolean condition.
      * @return a 'WHERE' clause.
      */

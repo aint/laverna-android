@@ -10,7 +10,7 @@
 
         <item
             android:id="@+id/nav_item_favorites"
-            android:icon="@drawable/ic_menu_star_black_24dp"
+            android:icon="@drawable/ic_star_black_24dp"
             android:title="@string/drawer_main_menu_favourites" />
 
         <item

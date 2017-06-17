@@ -12,6 +12,7 @@ import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
 
 import java.util.List;
 
@@ -29,8 +30,11 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 
     private List<Note> mNotes;
 
-    public NotesListAdapter(NotesListFragment allNotesFragment) {
+    private NotesListPresenter mNoteListPresenter;
+
+    public NotesListAdapter(NotesListFragment allNotesFragment,NotesListPresenter notesListPresenter) {
         mAllNotesFragment = allNotesFragment;
+        mNoteListPresenter = notesListPresenter;
     }
 
     @Override
@@ -41,10 +45,17 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 
     @Override
     public void onBindViewHolder(NoteViewHolder holder, int position) {
+        Note note = mNotes.get(position);
+
+        if(note.isFavorite()){
+          holder.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
+        } else holder.imBtnFavorite.setImageResource(R.drawable.ic_star_white_24dp);
+
         holder.tvTitle.setText(mNotes.get(position).getTitle());
         holder.tvPromptText.setText(mNotes.get(position).getContent());
+        holder.itemView.setOnClickListener(v -> mAllNotesFragment.showSelectedNote(note));
+        holder.imBtnFavorite.setOnClickListener(view  -> mNoteListPresenter.changeNoteFavouriteStatus(note,position,view));
 
-        holder.itemView.setOnClickListener(v -> mAllNotesFragment.showSelectedNote(mNotes.get(position)));
     }
 
     @Override

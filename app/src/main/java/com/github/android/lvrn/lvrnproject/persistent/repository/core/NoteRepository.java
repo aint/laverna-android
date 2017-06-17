@@ -86,4 +86,6 @@ public interface NoteRepository extends TrashDependedRepository<Note> {
      */
     @NonNull
     List<Note> getByTag(@NonNull String tagId, @NonNull PaginationArgs paginationArgs);
+
+    boolean changeNoteFavouriteStatus(@NonNull String entityId, boolean status);
 }
