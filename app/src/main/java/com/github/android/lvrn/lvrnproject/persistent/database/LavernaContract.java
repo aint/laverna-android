@@ -70,7 +70,7 @@ public final class LavernaContract {
                         + COLUMN_CREATION_TIME + " INTEGER,"
                         + COLUMN_UPDATE_TIME + " INTEGER,"
                         + COLUMN_COUNT + " INTEGER,"
-                        + COLUMN_TRASH + " BOOLEAN,"
+                        + COLUMN_TRASH + " INTEGER,"
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
                         + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE,"
                         + "FOREIGN KEY (" + COLUMN_PARENT_ID + ") REFERENCES "
@@ -104,8 +104,8 @@ public final class LavernaContract {
                         + COLUMN_UPDATE_TIME + " INTEGER,"
                         + COLUMN_CONTENT + " TEXT,"
                         + COLUMN_HTML_CONTENT + " TEXT,"
-                        + COLUMN_IS_FAVORITE + " BOOLEAN,"
-                        + COLUMN_TRASH + " BOOLEAN,"
+                        + COLUMN_IS_FAVORITE + " INTEGER,"
+                        + COLUMN_TRASH + " INTEGER,"
                         + "FOREIGN KEY (" + COLUMN_PROFILE_ID + ") REFERENCES "
                         + ProfilesTable.TABLE_NAME + "(" + COLUMN_ID + ") ON DELETE CASCADE,"
                         + "FOREIGN KEY (" + COLUMN_NOTEBOOK_ID + ") REFERENCES "
@@ -180,7 +180,7 @@ public final class LavernaContract {
                         + COLUMN_PROFILE_ID + " TEXT,"
                         + COLUMN_NOTE_ID + " TEXT,"
                         + COLUMN_DESCRIPTION + " TEXT,"
-                        + COLUMN_IS_COMPLETED  + " BOOLEAN,"
+                        + COLUMN_IS_COMPLETED  + " INTEGER,"
                         + "FOREIGN KEY (" + COLUMN_NOTE_ID + ") REFERENCES "
                         + NotesTable.TABLE_NAME +"(" + COLUMN_ID + ") ON DELETE CASCADE)";
 

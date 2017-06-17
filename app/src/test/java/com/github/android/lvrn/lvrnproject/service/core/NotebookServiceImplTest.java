@@ -48,7 +48,7 @@ public class NotebookServiceImplTest {
         MockitoAnnotations.initMocks(this);
         notebookService = new NotebookServiceImpl(notebookRepository, profileService);
         notebookForm = new NotebookForm(profileId, isTrash, parentId, name);
-        notebook = new Notebook(notebookId, profileId, Optional.of(parentId), name, System.currentTimeMillis(), System.currentTimeMillis(), 0, isTrash);
+        notebook = new Notebook(notebookId, profileId, parentId, name, System.currentTimeMillis(), System.currentTimeMillis(), 0, isTrash);
     }
 
     @Test

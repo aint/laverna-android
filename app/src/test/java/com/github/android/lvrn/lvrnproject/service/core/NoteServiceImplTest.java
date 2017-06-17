@@ -66,8 +66,8 @@ public class NoteServiceImplTest {
         MockitoAnnotations.initMocks(this);
         noteService = new NoteServiceImpl(noteRepository, taskService, tagService, profileService, notebookService);
         noteForm = new NoteForm(profileId,isTrash,notebookId,title,content,htmlContent,isFavourite);
-        note = new Note(noteId,profileId,Optional.of(notebookId),title,System.currentTimeMillis(),System.currentTimeMillis(),content,htmlContent,isFavourite,isTrash);
-        notebook = new Notebook(notebookId,profileId,Optional.of(parentId),notebookName,System.currentTimeMillis(),System.currentTimeMillis(),counter,isTrash);
+        note = new Note(noteId,profileId,notebookId,title,System.currentTimeMillis(),System.currentTimeMillis(),content,htmlContent,isFavourite,isTrash);
+        notebook = new Notebook(notebookId,profileId,parentId,notebookName,System.currentTimeMillis(),System.currentTimeMillis(),counter,isTrash);
         profile = new Profile(profileId,profileName);
         paginationArgs = new PaginationArgs();
 

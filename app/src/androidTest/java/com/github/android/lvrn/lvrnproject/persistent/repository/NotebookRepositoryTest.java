@@ -61,7 +61,7 @@ public class NotebookRepositoryTest {
         notebook1 = new Notebook(
                 "id_1",
                 "profile_id_1",
-                Optional.absent(),
+                null,
                 "notebook_name_1",
                 1111,
                 2222,
@@ -72,7 +72,7 @@ public class NotebookRepositoryTest {
         notebook2 = new Notebook(
                 "id_2",
                 "profile_id_1",
-                Optional.of(notebook1.getId()),
+                notebook1.getId(),
                 "notebook_name_2",
                 1111,
                 2222,
@@ -83,7 +83,7 @@ public class NotebookRepositoryTest {
         notebook3 = new Notebook(
                 "id_3",
                 "profile_id_2",
-                Optional.absent(),
+                null,
                 "notebook_name_3",
                 1111,
                 2222,
@@ -160,9 +160,9 @@ public class NotebookRepositoryTest {
 
     @Test
     public void repositoryShouldGetChildrenNotebooks() {
-        notebook2.setParentId(Optional.of(notebook1.getId()));
+        notebook2.setParentId(notebook1.getId());
         notebook3.setProfileId(profile.getId());
-        notebook3.setParentId(Optional.of(notebook1.getId()));
+        notebook3.setParentId(notebook1.getId());
 
         notebookRepository.add(notebook1);
         notebookRepository.add(notebook2);

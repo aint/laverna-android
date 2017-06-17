@@ -40,6 +40,8 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
     @NonNull
     @Override
     protected ContentValues toContentValues(@NonNull Note entity) {
+        int favourite = entity.isFavorite() ? 1 : 0;
+        int trash = entity.isTrash() ? 1 : 0;
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_ID, entity.getProfileId());
@@ -49,8 +51,8 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
         contentValues.put(COLUMN_UPDATE_TIME, entity.getUpdateTime());
         contentValues.put(COLUMN_CONTENT, entity.getContent());
         contentValues.put(COLUMN_HTML_CONTENT, entity.getContent());
-        contentValues.put(COLUMN_IS_FAVORITE, entity.isFavorite());
-        contentValues.put(COLUMN_TRASH, entity.isTrash());
+        contentValues.put(COLUMN_IS_FAVORITE, favourite);
+        contentValues.put(COLUMN_TRASH, trash);
         return contentValues;
     }
 
@@ -152,7 +154,8 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
     }
 
     @Override
-    public boolean changeNoteFavouriteStatus(@NonNull String entityId, boolean status) {
+    public boolean changeNoteFavouriteStatus(@NonNull String entityId, boolean favourite) {
+         int status = favourite ? 1 : 0;
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
                 + COLUMN_IS_FAVORITE + "='" + status + "'"
@@ -162,12 +165,13 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
 
     @Override
     public boolean update(@NonNull Note entity) {
+        int favourite = entity.isFavorite() ? 1 : 0;
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
-                + COLUMN_NOTEBOOK_ID + "=" + (entity.getNotebookId())
+                + COLUMN_NOTEBOOK_ID + "='" + (entity.getNotebookId()) + "', "
                 + COLUMN_TITLE + "='" + entity.getTitle() + "', "
                 + COLUMN_CONTENT + "='" + entity.getContent() + "', "
-                + COLUMN_IS_FAVORITE + "='" + entity.isFavorite() + "', "
+                + COLUMN_IS_FAVORITE + "='" + favourite + "', "
                 + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
         return super.rawUpdateQuery(query);

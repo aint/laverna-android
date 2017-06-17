@@ -31,12 +31,13 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
     @NonNull
     @Override
     protected ContentValues toContentValues(@NonNull Task entity) {
+        int completed = entity.isCompleted() ? 1 : 0;
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_ID, entity.getProfileId());
         contentValues.put(COLUMN_NOTE_ID, entity.getNoteId());
         contentValues.put(COLUMN_DESCRIPTION, entity.getDescription());
-        contentValues.put(COLUMN_IS_COMPLETED, entity.isCompleted());
+        contentValues.put(COLUMN_IS_COMPLETED, completed);
         return contentValues;
     }
 
@@ -75,10 +76,11 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
 
     @Override
     public boolean update(@NonNull Task entity) {
+        int completed = entity.isCompleted() ? 1 : 0;
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
                 + COLUMN_DESCRIPTION + "='" + entity.getDescription() + "', "
-                + COLUMN_IS_COMPLETED + "='" + entity.isCompleted() + "' "
+                + COLUMN_IS_COMPLETED + "='" + completed + "' "
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
         return super.rawUpdateQuery(query);
     }

@@ -138,7 +138,7 @@ public class TagsRepositoryTest {
 
         NoteRepositoryImpl notesRepository = new NoteRepositoryImpl();
         notesRepository.openDatabaseConnection();
-        Note note1 = new Note("note_id_1","profile_id_1", Optional.absent(), "title", 1111, 2222, "dfdf", "dfdf", true, false);
+        Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", "dfdf", true, false);
         notesRepository.add(note1);
         notesRepository.addTagToNote(note1.getId(), tag1.getId());
         notesRepository.addTagToNote(note1.getId(), tag2.getId());

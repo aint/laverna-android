@@ -41,7 +41,7 @@ public abstract class TrashDependedRepositoryImpl<T extends TrashDependedEntity>
     public boolean moveToTrash(@NonNull String entityId) {
         String query = "UPDATE " + mTableName
                 + " SET "
-                + COLUMN_TRASH + "='" + true + "'"
+                + COLUMN_TRASH + "='" + 1 + "'"
                 + " WHERE " + COLUMN_ID + "='" + entityId + "'";
         return super.rawUpdateQuery(query);
     }
@@ -50,7 +50,7 @@ public abstract class TrashDependedRepositoryImpl<T extends TrashDependedEntity>
     public boolean restoreFromTrash(@NonNull String entityId) {
         String query = "UPDATE " + mTableName
                 + " SET "
-                + COLUMN_TRASH + "=" + false + "'"
+                + COLUMN_TRASH + "=" + 0 + "'"
                 + " WHERE " + COLUMN_ID + "='" + entityId + "'";
         return super.rawUpdateQuery(query);
     }

@@ -34,6 +34,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
     @NonNull
     @Override
     protected ContentValues toContentValues(@NonNull Notebook entity) {
+        int trash = entity.isTrash() ? 1 : 0;
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_ID, entity.getProfileId());
@@ -42,7 +43,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
         contentValues.put(COLUMN_CREATION_TIME, entity.getCreationTime());
         contentValues.put(COLUMN_UPDATE_TIME, entity.getUpdateTime());
         contentValues.put(COLUMN_COUNT, entity.getCount());
-        contentValues.put(COLUMN_TRASH, entity.isTrash());
+        contentValues.put(COLUMN_TRASH, trash);
         return contentValues;
     }
 
@@ -88,7 +89,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
     public boolean update(@NonNull Notebook entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
-                + COLUMN_PARENT_ID + "=" + (entity.getParentId())
+                + COLUMN_PARENT_ID + "=" + (entity.getParentId()) + ", "
                 + COLUMN_NAME + "='" + entity.getName() + "', "
                 + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";
