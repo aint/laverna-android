@@ -40,8 +40,7 @@ public class TasksListPresenterImpl extends EntitiesListWithSearchPresenterImpl<
 
     @Override
     protected List<Task> loadMoreForSearch(String query, PaginationArgs paginationArgs) {
-        //TODO: provide method for search
-        return null;
+        return mTaskService.getUncompletedByProfileAndDescription(CurrentState.profileId, query, paginationArgs);
     }
 
     @Override
