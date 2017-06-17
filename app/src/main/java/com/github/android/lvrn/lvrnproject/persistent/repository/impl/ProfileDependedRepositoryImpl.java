@@ -99,7 +99,7 @@ public abstract class ProfileDependedRepositoryImpl<T extends ProfileDependedEnt
                                 @NonNull PaginationArgs paginationArgs) {
         String query = "SELECT * FROM " + mTableName
                 + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "'"
-                + " AND " + columnName + " LIKE '%" + name + "%'"
+                + " AND ('" + name + "'='' OR "+ columnName + " LIKE '%" + name + "%')"
                 + additionalClause
                 + " LIMIT " + paginationArgs.limit
                 + " OFFSET " + paginationArgs.offset;

@@ -85,7 +85,6 @@ public abstract class EntitiesListWithSearchPresenterImpl<T1 extends ProfileDepe
 
         mSearchDisposable = (searchQuerySubject = ReplaySubject.create())
                 .debounce(400, TimeUnit.MILLISECONDS)
-                .filter(title -> title.length() > 0)
                 .map(title -> loadMoreForSearch(title, new PaginationArgs()))
                 .map(this::addFirstFoundedItemsToList)
                 .subscribeOn(Schedulers.io())
