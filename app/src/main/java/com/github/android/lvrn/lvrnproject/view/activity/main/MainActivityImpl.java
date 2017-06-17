@@ -121,7 +121,7 @@ public class MainActivityImpl extends AppCompatActivity
         if (mSavedInstanceState == null) {
             fragmentManager.beginTransaction()
                     .replace(R.id.constraint_container, fragment, tag)
-                    .addToBackStack(tag)
+//                    .addToBackStack(tag)
                     .commit();
         }
 
@@ -138,7 +138,7 @@ public class MainActivityImpl extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
-        DialogFragment dialogFragment = new NotebookCreationDialogFragmentImpl();
+        DialogFragment dialogFragment = NotebookCreationDialogFragmentImpl.newInstance(FragmentConst.DIALOG_OPEN_FROM_MAIN_ACTIVITY);
         dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
         floatingActionsMenu.collapse();
     }

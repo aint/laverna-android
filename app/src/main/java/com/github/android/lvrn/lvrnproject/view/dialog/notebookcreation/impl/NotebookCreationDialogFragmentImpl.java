@@ -72,9 +72,8 @@ public class NotebookCreationDialogFragmentImpl extends DialogFragment implement
         LavernaApplication.getsAppComponent().inject(this);
         mNotebookCreationPresenter = new NotebookCreationPresenterImpl(mNotebookService);
         initRecyclerView();
-        if (getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY) != null) {
-            previousFragmentName = getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY);
-        }
+        previousFragmentName = getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY);
+
         return view;
     }
 
@@ -118,7 +117,7 @@ public class NotebookCreationDialogFragmentImpl extends DialogFragment implement
     @OnClick(R.id.btn_create_notebook_ok)
     public void createNotebook() {
         String nameNotebook = mEditText.getText().toString();
-        if (TextUtils.equals(previousFragmentName, FragmentConst.DIALOG_OPEN_FROM_NOTES_LIST_FRAGMENT)) {
+        if (TextUtils.equals(previousFragmentName, FragmentConst.DIALOG_OPEN_FROM_MAIN_ACTIVITY)) {
             if (mNotebookCreationPresenter.createNotebook(nameNotebook)) {
                 Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
                 getActivity().onBackPressed();

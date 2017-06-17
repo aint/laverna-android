@@ -13,5 +13,4 @@ public interface NoteEditorActivity {
      */
     void loadPreview(String html);
 
-//    void checkSelectedNotebook(Notebook notebook);
 }
