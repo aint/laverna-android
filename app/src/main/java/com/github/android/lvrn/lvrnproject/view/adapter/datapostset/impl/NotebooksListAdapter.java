@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.notebookslist.NotebooksListFragment;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.favouriteslist.FavouritesListFragment;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.taskslist.TasksListFragment;
 
 import java.util.List;
 

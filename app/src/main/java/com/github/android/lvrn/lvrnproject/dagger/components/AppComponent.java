@@ -9,11 +9,11 @@ import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.Not
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl.NotebookChildrenFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.noteslist.impl.NotesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.taskslist.impl.TasksListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 
 import dagger.Component;

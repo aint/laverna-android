@@ -20,11 +20,11 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.noteslist.impl.NotesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.taskslist.impl.TasksListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
 import butterknife.BindView;
