@@ -35,7 +35,7 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
 
     @Override
     public Optional<String> create(@NonNull NotebookForm notebookForm) {
-        String notebookId =UUID.randomUUID().toString();
+        String notebookId = UUID.randomUUID().toString();
         if (validateForCreate(notebookForm.getProfileId(), notebookForm.getParentNotebookId(), notebookForm.getName())
                 && mNotebookRepository.add(notebookForm.toEntity(notebookId))) {
             return Optional.of(notebookId);
@@ -95,6 +95,5 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
      */
     private boolean checkNotebookExistence(@Nullable String notebookId) {
         return notebookId == null || getById(notebookId).isPresent();
-//        return !(notebookId != null && !getById(notebookId).isPresent());
     }
 }

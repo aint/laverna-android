@@ -233,7 +233,7 @@ public class NoteServiceImpl extends TrashDependedServiceImpl<Note, NoteForm> im
      */
     private boolean checkNotebookExistence(@Nullable String notebookId) {
         mNotebookService.openConnection();
-        boolean result = !(notebookId != null && !mNotebookService.getById(notebookId).isPresent());
+        boolean result = (notebookId == null) || mNotebookService.getById(notebookId).isPresent();
         mNotebookService.closeConnection();
         return result;
     }
