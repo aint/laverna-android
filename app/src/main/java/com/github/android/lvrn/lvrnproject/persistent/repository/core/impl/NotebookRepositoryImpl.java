@@ -3,13 +3,11 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.core.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.google.common.base.Optional;
 
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_ID, entity.getProfileId());
-        contentValues.put(COLUMN_PARENT_ID, entity.getParentId().isPresent() ? entity.getParentId().get() : null);
+        contentValues.put(COLUMN_PARENT_ID, entity.getParentId());
         contentValues.put(COLUMN_NAME, entity.getName());
         contentValues.put(COLUMN_CREATION_TIME, entity.getCreationTime());
         contentValues.put(COLUMN_UPDATE_TIME, entity.getUpdateTime());
@@ -54,8 +52,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
         return new Notebook(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_ID)),
-                !TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex(COLUMN_PARENT_ID))) ?
-                        Optional.of(cursor.getString(cursor.getColumnIndex(COLUMN_PARENT_ID))) : Optional.absent(),
+                cursor.getString(cursor.getColumnIndex(COLUMN_PARENT_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_CREATION_TIME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)),
@@ -91,7 +88,7 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
     public boolean update(@NonNull Notebook entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
-                + COLUMN_PARENT_ID + "=" + (entity.getParentId().isPresent() ? "'" + entity.getParentId().get() + "', " : null + ", ")
+                + COLUMN_PARENT_ID + "=" + (entity.getParentId())
                 + COLUMN_NAME + "='" + entity.getName() + "', "
                 + COLUMN_UPDATE_TIME + "='" + entity.getUpdateTime() + "'"
                 + " WHERE " + COLUMN_ID + "='" + entity.getId() + "'";

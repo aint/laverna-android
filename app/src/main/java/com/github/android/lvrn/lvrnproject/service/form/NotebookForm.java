@@ -1,10 +1,8 @@
 package com.github.android.lvrn.lvrnproject.service.form;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.google.common.base.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -29,7 +27,7 @@ public class NotebookForm extends TrashDependedForm<Notebook> {
         return new Notebook(
                 id,
                 profileId,
-                !TextUtils.isEmpty(parentNotebookId) ? Optional.of(parentNotebookId) : Optional.absent(),
+                parentNotebookId,
                 name,
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),

@@ -3,9 +3,6 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-
-import com.google.common.base.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -18,7 +15,7 @@ public class Notebook extends TrashDependedEntity {
      * belong to any parent notebook, then parentId equals to "0".
      */
     @NonNull
-    private Optional<String> parentId;
+    private String parentId;
 
     @NonNull
     private String name;
@@ -38,7 +35,7 @@ public class Notebook extends TrashDependedEntity {
 
     public Notebook(String id,
                     String profileId,
-                    @NonNull Optional<String> parentId,
+                    @NonNull String parentId,
                     @NonNull String name,
                     long creationTime,
                     long updateTime,
@@ -57,8 +54,7 @@ public class Notebook extends TrashDependedEntity {
     private Notebook(Parcel in) {
         id = in.readString();
         profileId = in.readString();
-        String parentId = in.readString();
-        this.parentId = !TextUtils.isEmpty(parentId) ? Optional.of(parentId) : Optional.absent();
+        parentId = in.readString();
         name = in.readString();
         creationTime = in.readLong();
         updateTime = in.readLong();
@@ -70,7 +66,7 @@ public class Notebook extends TrashDependedEntity {
     @Override
     public String toString() {
         return "Notebook{" + super.toString() +
-                "parentId='" + (parentId.isPresent() ? parentId.get() : "null") + '\'' +
+                "parentId='" + parentId +
                 ", name='" + name + '\'' +
                 ", creationTime=" + creationTime +
                 ", updateTime=" + updateTime +
@@ -87,7 +83,7 @@ public class Notebook extends TrashDependedEntity {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(profileId);
-        dest.writeString(parentId.isPresent() ? parentId.get() : null);
+        dest.writeString(parentId);
         dest.writeString(name);
         dest.writeLong(creationTime);
         dest.writeLong(updateTime);
@@ -95,11 +91,11 @@ public class Notebook extends TrashDependedEntity {
         dest.writeByte((byte) (isTrash ? 1 : 0));
     }
 
-    public Optional<String> getParentId() {
+    public String getParentId() {
         return parentId;
     }
 
-    public void setParentId(Optional<String> parentId) {
+    public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 

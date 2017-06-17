@@ -146,10 +146,10 @@ public class NoteContentFragmentImpl extends Fragment {
      */
     private void getParcelableDataAndSetInView() {
          mSelectNote = getArguments().getParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY);
-        if (mSelectNote.getNotebookId().isPresent()) {
+        if (mSelectNote.getNotebookId()!= null && !mSelectNote.getNotebookId().isEmpty()) {
             mNotebookService.openConnection();
             //TODO: clean it, use ifPresent method on Optional.
-            Notebook selectNotebook = mNotebookService.getById(mSelectNote.getNotebookId().get()).get();
+            Notebook selectNotebook = mNotebookService.getById(mSelectNote.getNotebookId()).get();
             mNotebookService.closeConnection();
             mNoteBookName = selectNotebook.getName();
             mTextViewNotebookName.setText(mNoteBookName);

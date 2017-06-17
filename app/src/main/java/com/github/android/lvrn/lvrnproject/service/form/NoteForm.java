@@ -1,10 +1,8 @@
 package com.github.android.lvrn.lvrnproject.service.form;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.google.common.base.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -46,7 +44,7 @@ public class NoteForm extends TrashDependedForm<Note> {
         return new Note(
                 id,
                 profileId,
-                !TextUtils.isEmpty(notebookId) ? Optional.of(notebookId): Optional.absent(),
+                notebookId,
                 title,
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),

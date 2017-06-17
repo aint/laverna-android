@@ -4,13 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TrashDependedRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.google.common.base.Optional;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -45,7 +43,7 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, entity.getId());
         contentValues.put(COLUMN_PROFILE_ID, entity.getProfileId());
-        contentValues.put(COLUMN_NOTEBOOK_ID, (entity.getNotebookId().isPresent() ? entity.getNotebookId().get() : null));
+        contentValues.put(COLUMN_NOTEBOOK_ID, (entity.getNotebookId()));
         contentValues.put(COLUMN_TITLE, entity.getTitle());
         contentValues.put(COLUMN_CREATION_TIME, entity.getCreationTime());
         contentValues.put(COLUMN_UPDATE_TIME, entity.getUpdateTime());
@@ -62,8 +60,7 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
         return new Note(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_ID)),
-                !TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_ID))) ?
-                        Optional.of(cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_ID))) : Optional.absent(),
+                cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_CREATION_TIME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)),
@@ -167,7 +164,7 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
     public boolean update(@NonNull Note entity) {
         String query = "UPDATE " + TABLE_NAME
                 + " SET "
-                + COLUMN_NOTEBOOK_ID + "=" + (entity.getNotebookId().isPresent() ? "'" + entity.getNotebookId().get() + "', " : null + ", ")
+                + COLUMN_NOTEBOOK_ID + "=" + (entity.getNotebookId())
                 + COLUMN_TITLE + "='" + entity.getTitle() + "', "
                 + COLUMN_CONTENT + "='" + entity.getContent() + "', "
                 + COLUMN_IS_FAVORITE + "='" + entity.isFavorite() + "', "

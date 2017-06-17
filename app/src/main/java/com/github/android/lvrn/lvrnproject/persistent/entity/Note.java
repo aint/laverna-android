@@ -3,9 +3,6 @@ package com.github.android.lvrn.lvrnproject.persistent.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-
-import com.google.common.base.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -18,7 +15,7 @@ public class Note extends TrashDependedEntity {
      * notebook, then notebookId equals to "0".
      */
     @NonNull
-    private Optional<String> notebookId;
+    private String notebookId;
 
     @NonNull
     private String title;
@@ -49,7 +46,7 @@ public class Note extends TrashDependedEntity {
 
     public Note(String id,
                 @NonNull String profileId,
-                @NonNull Optional<String> notebookId,
+                @NonNull String notebookId,
                 @NonNull String title,
                 long creationTime,
                 long updateTime,
@@ -72,8 +69,7 @@ public class Note extends TrashDependedEntity {
     private Note(Parcel in) {
         id = in.readString();
         profileId = in.readString();
-        String notebookId = in.readString();
-        this.notebookId = !TextUtils.isEmpty(notebookId) ? Optional.of(notebookId) : Optional.absent();
+        notebookId = in.readString();
         title = in.readString();
         creationTime = in.readLong();
         updateTime = in.readLong();
@@ -87,8 +83,7 @@ public class Note extends TrashDependedEntity {
     @Override
     public String toString() {
         return "Note{" + super.toString() +
-                "notebookId='" + (notebookId.isPresent() ? notebookId.get() : "null") + '\'' +
-                ", title='" + title + '\'' +
+                "notebookId='" + notebookId +
                 ", creationTime=" + creationTime +
                 ", updateTime=" + updateTime +
                 ", content='" + content + '\'' +
@@ -105,7 +100,7 @@ public class Note extends TrashDependedEntity {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(profileId);
-        dest.writeString(notebookId.isPresent() ? notebookId.get() : null);
+        dest.writeString(notebookId);
         dest.writeString(title);
         dest.writeLong(creationTime);
         dest.writeLong(updateTime);
@@ -134,11 +129,11 @@ public class Note extends TrashDependedEntity {
     }
 
     @NonNull
-    public Optional<String> getNotebookId() {
+    public String getNotebookId() {
         return notebookId;
     }
 
-    public void setNotebookId(@NonNull Optional<String> notebookId) {
+    public void setNotebookId(@NonNull String notebookId) {
         this.notebookId = notebookId;
     }
 
