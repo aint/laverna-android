@@ -25,6 +25,17 @@ public interface TaskRepository extends ProfileDependedRepository<Task> {
     List<Task> getUncompletedByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
     /**
+     * A method which retrieves an amount of uncompleted tasks from a start position by a profile
+     * id and a description.
+     * @param profileId an id of a profile.
+     * @param description a text description of the task.
+     * @param paginationArgs a limit and a offset of a pagination.
+     * @return a list of entities.
+     */
+    @NonNull
+    List<Task> getUncompletedByProfileAndDescription(@NonNull String profileId, @NonNull String description, @NonNull PaginationArgs paginationArgs);
+
+    /**
      * A method which retrieves entities by a note id.
      * @param noteId an id of note.
      * @return a list of entities.

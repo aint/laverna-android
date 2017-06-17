@@ -54,17 +54,20 @@ public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> impl
     @NonNull
     @Override
     public List<Task> getUncompletedByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs) {
-        String query = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + COLUMN_PROFILE_ID + " = '" + profileId + "' AND "
-                + COLUMN_IS_COMPLETED + " = 0"
-                + " LIMIT " + paginationArgs.limit
-                + " OFFSET " + paginationArgs.offset;
-        return getByRawQuery(query);
+        String additionalClause = " AND " + COLUMN_IS_COMPLETED + " = 0";
+        return super.getByIdCondition(COLUMN_PROFILE_ID, profileId, additionalClause, paginationArgs);
     }
 
     @NonNull
     @Override
-    public List<Task> getByNote(String noteId) {
+    public List<Task> getUncompletedByProfileAndDescription(@NonNull String profileId, @NonNull String description, @NonNull PaginationArgs paginationArgs) {
+        String additionalClause = " AND " + COLUMN_IS_COMPLETED + " = 0";
+        return super.getByName(COLUMN_DESCRIPTION, profileId, description, additionalClause, paginationArgs);
+    }
+
+    @NonNull
+    @Override
+    public List<Task> getByNote(@NonNull String noteId) {
         String query = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + COLUMN_NOTE_ID + " = '" + noteId + "'";
         return getByRawQuery(query);

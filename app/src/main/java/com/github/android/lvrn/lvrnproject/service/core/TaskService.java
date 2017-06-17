@@ -28,7 +28,7 @@ public interface TaskService extends ProfileDependedService<Task, TaskForm> {
     /**
      * A method which retrieves entities by a note id.
      * @param noteId an id of note.
-     * @return a list of entites.
+     * @return a list of entities.
      */
     @NonNull
     List<Task> getByNote(@NonNull String noteId);
