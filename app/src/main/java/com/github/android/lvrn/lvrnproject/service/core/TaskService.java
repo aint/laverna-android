@@ -25,6 +25,18 @@ public interface TaskService extends ProfileDependedService<Task, TaskForm> {
     @NonNull
     List<Task> getUncompletedByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
 
+
+    /**
+     * A method which retrieves an amount of uncompleted tasks from a start position by a profile
+     * id and a description
+     * @param profileId an id of a profile.
+     * @param description a description of the task.
+     * @param paginationArgs arguments of pagination such as offset and limit.
+     * @return a list of entities.
+     */
+    @NonNull
+    List<Task> getUncompletedByProfileAndDescription(@NonNull String profileId, @NonNull String description, @NonNull PaginationArgs paginationArgs);
+
     /**
      * A method which retrieves entities by a note id.
      * @param noteId an id of note.

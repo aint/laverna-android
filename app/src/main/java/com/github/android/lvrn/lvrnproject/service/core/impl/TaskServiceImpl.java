@@ -53,6 +53,12 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
 
     @NonNull
     @Override
+    public List<Task> getUncompletedByProfileAndDescription(@NonNull String profileId, @NonNull String description, @NonNull PaginationArgs paginationArgs) {
+        return mTaskRepository.getUncompletedByProfileAndDescription(profileId, description, paginationArgs);
+    }
+
+    @NonNull
+    @Override
     public List<Task> getByNote(@NonNull String noteId) {
         return mTaskRepository.getByNote(noteId);
     }
