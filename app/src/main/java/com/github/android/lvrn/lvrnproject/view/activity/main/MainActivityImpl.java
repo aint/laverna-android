@@ -20,11 +20,11 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.noteslist.impl.NotesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.taskslist.impl.TasksListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.trashlist.impl.TrashListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.core.favouritenotes.impl.FavouriteNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.core.allnotes.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.core.trashnotes.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 
 import butterknife.BindView;
@@ -58,7 +58,7 @@ public class MainActivityImpl extends AppCompatActivity
         mToggle.syncState();
         ((NavigationView) findViewById(R.id.nav_view)).setNavigationItemSelectedListener(this);
 
-        NotesListFragmentImpl notesListFragment = new NotesListFragmentImpl();
+        AllNotesFragmentImpl notesListFragment = new AllNotesFragmentImpl();
         menuStartSelectFragment(notesListFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT);
     }
 
@@ -84,7 +84,7 @@ public class MainActivityImpl extends AppCompatActivity
             NotebooksListFragmentImpl notebooksListFragment = new NotebooksListFragmentImpl();
             menuStartSelectFragment(notebooksListFragment, FragmentConst.TAG_NOTEBOOK_FRAGMENT);
         } else if (R.id.nav_item_all_notes == id) {
-            NotesListFragmentImpl notesListFragment = new NotesListFragmentImpl();
+            AllNotesFragmentImpl notesListFragment = new AllNotesFragmentImpl();
             menuStartSelectFragment(notesListFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT);
         } else if (R.id.nav_item_open_tasks == id) {
             TasksListFragmentImpl taskFragment = new TasksListFragmentImpl();
@@ -93,7 +93,7 @@ public class MainActivityImpl extends AppCompatActivity
             TrashListFragmentImpl trashFragment = new TrashListFragmentImpl();
             menuStartSelectFragment(trashFragment, FragmentConst.TAG_TRASH_FRAGMENT);
         } else if (R.id.nav_item_favorites == id) {
-            FavouritesListFragmentImpl favouritesListFragment = new FavouritesListFragmentImpl();
+            FavouriteNotesFragmentImpl favouritesListFragment = new FavouriteNotesFragmentImpl();
             menuStartSelectFragment(favouritesListFragment, FragmentConst.TAG_FAVOURITES_FRAGMENT);
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);

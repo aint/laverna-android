@@ -12,6 +12,7 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
+import com.github.android.lvrn.lvrnproject.view.viewholder.NotebookCreationViewHolder;
 import com.google.common.base.Optional;
 
 import java.util.List;
@@ -87,7 +88,7 @@ public class NotebookCreationPresenterImpl implements NotebookCreationPresenter 
     }
 
     @Override
-    public void setDataToAdapter(DataPostSetAdapter<Notebook> dataPostSetAdapter) {
+    public void setDataToAdapter(DataPostSetAdapter<Notebook, NotebookCreationViewHolder> dataPostSetAdapter) {
         mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, new PaginationArgs());
         dataPostSetAdapter.setData(mNotebooks);
     }

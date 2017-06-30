@@ -66,13 +66,13 @@ public class LavernaApplication extends Application {
 //        noteService.closeConnection();
 //
 ////
-//        noteService.openConnection();
-//        for (int i = 0; i < 50; i++) {
-//            noteService.create(new NoteForm(profileId, true, null, "note" + i, "dfsdf", "dfsdf", true));
-//            noteService.create(new NoteForm(profileId, false, null, "lol note" + i, "lol dfsdf", "lol dfsdf", false));
-//            noteService.create(new NoteForm(profileId, false, null, "kek note" + i, "lol dfsdf", "lol dfsdf", true));
-//        }
-//        noteService.closeConnection();
+        noteService.openConnection();
+        for (int i = 0; i < 50; i++) {
+            noteService.create(new NoteForm(profileId, true, null, "note" + i, "dfsdf", "dfsdf", true));
+            noteService.create(new NoteForm(profileId, false, null, "lol note" + i, "lol dfsdf", "lol dfsdf", false));
+            noteService.create(new NoteForm(profileId, false, null, "kek note" + i, "lol dfsdf", "lol dfsdf", true));
+        }
+        noteService.closeConnection();
         noteService.openConnection();
         noteService.create(new NoteForm(profileId, false, null, "title 1", "content\n" +
                 "[] first task\n" +

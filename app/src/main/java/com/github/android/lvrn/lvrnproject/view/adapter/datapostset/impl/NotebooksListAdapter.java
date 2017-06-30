@@ -1,26 +1,22 @@
 package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.notebookslist.NotebooksListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
+import com.github.android.lvrn.lvrnproject.view.viewholder.NotebookViewHolder;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebooksListAdapter extends RecyclerView.Adapter<NotebooksListAdapter.NotebookViewHolder> implements DataPostSetAdapter<Notebook> {
+public class NotebooksListAdapter extends DataPostSetAdapter<Notebook, NotebookViewHolder> {
 
     private NotebooksListFragment mNotebooksListFragment;
 
@@ -53,13 +49,4 @@ public class NotebooksListAdapter extends RecyclerView.Adapter<NotebooksListAdap
         mNotebooks = data;
     }
 
-    class NotebookViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.text_view_notebook_name) TextView notebookNameTextView;
-
-        NotebookViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
 }

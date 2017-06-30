@@ -8,12 +8,11 @@ import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEdi
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl.NotebookChildrenFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.noteslist.impl.NotesListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.taskslist.impl.TasksListFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.trashlist.impl.TrashListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.core.favouritenotes.impl.FavouriteNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.core.allnotes.impl.AllNotesFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.core.trashnotes.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 
 import dagger.Component;
@@ -27,7 +26,7 @@ public interface AppComponent {
     //TODO:temp compoment, remove and change it later.
     void inject(LavernaApplication application);
 
-    void inject(NotesListFragmentImpl notesListFragment);
+    void inject(AllNotesFragmentImpl notesListFragment);
 
     void inject(NoteContentFragmentImpl noteContentFragment);
 
@@ -37,15 +36,13 @@ public interface AppComponent {
 
     void inject(NotebooksListFragmentImpl notebooksListFragment);
 
-    void inject(NotebookChildrenFragmentImpl notebookChildrenFragment);
-
     void inject(NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment);
 
     void inject(TasksListFragmentImpl tasksListFragment);
 
     void inject(TrashListFragmentImpl trashListFragment);
 
-    void inject(FavouritesListFragmentImpl favouritesListFragment);
+    void inject(FavouriteNotesFragmentImpl favouritesListFragment);
 
     void inject(NotebookCreationDialogFragmentImpl notebookCreationDialogFragment);
 }

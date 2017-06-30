@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.favouriteslist.FavouritesListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.core.favouritenotes.FavouriteNotesFragment;
 
 import java.util.List;
 
@@ -23,13 +23,13 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAdapter.FavouriteViewHolder> implements DataPostSetAdapter<Note> {
+public class FavouritesListAdapter extends DataPostSetAdapter<Note, FavouritesListAdapter.FavouriteViewHolder> {
 
-    private FavouritesListFragment mAllNotesFragment;
+    private FavouriteNotesFragment mAllNotesFragment;
 
     private List<Note> mNotes;
 
-    public FavouritesListAdapter(FavouritesListFragment allNotesFragment) {
+    public FavouritesListAdapter(FavouriteNotesFragment allNotesFragment) {
         mAllNotesFragment = allNotesFragment;
     }
 

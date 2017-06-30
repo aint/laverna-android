@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
-import com.github.android.lvrn.lvrnproject.view.fragment.newentitieslist.core.trashlist.TrashListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.core.trashnotes.TrashListFragment;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
-public class TrashListAdapter extends RecyclerView.Adapter<TrashListAdapter.TrashViewHolder> implements DataPostSetAdapter<Note> {
+public class TrashListAdapter extends DataPostSetAdapter<Note, TrashListAdapter.TrashViewHolder> {
 
     private TrashListFragment mAllNotesFragment;
 
