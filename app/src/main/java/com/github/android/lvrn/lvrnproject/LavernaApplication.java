@@ -11,6 +11,8 @@ import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class LavernaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Logger.addLogAdapter(new AndroidLogAdapter());
         DatabaseManager.initializeInstance(this);
         sAppComponent = DaggerAppComponent.create();
         sAppComponent.inject(this);

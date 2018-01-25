@@ -85,9 +85,9 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @Override
     public boolean openDatabaseConnection() {
         if (mDatabase != null) {
-            Logger.init().methodCount(Thread.currentThread().getStackTrace().length);
+//            Logger.init().methodCount(Thread.currentThread().getStackTrace().length);
             Logger.w("Connection is already opened");
-            Logger.init().methodCount(2);
+//            Logger.init().methodCount(2);
             return false;
         }
         mDatabase = DatabaseManager.getInstance().openConnection();
@@ -98,9 +98,9 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
     @Override
     public boolean closeDatabaseConnection() {
         if (mDatabase == null) {
-            Logger.init().methodCount(Thread.currentThread().getStackTrace().length);
+//            Logger.init().methodCount(Thread.currentThread().getStackTrace().length);
             Logger.w("Connection is already closed");
-            Logger.init().methodCount(2);
+//            Logger.init().methodCount(2);
             return false;
         }
         DatabaseManager.getInstance().closeConnection();
