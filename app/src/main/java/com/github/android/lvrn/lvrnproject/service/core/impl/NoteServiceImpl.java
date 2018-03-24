@@ -67,6 +67,11 @@ public class NoteServiceImpl extends TrashDependedServiceImpl<Note, NoteForm> im
         return Optional.absent();
     }
 
+    @Override
+    public void save(@NonNull Note note) {
+        mNoteRepository.add(note);
+    }
+
     @NonNull
     @Override
     public List<Note> getByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs) {

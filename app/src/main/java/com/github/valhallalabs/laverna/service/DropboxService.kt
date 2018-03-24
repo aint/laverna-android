@@ -6,10 +6,11 @@ import com.dropbox.core.v2.files.Metadata
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.android.lvrn.lvrnproject.DropboxClientFactory
+import com.github.android.lvrn.lvrnproject.persistent.entity.Note
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
-import com.github.android.lvrn.lvrnproject.service.form.NoteForm
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
+import com.github.android.lvrn.lvrnproject.util.CurrentState.profileId
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl
 import com.orhanobut.logger.Logger
 
@@ -32,10 +33,15 @@ class DropboxService(
 
     private var defaultProfileId = getDefaultProfileId()
 
-    fun syncNotesWithDb() {
+    fun importNotes() {
+        noteService.openConnection()
         downloadNotes()
-                .map(this::convertToNoteForm)
-                .onEach { Logger.w("NoteForm title = %s, is fav = %s", it.title, it.isFavorite) }
+                .map(this::convertToNoteEntity)
+                .onEach { Logger.w("NoteEntity title = %s, id = %s", it.title, it.id) }
+                .filterNot { noteService.getById(it.id).isPresent } // todo use exists and merge strategy
+                .onEach { Logger.w("NoteEntity will be saved \n %s", it.toString()) }
+                .forEach { noteService.save(it) }
+        noteService.closeConnection()
     }
 
     private fun getDefaultProfileId(): String {
@@ -44,6 +50,7 @@ class DropboxService(
         profileService.closeConnection()
 
         if (profiles.isNotEmpty()) {
+            Logger.w("Profile id = %s", profiles[0].id)
             return profiles[0].id
         }
 
@@ -76,15 +83,19 @@ class DropboxService(
         return null
     }
 
-    private fun convertToNoteForm(noteJson: NoteJson): NoteForm {
-        return NoteForm(
-                defaultProfileId,
-                noteJson.trash,
-                noteJson.notebookId,
+    private fun convertToNoteEntity(noteJson: NoteJson): Note {
+        return Note(                                                // TODO use object mapper
+                noteJson.id,
+                profileId,
+//                noteJson.notebookId!!,
+                "5baafa9e-c055-4c6c-895c-93ba7c105919",  // TODO jus a stub
                 noteJson.title!!,
+                noteJson.created,
+                noteJson.updated!!,
                 noteJson.content!!,
                 MarkdownParserImpl().getParsedHtml(noteJson.content), // TODO use static util
-                noteJson.isFavorite
+                noteJson.isFavorite,
+                noteJson.trash
         )
     }
 
