@@ -5,7 +5,6 @@ import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.Metadata
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.android.lvrn.lvrnproject.DropboxClientFactory
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
@@ -88,7 +87,7 @@ class DropboxService(
                 noteJson.id,
                 profileId,
 //                noteJson.notebookId!!,
-                "5baafa9e-c055-4c6c-895c-93ba7c105919",  // TODO jus a stub
+                "ea093390-40c1-4d73-a364-7878b23bae49",  // TODO jus a stub
                 noteJson.title!!,
                 noteJson.created,
                 noteJson.updated!!,
