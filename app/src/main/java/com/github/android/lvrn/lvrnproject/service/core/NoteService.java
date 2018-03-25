@@ -15,6 +15,8 @@ import java.util.List;
 
 public interface NoteService extends TrashDependedService<Note, NoteForm> {
 
+    void save(@NonNull Note note);
+
     /**
      * A method which retrieves an amount of entities from a start position by a title.
      *

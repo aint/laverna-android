@@ -2,6 +2,7 @@
     <!--
                   APPLICATION                              -->
     <string name="app_name">Lvrn project</string>
+    <string name="app_key">k4b9v3xj9o793vk</string>
     <!--
                   ACTIVITY                                 -->
     <string name="title_activity_main">All Notes</string>
