@@ -6,6 +6,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.google.common.base.Optional;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ import java.util.List;
  */
 
 public interface NotebookService extends ProfileDependedService<Notebook, NotebookForm> {
+
+    void save(@NonNull Notebook notebook);
 
     /**
      * A method which retrieves an amount of entities from a start position by a name.
