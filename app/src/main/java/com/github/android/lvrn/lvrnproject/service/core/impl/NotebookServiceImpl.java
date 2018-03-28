@@ -43,6 +43,11 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
         return Optional.absent();
     }
 
+    @Override
+    public void save(@NonNull Notebook notebook) {
+        mNotebookRepository.add(notebook);
+    }
+
     @NonNull
     @Override
     public List<Notebook> getByName(@NonNull String profileId, @NonNull String name, @NonNull PaginationArgs paginationArgs) {

@@ -6,7 +6,9 @@ import com.dropbox.core.v2.files.Metadata
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note
+import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
+import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
 import com.github.android.lvrn.lvrnproject.util.CurrentState.profileId
@@ -22,19 +24,32 @@ import java.lang.Exception
  */
 class DropboxService(
         private val noteService: NoteService,
+        private val notebookService: NotebookService,
         private val profileService: ProfileService,
         private val objectMapper: ObjectMapper) {
 
     companion object {
         private const val DEFAULT_PROFILE = "default"
         private const val NOTES_PATH      = "/notes"
+        private const val NOTEBOOKS_PATH  = "/notebooks"
+    }
+
+    fun importNotebooks() {
+        notebookService.openConnection()
+        downloadEntities<NotebookJson>(NOTEBOOKS_PATH)
+                .map(this::convertToNotebookEntity)
+                .onEach { Logger.w("NotebookEntity title = %s, id = %s", it.name, it.id) }
+                .filterNot { notebookService.getById(it.id).isPresent } // todo use exists and merge strategy
+                .onEach { Logger.w("NotebookEntity will be saved \n %s", it.toString()) }
+                .forEach { notebookService.save(it) }
+        notebookService.closeConnection()
     }
 
     private var defaultProfileId = getDefaultProfileId()
 
     fun importNotes() {
         noteService.openConnection()
-        downloadNotes()
+        downloadEntities<NoteJson>(NOTES_PATH)
                 .map(this::convertToNoteEntity)
                 .onEach { Logger.w("NoteEntity title = %s, id = %s", it.title, it.id) }
                 .filterNot { noteService.getById(it.id).isPresent } // todo use exists and merge strategy
@@ -56,17 +71,17 @@ class DropboxService(
         return profileService.create(ProfileForm(DEFAULT_PROFILE)).orNull()!!
     }
 
-    private fun downloadNotes(): List<NoteJson> {
+
+    private inline fun <reified T : JsonEntity> downloadEntities(path: String): List<T> {
         return DropboxClientFactory.getClient()
                 .files()
-                .listFolder(NOTES_PATH)
+                .listFolder(path)
                 .entries
-                .onEach { Logger.i("Note metadata file: %s", it.name) }
-                .mapNotNull(this::parseNotes)
+                .onEach { Logger.i( "%s metadata file: %s", T::class, it.name) }
+                .mapNotNull{ parseEntity<T>(it) }
     }
-
     @Throws(DbxException::class, IOException::class)
-    private fun parseNotes(metadata: Metadata): NoteJson? {
+    private inline fun <reified T : JsonEntity> parseEntity(metadata: Metadata): T? {
         try {
             val inputStream = DropboxClientFactory.getClient()
                     .files()
@@ -74,10 +89,10 @@ class DropboxService(
                     .inputStream
 
             inputStream.use {
-                return objectMapper.readValue(it, NoteJson::class.java)
+                return objectMapper.readValue(it, T::class.java)
             }
         } catch (e: Exception) {
-            Logger.w("Error while parsing note", e)
+            Logger.w("Error while parsing " + T::class, e)
         }
         return null
     }
@@ -86,8 +101,7 @@ class DropboxService(
         return Note(                                                // TODO use object mapper
                 noteJson.id,
                 profileId,
-//                noteJson.notebookId!!,
-                "ea093390-40c1-4d73-a364-7878b23bae49",  // TODO jus a stub
+                noteJson.notebookId!!,
                 noteJson.title!!,
                 noteJson.created,
                 noteJson.updated!!,
@@ -98,22 +112,51 @@ class DropboxService(
         )
     }
 
+    private fun convertToNotebookEntity(notebookJson: NotebookJson): Notebook {
+        return Notebook(                                                // TODO use object mapper
+                notebookJson.id,
+                profileId,
+                if (notebookJson.parentId == "0") null else notebookJson.parentId,
+                notebookJson.name,
+                notebookJson.created!!,
+                notebookJson.updated,
+                notebookJson.count,
+                notebookJson.trash
+        )
+    }
+
+
+    abstract class JsonEntity {
+        abstract val id: String
+        abstract val type: String
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class NoteJson (
-        val type: String, // enum
-        val id: String,
-        val title: String?,
-        val content: String?,
-        val taskAll: Int?,
-        val taskCompleted: Int?,
-        val created: Long,
-        val updated: Long?,
-        val notebookId: String?,
-        val isFavorite: Boolean,
-        val trash: Boolean,
-        val tags: List<Any>?,
-        val files: List<Any>?
-    )
+            override val type: String, // enum
+            override val id: String,
+            val title: String?,
+            val content: String?,
+            val taskAll: Int?,
+            val taskCompleted: Int?,
+            val created: Long,
+            val updated: Long?,
+            val notebookId: String?,
+            val isFavorite: Boolean,
+            val trash: Boolean,
+            val tags: List<Any>?,
+            val files: List<Any>?
+    ) : JsonEntity()
+
+    data class NotebookJson (
+            override val id: String,
+            override val type: String,
+            var parentId: String,
+            var name: String,
+            var count: Int,
+            var trash: Boolean,
+            var created: Long?,
+            var updated: Long
+    ) : JsonEntity()
 
 }
