@@ -35,7 +35,7 @@ public class Notebook extends TrashDependedEntity {
 
     public Notebook(String id,
                     String profileId,
-                    @NonNull String parentId,
+                    String parentId,
                     @NonNull String name,
                     long creationTime,
                     long updateTime,
