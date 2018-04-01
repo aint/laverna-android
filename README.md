@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/aint/laverna-android.svg?branch=develop)](https://travis-ci.org/aint/laverna-android)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/vboitsov/laverna-android/issues) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 
