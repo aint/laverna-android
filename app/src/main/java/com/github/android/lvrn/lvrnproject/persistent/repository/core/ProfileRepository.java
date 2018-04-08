@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
+import com.google.common.base.Optional;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface ProfileRepository extends BasicRepository<Profile> {
      */
     @NonNull
     List<Profile> getAll();
+
+    Optional<Profile> getByName(String name);
 }

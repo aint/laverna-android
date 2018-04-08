@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.BasicRepositoryImpl;
+import com.google.common.base.Optional;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -46,5 +48,18 @@ public class ProfileRepositoryImpl extends BasicRepositoryImpl<Profile> implemen
     public List<Profile> getAll() {
         String query = "SELECT * FROM " + TABLE_NAME;
         return getByRawQuery(query);
+    }
+
+    @Override
+    public Optional<Profile> getByName(String name) {
+        Cursor cursor = mDatabase.rawQuery(
+                "SELECT * FROM " + TABLE_NAME
+                        + " WHERE " + COLUMN_PROFILE_NAME + " = ?",
+                new String[]{ name });
+        Logger.d("Table name: %s\nOperation: getByName\nName: %s\nCursor: %s", TABLE_NAME, name, (cursor != null));
+        if (cursor != null && cursor.moveToFirst()) {
+            return Optional.of(toEntity(cursor));
+        }
+        return Optional.absent();
     }
 }

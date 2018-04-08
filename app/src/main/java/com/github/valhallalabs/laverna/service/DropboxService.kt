@@ -32,9 +32,23 @@ class DropboxService(
         private const val DEFAULT_PROFILE = "default"
         private const val NOTES_PATH      = "/notes"
         private const val NOTEBOOKS_PATH  = "/notebooks"
+        private const val ROOT_PATH  = ""
     }
 
-    fun importNotebooks() {
+    fun importProfiles() {
+        profileService.openConnection()
+        DropboxClientFactory.getClient()
+                .files()
+                .listFolder(ROOT_PATH)
+                .entries
+                .onEach { Logger.w("Profile name = %s", it.name) }
+                .filterNot { profileService.getByName(it.name).isPresent }
+                .onEach { Logger.w("Profile %s will be saved", it.name) }
+                .forEach { profileService.create(ProfileForm(it.name)) }
+        profileService.closeConnection()
+    }
+
+    fun importNotebooks(profileId: String, profileName: String) {
         notebookService.openConnection()
         downloadEntities<NotebookJson>(NOTEBOOKS_PATH)
                 .map(this::convertToNotebookEntity)

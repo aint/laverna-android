@@ -9,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.service.impl.BasicServiceImpl;
 import com.google.common.base.Optional;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 import java.util.UUID;
@@ -43,5 +44,10 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
     @Override
     public List<Profile> getAll() {
         return mProfileRepository.getAll();
+    }
+
+    @Override
+    public Optional<Profile> getByName(String name) {
+        return mProfileRepository.getByName(name);
     }
 }
