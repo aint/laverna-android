@@ -11,7 +11,6 @@ import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
-import com.github.android.lvrn.lvrnproject.util.CurrentState.profileId
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl
 import com.orhanobut.logger.Logger
 
@@ -50,8 +49,8 @@ class DropboxService(
 
     fun importNotebooks(profileId: String, profileName: String) {
         notebookService.openConnection()
-        downloadEntities<NotebookJson>(NOTEBOOKS_PATH)
-                .map(this::convertToNotebookEntity)
+        downloadEntities<NotebookJson>("/$profileName$NOTEBOOKS_PATH")
+                .map{ convertToNotebookEntity(it, profileId) }
                 .onEach { Logger.w("NotebookEntity title = %s, id = %s", it.name, it.id) }
                 .filterNot { notebookService.getById(it.id).isPresent } // todo use exists and merge strategy
                 .onEach { Logger.w("NotebookEntity will be saved \n %s", it.toString()) }
@@ -59,12 +58,12 @@ class DropboxService(
         notebookService.closeConnection()
     }
 
-    private var defaultProfileId = getDefaultProfileId()
+//    private var defaultProfileId = getDefaultProfileId()
 
-    fun importNotes() {
+    fun importNotes(profileId: String, profileName: String) {
         noteService.openConnection()
-        downloadEntities<NoteJson>(NOTES_PATH)
-                .map(this::convertToNoteEntity)
+        downloadEntities<NoteJson>("/$profileName$NOTES_PATH")
+                .map { convertToNoteEntity(it, profileId) }
                 .onEach { Logger.w("NoteEntity title = %s, id = %s", it.title, it.id) }
                 .filterNot { noteService.getById(it.id).isPresent } // todo use exists and merge strategy
                 .onEach { Logger.w("NoteEntity will be saved \n %s", it.toString()) }
@@ -111,7 +110,7 @@ class DropboxService(
         return null
     }
 
-    private fun convertToNoteEntity(noteJson: NoteJson): Note {
+    private fun convertToNoteEntity(noteJson: NoteJson, profileId: String): Note {
         return Note(                                                // TODO use object mapper
                 noteJson.id,
                 profileId,
@@ -126,7 +125,7 @@ class DropboxService(
         )
     }
 
-    private fun convertToNotebookEntity(notebookJson: NotebookJson): Notebook {
+    private fun convertToNotebookEntity(notebookJson: NotebookJson, profileId: String): Notebook {
         return Notebook(                                                // TODO use object mapper
                 notebookJson.id,
                 profileId,
