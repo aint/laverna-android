@@ -11,7 +11,6 @@ import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
-import com.github.android.lvrn.lvrnproject.util.CurrentState.profileId
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl
 import com.orhanobut.logger.Logger
 
@@ -29,48 +28,42 @@ class DropboxService(
         private val objectMapper: ObjectMapper) {
 
     companion object {
-        private const val DEFAULT_PROFILE = "default"
         private const val NOTES_PATH      = "/notes"
         private const val NOTEBOOKS_PATH  = "/notebooks"
+        private const val ROOT_PATH  = ""
     }
 
-    fun importNotebooks() {
+    fun importProfiles() {
+        profileService.openConnection()
+        DropboxClientFactory.getClient()
+                .files()
+                .listFolder(ROOT_PATH)
+                .entries
+                .filterNot { profileService.getByName(it.name).isPresent }
+                .onEach { Logger.i("Importing Profile name = %s", it.name) }
+                .forEach { profileService.create(ProfileForm(it.name)) }
+        profileService.closeConnection()
+    }
+
+    fun importNotebooks(profileId: String, profileName: String) {
         notebookService.openConnection()
-        downloadEntities<NotebookJson>(NOTEBOOKS_PATH)
-                .map(this::convertToNotebookEntity)
-                .onEach { Logger.w("NotebookEntity title = %s, id = %s", it.name, it.id) }
+        downloadEntities<NotebookJson>("/$profileName$NOTEBOOKS_PATH")
+                .map{ convertToNotebookEntity(it, profileId) }
                 .filterNot { notebookService.getById(it.id).isPresent } // todo use exists and merge strategy
-                .onEach { Logger.w("NotebookEntity will be saved \n %s", it.toString()) }
+                .onEach { Logger.i("Importing Notebook name = %s, id = %s", it.name, it.id) }
                 .forEach { notebookService.save(it) }
         notebookService.closeConnection()
     }
 
-    private var defaultProfileId = getDefaultProfileId()
-
-    fun importNotes() {
+    fun importNotes(profileId: String, profileName: String) {
         noteService.openConnection()
-        downloadEntities<NoteJson>(NOTES_PATH)
-                .map(this::convertToNoteEntity)
-                .onEach { Logger.w("NoteEntity title = %s, id = %s", it.title, it.id) }
+        downloadEntities<NoteJson>("/$profileName$NOTES_PATH")
+                .map { convertToNoteEntity(it, profileId) }
                 .filterNot { noteService.getById(it.id).isPresent } // todo use exists and merge strategy
-                .onEach { Logger.w("NoteEntity will be saved \n %s", it.toString()) }
+                .onEach { Logger.i("Importing Note title = %s, id = %s", it.title, it.id) }
                 .forEach { noteService.save(it) }
         noteService.closeConnection()
     }
-
-    private fun getDefaultProfileId(): String {
-        profileService.openConnection()
-        val profiles = profileService.all
-        profileService.closeConnection()
-
-        if (profiles.isNotEmpty()) {
-            Logger.w("Profile id = %s", profiles[0].id)
-            return profiles[0].id
-        }
-
-        return profileService.create(ProfileForm(DEFAULT_PROFILE)).orNull()!!
-    }
-
 
     private inline fun <reified T : JsonEntity> downloadEntities(path: String): List<T> {
         return DropboxClientFactory.getClient()
@@ -97,7 +90,7 @@ class DropboxService(
         return null
     }
 
-    private fun convertToNoteEntity(noteJson: NoteJson): Note {
+    private fun convertToNoteEntity(noteJson: NoteJson, profileId: String): Note {
         return Note(                                                // TODO use object mapper
                 noteJson.id,
                 profileId,
@@ -112,7 +105,7 @@ class DropboxService(
         )
     }
 
-    private fun convertToNotebookEntity(notebookJson: NotebookJson): Notebook {
+    private fun convertToNotebookEntity(notebookJson: NotebookJson, profileId: String): Notebook {
         return Notebook(                                                // TODO use object mapper
                 notebookJson.id,
                 profileId,
