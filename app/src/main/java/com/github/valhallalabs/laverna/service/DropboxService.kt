@@ -16,6 +16,8 @@ import com.orhanobut.logger.Logger
 
 import java.io.IOException
 import java.lang.Exception
+import com.github.android.lvrn.lvrnproject.persistent.entity.Tag
+import com.github.android.lvrn.lvrnproject.service.core.TagService
 
 /**
  *
@@ -24,13 +26,15 @@ import java.lang.Exception
 class DropboxService(
         private val noteService: NoteService,
         private val notebookService: NotebookService,
+        private val tagService: TagService,
         private val profileService: ProfileService,
         private val objectMapper: ObjectMapper) {
 
     companion object {
         private const val NOTES_PATH      = "/notes"
         private const val NOTEBOOKS_PATH  = "/notebooks"
-        private const val ROOT_PATH  = ""
+        private const val TAGS_PATH       = "/tags"
+        private const val ROOT_PATH       = ""
     }
 
     fun importProfiles() {
@@ -65,6 +69,16 @@ class DropboxService(
         noteService.closeConnection()
     }
 
+    fun importTags(profileId: String, profileName: String) {
+        tagService.openConnection()
+        downloadEntities<TagJson>("/$profileName$TAGS_PATH")
+                .map { convertToTagEntity(it, profileId) }
+                .filterNot { tagService.getById(it.id).isPresent } // todo use exists and merge strategy
+                .onEach { Logger.i("Importing Tag name = %s, id = %s", it.name, it.id) }
+                .forEach { tagService.save(it) }
+        tagService.closeConnection()
+    }
+
     private inline fun <reified T : JsonEntity> downloadEntities(path: String): List<T> {
         return DropboxClientFactory.getClient()
                 .files()
@@ -73,6 +87,7 @@ class DropboxService(
                 .onEach { Logger.i( "%s metadata file: %s", T::class, it.name) }
                 .mapNotNull{ parseEntity<T>(it) }
     }
+
     @Throws(DbxException::class, IOException::class)
     private inline fun <reified T : JsonEntity> parseEntity(metadata: Metadata): T? {
         try {
@@ -118,6 +133,17 @@ class DropboxService(
         )
     }
 
+    private fun convertToTagEntity(tagJson: TagJson, profileId: String): Tag {
+        return Tag(
+                tagJson.id,
+                profileId,
+                tagJson.name,
+                tagJson.created,
+                tagJson.updated!!,
+                tagJson.count.toIntOrNull() ?: 0
+        )
+    }
+
 
     abstract class JsonEntity {
         abstract val id: String
@@ -150,6 +176,16 @@ class DropboxService(
             var trash: Boolean,
             var created: Long?,
             var updated: Long
+    ) : JsonEntity()
+
+    data class TagJson (
+            override val id: String,
+            override val type: String,
+            var name: String,
+            var count: String,
+            var trash: Boolean,
+            var created: Long,
+            var updated: Long?
     ) : JsonEntity()
 
 }

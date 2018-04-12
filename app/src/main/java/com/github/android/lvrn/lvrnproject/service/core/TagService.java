@@ -31,4 +31,6 @@ public interface TagService extends ProfileDependedService<Tag, TagForm> {
      */
     @NonNull
     List<Tag> getByNote(@NonNull String noteId);
+
+    void save(@NonNull Tag tag);
 }
