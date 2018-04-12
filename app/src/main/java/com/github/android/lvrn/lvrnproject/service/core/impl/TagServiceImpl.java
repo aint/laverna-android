@@ -61,6 +61,11 @@ public class TagServiceImpl extends ProfileDependedServiceImpl<Tag, TagForm> imp
         return mTagRepository.getByNote(noteId);
     }
 
+    @Override
+    public void save(@NonNull Tag tag) {
+        mTagRepository.add(tag);
+    }
+
     /**
      * A method which validates a form in the create method.
      * @param profileId and id of profile to validate.
