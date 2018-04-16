@@ -1,6 +1,5 @@
 package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,20 +8,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
-
 public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAdapter.FavouriteViewHolder> implements DataPostSetAdapter<Note> {
 
     private FavouritesListFragment mAllNotesFragment;

@@ -1,6 +1,5 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
@@ -10,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListPresenterImpl;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
 
 import java.util.List;
 

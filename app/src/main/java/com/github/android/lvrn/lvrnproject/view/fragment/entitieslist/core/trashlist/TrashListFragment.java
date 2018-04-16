@@ -1,7 +1,7 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListWithSearchFragment;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
