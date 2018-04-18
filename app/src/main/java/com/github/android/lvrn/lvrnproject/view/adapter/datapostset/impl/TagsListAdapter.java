@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
+import com.github.valhallalabs.laverna.persistent.entity.Tag;
 
 import java.util.List;
 

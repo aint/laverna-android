@@ -8,7 +8,7 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
+import com.github.valhallalabs.laverna.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NoteRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NotebookRepositoryImpl;

@@ -15,7 +15,7 @@ import com.orhanobut.logger.Logger
 
 import java.io.IOException
 import java.lang.Exception
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag
+import com.github.valhallalabs.laverna.persistent.entity.Tag
 import com.github.android.lvrn.lvrnproject.service.core.TagService
 import com.github.valhallalabs.laverna.persistent.entity.Note
 

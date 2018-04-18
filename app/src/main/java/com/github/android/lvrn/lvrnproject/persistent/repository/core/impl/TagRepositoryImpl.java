@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTagsTable;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
+import com.github.valhallalabs.laverna.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;

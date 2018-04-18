@@ -1,7 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
+import com.github.valhallalabs.laverna.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagRepository;
 import com.github.android.lvrn.lvrnproject.service.core.impl.TagServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.TagForm;
