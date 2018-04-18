@@ -6,7 +6,7 @@ import com.github.android.lvrn.lvrnproject.persistent.entity.TrashDependedEntity
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
- * @author Oleksandr Tyshkovets
+ * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
  */
 data class Note(
         /**

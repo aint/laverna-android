@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TaskRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NoteRepositoryImpl;
