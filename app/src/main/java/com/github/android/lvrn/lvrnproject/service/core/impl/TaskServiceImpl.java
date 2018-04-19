@@ -3,7 +3,7 @@ package com.github.android.lvrn.lvrnproject.service.core.impl;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
+import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TaskRepository;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.core.TaskService;
