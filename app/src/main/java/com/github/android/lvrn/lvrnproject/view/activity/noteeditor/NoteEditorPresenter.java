@@ -3,7 +3,7 @@ package com.github.android.lvrn.lvrnproject.view.activity.noteeditor;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>

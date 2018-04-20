@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 
 /**

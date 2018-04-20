@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;

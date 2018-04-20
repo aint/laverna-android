@@ -4,7 +4,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;

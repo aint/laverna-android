@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>

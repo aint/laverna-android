@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNotebooksAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNotesAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment;
