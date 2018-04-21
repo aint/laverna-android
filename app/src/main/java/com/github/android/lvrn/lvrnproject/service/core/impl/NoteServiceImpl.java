@@ -4,9 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
+import com.github.valhallalabs.laverna.persistent.entity.Tag;
+import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
@@ -19,6 +18,7 @@ import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.service.impl.TrashDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.google.common.base.Optional;
 
 import java.util.List;

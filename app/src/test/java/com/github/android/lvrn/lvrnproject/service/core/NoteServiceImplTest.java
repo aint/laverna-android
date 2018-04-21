@@ -1,8 +1,8 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.android.lvrn.lvrnproject.service.core.impl.NoteServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;

@@ -5,10 +5,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.TrashDependedRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;

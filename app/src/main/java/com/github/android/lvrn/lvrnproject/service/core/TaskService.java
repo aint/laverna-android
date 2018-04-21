@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.service.core;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Task;
+import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;

@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.BasicRepositoryImpl;
 import com.google.common.base.Optional;

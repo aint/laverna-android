@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.service.form;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>

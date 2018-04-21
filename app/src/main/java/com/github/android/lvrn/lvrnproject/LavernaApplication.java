@@ -5,7 +5,7 @@ import android.app.Application;
 import com.github.android.lvrn.lvrnproject.dagger.components.AppComponent;
 import com.github.android.lvrn.lvrnproject.dagger.components.DaggerAppComponent;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;

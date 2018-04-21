@@ -2,11 +2,10 @@ package com.github.android.lvrn.lvrnproject.service.core;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.google.common.base.Optional;
 
 import java.util.List;
 

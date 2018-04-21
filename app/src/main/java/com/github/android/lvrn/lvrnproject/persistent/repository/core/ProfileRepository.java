@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Profile;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
 import com.google.common.base.Optional;
 

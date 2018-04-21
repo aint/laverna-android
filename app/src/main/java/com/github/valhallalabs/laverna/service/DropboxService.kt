@@ -5,8 +5,7 @@ import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.Metadata
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note
-import com.github.android.lvrn.lvrnproject.persistent.entity.Notebook
+import com.github.valhallalabs.laverna.persistent.entity.Notebook
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
@@ -16,8 +15,9 @@ import com.orhanobut.logger.Logger
 
 import java.io.IOException
 import java.lang.Exception
-import com.github.android.lvrn.lvrnproject.persistent.entity.Tag
+import com.github.valhallalabs.laverna.persistent.entity.Tag
 import com.github.android.lvrn.lvrnproject.service.core.TagService
+import com.github.valhallalabs.laverna.persistent.entity.Note
 
 /**
  *
