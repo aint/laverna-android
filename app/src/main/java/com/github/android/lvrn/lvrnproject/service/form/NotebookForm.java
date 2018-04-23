@@ -27,12 +27,12 @@ public class NotebookForm extends TrashDependedForm<Notebook> {
         return new Notebook(
                 id,
                 profileId,
+                isTrash,
                 parentNotebookId,
                 name,
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
-                0,
-                isTrash);
+                0);
     }
 
     public String getParentNotebookId() {

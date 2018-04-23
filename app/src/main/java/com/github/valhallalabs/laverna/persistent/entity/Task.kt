@@ -2,13 +2,15 @@ package com.github.valhallalabs.laverna.persistent.entity
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity
+import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
  */
 data class Task(
+        override val id: String,
+        override val profileId: String,
         /**
          * An id of the note, which the task is belonged.
          */
@@ -19,24 +21,13 @@ data class Task(
         val isCompleted: Boolean
 ) : ProfileDependedEntity() {
 
-
-    constructor(id: String,
-                profileId: String,
-                noteId: String,
-                description: String,
-                isCompleted: Boolean) : this (noteId, description, isCompleted) {
-        this.profileId = profileId
-        this.id = id
-    }
-
     private constructor(parcel: Parcel) : this(
+            id = parcel.readString(),
+            profileId = parcel.readString(),
             noteId = parcel.readString(),
             description = parcel.readString(),
             isCompleted = parcel.readByte().toInt() != 0
-    ) {
-        id = parcel.readString()
-        profileId = parcel.readString()
-    }
+    )
 
     override fun describeContents() = 0
 

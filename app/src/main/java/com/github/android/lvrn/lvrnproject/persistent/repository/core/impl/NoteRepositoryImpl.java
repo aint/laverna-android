@@ -62,14 +62,14 @@ public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implem
         return new Note(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_ID)),
+                cursor.getInt(cursor.getColumnIndex(COLUMN_TRASH)) > 0,
                 cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_CREATION_TIME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_CONTENT)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_HTML_CONTENT)),
-                cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE)) > 0,
-                cursor.getInt(cursor.getColumnIndex(COLUMN_TRASH)) > 0);
+                cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE)) > 0);
     }
 
     @Override

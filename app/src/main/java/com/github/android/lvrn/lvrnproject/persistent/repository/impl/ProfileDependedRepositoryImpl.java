@@ -3,9 +3,9 @@ package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;

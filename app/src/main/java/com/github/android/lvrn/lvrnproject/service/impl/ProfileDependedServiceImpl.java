@@ -3,12 +3,12 @@ package com.github.android.lvrn.lvrnproject.service.impl;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity;
 
 import java.util.List;
 

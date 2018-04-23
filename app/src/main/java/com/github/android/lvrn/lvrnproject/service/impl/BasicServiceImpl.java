@@ -2,10 +2,10 @@ package com.github.android.lvrn.lvrnproject.service.impl;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
 import com.github.android.lvrn.lvrnproject.service.BasicService;
 import com.github.android.lvrn.lvrnproject.service.form.Form;
+import com.github.valhallalabs.laverna.persistent.entity.base.Entity;
 import com.google.common.base.Optional;
 
 /**

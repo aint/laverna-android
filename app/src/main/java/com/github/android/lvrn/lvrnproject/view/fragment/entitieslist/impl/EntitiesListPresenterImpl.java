@@ -2,7 +2,6 @@ package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
@@ -10,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
+import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
