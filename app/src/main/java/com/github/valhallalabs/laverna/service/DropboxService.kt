@@ -109,14 +109,14 @@ class DropboxService(
         return Note(                                                // TODO use object mapper
                 noteJson.id,
                 profileId,
-                noteJson.notebookId!!,
-                noteJson.title!!,
+                noteJson.trash,
+                noteJson.notebookId,
+                noteJson.title,
                 noteJson.created,
-                noteJson.updated!!,
+                noteJson.updated,
                 noteJson.content!!,
                 MarkdownParserImpl().getParsedHtml(noteJson.content), // TODO use static util
-                noteJson.isFavorite,
-                noteJson.trash
+                noteJson.isFavorite
         )
     }
 
@@ -124,12 +124,12 @@ class DropboxService(
         return Notebook(                                                // TODO use object mapper
                 notebookJson.id,
                 profileId,
+                notebookJson.trash,
                 if (notebookJson.parentId == "0") null else notebookJson.parentId,
                 notebookJson.name,
-                notebookJson.created!!,
+                notebookJson.created,
                 notebookJson.updated,
-                notebookJson.count,
-                notebookJson.trash
+                notebookJson.count
         )
     }
 
@@ -139,7 +139,7 @@ class DropboxService(
                 profileId,
                 tagJson.name,
                 tagJson.created,
-                tagJson.updated!!,
+                tagJson.updated,
                 tagJson.count.toIntOrNull() ?: 0
         )
     }
@@ -154,13 +154,13 @@ class DropboxService(
     data class NoteJson (
             override val type: String, // enum
             override val id: String,
-            val title: String?,
+            val title: String,
             val content: String?,
             val taskAll: Int?,
             val taskCompleted: Int?,
             val created: Long,
-            val updated: Long?,
-            val notebookId: String?,
+            val updated: Long,
+            val notebookId: String,
             val isFavorite: Boolean,
             val trash: Boolean,
             val tags: List<Any>?,
@@ -174,7 +174,7 @@ class DropboxService(
             var name: String,
             var count: Int,
             var trash: Boolean,
-            var created: Long?,
+            var created: Long,
             var updated: Long
     ) : JsonEntity()
 
@@ -185,7 +185,7 @@ class DropboxService(
             var count: String,
             var trash: Boolean,
             var created: Long,
-            var updated: Long?
+            var updated: Long
     ) : JsonEntity()
 
 }
