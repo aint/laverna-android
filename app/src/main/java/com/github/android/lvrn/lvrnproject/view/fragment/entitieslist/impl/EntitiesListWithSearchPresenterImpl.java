@@ -4,13 +4,13 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListWithSearchFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.EntitiesListWithSearchPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.SearchViewOnQueryTextListener;
+import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;

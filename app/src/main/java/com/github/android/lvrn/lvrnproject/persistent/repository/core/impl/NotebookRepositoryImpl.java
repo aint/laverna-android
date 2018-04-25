@@ -53,12 +53,12 @@ public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebo
         return new Notebook(
                 cursor.getString(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_ID)),
+                cursor.getInt(cursor.getColumnIndex(COLUMN_TRASH)) > 0,
                 cursor.getString(cursor.getColumnIndex(COLUMN_PARENT_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_CREATION_TIME)),
                 cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)),
-                cursor.getInt(cursor.getColumnIndex(COLUMN_COUNT)),
-                cursor.getInt(cursor.getColumnIndex(COLUMN_TRASH)) > 0);
+                cursor.getInt(cursor.getColumnIndex(COLUMN_COUNT)));
     }
 
     @NonNull

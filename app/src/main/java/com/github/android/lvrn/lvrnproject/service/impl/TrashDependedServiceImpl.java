@@ -2,12 +2,12 @@ package com.github.android.lvrn.lvrnproject.service.impl;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.TrashDependedEntity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.TrashDependedRepository;
 import com.github.android.lvrn.lvrnproject.service.TrashDependedService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.TrashDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity;
 
 import java.util.List;
 

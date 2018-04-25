@@ -8,8 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
 import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
+import com.github.valhallalabs.laverna.persistent.entity.base.Entity;
 import com.google.common.base.Optional;
 import com.orhanobut.logger.Logger;
 

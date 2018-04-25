@@ -2,13 +2,15 @@ package com.github.valhallalabs.laverna.persistent.entity
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity
+import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
  */
 data class Tag(
+        override val id: String,
+        override val profileId: String,
         val name: String,
         /**
          * A date of the model's creation in milliseconds.
@@ -22,26 +24,14 @@ data class Tag(
         val count: Int
 ) : ProfileDependedEntity() {
 
-    constructor(id: String,
-                profileId: String,
-                name: String,
-                creationTime: Long,
-                updateTime: Long,
-                count: Int) : this(name, creationTime, updateTime, count) {
-        this.id = id
-        this.profileId = profileId
-    }
-
     private constructor(parcel: Parcel) : this (
+            id = parcel.readString(),
+            profileId = parcel.readString(),
             name = parcel.readString(),
             creationTime = parcel.readLong(),
             updateTime = parcel.readLong(),
             count = parcel.readInt()
-    ) {
-        this.id = parcel.readString()
-        this.profileId = parcel.readString()
-
-    }
+    )
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(this.id)

@@ -2,13 +2,16 @@ package com.github.valhallalabs.laverna.persistent.entity
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.github.android.lvrn.lvrnproject.persistent.entity.TrashDependedEntity
+import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
  */
 data class Note(
+        override val id: String,
+        override val profileId: String,
+        override val isTrash: Boolean,
         /**
          * An id of a notebook, which the note is belonged. In case, if the note doesn't belong to any
          * notebook, then notebookId equals to "0".
@@ -40,23 +43,10 @@ data class Note(
         var isFavorite: Boolean
 ) : TrashDependedEntity() {
 
-
-    constructor(id: String,
-                profileId: String,
-                notebookId: String,
-                title: String,
-                creationTime: Long,
-                updateTime: Long,
-                content: String,
-                htmlContent: String,
-                isFavorite: Boolean,
-                isTrash: Boolean) : this(notebookId, title, creationTime, updateTime, content, htmlContent, isFavorite) {
-        this.id = id
-        this.profileId = profileId
-        this.isTrash = isTrash
-    }
-
     private constructor(parcel: Parcel) : this(
+            id = parcel.readString(),
+            profileId = parcel.readString(),
+            isTrash = parcel.readByte().toInt() != 0,
             notebookId = parcel.readString(),
             title = parcel.readString(),
             creationTime = parcel.readLong(),
@@ -64,11 +54,7 @@ data class Note(
             content = parcel.readString(),
             htmlContent = parcel.readString(),
             isFavorite = parcel.readByte().toInt() != 0
-    ) {
-        id = parcel.readString()
-        isTrash = parcel.readByte().toInt() != 0
-        profileId = parcel.readString()
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)

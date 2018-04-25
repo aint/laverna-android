@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.adapter.datapostset;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.ProfileDependedEntity;
+import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity;
 
 import java.util.List;
 

@@ -1,9 +1,8 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
-
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;
+import com.github.valhallalabs.laverna.persistent.entity.base.Entity;
 import com.google.common.base.Optional;
 
 /**

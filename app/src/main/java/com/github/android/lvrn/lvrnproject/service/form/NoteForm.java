@@ -44,14 +44,14 @@ public class NoteForm extends TrashDependedForm<Note> {
         return new Note(
                 id,
                 profileId,
+                isTrash,
                 notebookId,
                 title,
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
                 content,
                 htmlContent,
-                isFavorite,
-                isTrash);
+                isFavorite);
     }
 
     public String getNotebookId() {

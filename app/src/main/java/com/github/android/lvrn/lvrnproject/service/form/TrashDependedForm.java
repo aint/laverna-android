@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.service.form;
 
 import android.support.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.entity.TrashDependedEntity;
+import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>

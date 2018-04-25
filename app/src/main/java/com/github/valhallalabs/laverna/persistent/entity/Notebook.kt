@@ -2,13 +2,16 @@ package com.github.valhallalabs.laverna.persistent.entity
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.github.android.lvrn.lvrnproject.persistent.entity.TrashDependedEntity
+import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
  */
 data class Notebook(
+        override val id: String,
+        override val profileId: String,
+        override val isTrash: Boolean,
         /**
          * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't
          * belong to any parent notebook, then parentId equals to "0".
@@ -30,30 +33,16 @@ data class Notebook(
         val count: Int = 0
 ) : TrashDependedEntity() {
 
-    constructor(id: String,
-                profileId: String,
-                parentId: String?,
-                name: String,
-                creationTime: Long,
-                updateTime: Long,
-                count: Int,
-                isTrash: Boolean) : this(parentId, name, creationTime, updateTime, count) {
-        this.id = id
-        this.profileId = profileId
-        this.isTrash = isTrash
-    }
-
     private constructor(parcel: Parcel) : this(
+            id = parcel.readString(),
+            profileId = parcel.readString(),
+            isTrash = parcel.readByte().toInt() != 0,
             parentId = parcel.readString(),
             name = parcel.readString(),
             creationTime = parcel.readLong(),
             updateTime = parcel.readLong(),
             count = parcel.readInt()
-    ) {
-        id = parcel.readString()
-        profileId = parcel.readString()
-        isTrash = parcel.readByte().toInt() != 0
-    }
+    )
 
     override fun describeContents() = 0
 
