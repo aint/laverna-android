@@ -1,5 +1,6 @@
 package com.github.valhallalabs.laverna.service
 
+import android.os.AsyncTask
 import com.dropbox.core.DbxException
 import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.Metadata
@@ -187,5 +188,22 @@ class DropboxService(
             var created: Long,
             var updated: Long
     ) : JsonEntity()
+
+    inner class someTask() : AsyncTask<Void, Void, String>() {
+        override fun doInBackground(vararg params: Void?): String? {
+            return null
+        }
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+            // ...
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            // ...
+        }
+    }
+
 
 }
