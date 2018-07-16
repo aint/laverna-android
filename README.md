@@ -10,13 +10,13 @@ The application supports Android 4.1 JELLY BEAN (API level 16) and above.
 
 ### Screenshot:
 
-![All notes view](1-all-notes.png "All notes view")
-![Note view](2-note-view.png "Note view")
-![Note's info view](3-note-info.png "Note's info view")
-![Note creationg: edit view](4-create-note-edit-view.png "Note creationg: edit view")
-![Note creationg: preview](5-create-note-preview.png "Note creationg: preview")
-![Navigation drawer view](6-drawer-menu.png "Navigation drawer view")
-![Todos view](7-todos-view.png "Todos view")
+![All notes view](screenshots/1-all-notes.png "All notes view")
+![Note view](screenshots/2-note-view.png "Note view")
+![Note's info view](screenshots/3-note-info.png "Note's info view")
+![Note creationg: edit view](screenshots/4-create-note-edit-view.png "Note creationg: edit view")
+![Note creationg: preview](screenshots/5-create-note-preview.png "Note creationg: preview")
+![Navigation drawer view](screenshots/6-drawer-menu.png "Navigation drawer view")
+![Todos view](screenshots/7-todos-view.png "Todos view")
 
 
 ### Features include:
