@@ -21,12 +21,12 @@ The application supports Android 4.1 JELLY BEAN (API level 16) and above.
 
 ### Features include:
 - An easy-to-use interface
-- Markdown editor based on Pagedown (comming soon)
+- Markdown editor based on Pagedown (coming soon)
 - Manage your notes, even when you're offline
-- Secure client-side encryption (comming soon)
-- Synchronizes with cloud storage services (comming soon)
-- WYSIWYG control buttons (comming soon)
-- Syntax highlighting (comming soon)
+- Secure client-side encryption (coming soon)
+- Synchronizes with cloud storage services (coming soon)
+- WYSIWYG control buttons (coming soon)
+- Syntax highlighting (coming soon)
 - No registration required
 - Native Android app
 - Gestures
