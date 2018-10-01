@@ -13,8 +13,8 @@ data class Note(
         override val profileId: String,
         override val isTrash: Boolean,
         /**
-         * An id of a notebook, which the note is belonged. In case, if the note doesn't belong to any
-         * notebook, then notebookId equals to "0".
+         * An id of a notebook, to which the note belongs. If the note doesn't belong to any
+         * notebook, then notebookId equals "0".
          */
         var notebookId: String,
         /**
