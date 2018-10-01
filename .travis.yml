@@ -3,7 +3,7 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-27.0.3
+    - build-tools-28.0.2
     - extra-google-m2repository
     - extra-android-m2repository
     - extra-google-android-support
@@ -33,9 +33,6 @@ addons:
 script:
   - ./gradlew clean build -x test
   # - ./gradlew sonarqube -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=vboitsov-github -Dsonar.login=$SONAR_TOKEN
-
-before_install:
-- chmod +x gradlew
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
