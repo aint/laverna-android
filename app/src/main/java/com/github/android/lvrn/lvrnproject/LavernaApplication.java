@@ -77,7 +77,7 @@ public class LavernaApplication extends Application {
 //        }
 //        noteService.closeConnection();
         noteService.openConnection();
-        noteService.create(new NoteForm(profileId, false, null, "title 1", "content\n" +
+        noteService.create(new NoteForm(profileId, false, "0", "title 1", "content\n" +
                 "[] first task\n" +
                 "[] second task\n" +
                 "[X] completed task", "htmlContent",false));
