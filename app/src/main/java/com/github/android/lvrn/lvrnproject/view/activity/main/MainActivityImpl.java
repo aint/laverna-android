@@ -16,8 +16,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.dropbox.core.android.Auth;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.service.core.NoteService;
+import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
+import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.core.TagService;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
@@ -26,6 +36,13 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notes
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
+import com.github.valhallalabs.laverna.persistent.entity.Tag;
+import com.github.valhallalabs.laverna.service.DropboxClientFactory;
+import com.github.valhallalabs.laverna.service.DropboxService;
+import com.orhanobut.logger.Logger;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +57,10 @@ public class MainActivityImpl extends AppCompatActivity
 
     @BindView(R.id.floating_action_menu_all_notes) public FloatingActionsMenu floatingActionsMenu;
 
+    @Inject NoteService noteService;
+    @Inject TagService tagService;
+    @Inject NotebookService notebookService;
+    @Inject ProfileService profileService;
 
     private Bundle mSavedInstanceState;
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -48,6 +69,9 @@ public class MainActivityImpl extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSavedInstanceState = savedInstanceState;
+
+        LavernaApplication.getsAppComponent().inject(this);
+
         setContentView(R.layout.activity_main);
         setOrientationByUserDeviceConfiguration();
         ButterKnife.bind(this);
@@ -95,6 +119,44 @@ public class MainActivityImpl extends AppCompatActivity
         } else if (R.id.nav_item_favorites == id) {
             FavouritesListFragmentImpl favouritesListFragment = new FavouritesListFragmentImpl();
             menuStartSelectFragment(favouritesListFragment, FragmentConst.TAG_FAVOURITES_FRAGMENT);
+        } else if (R.id.nav_item_sync == id) {
+            String accessToken = getSharedPreferences("dropbox-sample", MODE_PRIVATE).getString("access-token", null);
+            if (accessToken == null) {
+                Logger.w("accessToken is null");
+                accessToken = Auth.getOAuth2Token();
+                getSharedPreferences("dropbox-sample", MODE_PRIVATE)
+                        .edit()
+                        .putString("access-token", accessToken)
+                        .apply();
+                Logger.w("accessToken %s saved to pref", accessToken);
+            }
+
+            DropboxClientFactory.init(accessToken);
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new KotlinModule());
+            DropboxService dropboxService = new DropboxService(noteService, notebookService, tagService, profileService, objectMapper);
+
+            Logger.w("IMPORT PROFILES");
+            dropboxService.importProfiles();
+            Logger.w("END IMPORT PROFILES");
+            Logger.w("START IMPORT NOTEBOOKS & NOTES & TAGS");
+            profileService.openConnection();
+            for (Profile profile : profileService.getAll()) {
+                CurrentState.profileId = profile.getId();
+                String profileId = profile.getId();
+                String profileName = profile.getName();
+                Logger.w("CURRENT PROFILE %s", profileName);
+                dropboxService.importNotebooks(profileId, profileName);
+                dropboxService.importNotes(profileId, profileName);
+                dropboxService.importTags(profileId, profileName);
+            }
+            profileService.closeConnection();
+            Logger.w("END IMPORT NOTEBOOKS & NOTES & TAGS");
+            tagService.openConnection();
+            for (Tag tag : tagService.getByProfile(CurrentState.profileId, new PaginationArgs())) {
+                Logger.w("TAG %s", tag.getName());
+            }
+            tagService.closeConnection();
+
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
