@@ -47,6 +47,13 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivityImpl extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -131,35 +138,45 @@ public class MainActivityImpl extends AppCompatActivity
                 Logger.w("accessToken %s saved to pref", accessToken);
             }
 
-            DropboxClientFactory.init(accessToken);
-            ObjectMapper objectMapper = new ObjectMapper().registerModule(new KotlinModule());
-            DropboxService dropboxService = new DropboxService(noteService, notebookService, tagService, profileService, objectMapper);
-
-            Logger.w("IMPORT PROFILES");
-            dropboxService.importProfiles();
-            Logger.w("END IMPORT PROFILES");
-            Logger.w("START IMPORT NOTEBOOKS & NOTES & TAGS");
-            profileService.openConnection();
-            for (Profile profile : profileService.getAll()) {
-                CurrentState.profileId = profile.getId();
-                String profileId = profile.getId();
-                String profileName = profile.getName();
-                Logger.w("CURRENT PROFILE %s", profileName);
-                dropboxService.importNotebooks(profileId, profileName);
-                dropboxService.importNotes(profileId, profileName);
-                dropboxService.importTags(profileId, profileName);
-            }
-            profileService.closeConnection();
-            Logger.w("END IMPORT NOTEBOOKS & NOTES & TAGS");
-            tagService.openConnection();
-            for (Tag tag : tagService.getByProfile(CurrentState.profileId, new PaginationArgs())) {
-                Logger.w("TAG %s", tag.getName());
-            }
-            tagService.closeConnection();
+            String token = accessToken;
+            Observable.defer(() -> syncData(token).toObservable())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe();
 
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private Completable syncData(String accessToken) {
+        DropboxClientFactory.init(accessToken);
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new KotlinModule());
+        DropboxService dropboxService = new DropboxService(noteService, notebookService, tagService, profileService, objectMapper);
+
+        Logger.w("IMPORT PROFILES");
+        dropboxService.importProfiles();
+        Logger.w("END IMPORT PROFILES");
+        Logger.w("START IMPORT NOTEBOOKS & NOTES & TAGS");
+        profileService.openConnection();
+        for (Profile profile : profileService.getAll()) {
+            CurrentState.profileId = profile.getId();
+            String profileId = profile.getId();
+            String profileName = profile.getName();
+            Logger.w("CURRENT PROFILE %s", profileName);
+            dropboxService.importNotebooks(profileId, profileName);
+            dropboxService.importNotes(profileId, profileName);
+            dropboxService.importTags(profileId, profileName);
+        }
+        profileService.closeConnection();
+        Logger.w("END IMPORT NOTEBOOKS & NOTES & TAGS");
+        tagService.openConnection();
+        for (Tag tag : tagService.getByProfile(CurrentState.profileId, new PaginationArgs())) {
+            Logger.w("TAG %s", tag.getName());
+        }
+        tagService.closeConnection();
+
+        return Completable.complete();
     }
 
     /**
