@@ -3,21 +3,21 @@ package com.github.valhallalabs.laverna.service
 import com.dropbox.core.DbxException
 import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.Metadata
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.valhallalabs.laverna.persistent.entity.Notebook
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
-import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl
 import com.orhanobut.logger.Logger
 
 import java.io.IOException
 import java.lang.Exception
-import com.github.valhallalabs.laverna.persistent.entity.Tag
 import com.github.android.lvrn.lvrnproject.service.core.TagService
-import com.github.valhallalabs.laverna.persistent.entity.Note
+import com.github.valhallalabs.laverna.service.CloudService.*
+import com.github.valhallalabs.laverna.service.CloudService.Companion.NOTEBOOKS_PATH
+import com.github.valhallalabs.laverna.service.CloudService.Companion.NOTES_PATH
+import com.github.valhallalabs.laverna.service.CloudService.Companion.ROOT_PATH
+import com.github.valhallalabs.laverna.service.CloudService.Companion.TAGS_PATH
 
 /**
  *
@@ -28,14 +28,41 @@ class DropboxService(
         private val notebookService: NotebookService,
         private val tagService: TagService,
         private val profileService: ProfileService,
-        private val objectMapper: ObjectMapper) {
+        private val objectMapper: ObjectMapper) : CloudService {
 
-    companion object {
-        private const val NOTES_PATH      = "/notes"
-        private const val NOTEBOOKS_PATH  = "/notebooks"
-        private const val TAGS_PATH       = "/tags"
-        private const val ROOT_PATH       = ""
+    override fun pullProfiles() {
+        TODO("not implemented")
     }
+
+    override fun pullNotebooks() {
+        TODO("not implemented")
+    }
+
+    override fun pullNotes() {
+        TODO("not implemented")
+    }
+
+    override fun pullTags() {
+        TODO("not implemented")
+    }
+
+    override fun pushProfiles() {
+        TODO("not implemented")
+    }
+
+    override fun pushNotebooks() {
+        TODO("not implemented")
+    }
+
+    override fun pushNotes() {
+        TODO("not implemented")
+    }
+
+    override fun pushTags() {
+        TODO("not implemented")
+    }
+
+
 
     fun importProfiles() {
         profileService.openConnection()
@@ -104,88 +131,5 @@ class DropboxService(
         }
         return null
     }
-
-    private fun convertToNoteEntity(noteJson: NoteJson, profileId: String): Note {
-        return Note(                                                // TODO use object mapper
-                noteJson.id,
-                profileId,
-                noteJson.trash,
-                noteJson.notebookId,
-                noteJson.title,
-                noteJson.created,
-                noteJson.updated,
-                noteJson.content!!,
-                MarkdownParserImpl().getParsedHtml(noteJson.content), // TODO use static util
-                noteJson.isFavorite
-        )
-    }
-
-    private fun convertToNotebookEntity(notebookJson: NotebookJson, profileId: String): Notebook {
-        return Notebook(                                                // TODO use object mapper
-                notebookJson.id,
-                profileId,
-                notebookJson.trash,
-                if (notebookJson.parentId == "0") null else notebookJson.parentId,
-                notebookJson.name,
-                notebookJson.created,
-                notebookJson.updated,
-                notebookJson.count
-        )
-    }
-
-    private fun convertToTagEntity(tagJson: TagJson, profileId: String): Tag {
-        return Tag(
-                tagJson.id,
-                profileId,
-                tagJson.name,
-                tagJson.created,
-                tagJson.updated,
-                tagJson.count.toIntOrNull() ?: 0
-        )
-    }
-
-
-    abstract class JsonEntity {
-        abstract val id: String
-        abstract val type: String
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    data class NoteJson (
-            override val type: String, // enum
-            override val id: String,
-            val title: String,
-            val content: String?,
-            val taskAll: Int?,
-            val taskCompleted: Int?,
-            val created: Long,
-            val updated: Long,
-            val notebookId: String,
-            val isFavorite: Boolean,
-            val trash: Boolean,
-            val tags: List<Any>?,
-            val files: List<Any>?
-    ) : JsonEntity()
-
-    data class NotebookJson (
-            override val id: String,
-            override val type: String,
-            var parentId: String,
-            var name: String,
-            var count: Int,
-            var trash: Boolean,
-            var created: Long,
-            var updated: Long
-    ) : JsonEntity()
-
-    data class TagJson (
-            override val id: String,
-            override val type: String,
-            var name: String,
-            var count: String,
-            var trash: Boolean,
-            var created: Long,
-            var updated: Long
-    ) : JsonEntity()
 
 }
