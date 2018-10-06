@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.valhallalabs.laverna.activity.MainActivity;
 import com.github.valhallalabs.laverna.persistent.entity.Task;
-import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TasksListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListPresenter;
@@ -138,8 +138,8 @@ public class TasksListFragmentImpl extends Fragment implements TasksListFragment
 
     @Override
     public void switchToSearchMode() {
-        ((MainActivityImpl) getActivity()).floatingActionsMenu.collapse();
-        ((MainActivityImpl) getActivity()).floatingActionsMenu.setVisibility(View.GONE);
+        ((MainActivity) getActivity()).floatingActionsMenu.collapse();
+        ((MainActivity) getActivity()).floatingActionsMenu.setVisibility(View.GONE);
 //        TODO: introduce in future milestones
 //        menuSync.setVisible(false);
 //        menuAbout.setVisible(false);
@@ -156,7 +156,7 @@ public class TasksListFragmentImpl extends Fragment implements TasksListFragment
 
     @Override
     public void switchToNormalMode() {
-        ((MainActivityImpl) getActivity()).floatingActionsMenu.setVisibility(View.VISIBLE);
+        ((MainActivity) getActivity()).floatingActionsMenu.setVisibility(View.VISIBLE);
 //        TODO: introduce in future milestones
 //        menuSync.setVisible(true);
 //        menuAbout.setVisible(true);

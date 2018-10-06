@@ -17,9 +17,9 @@ import android.widget.TabHost;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.valhallalabs.laverna.activity.MainActivity;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorPresenter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
@@ -168,7 +168,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mainToolbar.setNavigationOnClickListener(v -> {
-            this.startActivity(new Intent(this, MainActivityImpl.class));
+            this.startActivity(new Intent(this, MainActivity.class));
             this.finish();
         });
     }

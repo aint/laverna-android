@@ -4,18 +4,18 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.dagger.modules.PresenterModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule;
 import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule;
-import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl.NotebookChildrenFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl.NotebookChildrenFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
+import com.github.valhallalabs.laverna.activity.MainActivity;
 
 import dagger.Component;
 
@@ -50,5 +50,5 @@ public interface AppComponent {
 
     void inject(NotebookCreationDialogFragmentImpl notebookCreationDialogFragment);
 
-    void inject(MainActivityImpl mainActivity);
+    void inject(MainActivity mainActivity);
 }

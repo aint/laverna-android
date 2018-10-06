@@ -19,13 +19,13 @@ import android.view.ViewGroup;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.view.activity.main.MainActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
+import com.github.valhallalabs.laverna.activity.MainActivity;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.orhanobut.logger.Logger;
 
@@ -139,8 +139,8 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
     @Override
     public void switchToSearchMode() {
-        ((MainActivityImpl) getActivity()).floatingActionsMenu.collapse();
-        ((MainActivityImpl) getActivity()).floatingActionsMenu.setVisibility(View.GONE);
+        ((MainActivity) getActivity()).floatingActionsMenu.collapse();
+        ((MainActivity) getActivity()).floatingActionsMenu.setVisibility(View.GONE);
 //        TODO: introduce in future milestones
 //        menuSync.setVisible(false);
 //        menuAbout.setVisible(false);
@@ -157,7 +157,7 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
     @Override
     public void switchToNormalMode() {
-        ((MainActivityImpl) getActivity()).floatingActionsMenu.setVisibility(View.VISIBLE);
+        ((MainActivity) getActivity()).floatingActionsMenu.setVisibility(View.VISIBLE);
 //        TODO: introduce in future milestones
 //        menuSync.setVisible(true);
 //        menuAbout.setVisible(true);
