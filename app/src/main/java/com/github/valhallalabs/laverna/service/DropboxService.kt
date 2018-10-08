@@ -30,21 +30,20 @@ class DropboxService(
         private val profileService: ProfileService,
         private val objectMapper: ObjectMapper) : CloudService {
 
-    override fun pullProfiles() {
-        TODO("not implemented")
+    override fun pullProfiles(): Set<String> {
+        return DropboxClientFactory.getClient()
+                .files()
+                .listFolder(ROOT_PATH)
+                .entries
+                .map { it.name }
+                .toSet()
     }
 
-    override fun pullNotebooks() {
-        TODO("not implemented")
-    }
+    override fun pullNotebooks(profileName: String) = downloadEntities<NotebookJson>("/$profileName$NOTEBOOKS_PATH")
 
-    override fun pullNotes() {
-        TODO("not implemented")
-    }
+    override fun pullNotes(profileName: String) = downloadEntities<NoteJson>("/$profileName$NOTES_PATH")
 
-    override fun pullTags() {
-        TODO("not implemented")
-    }
+    override fun pullTags(profileName: String) = downloadEntities<TagJson>("/$profileName$TAGS_PATH")
 
     override fun pushProfiles() {
         TODO("not implemented")

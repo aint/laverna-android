@@ -8,10 +8,10 @@ import com.github.valhallalabs.laverna.persistent.entity.Tag
 
 interface CloudService {
 
-    fun pullProfiles()
-    fun pullNotebooks()
-    fun pullNotes()
-    fun pullTags()
+    fun pullProfiles(): Set<String>
+    fun pullNotebooks(profileName: String): List<NotebookJson>
+    fun pullNotes(profileName: String): List<NoteJson>
+    fun pullTags(profileName: String): List<TagJson>
 
     fun pushProfiles()
     fun pushNotebooks()
