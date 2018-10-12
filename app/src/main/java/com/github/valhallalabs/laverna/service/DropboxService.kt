@@ -3,21 +3,20 @@ package com.github.valhallalabs.laverna.service
 import com.dropbox.core.DbxException
 import com.dropbox.core.v2.files.FileMetadata
 import com.dropbox.core.v2.files.Metadata
+import com.dropbox.core.v2.files.WriteMode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
-import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
-import com.orhanobut.logger.Logger
-
-import java.io.IOException
-import java.lang.Exception
 import com.github.android.lvrn.lvrnproject.service.core.TagService
+import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
 import com.github.valhallalabs.laverna.service.CloudService.*
 import com.github.valhallalabs.laverna.service.CloudService.Companion.NOTEBOOKS_PATH
 import com.github.valhallalabs.laverna.service.CloudService.Companion.NOTES_PATH
 import com.github.valhallalabs.laverna.service.CloudService.Companion.ROOT_PATH
 import com.github.valhallalabs.laverna.service.CloudService.Companion.TAGS_PATH
+import com.orhanobut.logger.Logger
+import java.io.*
 
 /**
  *
@@ -45,22 +44,29 @@ class DropboxService(
 
     override fun pullTags(profileName: String) = downloadEntities<TagJson>("/$profileName$TAGS_PATH")
 
-    override fun pushProfiles() {
-        TODO("not implemented")
+
+    override fun pushProfiles(profiles: Set<String>) {
+        profiles.forEach { DropboxClientFactory.getClient().files().createFolderV2("/$it") }
     }
 
-    override fun pushNotebooks() {
-        TODO("not implemented")
-    }
+    override fun pushNotebooks(profileName: String, notebooks: List<NotebookJson>) = notebooks.forEach { uploadEntity(it, profileName + NOTES_PATH) }
 
-    override fun pushNotes() {
-        TODO("not implemented")
-    }
+    override fun pushNotes(profileName: String, notes: List<NoteJson>) = notes.forEach { uploadEntity(it, profileName + NOTES_PATH) }
 
-    override fun pushTags() {
-        TODO("not implemented")
-    }
+    override fun pushTags(profileName: String, tags: List<TagJson>) = tags.forEach { uploadEntity(it, profileName + NOTES_PATH) }
 
+    @Throws(IOException::class)
+    private fun uploadEntity(entity: JsonEntity, basePath: String) {
+        val bytes = objectMapper.writeValueAsBytes(entity)
+
+//      val progressListener = { l -> printProgress(l, localFile.length()) }
+        ByteArrayInputStream(bytes).use {
+            DropboxClientFactory.getClient().files()
+                    .uploadBuilder("/$basePath/${entity.id}.json")
+                    .withMode(WriteMode.OVERWRITE)
+                    .uploadAndFinish(it)
+        }
+    }
 
 
     fun importProfiles() {

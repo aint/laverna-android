@@ -13,10 +13,10 @@ interface CloudService {
     fun pullNotes(profileName: String): List<NoteJson>
     fun pullTags(profileName: String): List<TagJson>
 
-    fun pushProfiles()
-    fun pushNotebooks()
-    fun pushNotes()
-    fun pushTags()
+    fun pushProfiles(profiles: Set<String>)
+    fun pushNotebooks(profileName: String, notebooks: List<NotebookJson>)
+    fun pushNotes(profileName: String, notes: List<NoteJson>)
+    fun pushTags(profileName: String, tags: List<TagJson>)
 
     fun convertToNoteEntity(noteJson: NoteJson, profileId: String): Note {
         return Note(                                                // TODO use object mapper
