@@ -11,10 +11,7 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.core.TagService
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
 import com.github.valhallalabs.laverna.service.CloudService.*
-import com.github.valhallalabs.laverna.service.CloudService.Companion.NOTEBOOKS_PATH
-import com.github.valhallalabs.laverna.service.CloudService.Companion.NOTES_PATH
-import com.github.valhallalabs.laverna.service.CloudService.Companion.ROOT_PATH
-import com.github.valhallalabs.laverna.service.CloudService.Companion.TAGS_PATH
+import com.github.valhallalabs.laverna.service.cloud.CloudConverter
 import com.orhanobut.logger.Logger
 import java.io.*
 
@@ -28,6 +25,13 @@ class DropboxService(
         private val tagService: TagService,
         private val profileService: ProfileService,
         private val objectMapper: ObjectMapper) : CloudService {
+
+    companion object {
+        const val NOTES_PATH      = "/notes"
+        const val NOTEBOOKS_PATH  = "/notebooks"
+        const val TAGS_PATH       = "/tags"
+        const val ROOT_PATH       = ""
+    }
 
     override fun pullProfiles(): Set<String> {
         return DropboxClientFactory.getClient()
@@ -84,7 +88,7 @@ class DropboxService(
     fun importNotebooks(profileId: String, profileName: String) {
         notebookService.openConnection()
         downloadEntities<NotebookJson>("/$profileName$NOTEBOOKS_PATH")
-                .map{ convertToNotebookEntity(it, profileId) }
+                .map{ CloudConverter.notebookJsonToEntity(it, profileId) }
                 .filterNot { notebookService.getById(it.id).isPresent } // todo use exists and merge strategy
                 .onEach { Logger.i("Importing Notebook name = %s, id = %s", it.name, it.id) }
                 .forEach { notebookService.save(it) }
@@ -94,7 +98,7 @@ class DropboxService(
     fun importNotes(profileId: String, profileName: String) {
         noteService.openConnection()
         downloadEntities<NoteJson>("/$profileName$NOTES_PATH")
-                .map { convertToNoteEntity(it, profileId) }
+                .map { CloudConverter.noteJsonToEntity(it, profileId) }
                 .filterNot { noteService.getById(it.id).isPresent } // todo use exists and merge strategy
                 .onEach { Logger.i("Importing Note title = %s, id = %s", it.title, it.id) }
                 .forEach { noteService.save(it) }
@@ -104,7 +108,7 @@ class DropboxService(
     fun importTags(profileId: String, profileName: String) {
         tagService.openConnection()
         downloadEntities<TagJson>("/$profileName$TAGS_PATH")
-                .map { convertToTagEntity(it, profileId) }
+                .map { CloudConverter.tagJsonToEntity(it, profileId) }
                 .filterNot { tagService.getById(it.id).isPresent } // todo use exists and merge strategy
                 .onEach { Logger.i("Importing Tag name = %s, id = %s", it.name, it.id) }
                 .forEach { tagService.save(it) }

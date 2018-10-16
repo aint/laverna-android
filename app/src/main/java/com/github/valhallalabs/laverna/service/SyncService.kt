@@ -6,6 +6,7 @@ import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.core.TagService
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
+import com.github.valhallalabs.laverna.service.cloud.CloudConverter
 import com.orhanobut.logger.Logger
 
 class SyncService(
@@ -34,7 +35,7 @@ class SyncService(
 
                 if (!notebookService.getById(notebookJson.id).isPresent) {
                     //todo convert to form and then use notebookService.create(...) method
-                    val notebookEntity = cloudService.convertToNotebookEntity(notebookJson, profileId)
+                    val notebookEntity = CloudConverter.notebookJsonToEntity(notebookJson, profileId)
                     notebookService.save(notebookEntity)
                 }
             }
@@ -47,7 +48,7 @@ class SyncService(
 
                 if (!noteService.getById(noteJson.id).isPresent) {
                     //todo convert to form and then use noteService.create(...) method
-                    val noteEntity = cloudService.convertToNoteEntity(noteJson, profileId)
+                    val noteEntity = CloudConverter.noteJsonToEntity(noteJson, profileId)
                     noteService.save(noteEntity)
                 } else {
                     Logger.i("Note title = %s is already exists", noteJson.title)
@@ -62,7 +63,7 @@ class SyncService(
 
                 if (!tagService.getById(tagJson.id).isPresent) {
                     //todo convert to form and then use tagService.create(...) method
-                    val tagEntity = cloudService.convertToTagEntity(tagJson, profileId)
+                    val tagEntity = CloudConverter.tagJsonToEntity(tagJson, profileId)
                     tagService.save(tagEntity)
                 }
             }
