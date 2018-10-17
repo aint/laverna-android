@@ -29,8 +29,8 @@ object CloudConverter {
 
     fun noteEntityToJson(note: Note): CloudService.NoteJson {
         return CloudService.NoteJson(
-                "notes", //TODO extract this to const
                 note.id,
+                CloudService.JsonEntity.EntityType.NOTE,
                 note.title,
                 note.content,
                 null,
@@ -61,7 +61,7 @@ object CloudConverter {
     fun notebookEntityToJson(notebook: Notebook): CloudService.NotebookJson {
         return CloudService.NotebookJson(
                 notebook.id,
-                "notebooks", //TODO extract this to const
+                CloudService.JsonEntity.EntityType.NOTEBOOK,
                 notebook.parentId ?: "0",
                 notebook.name,
                 notebook.count,
@@ -85,7 +85,7 @@ object CloudConverter {
     fun tagEntityToJson(tag: Tag): CloudService.TagJson {
         return CloudService.TagJson(
                 tag.id,
-                "tags", //TODO extract this to const
+                CloudService.JsonEntity.EntityType.TAG,
                 tag.name,
                 tag.count.toString(),
                 false, // TODO add this field to entity

@@ -1,6 +1,7 @@
 package com.github.valhallalabs.laverna.service
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonValue
 
 interface CloudService {
 
@@ -18,13 +19,17 @@ interface CloudService {
 
     abstract class JsonEntity {
         abstract val id: String
-        abstract val type: String
+        abstract val type: EntityType
+
+        enum class EntityType(@JsonValue val value: String) {
+            NOTE("notes"), NOTEBOOK("notebooks"), TAG("tags")
+        }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class NoteJson (
-            override val type: String, // enum
             override val id: String,
+            override val type: EntityType,
             val title: String,
             val content: String?,
             val taskAll: Int?,
@@ -40,7 +45,7 @@ interface CloudService {
 
     data class NotebookJson (
             override val id: String,
-            override val type: String,
+            override val type: EntityType,
             var parentId: String,
             var name: String,
             var count: Int,
@@ -51,7 +56,7 @@ interface CloudService {
 
     data class TagJson (
             override val id: String,
-            override val type: String,
+            override val type: EntityType,
             var name: String,
             var count: String,
             var trash: Boolean,
