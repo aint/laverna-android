@@ -9,11 +9,13 @@ import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.core.TagService
-import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
-import com.github.valhallalabs.laverna.service.CloudService.*
-import com.github.valhallalabs.laverna.service.cloud.CloudConverter
+import com.github.valhallalabs.laverna.service.cloud.json.JsonEntity
+import com.github.valhallalabs.laverna.service.cloud.json.NoteJson
+import com.github.valhallalabs.laverna.service.cloud.json.NotebookJson
+import com.github.valhallalabs.laverna.service.cloud.json.TagJson
 import com.orhanobut.logger.Logger
-import java.io.*
+import java.io.ByteArrayInputStream
+import java.io.IOException
 
 /**
  *

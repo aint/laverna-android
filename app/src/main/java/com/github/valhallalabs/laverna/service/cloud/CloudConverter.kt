@@ -4,7 +4,10 @@ import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.Markdow
 import com.github.valhallalabs.laverna.persistent.entity.Note
 import com.github.valhallalabs.laverna.persistent.entity.Notebook
 import com.github.valhallalabs.laverna.persistent.entity.Tag
-import com.github.valhallalabs.laverna.service.CloudService
+import com.github.valhallalabs.laverna.service.cloud.json.JsonEntity.EntityType
+import com.github.valhallalabs.laverna.service.cloud.json.NoteJson
+import com.github.valhallalabs.laverna.service.cloud.json.NotebookJson
+import com.github.valhallalabs.laverna.service.cloud.json.TagJson
 
 /**
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
@@ -12,7 +15,7 @@ import com.github.valhallalabs.laverna.service.CloudService
 object CloudConverter {
     // TODO use MapStruct, ModelMapper, Selma or something
 
-    fun noteJsonToEntity(noteJson: CloudService.NoteJson, profileId: String): Note {
+    fun noteJsonToEntity(noteJson: NoteJson, profileId: String): Note {
         return Note(
                 noteJson.id,
                 profileId,
@@ -27,10 +30,10 @@ object CloudConverter {
         )
     }
 
-    fun noteEntityToJson(note: Note): CloudService.NoteJson {
-        return CloudService.NoteJson(
+    fun noteEntityToJson(note: Note): NoteJson {
+        return NoteJson(
                 note.id,
-                CloudService.JsonEntity.EntityType.NOTE,
+                EntityType.NOTE,
                 note.title,
                 note.content,
                 null,
@@ -45,7 +48,7 @@ object CloudConverter {
         )
     }
 
-    fun notebookJsonToEntity(notebookJson: CloudService.NotebookJson, profileId: String): Notebook {
+    fun notebookJsonToEntity(notebookJson: NotebookJson, profileId: String): Notebook {
         return Notebook(
                 notebookJson.id,
                 profileId,
@@ -58,10 +61,10 @@ object CloudConverter {
         )
     }
 
-    fun notebookEntityToJson(notebook: Notebook): CloudService.NotebookJson {
-        return CloudService.NotebookJson(
+    fun notebookEntityToJson(notebook: Notebook): NotebookJson {
+        return NotebookJson(
                 notebook.id,
-                CloudService.JsonEntity.EntityType.NOTEBOOK,
+                EntityType.NOTEBOOK,
                 notebook.parentId ?: "0",
                 notebook.name,
                 notebook.count,
@@ -71,7 +74,7 @@ object CloudConverter {
         )
     }
 
-    fun tagJsonToEntity(tagJson: CloudService.TagJson, profileId: String): Tag {
+    fun tagJsonToEntity(tagJson: TagJson, profileId: String): Tag {
         return Tag(
                 tagJson.id,
                 profileId,
@@ -82,10 +85,10 @@ object CloudConverter {
         )
     }
 
-    fun tagEntityToJson(tag: Tag): CloudService.TagJson {
-        return CloudService.TagJson(
+    fun tagEntityToJson(tag: Tag): TagJson {
+        return TagJson(
                 tag.id,
-                CloudService.JsonEntity.EntityType.TAG,
+                EntityType.TAG,
                 tag.name,
                 tag.count.toString(),
                 false, // TODO add this field to entity
