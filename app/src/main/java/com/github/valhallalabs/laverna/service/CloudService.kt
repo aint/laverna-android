@@ -1,10 +1,6 @@
 package com.github.valhallalabs.laverna.service
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl
-import com.github.valhallalabs.laverna.persistent.entity.Note
-import com.github.valhallalabs.laverna.persistent.entity.Notebook
-import com.github.valhallalabs.laverna.persistent.entity.Tag
 
 interface CloudService {
 
@@ -18,51 +14,7 @@ interface CloudService {
     fun pushNotes(profileName: String, notes: List<NoteJson>)
     fun pushTags(profileName: String, tags: List<TagJson>)
 
-    fun convertToNoteEntity(noteJson: NoteJson, profileId: String): Note {
-        return Note(                                                // TODO use object mapper
-                noteJson.id,
-                profileId,
-                noteJson.trash,
-                noteJson.notebookId,
-                noteJson.title,
-                noteJson.created,
-                noteJson.updated,
-                noteJson.content!!,
-                MarkdownParserImpl().getParsedHtml(noteJson.content), // TODO use static util
-                noteJson.isFavorite
-        )
-    }
 
-    fun convertToNotebookEntity(notebookJson: NotebookJson, profileId: String): Notebook {
-        return Notebook(                                                // TODO use object mapper
-                notebookJson.id,
-                profileId,
-                notebookJson.trash,
-                if (notebookJson.parentId == "0") null else notebookJson.parentId,
-                notebookJson.name,
-                notebookJson.created,
-                notebookJson.updated,
-                notebookJson.count
-        )
-    }
-
-    fun convertToTagEntity(tagJson: TagJson, profileId: String): Tag {
-        return Tag(
-                tagJson.id,
-                profileId,
-                tagJson.name,
-                tagJson.created,
-                tagJson.updated,
-                tagJson.count.toIntOrNull() ?: 0
-        )
-    }
-
-    companion object {
-        const val NOTES_PATH      = "/notes"
-        const val NOTEBOOKS_PATH  = "/notebooks"
-        const val TAGS_PATH       = "/tags"
-        const val ROOT_PATH       = ""
-    }
 
     abstract class JsonEntity {
         abstract val id: String
