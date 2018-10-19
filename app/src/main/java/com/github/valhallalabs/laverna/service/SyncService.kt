@@ -1,11 +1,11 @@
 package com.github.valhallalabs.laverna.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.core.TagService
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs
 import com.github.valhallalabs.laverna.service.cloud.CloudConverter
 import com.orhanobut.logger.Logger
 
@@ -14,8 +14,7 @@ class SyncService(
         private val profileService: ProfileService,
         private val notebookService: NotebookService,
         private val noteService: NoteService,
-        private val tagService: TagService,
-        private val objectMapper: ObjectMapper) {
+        private val tagService: TagService) {
 
     fun pullData() {
         Logger.w("IMPORT PROFILES")
@@ -72,6 +71,32 @@ class SyncService(
     }
 
     fun pushData() {
+        profileService.openConnection()
+        profileService.all.forEach { profile ->
+            val profileId = profile.id
+            val profileName = profile.name
 
+            //TODO implement pagination
+            val offset = 0
+            val limit = 100_000
+            val pagination = PaginationArgs(offset, limit)
+
+            notebookService.openConnection()
+            val notebooks = notebookService.getByProfile(profileId, pagination).map { CloudConverter.notebookEntityToJson(it) }
+            notebookService.closeConnection()
+            cloudService.pushNotebooks(profileName, notebooks)
+
+            noteService.openConnection()
+            val notes = noteService.getByProfile(profileId, pagination).map { CloudConverter.noteEntityToJson(it) }
+            noteService.closeConnection()
+            cloudService.pushNotes(profileName, notes)
+
+            tagService.openConnection()
+            val tags = tagService.getByProfile(profileId, pagination).map { CloudConverter.tagEntityToJson(it) }
+            tagService.closeConnection()
+            cloudService.pushTags(profileName, tags)
+        }
+        profileService.closeConnection()
     }
+
 }
