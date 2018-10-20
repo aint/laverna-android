@@ -55,11 +55,11 @@ class DropboxService(
         profiles.forEach { DropboxClientFactory.getClient().files().createFolderV2("/$it") }
     }
 
-    override fun pushNotebooks(profileName: String, notebooks: List<NotebookJson>) = notebooks.forEach { uploadEntity(it, profileName + NOTES_PATH) }
+    override fun pushNotebooks(profileName: String, notebooks: List<NotebookJson>) = notebooks.forEach { uploadEntity(it, profileName + NOTEBOOKS_PATH) }
 
     override fun pushNotes(profileName: String, notes: List<NoteJson>) = notes.forEach { uploadEntity(it, profileName + NOTES_PATH) }
 
-    override fun pushTags(profileName: String, tags: List<TagJson>) = tags.forEach { uploadEntity(it, profileName + NOTES_PATH) }
+    override fun pushTags(profileName: String, tags: List<TagJson>) = tags.forEach { uploadEntity(it, profileName + TAGS_PATH) }
 
     @Throws(IOException::class)
     private fun uploadEntity(entity: JsonEntity, basePath: String) {
