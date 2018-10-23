@@ -24,8 +24,6 @@ import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.core.TagService
-import com.github.android.lvrn.lvrnproject.util.CurrentState
-import com.github.android.lvrn.lvrnproject.util.PaginationArgs
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl
@@ -36,6 +34,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trash
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst
 import com.github.valhallalabs.laverna.service.DropboxClientFactory
 import com.github.valhallalabs.laverna.service.DropboxService
+import com.github.valhallalabs.laverna.service.SyncService
 import com.orhanobut.logger.Logger
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -146,25 +145,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val objectMapper = ObjectMapper().registerModule(KotlinModule())
         val dropboxService = DropboxService(noteService, notebookService, tagService, profileService, objectMapper)
 
-        Logger.w("IMPORT PROFILES")
-        dropboxService.importProfiles()
-        Logger.w("END IMPORT PROFILES")
-        Logger.w("START IMPORT NOTEBOOKS & NOTES & TAGS")
-        profileService.openConnection()
-        for ((profileId, profileName) in profileService.all) {
-            CurrentState.profileId = profileId
-            Logger.w("CURRENT PROFILE %s", profileName)
-            dropboxService.importNotebooks(profileId, profileName)
-            dropboxService.importNotes(profileId, profileName)
-            dropboxService.importTags(profileId, profileName)
-        }
-        profileService.closeConnection()
-        Logger.w("END IMPORT NOTEBOOKS & NOTES & TAGS")
-        tagService.openConnection()
-        for ((_, _, name) in tagService.getByProfile(CurrentState.profileId, PaginationArgs())) {
-            Logger.w("TAG %s", name)
-        }
-        tagService.closeConnection()
+        val syncService = SyncService(dropboxService, profileService, notebookService, noteService, tagService)
+        syncService.pullData()
+//        syncService.pushData()
 
         return Completable.complete()
     }
