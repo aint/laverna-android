@@ -46,8 +46,8 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var mDrawerLayout: DrawerLayout
-    lateinit var mToolBar: Toolbar
+    private lateinit var mDrawerLayout: DrawerLayout
+    private lateinit var mToolBar: Toolbar
     lateinit var floatingActionsMenu: FloatingActionsMenu
 
     @Inject
@@ -84,8 +84,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mToggle.syncState()
         (findViewById<View>(R.id.nav_view) as NavigationView).setNavigationItemSelectedListener(this)
 
-        val notesListFragment = NotesListFragmentImpl()
-        menuStartSelectFragment(notesListFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT)
+        menuStartSelectFragment(NotesListFragmentImpl(), FragmentConst.TAG_NOTES_LIST_FRAGMENT)
     }
 
     override fun onPause() {
@@ -96,9 +95,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+            return
         }
+
+        super.onBackPressed()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -139,6 +139,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mDrawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+    //todo complete menu
 
     private fun syncData(accessToken: String): Completable {
         DropboxClientFactory.init(accessToken)
@@ -190,8 +191,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fragmentTransaction = supportFragmentManager
                 .beginTransaction()
                 .addToBackStack(null)
-        val dialogFragment = NotebookCreationDialogFragmentImpl.newInstance(FragmentConst.DIALOG_OPEN_FROM_MAIN_ACTIVITY)
-        dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT)
+
+        NotebookCreationDialogFragmentImpl
+                .newInstance(FragmentConst.DIALOG_OPEN_FROM_MAIN_ACTIVITY)
+                .show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT)
+
         floatingActionsMenu.collapse()
     }
 }
