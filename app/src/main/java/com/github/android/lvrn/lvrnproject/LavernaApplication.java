@@ -1,16 +1,22 @@
 package com.github.android.lvrn.lvrnproject;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
+import com.dropbox.core.android.Auth;
 import com.github.android.lvrn.lvrnproject.dagger.components.AppComponent;
 import com.github.android.lvrn.lvrnproject.dagger.components.DaggerAppComponent;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
+import com.google.common.base.Optional;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -49,44 +55,34 @@ public class LavernaApplication extends Application {
 
 
 
-//        noteService.openConnection();
-//        notebookService.openConnection();
-//        for(int i = 1; i <= 3; i++) {
-//
-//            Optional<String> optionalStringID = notebookService.create(new NotebookForm(profileId, false, null, "notebook" + i));
-//            for(int j = 1; j <=20; j++) {
-//                Optional<String> otherString = notebookService.create(new NotebookForm(profileId, false, optionalStringID.get(), "inner noteboook for " + i + " num " + j));
-//                for(int k = 1; k <= 20; k++) {
-//                    notebookService.create(new NotebookForm(profileId, false, otherString.get(), "inner noteboook for " + i +" for " + j + " num " + k));
-//                    noteService.create(new NoteForm(profileId, false, otherString.get(), "note " + i + " " + j + " " + k, "content", "content", false));
-//                }
-//                noteService.create(new NoteForm(profileId, false, optionalStringID.get(), "note " + i + " " + j, "content", "content", false));
-//            }
-//
-//
-//        }
-//        notebookService.closeConnection();
-//        noteService.closeConnection();
-//
-////
-//        noteService.openConnection();
-//        for (int i = 0; i < 50; i++) {
-//            noteService.create(new NoteForm(profileId, true, null, "note" + i, "dfsdf", "dfsdf", true));
-//            noteService.create(new NoteForm(profileId, false, null, "lol note" + i, "lol dfsdf", "lol dfsdf", false));
-//            noteService.create(new NoteForm(profileId, false, null, "kek note" + i, "lol dfsdf", "lol dfsdf", true));
-//        }
-//        noteService.closeConnection();
-        noteService.openConnection();
-        noteService.create(new NoteForm(profileId, false, "0", "title 1", "content\n" +
-                "[] first task\n" +
-                "[] second task\n" +
-                "[X] completed task", "htmlContent",false));
+        notebookService.openConnection();
+        String notebookId = notebookService
+                .create(new NotebookForm(profileId, false, null, "notebook_default"))
+                .get();
+        notebookService.closeConnection();
 
+        noteService.openConnection();
+        if (noteService.getByNotebook(notebookId, new PaginationArgs()).isEmpty()) {
+            noteService.create(new NoteForm(profileId, false, notebookId, "title 1", "content\n" +
+                    "[] first task\n" +
+                    "[] second task\n" +
+                    "[X] completed task", "htmlContent",false));
+        }
         noteService.closeConnection();
 
 
 
+        if (!hasToken()) {
+            Logger.w("No Dropbox access token, start OAuth2 authentication");
+            Auth.startOAuth2Authentication(LavernaApplication.this, getString(R.string.app_key));
+        }
+    }
 
+    protected boolean hasToken() {
+        SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+        String token = prefs.getString("access-token", null);
+        Logger.w("Dropbox token = " + token);
+        return token != null;
     }
 
     public static AppComponent getsAppComponent() {

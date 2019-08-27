@@ -77,7 +77,7 @@ class DropboxService(
     private inline fun <reified T : JsonEntity> downloadEntities(path: String): List<T> {
         return DropboxClientFactory.getClient()
                 .files()
-                .listFolder(path)
+                .listFolder(path)  //todo make fail-safe in case of absence of some dirs
                 .entries
                 .onEach { Logger.i( "%s metadata file: %s", T::class, it.name) }
                 .mapNotNull{ parseEntity<T>(it) }
