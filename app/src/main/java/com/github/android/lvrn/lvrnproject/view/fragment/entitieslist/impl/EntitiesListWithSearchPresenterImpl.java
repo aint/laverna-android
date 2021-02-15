@@ -1,7 +1,7 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl;
 
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.appcompat.widget.SearchView;
 import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;

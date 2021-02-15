@@ -1,7 +1,7 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.impl;
 
 import android.database.Cursor;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;

@@ -22,7 +22,7 @@
             android:elevation="2dp"
             android:background="@color/color_edit_text_title_note"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_notebooks"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -41,7 +41,7 @@
             android:elevation="2dp"
             android:background="@color/color_edit_text_title_note"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_notes"
             android:layout_width="match_parent"
             android:layout_height="200dp"

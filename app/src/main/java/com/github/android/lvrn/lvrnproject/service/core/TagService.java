@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.valhallalabs.laverna.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;

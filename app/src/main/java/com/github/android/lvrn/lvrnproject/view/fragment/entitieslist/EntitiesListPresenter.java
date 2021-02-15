@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;

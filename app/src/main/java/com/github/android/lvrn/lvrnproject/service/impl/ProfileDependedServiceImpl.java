@@ -1,7 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;
 import com.github.android.lvrn.lvrnproject.service.ProfileDependedService;

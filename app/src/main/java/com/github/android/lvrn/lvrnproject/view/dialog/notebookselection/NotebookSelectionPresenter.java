@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.dialog.notebookselection;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 

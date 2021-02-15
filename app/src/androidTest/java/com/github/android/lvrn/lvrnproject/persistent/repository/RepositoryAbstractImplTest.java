@@ -3,11 +3,11 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.MediumTest;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.filters.MediumTest;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.entity.Entity;

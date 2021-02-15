@@ -3,7 +3,7 @@ package com.github.android.lvrn.lvrnproject.persistent.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
