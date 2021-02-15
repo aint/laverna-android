@@ -6,7 +6,7 @@
 
 **Laverna Android** is a companion note-taking application for [Laverna](https://github.com/Laverna/laverna) (web app) designed for Android. It's built to help to become Laverna a full-blown open source alternative to _Evernote_.
 
-The application supports Android 4.1 JELLY BEAN (API level 16) and above.
+The application supports Android 5.0 Lollipop (API 21) and above.
 
 ### Screenshot:
 
