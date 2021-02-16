@@ -2,19 +2,19 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
-import com.github.android.lvrn.lvrnproject.R;
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import com.github.android.lvrn.lvrnproject.databinding.DialogFragmentNotebookSelectionBinding;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl;
 import com.github.android.lvrn.lvrnproject.view.adapter.NotebookSelectionAdapter;
@@ -23,14 +23,10 @@ import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.Noteboo
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -44,12 +40,6 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     @Inject
     NotebookService mNotebookService;
 
-    @BindView(R.id.recycler_view_notebooks_dialog_fragment_selection)
-    RecyclerView mNotebooksRecyclerView;
-
-    @BindView(R.id.tv_create_notebook_dialog_dialog_fragment_selection)
-    TextView mTextViewNotebookName;
-
     private Parcelable mRecyclerViewState;
 
     private NotebookSelectionPresenter mNotebookSelectionPresenter;
@@ -58,11 +48,11 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
     private LinearLayoutManager mLinearLayoutManager;
 
-    private Unbinder mUnbinder;
-
     private Notebook mNotebook;
 
     private Notebook mSelectedNotebook;
+
+    private DialogFragmentNotebookSelectionBinding dialogFragmentNotebookSelectionBinding;
 
     public static NotebookSelectionDialogFragmentImpl newInstance(Notebook notebook) {
         NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
@@ -82,8 +72,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_fragment_notebook_selection, container, false);
-        mUnbinder = ButterKnife.bind(this, view);
+        dialogFragmentNotebookSelectionBinding = DialogFragmentNotebookSelectionBinding.inflate(inflater, container, false);
         LavernaApplication.getsAppComponent().inject(this);
 
         mNotebookSelectionPresenter = new NotebookSelectionPresenterImpl(mNotebookService);
@@ -97,15 +86,18 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
 //        getDialog().setTitle(DIALOG_TITLE);
 
-        return view;
+        return dialogFragmentNotebookSelectionBinding.getRoot();
     }
 
-    private void initTextView() {
-        if (mNotebook == null){
-        }else mTextViewNotebookName.setText(mNotebook.getName());
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        dialogFragmentNotebookSelectionBinding.btnCreateNotebookDialogFragmentSelection.setOnClickListener(view1 -> createNotebook());
+        dialogFragmentNotebookSelectionBinding.btnOkDialogFragmentSelection.setOnClickListener(view1 -> acceptChanges());
+        dialogFragmentNotebookSelectionBinding.btnResetNotebookDialogFragmentSelection.setOnClickListener(view1 -> resetChanges());
+        dialogFragmentNotebookSelectionBinding.btnCancelDialogFragmentSelection.setOnClickListener(view1 -> cancelDialog());
     }
 
-    @OnClick(R.id.btn_create_notebook_dialog_fragment_selection)
     public void createNotebook() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
@@ -114,20 +106,17 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
     }
 
-    @OnClick(R.id.btn_ok_dialog_fragment_selection)
     public void acceptChanges() {
         ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(mSelectedNotebook);
         getDialog().dismiss();
     }
 
-    @OnClick(R.id.btn_reset_notebook_dialog_fragment_selection)
     public void resetChanges() {
         ((NoteEditorActivityImpl) getActivity()).setNoteNotebooks(null);
         getDialog().dismiss();
     }
 
-    @OnClick(R.id.btn_cancel_dialog_fragment_selection)
-    public void cancelDialog(){
+    public void cancelDialog() {
         getDialog().dismiss();
     }
 
@@ -184,9 +173,6 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-        }
         mNotebookSelectionPresenter.disposePagination();
     }
 
@@ -194,17 +180,24 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
      * A method which makes set up of a recycler view with notebooks.
      */
     private void initRecyclerView() {
-        mNotebooksRecyclerView.setHasFixedSize(true);
+        RecyclerView recyclerViewNotebooksDialogFragmentSelection = dialogFragmentNotebookSelectionBinding.recyclerViewNotebooksDialogFragmentSelection;
+        recyclerViewNotebooksDialogFragmentSelection.setHasFixedSize(true);
 
         mLinearLayoutManager = new LinearLayoutManager(getContext());
-        mNotebooksRecyclerView.setLayoutManager(mLinearLayoutManager);
+        recyclerViewNotebooksDialogFragmentSelection.setLayoutManager(mLinearLayoutManager);
 
         mNotebooksRecyclerViewAdapter = new NotebookSelectionAdapter(
                 this, mNotebookSelectionPresenter.getNotebooksForAdapter());
 
-        mNotebooksRecyclerView.setAdapter(mNotebooksRecyclerViewAdapter);
+        recyclerViewNotebooksDialogFragmentSelection.setAdapter(mNotebooksRecyclerViewAdapter);
 
-        mNotebookSelectionPresenter.subscribeRecyclerViewForPagination(mNotebooksRecyclerView);
+        mNotebookSelectionPresenter.subscribeRecyclerViewForPagination(recyclerViewNotebooksDialogFragmentSelection);
 
+    }
+
+    private void initTextView() {
+        if (mNotebook == null) {
+        } else
+            dialogFragmentNotebookSelectionBinding.tvCreateNotebookDialogDialogFragmentSelection.setText(mNotebook.getName());
     }
 }

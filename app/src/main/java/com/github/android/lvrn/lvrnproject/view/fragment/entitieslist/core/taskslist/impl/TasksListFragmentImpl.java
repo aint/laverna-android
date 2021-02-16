@@ -2,13 +2,6 @@ package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.task
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.core.view.MenuItemCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,23 +9,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.valhallalabs.laverna.activity.MainActivity;
-import com.github.valhallalabs.laverna.persistent.entity.Task;
+import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TasksListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
+import com.github.valhallalabs.laverna.activity.MainActivity;
+import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -40,13 +38,10 @@ import butterknife.Unbinder;
 
 public class TasksListFragmentImpl extends Fragment implements TasksListFragment {
 
-    @BindView(R.id.recycler_view_all_entities) RecyclerView mTasksRecyclerView;
-
-    @Inject TasksListPresenter mTasksListPresenter;
+    @Inject
+    TasksListPresenter mTasksListPresenter;
 
     public static final String TOOLBAR_TITLE = "All tasks";
-
-    private Unbinder mUnbinder;
 
     private TasksListAdapter mTasksRecyclerViewAdapter;
 
@@ -54,24 +49,25 @@ public class TasksListFragmentImpl extends Fragment implements TasksListFragment
 
     private MenuItem mMenuSearch;
 
+    private FragmentEntitiesListBinding mFragmentEntitiesListBinding;
+
 //    TODO: introduce in future milestones
 //    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
-        mUnbinder = ButterKnife.bind(this, rootView);
+        mFragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater, container, false);
         LavernaApplication.getsAppComponent().inject(this);
         setUpToolbar();
         initRecyclerView();
-        return rootView;
+        return mFragmentEntitiesListBinding.getRoot();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(mTasksListPresenter != null) {
+        if (mTasksListPresenter != null) {
             mTasksListPresenter.bindView(this);
         }
     }
@@ -103,9 +99,6 @@ public class TasksListFragmentImpl extends Fragment implements TasksListFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-        }
         mTasksListPresenter.disposePagination();
         mTasksListPresenter.disposeSearch();
     }
@@ -168,15 +161,16 @@ public class TasksListFragmentImpl extends Fragment implements TasksListFragment
      * A method which initializes recycler view with data
      */
     private void initRecyclerView() {
-        mTasksRecyclerView.setHasFixedSize(true);
+        RecyclerView recyclerViewAllEntities = mFragmentEntitiesListBinding.recyclerViewAllEntities;
+        recyclerViewAllEntities.setHasFixedSize(true);
 
-        mTasksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewAllEntities.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mTasksRecyclerViewAdapter = new TasksListAdapter(this);
         mTasksListPresenter.setDataToAdapter(mTasksRecyclerViewAdapter);
-        mTasksRecyclerView.setAdapter(mTasksRecyclerViewAdapter);
+        recyclerViewAllEntities.setAdapter(mTasksRecyclerViewAdapter);
 
-        mTasksListPresenter.subscribeRecyclerViewForPagination(mTasksRecyclerView);
+        mTasksListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities);
     }
 
     /**

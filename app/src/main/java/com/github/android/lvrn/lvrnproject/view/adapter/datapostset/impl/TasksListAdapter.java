@@ -1,20 +1,16 @@
 package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.github.android.lvrn.lvrnproject.R;
-import com.github.valhallalabs.laverna.persistent.entity.Task;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.github.android.lvrn.lvrnproject.databinding.ItemTaskBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
+import com.github.valhallalabs.laverna.persistent.entity.Task;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -31,13 +27,12 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.Task
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
-        return new TaskViewHolder(view);
+        return new TaskViewHolder(ItemTaskBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
-        holder.tvTaskDescription.setText(mTasks.get(position).getDescription());
+        holder.itemTaskBinding.textViewTaskDescription.setText(mTasks.get(position).getDescription());
         holder.itemView.setOnClickListener(v -> mTaskListFragment.openRelatedNote(mTasks.get(position)));
     }
 
@@ -52,11 +47,12 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.Task
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.text_view_task_description) TextView tvTaskDescription;
 
-        TaskViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        ItemTaskBinding itemTaskBinding;
+
+        TaskViewHolder(ItemTaskBinding itemTaskBinding) {
+            super(itemTaskBinding.getRoot());
+            this.itemTaskBinding = itemTaskBinding;
         }
     }
 }

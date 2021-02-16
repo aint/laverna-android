@@ -1,26 +1,22 @@
 package com.github.android.lvrn.lvrnproject.view.adapter;
 
 import android.graphics.Color;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.github.android.lvrn.lvrnproject.R;
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.github.android.lvrn.lvrnproject.databinding.ItemNotebookCreateBinding;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelectionAdapter.NotebookViewHolder>  {
+public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelectionAdapter.NotebookViewHolder> {
 
     private NotebookSelectionDialogFragmentImpl mNotebookSelectionDialogFragment;
 
@@ -34,16 +30,13 @@ public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelec
 
     @Override
     public NotebookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_notebook_create, parent, false);
-
-        return new NotebookViewHolder(view);
+        return new NotebookViewHolder(ItemNotebookCreateBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(NotebookViewHolder holder, int position) {
         String notebookName = mNotebooks.get(position).getName();
-        holder.mNotebookNameTextView.setText(notebookName);
+        holder.itemNotebookCreateBinding.textViewNotebookName.setText(notebookName);
 
         if (mSelectedItem == position)
             holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
@@ -71,11 +64,11 @@ public class NotebookSelectionAdapter extends RecyclerView.Adapter<NotebookSelec
 
     static class NotebookViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_view_notebook_name) TextView mNotebookNameTextView;
+        ItemNotebookCreateBinding itemNotebookCreateBinding;
 
-        NotebookViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        NotebookViewHolder(ItemNotebookCreateBinding itemNotebookCreateBinding) {
+            super(itemNotebookCreateBinding.getRoot());
+            this.itemNotebookCreateBinding = itemNotebookCreateBinding;
         }
     }
 }

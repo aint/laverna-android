@@ -1,20 +1,16 @@
 package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.github.android.lvrn.lvrnproject.R;
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.github.android.lvrn.lvrnproject.databinding.ItemNotebookBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -32,13 +28,12 @@ public class ChildNotebooksAdapter extends RecyclerView.Adapter<ChildNotebooksAd
 
     @Override
     public ChildNotebooksAdapter.ChildNotebooksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notebook, parent, false);
-        return new ChildNotebooksViewHolder(view);
+        return new ChildNotebooksViewHolder(ItemNotebookBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(ChildNotebooksAdapter.ChildNotebooksViewHolder holder, int position) {
-        holder.notebookNameTextView.setText(mNotebooks.get(position).getName());
+        holder.itemNotebookBinding.textViewNotebookName.setText(mNotebooks.get(position).getName());
         holder.itemView.setOnClickListener(v -> mNotebooksChildrenFragment.openNotebook(mNotebooks.get(position)));
     }
 
@@ -54,11 +49,11 @@ public class ChildNotebooksAdapter extends RecyclerView.Adapter<ChildNotebooksAd
 
     class ChildNotebooksViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_view_notebook_name) TextView notebookNameTextView;
+        private ItemNotebookBinding itemNotebookBinding;
 
-        ChildNotebooksViewHolder (View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        ChildNotebooksViewHolder(ItemNotebookBinding itemNotebookBinding) {
+            super(itemNotebookBinding.getRoot());
+            this.itemNotebookBinding = itemNotebookBinding;
         }
     }
 }

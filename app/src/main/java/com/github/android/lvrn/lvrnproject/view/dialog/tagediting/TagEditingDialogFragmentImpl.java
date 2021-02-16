@@ -1,38 +1,38 @@
 package com.github.android.lvrn.lvrnproject.view.dialog.tagediting;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
-import com.github.android.lvrn.lvrnproject.R;
-import com.github.valhallalabs.laverna.persistent.entity.Tag;
+import com.github.android.lvrn.lvrnproject.databinding.DialogFragmentTagEditingBinding;
 import com.github.android.lvrn.lvrnproject.service.core.TagService;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TagsListAdapter;
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
+import com.github.valhallalabs.laverna.persistent.entity.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
 public class TagEditingDialogFragmentImpl extends DialogFragment {
-    @BindView(R.id.recycler_view_all_tags) RecyclerView mRecyclerViewTags;
-    @Inject TagService mTagService;
+
+    @Inject
+    TagService mTagService;
     private List<Tag> mTagListDate = new ArrayList<>();
+    private DialogFragmentTagEditingBinding dialogFragmentTagEditingBinding;
 
     public TagEditingDialogFragmentImpl() {
     }
@@ -47,19 +47,19 @@ public class TagEditingDialogFragmentImpl extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.dialog_fragment_tag_editing, container, false);
-        ButterKnife.bind(this, root);
+        dialogFragmentTagEditingBinding = DialogFragmentTagEditingBinding.inflate(inflater, container, false);
         LavernaApplication.getsAppComponent().inject(this);
         initRecyclerView();
         initTagData();
-        return root;
+        return dialogFragmentTagEditingBinding.getRoot();
     }
 
     private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerViewTags.setLayoutManager(layoutManager);
+        RecyclerView recyclerViewAllTags = dialogFragmentTagEditingBinding.recyclerViewAllTags;
+        recyclerViewAllTags.setLayoutManager(layoutManager);
         TagsListAdapter tagEditingAdapter = new TagsListAdapter(mTagListDate);
-        mRecyclerViewTags.setAdapter(tagEditingAdapter);
+        recyclerViewAllTags.setAdapter(tagEditingAdapter);
     }
 
     private void initTagData() {
