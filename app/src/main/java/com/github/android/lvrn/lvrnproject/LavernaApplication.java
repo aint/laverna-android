@@ -13,6 +13,7 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.google.common.base.Optional;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -38,6 +39,7 @@ public class LavernaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Logger.addLogAdapter(new AndroidLogAdapter());
+        AndroidThreeTen.init(this);
         DatabaseManager.initializeInstance(this);
         sAppComponent = DaggerAppComponent.create();
         sAppComponent.inject(this);

@@ -40,8 +40,6 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
     @Inject
     NotebooksListPresenter mNotebooksListPresenter;
 
-    public static final String TOOLBAR_TITLE = "All Notes";
-
     private NotebooksListAdapter mNotebooksRecyclerViewAdapter;
 
     private SearchView mSearchView;
@@ -181,7 +179,7 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
         setHasOptionsMenu(true);
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(TOOLBAR_TITLE);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.drawer_main_menu_notebooks);
         }
     }
 }
