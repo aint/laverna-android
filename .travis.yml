@@ -3,13 +3,13 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-28.0.2
+    - build-tools-29.0.2
     - extra-google-m2repository
     - extra-android-m2repository
     - extra-google-android-support
     - extra-google-google_play_services
-    - android-27
-    - sys-img-armeabi-v7a-android-27
+    - android-29
+    - sys-img-armeabi-v7a-android-29
   
   licenses:
     - 'android-sdk-preview-license-.+'
