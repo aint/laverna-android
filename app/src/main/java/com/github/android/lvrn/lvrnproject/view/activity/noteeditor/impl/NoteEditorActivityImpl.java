@@ -58,12 +58,12 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         setContentView(activityNoteEditorBinding.getRoot());
         LavernaApplication.getsAppComponent().inject(this);
         activityNoteEditorBinding.webViewPreview.getSettings().setJavaScriptEnabled(true);
-        setUpToolbar();
-        initTabs();
-        restoreSavedInstance(savedInstanceState);
         editTextTitle = activityNoteEditorBinding.editTextTitle;
         editTextEditor = activityNoteEditorBinding.editTextEditor;
         tabHost = activityNoteEditorBinding.tabHost;
+        setUpToolbar();
+        initTabs();
+        restoreSavedInstance(savedInstanceState);
     }
 
     @Override

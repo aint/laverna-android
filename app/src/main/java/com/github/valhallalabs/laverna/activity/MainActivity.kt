@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Logger.w("accessToken %s saved to pref", accessToken)
             }
 
-            Observable.defer { syncData(accessToken).toObservable<Any>() }
+            Observable.defer { accessToken?.let { syncData(it).toObservable<Any>() } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe()

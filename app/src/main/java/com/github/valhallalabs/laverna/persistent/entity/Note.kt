@@ -1,13 +1,14 @@
 package com.github.valhallalabs.laverna.persistent.entity
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity
+import kotlinx.android.parcel.Parcelize
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
+ * @author Bei Andrii <bei.andrii.dev@gmail.com?>
  */
+@Parcelize
 data class Note(
         override val id: String,
         override val profileId: String,
@@ -42,41 +43,6 @@ data class Note(
          */
         var isFavorite: Boolean
 ) : TrashDependedEntity() {
-
-    private constructor(parcel: Parcel) : this(
-            id = parcel.readString(),
-            profileId = parcel.readString(),
-            isTrash = parcel.readByte().toInt() != 0,
-            notebookId = parcel.readString(),
-            title = parcel.readString(),
-            creationTime = parcel.readLong(),
-            updateTime = parcel.readLong(),
-            content = parcel.readString(),
-            htmlContent = parcel.readString(),
-            isFavorite = parcel.readByte().toInt() != 0
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(profileId)
-        parcel.writeString(notebookId)
-        parcel.writeString(title)
-        parcel.writeLong(creationTime)
-        parcel.writeValue(updateTime)
-        parcel.writeString(content)
-        parcel.writeString(htmlContent)
-        parcel.writeByte((if (isFavorite) 1 else 0).toByte())
-        parcel.writeByte((if (isTrash) 1 else 0).toByte())
-    }
-
-    override fun describeContents() = 0
-
-    companion object {
-        @JvmField val CREATOR = object : Parcelable.Creator<Note> {
-            override fun createFromParcel(parcel: Parcel) = Note(parcel)
-            override fun newArray(size: Int) = arrayOfNulls<Note>(size)
-        }
-    }
 
     override fun toString(): String {
         return "Note{" + super.toString() +
