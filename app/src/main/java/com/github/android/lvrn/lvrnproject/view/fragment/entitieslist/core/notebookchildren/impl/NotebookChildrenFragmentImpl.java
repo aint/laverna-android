@@ -1,16 +1,17 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import com.github.android.lvrn.lvrnproject.databinding.FragmentNotebookContentBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNotebooksAdapter;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNotesAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment;
@@ -19,13 +20,10 @@ import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContent
 import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst.BUNDLE_NOTEBOOK_OBJECT_KEY;
 
@@ -35,32 +33,26 @@ import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysCon
  */
 
 public class NotebookChildrenFragmentImpl extends Fragment implements NotebookChildrenFragment {
-    @BindView(R.id.recycler_view_notebooks) RecyclerView mNotebooksRecyclerView;
 
-    @BindView(R.id.recycler_view_notes) RecyclerView mNotesRecyclerView;
-
-    @Inject NotebookChildrenPresenter mNotebookChildrenPresenter;
-
-    private Unbinder mUnbinder;
-
+    @Inject
+    NotebookChildrenPresenter mNotebookChildrenPresenter;
     private ChildNotesAdapter mChildNotesAdapter;
-
     private ChildNotebooksAdapter mChildNotebooksAdapter;
+    private FragmentNotebookContentBinding mFragmentNotebookContentBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notebook_content, container, false);
-        mUnbinder = ButterKnife.bind(this, view);
+        mFragmentNotebookContentBinding = FragmentNotebookContentBinding.inflate(inflater, container, false);
         LavernaApplication.getsAppComponent().inject(this);
         initListPresenters();
         initRecyclerViews();
-        return view;
+        return mFragmentNotebookContentBinding.getRoot();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(mNotebookChildrenPresenter != null) {
+        if (mNotebookChildrenPresenter != null) {
             mNotebookChildrenPresenter.getNotebooksListPresenter().bindView(this);
             mNotebookChildrenPresenter.getNotesListPresenter().bindView(this);
         }
@@ -76,9 +68,6 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mUnbinder != null){
-            mUnbinder.unbind();
-        }
         mNotebookChildrenPresenter.getNotebooksListPresenter().disposePagination();
         mNotebookChildrenPresenter.getNotesListPresenter().disposePagination();
     }
@@ -100,27 +89,29 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
     }
 
     private void initNotesRecyclerView() {
-        mNotesRecyclerView.setHasFixedSize(true);
+        RecyclerView recyclerViewNotes = mFragmentNotebookContentBinding.recyclerViewNotes;
+        recyclerViewNotes.setHasFixedSize(true);
 
-        mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewNotes.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mChildNotesAdapter = new ChildNotesAdapter(this);
         mNotebookChildrenPresenter.getNotesListPresenter().setDataToAdapter(mChildNotesAdapter);
-        mNotesRecyclerView.setAdapter(mChildNotesAdapter);
+        recyclerViewNotes.setAdapter(mChildNotesAdapter);
 
-        mNotebookChildrenPresenter.getNotesListPresenter().subscribeRecyclerViewForPagination(mNotesRecyclerView);
+        mNotebookChildrenPresenter.getNotesListPresenter().subscribeRecyclerViewForPagination(recyclerViewNotes);
     }
 
     private void initNotebooksRecyclerView() {
-        mNotebooksRecyclerView.setHasFixedSize(true);
+        RecyclerView recyclerViewNotebooks = mFragmentNotebookContentBinding.recyclerViewNotebooks;
+        recyclerViewNotebooks.setHasFixedSize(true);
 
-        mNotebooksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewNotebooks.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mChildNotebooksAdapter = new ChildNotebooksAdapter(this);
         mNotebookChildrenPresenter.getNotebooksListPresenter().setDataToAdapter(mChildNotebooksAdapter);
-        mNotebooksRecyclerView.setAdapter(mChildNotebooksAdapter);
+        recyclerViewNotebooks.setAdapter(mChildNotebooksAdapter);
 
-        mNotebookChildrenPresenter.getNotebooksListPresenter().subscribeRecyclerViewForPagination(mNotebooksRecyclerView);
+        mNotebookChildrenPresenter.getNotebooksListPresenter().subscribeRecyclerViewForPagination(recyclerViewNotebooks);
     }
 
     @Override

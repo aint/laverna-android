@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.util;
 
-import android.support.annotation.Size;
+import androidx.annotation.Size;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>

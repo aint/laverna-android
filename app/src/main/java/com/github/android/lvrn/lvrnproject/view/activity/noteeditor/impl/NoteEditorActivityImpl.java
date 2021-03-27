@@ -3,31 +3,28 @@ package com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TabHost;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.valhallalabs.laverna.activity.MainActivity;
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import com.github.android.lvrn.lvrnproject.databinding.ActivityNoteEditorBinding;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorPresenter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
+import com.github.valhallalabs.laverna.activity.MainActivity;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -37,21 +34,6 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
 
     @Inject
     NoteService noteService;
-
-    @BindView(R.id.toolbar_main)
-    Toolbar mainToolbar;
-
-    @BindView(R.id.edit_text_title)
-    EditText mTitleEditText;
-
-    @BindView(R.id.edit_text_editor)
-    EditText mEditorEditText;
-
-    @BindView(R.id.web_view_preview)
-    WebView mPreviewWebView;
-
-    @BindView(R.id.tab_host)
-    TabHost tabHost;
 
     private static final String EDITOR_TEXT_KEY = "editorText";
     private static final String TITLE_TEXT_KEY = "titleText";
@@ -64,14 +46,21 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     private NoteEditorPresenter mNoteEditorPresenter;
     private String mHtmlText = "";
     private MenuItem mNotebookMenu;
+    private ActivityNoteEditorBinding activityNoteEditorBinding;
+    private EditText editTextTitle;
+    private EditText editTextEditor;
+    private TabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_editor);
-        ButterKnife.bind(this);
+        activityNoteEditorBinding = ActivityNoteEditorBinding.inflate(getLayoutInflater());
+        setContentView(activityNoteEditorBinding.getRoot());
         LavernaApplication.getsAppComponent().inject(this);
-        mPreviewWebView.getSettings().setJavaScriptEnabled(true);
+        activityNoteEditorBinding.webViewPreview.getSettings().setJavaScriptEnabled(true);
+        editTextTitle = activityNoteEditorBinding.editTextTitle;
+        editTextEditor = activityNoteEditorBinding.editTextEditor;
+        tabHost = activityNoteEditorBinding.tabHost;
         setUpToolbar();
         initTabs();
         restoreSavedInstance(savedInstanceState);
@@ -79,12 +68,15 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (mEditorEditText != null) {
-            outState.putString(EDITOR_TEXT_KEY, mEditorEditText.getText().toString());
+
+        if (editTextEditor != null) {
+            outState.putString(EDITOR_TEXT_KEY, editTextEditor.getText().toString());
         }
-        if (mTitleEditText != null) {
-            outState.putString(TITLE_TEXT_KEY, mTitleEditText.getText().toString());
+
+        if (editTextTitle != null) {
+            outState.putString(TITLE_TEXT_KEY, editTextTitle.getText().toString());
         }
+
         if (tabHost != null) {
             outState.putInt(CURRENT_TAB_KEY, tabHost.getCurrentTab());
         }
@@ -98,7 +90,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
             mNoteEditorPresenter = new NoteEditorPresenterImpl(noteService);
         }
         mNoteEditorPresenter.bindView(this);
-        mNoteEditorPresenter.subscribeEditorForPreview(mEditorEditText);
+        mNoteEditorPresenter.subscribeEditorForPreview(editTextEditor);
     }
 
     @Override
@@ -111,7 +103,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     @Override
     public void loadPreview(String html) {
         mHtmlText = html;
-        mPreviewWebView.loadDataWithBaseURL(null, html, MIME_TYPE, ENCODING, null);
+        activityNoteEditorBinding.webViewPreview.loadDataWithBaseURL(null, html, MIME_TYPE, ENCODING, null);
     }
 
     @Override
@@ -132,10 +124,10 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         int itemId = item.getItemId();
         if (itemId == R.id.item_done) {
             mNoteEditorPresenter.saveNewNote(
-                    mTitleEditText.getText().toString(),
-                    mEditorEditText.getText().toString(),
+                    editTextTitle.getText().toString(),
+                    editTextEditor.getText().toString(),
                     mHtmlText);
-            Snackbar.make(findViewById(R.id.relative_layout_container_activity_note_editor), "Note " + mTitleEditText.getText().toString() + " has been created", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.relative_layout_container_activity_note_editor), "Note " + editTextTitle.getText().toString() + " has been created", Snackbar.LENGTH_LONG).show();
         } else if (itemId == R.id.item_notebook) {
             openNotebooksSelectionDialog();
             return true;
@@ -163,11 +155,11 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     }
 
     private void setUpToolbar() {
-        setSupportActionBar(mainToolbar);
+        setSupportActionBar(activityNoteEditorBinding.toolbarMain);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mainToolbar.setNavigationOnClickListener(v -> {
+        activityNoteEditorBinding.toolbarMain.setNavigationOnClickListener(v -> {
             this.startActivity(new Intent(this, MainActivity.class));
             this.finish();
         });
@@ -181,10 +173,10 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     private void restoreSavedInstance(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(EDITOR_TEXT_KEY)) {
-                mEditorEditText.setText(savedInstanceState.getString(EDITOR_TEXT_KEY));
+                editTextEditor.setText(savedInstanceState.getString(EDITOR_TEXT_KEY));
             }
             if (savedInstanceState.containsKey(TITLE_TEXT_KEY)) {
-                mTitleEditText.setText(savedInstanceState.getString(TITLE_TEXT_KEY));
+                editTextTitle.setText(savedInstanceState.getString(TITLE_TEXT_KEY));
             }
             if (savedInstanceState.containsKey(CURRENT_TAB_KEY)) {
                 tabHost.setCurrentTab(savedInstanceState.getInt(CURRENT_TAB_KEY));

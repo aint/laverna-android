@@ -1,17 +1,18 @@
 package com.github.valhallalabs.laverna.persistent.entity
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity
+import kotlinx.android.parcel.Parcelize
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
+ * @author Bei Andrii <bei.andrii.dev@gmail.com?>
  */
+@Parcelize
 data class Notebook(
         override val id: String,
         override val profileId: String,
-        override val isTrash: Boolean,
+        override val isTrash: Boolean = false,
         /**
          * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't
          * belong to any parent notebook, then parentId equals to "0".
@@ -32,37 +33,6 @@ data class Notebook(
         //TODO: unknown field. Find out what to do with it
         val count: Int = 0
 ) : TrashDependedEntity() {
-
-    private constructor(parcel: Parcel) : this(
-            id = parcel.readString(),
-            profileId = parcel.readString(),
-            isTrash = parcel.readByte().toInt() != 0,
-            parentId = parcel.readString(),
-            name = parcel.readString(),
-            creationTime = parcel.readLong(),
-            updateTime = parcel.readLong(),
-            count = parcel.readInt()
-    )
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(id)
-        dest.writeString(profileId)
-        dest.writeString(parentId)
-        dest.writeString(name)
-        dest.writeLong(creationTime)
-        dest.writeLong(updateTime)
-        dest.writeInt(count)
-        dest.writeByte((if (isTrash) 1 else 0).toByte())
-    }
-
-    companion object {
-        @JvmField val CREATOR = object : Parcelable.Creator<Notebook> {
-            override fun createFromParcel(parcel: Parcel) = Notebook(parcel)
-            override fun newArray(size: Int) = arrayOfNulls<Notebook>(size)
-        }
-    }
 
     override fun toString(): String {
         return "Notebook{" + super.toString() +

@@ -1,7 +1,7 @@
 package com.github.android.lvrn.lvrnproject.service.core.impl;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;

@@ -1,23 +1,19 @@
 package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl;
 
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.databinding.ItemNoteBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
@@ -32,29 +28,28 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 
     private NotesListPresenter mNoteListPresenter;
 
-    public NotesListAdapter(NotesListFragment allNotesFragment,NotesListPresenter notesListPresenter) {
+    public NotesListAdapter(NotesListFragment allNotesFragment, NotesListPresenter notesListPresenter) {
         mAllNotesFragment = allNotesFragment;
         mNoteListPresenter = notesListPresenter;
     }
 
     @Override
     public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
-        return new NoteViewHolder(view);
+        return new NoteViewHolder(ItemNoteBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(NoteViewHolder holder, int position) {
         Note note = mNotes.get(position);
 
-        if(note.isFavorite()){
-          holder.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
-        } else holder.imBtnFavorite.setImageResource(R.drawable.ic_star_white_24dp);
+        if (note.isFavorite()) {
+            holder.itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
+        } else holder.itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_white_24dp);
 
-        holder.tvTitle.setText(mNotes.get(position).getTitle());
-        holder.tvPromptText.setText(mNotes.get(position).getContent());
+        holder.itemNoteBinding.tvTitleNote.setText(mNotes.get(position).getTitle());
+        holder.itemNoteBinding.tvPromptTextNote.setText(mNotes.get(position).getContent());
         holder.itemView.setOnClickListener(v -> mAllNotesFragment.showSelectedNote(note));
-        holder.imBtnFavorite.setOnClickListener(view  -> mNoteListPresenter.changeNoteFavouriteStatus(note,position,view));
+        holder.itemNoteBinding.imBtnFavorite.setOnClickListener(view -> mNoteListPresenter.changeNoteFavouriteStatus(note, position, view));
 
     }
 
@@ -70,17 +65,12 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 
     //TODO: maybe create one class for it.
     class NoteViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_title_note) TextView tvTitle;
 
-        @BindView(R.id.tv_date_created_note) TextView tvDate;
+        ItemNoteBinding itemNoteBinding;
 
-        @BindView(R.id.tv_prompt_text_note) TextView tvPromptText;
-
-        @BindView(R.id.im_btn_favorite) ImageButton imBtnFavorite;
-
-        NoteViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        NoteViewHolder(ItemNoteBinding itemNoteBinding) {
+            super(itemNoteBinding.getRoot());
+            this.itemNoteBinding = itemNoteBinding;
         }
     }
 }

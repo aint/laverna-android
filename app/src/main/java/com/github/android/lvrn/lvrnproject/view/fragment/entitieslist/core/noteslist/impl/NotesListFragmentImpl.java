@@ -3,13 +3,6 @@ package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.note
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,8 +10,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
@@ -31,22 +33,15 @@ import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
 public class NotesListFragmentImpl extends Fragment implements NotesListFragment {
-    @BindView(R.id.recycler_view_all_entities) RecyclerView mNotesRecyclerView;
-
-    @Inject NotesListPresenter mNotesListPresenter;
+    @Inject
+    NotesListPresenter mNotesListPresenter;
 
     public static final String TOOLBAR_TITLE = "All Notes";
-
-    private Unbinder mUnbinder;
 
     private NotesListAdapter mNotesRecyclerViewAdapter;
 
@@ -54,24 +49,25 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
     private MenuItem mMenuSearch;
 
+    private FragmentEntitiesListBinding mFragmentEntitiesListBinding;
+
 //    TODO: introduce in future milestones
 //    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
-        mUnbinder = ButterKnife.bind(this, rootView);
+        mFragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater, container, false);
         LavernaApplication.getsAppComponent().inject(this);
         setUpToolbar();
         initRecyclerView();
-        return rootView;
+        return mFragmentEntitiesListBinding.getRoot();
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
-        if(mNotesListPresenter != null) {
+        if (mNotesListPresenter != null) {
             mNotesListPresenter.bindView(this);
         }
     }
@@ -104,9 +100,6 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-        }
         mNotesListPresenter.disposePagination();
         mNotesListPresenter.disposeSearch();
     }
@@ -169,15 +162,16 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
      * A method which initializes recycler view with data
      */
     private void initRecyclerView() {
-        mNotesRecyclerView.setHasFixedSize(true);
+        RecyclerView recyclerViewAllEntities = mFragmentEntitiesListBinding.recyclerViewAllEntities;
+        recyclerViewAllEntities.setHasFixedSize(true);
 
-        mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewAllEntities.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mNotesRecyclerViewAdapter = new NotesListAdapter(this,mNotesListPresenter);
+        mNotesRecyclerViewAdapter = new NotesListAdapter(this, mNotesListPresenter);
         mNotesListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
-        mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
+        recyclerViewAllEntities.setAdapter(mNotesRecyclerViewAdapter);
 
-        mNotesListPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
+        mNotesListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities);
     }
 
     /**

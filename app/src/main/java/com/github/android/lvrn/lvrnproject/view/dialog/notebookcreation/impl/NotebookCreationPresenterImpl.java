@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;

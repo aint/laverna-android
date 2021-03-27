@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity;

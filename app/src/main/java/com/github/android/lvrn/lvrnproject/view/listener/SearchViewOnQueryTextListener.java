@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.listener;
 
-import android.support.v7.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 
 import io.reactivex.subjects.ReplaySubject;
 

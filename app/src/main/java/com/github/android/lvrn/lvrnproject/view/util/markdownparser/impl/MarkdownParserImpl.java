@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
 import com.orhanobut.logger.Logger;

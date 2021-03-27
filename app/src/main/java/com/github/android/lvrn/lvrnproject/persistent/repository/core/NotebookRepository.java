@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.persistent.repository.ProfileDependedRepository;

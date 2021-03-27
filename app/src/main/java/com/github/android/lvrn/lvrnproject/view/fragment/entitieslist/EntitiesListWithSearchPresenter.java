@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist;
 
-import android.support.v4.view.MenuItemCompat;
+import androidx.core.view.MenuItemCompat;
 import android.view.MenuItem;
 
 import com.github.android.lvrn.lvrnproject.service.form.ProfileDependedForm;

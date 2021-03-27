@@ -4,22 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import butterknife.OnClick
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.dropbox.core.android.Auth
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.getbase.floatingactionbutton.FloatingActionsMenu
 import com.github.android.lvrn.lvrnproject.LavernaApplication
 import com.github.android.lvrn.lvrnproject.R
+import com.github.android.lvrn.lvrnproject.databinding.ActivityMainBinding
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
@@ -35,6 +34,7 @@ import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst
 import com.github.valhallalabs.laverna.service.DropboxClientFactory
 import com.github.valhallalabs.laverna.service.DropboxService
 import com.github.valhallalabs.laverna.service.SyncService
+import com.google.android.material.navigation.NavigationView
 import com.orhanobut.logger.Logger
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -52,10 +52,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     @Inject
     lateinit var noteService: NoteService
+
     @Inject
     lateinit var tagService: TagService
+
     @Inject
     lateinit var notebookService: NotebookService
+
     @Inject
     lateinit var profileService: ProfileService
 
@@ -63,14 +66,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private var mSavedInstanceState: Bundle? = null
 
+    private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         mSavedInstanceState = savedInstanceState
-
+        setContentView(binding.root)
         LavernaApplication.getsAppComponent().inject(this)
 
-        setContentView(R.layout.activity_main)
         setOrientationByUserDeviceConfiguration()
 
 
@@ -85,6 +90,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         (findViewById<View>(R.id.nav_view) as NavigationView).setNavigationItemSelectedListener(this)
 
         menuStartSelectFragment(NotesListFragmentImpl(), FragmentConst.TAG_NOTES_LIST_FRAGMENT)
+        binding.floatingBtnStartNote.setOnClickListener { view -> startNoteEditorActivity() }
+        binding.floatingBtnStartNotebook.setOnClickListener { view -> openNotebooksCreationDialog() }
     }
 
     override fun onPause() {
@@ -130,7 +137,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Logger.w("accessToken %s saved to pref", accessToken)
             }
 
-            Observable.defer { syncData(accessToken).toObservable<Any>() }
+            Observable.defer { accessToken?.let { syncData(it).toObservable<Any>() } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe()
@@ -180,13 +187,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    @OnClick(R.id.floating_btn_start_note)
     fun startNoteEditorActivity() {
         startActivity(Intent(this, NoteEditorActivityImpl::class.java))
         finish()
     }
 
-    @OnClick(R.id.floating_btn_start_notebook)
     fun openNotebooksCreationDialog() {
         val fragmentTransaction = supportFragmentManager
                 .beginTransaction()

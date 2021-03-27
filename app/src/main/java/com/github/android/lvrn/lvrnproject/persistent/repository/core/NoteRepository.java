@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.repository.TrashDependedRepository;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;

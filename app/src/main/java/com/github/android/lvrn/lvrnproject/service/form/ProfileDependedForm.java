@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service.form;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity;
 

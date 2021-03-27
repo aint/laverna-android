@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service.impl;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository;
 import com.github.android.lvrn.lvrnproject.service.BasicService;

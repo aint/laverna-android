@@ -3,13 +3,6 @@ package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.tras
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,8 +10,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TrashListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
@@ -30,22 +32,15 @@ import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
 public class TrashListFragmentImpl extends Fragment implements TrashListFragment {
-    @BindView(R.id.recycler_view_all_entities) RecyclerView mNotesRecyclerView;
-
-    @Inject TrashListPresenter mTrashListPresenter;
+    @Inject
+    TrashListPresenter mTrashListPresenter;
 
     public static final String TOOLBAR_TITLE = "Trash";
-
-    private Unbinder mUnbinder;
 
     private TrashListAdapter mNotesRecyclerViewAdapter;
 
@@ -54,21 +49,22 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
     private MenuItem mMenuSearch;
     //, menuSync, menuSortBy, menuSettings, menuAbout;
 
+    private FragmentEntitiesListBinding mFragmentEntitiesListBinding;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
-        mUnbinder = ButterKnife.bind(this, rootView);
+        mFragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater, container, false);
         LavernaApplication.getsAppComponent().inject(this);
         setUpToolbar();
         initRecyclerView();
-        return rootView;
+        return mFragmentEntitiesListBinding.getRoot();
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
-        if(mTrashListPresenter != null) {
+        if (mTrashListPresenter != null) {
             mTrashListPresenter.bindView(this);
         }
     }
@@ -100,9 +96,6 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-        }
         mTrashListPresenter.disposePagination();
         mTrashListPresenter.disposeSearch();
     }
@@ -119,7 +112,7 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
     }
 
     @Override
-    public void switchToNormalMode(){
+    public void switchToNormalMode() {
 //        menuSync.setVisible(true);
 //        menuAbout.setVisible(true);
 //        menuSortBy.setVisible(true);
@@ -159,15 +152,16 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
      * A method which initializes recycler view with data
      */
     private void initRecyclerView() {
-        mNotesRecyclerView.setHasFixedSize(true);
+        RecyclerView recyclerViewAllEntities = mFragmentEntitiesListBinding.recyclerViewAllEntities;
+        recyclerViewAllEntities.setHasFixedSize(true);
 
-        mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewAllEntities.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mNotesRecyclerViewAdapter = new TrashListAdapter(this);
         mTrashListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter);
-        mNotesRecyclerView.setAdapter(mNotesRecyclerViewAdapter);
+        recyclerViewAllEntities.setAdapter(mNotesRecyclerViewAdapter);
 
-        mTrashListPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
+        mTrashListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities);
     }
 
     /**
@@ -176,6 +170,6 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
     private void setUpToolbar() {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(TOOLBAR_TITLE);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(TOOLBAR_TITLE);
     }
 }

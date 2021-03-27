@@ -3,13 +3,6 @@ package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favo
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,8 +10,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.FavouritesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
@@ -31,22 +33,16 @@ import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
 
 public class FavouritesListFragmentImpl extends Fragment implements FavouritesListFragment {
-    @BindView(R.id.recycler_view_all_entities) RecyclerView mNotesRecyclerView;
 
-    @Inject FavouritesListPresenter mFavouritesListPresenter;
+    @Inject
+    FavouritesListPresenter mFavouritesListPresenter;
 
     public static final String TOOLBAR_TITLE = "Favourites";
-
-    private Unbinder mUnbinder;
 
     private FavouritesListAdapter mFavouritesRecyclerViewAdapter;
 
@@ -54,24 +50,25 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
     private MenuItem mMenuSearch;
 
+    private FragmentEntitiesListBinding mFragmentEntitiesListBinding;
+
 //    TODO: introduce in future milestones
 //    private MenuItem menuSync, menuSortBy, menuSettings, menuAbout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_entities_list, container, false);
-        mUnbinder = ButterKnife.bind(this, rootView);
+        mFragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater, container, false);
         LavernaApplication.getsAppComponent().inject(this);
         setUpToolbar();
         initRecyclerView();
-        return rootView;
+        return mFragmentEntitiesListBinding.getRoot();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(mFavouritesListPresenter != null) {
+        if (mFavouritesListPresenter != null) {
             mFavouritesListPresenter.bindView(this);
         }
     }
@@ -85,16 +82,13 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_entities_list, menu);
-
         mMenuSearch = menu.findItem(R.id.item_action_search);
 //        TODO: introduce in future milestones
 //        menuSync = menu.findItem(R.id.item_action_sync);
 //        menuAbout = menu.findItem(R.id.item_about);
 //        menuSortBy = menu.findItem(R.id.item_sort_by);
 //        menuSettings = menu.findItem(R.id.item_settings);
-
         mSearchView = (SearchView) MenuItemCompat.getActionView(mMenuSearch);
-
         mFavouritesListPresenter.subscribeSearchView(mMenuSearch);
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -104,9 +98,6 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-        }
         mFavouritesListPresenter.disposePagination();
         mFavouritesListPresenter.disposeSearch();
     }
@@ -169,15 +160,16 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
      * A method which initializes recycler view with data
      */
     private void initRecyclerView() {
-        mNotesRecyclerView.setHasFixedSize(true);
+        RecyclerView recyclerViewAllEntities = mFragmentEntitiesListBinding.recyclerViewAllEntities;
+        recyclerViewAllEntities.setHasFixedSize(true);
 
-        mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewAllEntities.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mFavouritesRecyclerViewAdapter = new FavouritesListAdapter(this);
         mFavouritesListPresenter.setDataToAdapter(mFavouritesRecyclerViewAdapter);
-        mNotesRecyclerView.setAdapter(mFavouritesRecyclerViewAdapter);
+        recyclerViewAllEntities.setAdapter(mFavouritesRecyclerViewAdapter);
 
-        mFavouritesListPresenter.subscribeRecyclerViewForPagination(mNotesRecyclerView);
+        mFavouritesListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities);
     }
 
     /**

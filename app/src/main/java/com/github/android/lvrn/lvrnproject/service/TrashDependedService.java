@@ -1,6 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.android.lvrn.lvrnproject.service.form.TrashDependedForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
