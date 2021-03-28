@@ -30,7 +30,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteb
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl
-import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst
+import com.github.android.lvrn.lvrnproject.view.util.consts.*
 import com.github.valhallalabs.laverna.service.DropboxClientFactory
 import com.github.valhallalabs.laverna.service.DropboxService
 import com.github.valhallalabs.laverna.service.SyncService
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mToggle.syncState()
         (findViewById<View>(R.id.nav_view) as NavigationView).setNavigationItemSelectedListener(this)
 
-        menuStartSelectFragment(NotesListFragmentImpl(), FragmentConst.TAG_NOTES_LIST_FRAGMENT)
+        menuStartSelectFragment(NotesListFragmentImpl(), TAG_NOTES_LIST_FRAGMENT)
         binding.floatingBtnStartNote.setOnClickListener { view -> startNoteEditorActivity() }
         binding.floatingBtnStartNotebook.setOnClickListener { view -> openNotebooksCreationDialog() }
     }
@@ -112,19 +112,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val id = item.itemId
         if (R.id.nav_item_notebooks == id) {
             val notebooksListFragment = NotebooksListFragmentImpl()
-            menuStartSelectFragment(notebooksListFragment, FragmentConst.TAG_NOTEBOOK_FRAGMENT)
+            menuStartSelectFragment(notebooksListFragment, TAG_NOTEBOOK_FRAGMENT)
         } else if (R.id.nav_item_all_notes == id) {
             val notesListFragment = NotesListFragmentImpl()
-            menuStartSelectFragment(notesListFragment, FragmentConst.TAG_NOTES_LIST_FRAGMENT)
+            menuStartSelectFragment(notesListFragment, TAG_NOTES_LIST_FRAGMENT)
         } else if (R.id.nav_item_open_tasks == id) {
             val taskFragment = TasksListFragmentImpl()
-            menuStartSelectFragment(taskFragment, FragmentConst.TAG_TASK_FRAGMENT)
+            menuStartSelectFragment(taskFragment, TAG_TASK_FRAGMENT)
         } else if (R.id.nav_item_trash == id) {
             val trashFragment = TrashListFragmentImpl()
-            menuStartSelectFragment(trashFragment, FragmentConst.TAG_TRASH_FRAGMENT)
+            menuStartSelectFragment(trashFragment, TAG_TRASH_FRAGMENT)
         } else if (R.id.nav_item_favorites == id) {
             val favouritesListFragment = FavouritesListFragmentImpl()
-            menuStartSelectFragment(favouritesListFragment, FragmentConst.TAG_FAVOURITES_FRAGMENT)
+            menuStartSelectFragment(favouritesListFragment, TAG_FAVOURITES_FRAGMENT)
         } else if (R.id.nav_item_sync == id) {
             var accessToken = getSharedPreferences("dropbox-sample", Context.MODE_PRIVATE).getString("access-token", null)
             if (accessToken == null) {
@@ -198,8 +198,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .addToBackStack(null)
 
         NotebookCreationDialogFragmentImpl
-                .newInstance(FragmentConst.DIALOG_OPEN_FROM_MAIN_ACTIVITY)
-                .show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT)
+                .newInstance(DIALOG_OPEN_FROM_MAIN_ACTIVITY)
+                .show(fragmentTransaction, TAG_NOTEBOOK_CREATE_FRAGMENT)
 
         floatingActionsMenu.collapse()
     }

@@ -24,12 +24,18 @@ import com.github.android.lvrn.lvrnproject.databinding.FragmentNoteContentBindin
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.view.dialog.tagediting.TagEditingDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.notedetails.NoteDetailsFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 
 import javax.inject.Inject;
+
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTEBOOK_NAME_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_CREATED_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_ID_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_OBJECT_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_UPDATED_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTE_DETAIL_FRAGMENT;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_TAG_EDITING_DIALOG_FRAGMENT;
 
 
 /**
@@ -69,9 +75,9 @@ public class NoteContentFragmentImpl extends Fragment {
     public void startNoteDetailFragment() {
         NoteDetailsFragmentImpl noteDetailsFragment = new NoteDetailsFragmentImpl();
         Bundle bundle = new Bundle();
-        bundle.putString(BundleKeysConst.BUNDLE_NOTEBOOK_NAME_KEY, mNoteBookName);
-        bundle.putLong(BundleKeysConst.BUNDLE_NOTE_UPDATED_KEY, mSelectNote.getUpdateTime());
-        bundle.putLong(BundleKeysConst.BUNDLE_NOTE_CREATED_KEY, mSelectNote.getCreationTime());
+        bundle.putString(BUNDLE_NOTEBOOK_NAME_KEY, mNoteBookName);
+        bundle.putLong(BUNDLE_NOTE_UPDATED_KEY, mSelectNote.getUpdateTime());
+        bundle.putLong(BUNDLE_NOTE_CREATED_KEY, mSelectNote.getCreationTime());
         noteDetailsFragment.setArguments(bundle);
         openSelectFragment(noteDetailsFragment);
     }
@@ -92,10 +98,10 @@ public class NoteContentFragmentImpl extends Fragment {
                 .beginTransaction()
                 .addToBackStack(null);
         Bundle bundle = new Bundle();
-        bundle.putString(BundleKeysConst.BUNDLE_NOTE_ID_KEY, mSelectNote.getId());
+        bundle.putString(BUNDLE_NOTE_ID_KEY, mSelectNote.getId());
         DialogFragment dialogFragment = new TagEditingDialogFragmentImpl();
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction, FragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT);
+        dialogFragment.show(fragmentTransaction, TAG_TAG_EDITING_DIALOG_FRAGMENT);
     }
 
     /**
@@ -117,7 +123,7 @@ public class NoteContentFragmentImpl extends Fragment {
             fragment.setSharedElementEnterTransition(changeBounds);
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.constraint_container, fragment, FragmentConst.TAG_NOTE_DETAIL_FRAGMENT)
+                    .replace(R.id.constraint_container, fragment, TAG_NOTE_DETAIL_FRAGMENT)
                     .addSharedElement(fragmentNotebookContentBinding.imBtnInformation, fragmentNotebookContentBinding.imBtnInformation.getTransitionName())
                     .addToBackStack(null)
                     .commit();
@@ -126,7 +132,7 @@ public class NoteContentFragmentImpl extends Fragment {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                .replace(R.id.constraint_container, fragment, FragmentConst.TAG_TAG_EDITING_DIALOG_FRAGMENT)
+                .replace(R.id.constraint_container, fragment, TAG_TAG_EDITING_DIALOG_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
@@ -135,7 +141,7 @@ public class NoteContentFragmentImpl extends Fragment {
      * A method which gets data from bundle and set them in defined view element
      */
     private void getParcelableDataAndSetInView() {
-        mSelectNote = getArguments().getParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY);
+        mSelectNote = getArguments().getParcelable(BUNDLE_NOTE_OBJECT_KEY);
         if (mSelectNote.getNotebookId() != null && !mSelectNote.getNotebookId().isEmpty()) {
             mNotebookService.openConnection();
             //TODO: clean it, use ifPresent method on Optional.

@@ -24,13 +24,14 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.Noteboo
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.impl.NotebookChildrenFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListPresenter;
-import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.github.valhallalabs.laverna.activity.MainActivity;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
+
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTEBOOK_OBJECT_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTEBOOK_CHILDREN_FRAGMENT;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -146,12 +147,12 @@ public class NotebooksListFragmentImpl extends Fragment implements NotebooksList
         NotebookChildrenFragmentImpl notebookChildrenFragment = new NotebookChildrenFragmentImpl();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTEBOOK_OBJECT_KEY, notebook);
+        bundle.putParcelable(BUNDLE_NOTEBOOK_OBJECT_KEY, notebook);
         notebookChildrenFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, notebookChildrenFragment, FragmentConst.TAG_NOTEBOOK_CHILDREN_FRAGMENT)
+                .replace(R.id.constraint_container, notebookChildrenFragment, TAG_NOTEBOOK_CHILDREN_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

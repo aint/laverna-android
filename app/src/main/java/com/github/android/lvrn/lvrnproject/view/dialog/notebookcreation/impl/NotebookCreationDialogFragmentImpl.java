@@ -21,12 +21,13 @@ import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEdi
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotebookCreationAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter;
-import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
+
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.DIALOG_OPEN_FROM_MAIN_ACTIVITY;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -50,7 +51,7 @@ public class NotebookCreationDialogFragmentImpl extends DialogFragment implement
     public static NotebookCreationDialogFragmentImpl newInstance(String previousFragment) {
         NotebookCreationDialogFragmentImpl notebookCreateDialogFragment = new NotebookCreationDialogFragmentImpl();
         Bundle bundle = new Bundle();
-        bundle.putString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY, previousFragment);
+        bundle.putString(BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY, previousFragment);
         notebookCreateDialogFragment.setArguments(bundle);
         return notebookCreateDialogFragment;
     }
@@ -62,7 +63,7 @@ public class NotebookCreationDialogFragmentImpl extends DialogFragment implement
         LavernaApplication.getsAppComponent().inject(this);
         mNotebookCreationPresenter = new NotebookCreationPresenterImpl(mNotebookService);
         initRecyclerView();
-        previousFragmentName = getArguments().getString(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY);
+        previousFragmentName = getArguments().getString(BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY);
 
         return dialogFragmentNotebookCreateBinding.getRoot();
     }
@@ -110,7 +111,7 @@ public class NotebookCreationDialogFragmentImpl extends DialogFragment implement
 
     public void createNotebook() {
         String nameNotebook = dialogFragmentNotebookCreateBinding.editTextNotebookName.getText().toString();
-        if (TextUtils.equals(previousFragmentName, FragmentConst.DIALOG_OPEN_FROM_MAIN_ACTIVITY)) {
+        if (TextUtils.equals(previousFragmentName, DIALOG_OPEN_FROM_MAIN_ACTIVITY)) {
             if (mNotebookCreationPresenter.createNotebook(nameNotebook)) {
                 Snackbar.make(getActivity().findViewById(R.id.coordinator_layout_main_activity), "Notebook " + nameNotebook + " has created ", Snackbar.LENGTH_LONG).show();
                 getActivity().onBackPressed();

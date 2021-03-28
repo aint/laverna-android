@@ -21,12 +21,14 @@ import com.github.android.lvrn.lvrnproject.view.adapter.NotebookSelectionAdapter
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
-import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
+
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_DIALOG_NOTEBOOK_SELECTION_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.DIALOG_OPEN_FROM_NOTEBOOK_SELECTION_DIALOG_FRAGMENT;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTEBOOK_CREATE_FRAGMENT;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -57,7 +59,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
     public static NotebookSelectionDialogFragmentImpl newInstance(Notebook notebook) {
         NotebookSelectionDialogFragmentImpl notebookSelectionDialogFragment = new NotebookSelectionDialogFragmentImpl();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_SELECTION_KEY, notebook);
+        bundle.putParcelable(BUNDLE_DIALOG_NOTEBOOK_SELECTION_KEY, notebook);
 
         notebookSelectionDialogFragment.setArguments(bundle);
         return notebookSelectionDialogFragment;
@@ -77,7 +79,7 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
 
         mNotebookSelectionPresenter = new NotebookSelectionPresenterImpl(mNotebookService);
 
-        mNotebook = getArguments().getParcelable(BundleKeysConst.BUNDLE_DIALOG_NOTEBOOK_SELECTION_KEY);
+        mNotebook = getArguments().getParcelable(BUNDLE_DIALOG_NOTEBOOK_SELECTION_KEY);
 
         initRecyclerView();
 
@@ -102,8 +104,8 @@ public class NotebookSelectionDialogFragmentImpl extends DialogFragment implemen
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null);
-        DialogFragment dialogFragment = NotebookCreationDialogFragmentImpl.newInstance(FragmentConst.DIALOG_OPEN_FROM_NOTEBOOK_SELECTION_DIALOG_FRAGMENT);
-        dialogFragment.show(fragmentTransaction, FragmentConst.TAG_NOTEBOOK_CREATE_FRAGMENT);
+        DialogFragment dialogFragment = NotebookCreationDialogFragmentImpl.newInstance(DIALOG_OPEN_FROM_NOTEBOOK_SELECTION_DIALOG_FRAGMENT);
+        dialogFragment.show(fragmentTransaction, TAG_NOTEBOOK_CREATE_FRAGMENT);
     }
 
     public void acceptChanges() {

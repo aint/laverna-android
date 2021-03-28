@@ -15,13 +15,14 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.databinding.DialogFragmentTagEditingBinding;
 import com.github.android.lvrn.lvrnproject.service.core.TagService;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TagsListAdapter;
-import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
 import com.github.valhallalabs.laverna.persistent.entity.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_ID_KEY;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -64,7 +65,7 @@ public class TagEditingDialogFragmentImpl extends DialogFragment {
 
     private void initTagData() {
         mTagService.openConnection();
-        mTagListDate.addAll(mTagService.getByNote(getArguments().getString(BundleKeysConst.BUNDLE_NOTE_ID_KEY)));
+        mTagListDate.addAll(mTagService.getByNote(getArguments().getString(BUNDLE_NOTE_ID_KEY)));
         mTagService.closeConnection();
     }
 

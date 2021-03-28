@@ -25,12 +25,13 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TrashLi
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
+
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_OBJECT_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTE_CONTENT_FRAGMENT;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -138,12 +139,12 @@ public class TrashListFragmentImpl extends Fragment implements TrashListFragment
         NoteContentFragmentImpl noteContentFragmentImpl = new NoteContentFragmentImpl();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY, note);
+        bundle.putParcelable(BUNDLE_NOTE_OBJECT_KEY, note);
         noteContentFragmentImpl.setArguments(bundle);
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, noteContentFragmentImpl, FragmentConst.TAG_NOTE_CONTENT_FRAGMENT)
+                .replace(R.id.constraint_container, noteContentFragmentImpl, TAG_NOTE_CONTENT_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

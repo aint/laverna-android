@@ -24,13 +24,14 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TasksLi
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.github.valhallalabs.laverna.activity.MainActivity;
 import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
+
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_OBJECT_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTE_CONTENT_FRAGMENT;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -114,12 +115,12 @@ public class TasksListFragmentImpl extends Fragment implements TasksListFragment
         NoteContentFragmentImpl noteContentFragmentImpl = new NoteContentFragmentImpl();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY, mTasksListPresenter.getNoteByTask(task));
+        bundle.putParcelable(BUNDLE_NOTE_OBJECT_KEY, mTasksListPresenter.getNoteByTask(task));
         noteContentFragmentImpl.setArguments(bundle);
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, noteContentFragmentImpl, FragmentConst.TAG_NOTE_CONTENT_FRAGMENT)
+                .replace(R.id.constraint_container, noteContentFragmentImpl, TAG_NOTE_CONTENT_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }

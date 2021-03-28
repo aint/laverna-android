@@ -17,15 +17,16 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNo
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
-import com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst;
-import com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
-import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConst.BUNDLE_NOTEBOOK_OBJECT_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTEBOOK_OBJECT_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_OBJECT_KEY;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTEBOOK_CHILDREN_FRAGMENT;
+import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTE_CONTENT_FRAGMENT;
 
 
 /**
@@ -126,12 +127,12 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
         NoteContentFragmentImpl noteContentFragment = new NoteContentFragmentImpl();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BundleKeysConst.BUNDLE_NOTE_OBJECT_KEY, note);
+        bundle.putParcelable(BUNDLE_NOTE_OBJECT_KEY, note);
         noteContentFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, noteContentFragment, FragmentConst.TAG_NOTE_CONTENT_FRAGMENT)
+                .replace(R.id.constraint_container, noteContentFragment, TAG_NOTE_CONTENT_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
@@ -146,7 +147,7 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.constraint_container, notebookChildrenFragment, FragmentConst.TAG_NOTEBOOK_CHILDREN_FRAGMENT)
+                .replace(R.id.constraint_container, notebookChildrenFragment, TAG_NOTEBOOK_CHILDREN_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
