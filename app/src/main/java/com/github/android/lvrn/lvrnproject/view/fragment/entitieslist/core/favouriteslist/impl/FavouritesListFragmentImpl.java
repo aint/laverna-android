@@ -42,8 +42,6 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
     @Inject
     FavouritesListPresenter mFavouritesListPresenter;
 
-    public static final String TOOLBAR_TITLE = "Favourites";
-
     private FavouritesListAdapter mFavouritesRecyclerViewAdapter;
 
     private SearchView mSearchView;
@@ -90,7 +88,6 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 //        menuSettings = menu.findItem(R.id.item_settings);
         mSearchView = (SearchView) MenuItemCompat.getActionView(mMenuSearch);
         mFavouritesListPresenter.subscribeSearchView(mMenuSearch);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -156,6 +153,12 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 //        menuSettings.setVisible(true);
     }
 
+
+    @Override
+    public void showEmptyScreen() {
+        mFragmentEntitiesListBinding.tvEmptyState.setVisibility(View.VISIBLE);
+    }
+
     /**
      * A method which initializes recycler view with data
      */
@@ -165,11 +168,14 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
         recyclerViewAllEntities.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mFavouritesRecyclerViewAdapter = new FavouritesListAdapter(this);
+        mFavouritesRecyclerViewAdapter = new FavouritesListAdapter(this, mFavouritesListPresenter);
         mFavouritesListPresenter.setDataToAdapter(mFavouritesRecyclerViewAdapter);
         recyclerViewAllEntities.setAdapter(mFavouritesRecyclerViewAdapter);
 
         mFavouritesListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities);
+        if (mFavouritesRecyclerViewAdapter.getItemCount() == 0) {
+            showEmptyScreen();
+        }
     }
 
     /**
@@ -179,7 +185,7 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
         setHasOptionsMenu(true);
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(TOOLBAR_TITLE);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.drawer_main_menu_favourites);
         }
     }
 }

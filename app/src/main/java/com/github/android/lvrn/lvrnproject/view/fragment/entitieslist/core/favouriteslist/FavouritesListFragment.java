@@ -10,4 +10,6 @@ import com.github.valhallalabs.laverna.persistent.entity.Note;
 public interface FavouritesListFragment extends EntitiesListWithSearchFragment {
 
     void showSelectedNote(Note note);
+
+    void showEmptyScreen();
 }

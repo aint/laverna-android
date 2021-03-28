@@ -4,10 +4,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.github.android.lvrn.lvrnproject.R;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
-import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
@@ -79,7 +79,7 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
 
     @Override
     public void saveNewNote(String title, String content, String htmlContent) {
-        NoteForm noteForm = new NoteForm(CurrentState.profileId, false, mNotebookId, title, content, htmlContent, false);
+        NoteForm noteForm = new NoteForm(CurrentState.Companion.getProfileId(), false, mNotebookId, title, content, htmlContent, false);
 
         Flowable.just(noteForm)
                 .doOnNext(noteFormToSend -> mNoteService.openConnection())

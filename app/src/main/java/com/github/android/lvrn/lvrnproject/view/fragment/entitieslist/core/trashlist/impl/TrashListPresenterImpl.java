@@ -34,11 +34,11 @@ public class TrashListPresenterImpl extends EntitiesListWithSearchPresenterImpl<
 
     @Override
     protected List<Note> loadMoreForPagination(PaginationArgs paginationArgs) {
-        return mNoteService.getTrashByProfile(CurrentState.profileId, paginationArgs);
+        return mNoteService.getTrashByProfile(CurrentState.Companion.getProfileId(), paginationArgs);
     }
 
     @Override
     protected List<Note> loadMoreForSearch(String query, PaginationArgs paginationArgs) {
-        return mNoteService.getTrashByTitle(CurrentState.profileId, query, paginationArgs);
+        return mNoteService.getTrashByTitle(CurrentState.Companion.getProfileId(), query, paginationArgs);
     }
 }

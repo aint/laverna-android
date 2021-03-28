@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_notes"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="0dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_notes"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/text_view_notebook_name"
+        android:layout_width="wrap_content"
         android:layout_height="72dp"
-        android:layout_margin="8dp">
-        
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
-            
-            <TextView
-                android:id="@+id/text_view_notebook_name"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/image_btn_more_menu"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
-                android:textSize="16sp"
-                android:gravity="center_vertical"
-                android:textColor="@color/main_green_themes_app"
-                android:textColorHint="@color/main_green_themes_app"
-                android:hint="@string/hint_you_notebook_name"/>
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/image_btn_more_menu"
+        android:gravity="center_vertical"
+        android:layout_gravity="center|start"
+        android:hint="@string/hint_you_notebook_name"
+        android:paddingStart="16dp"
+        android:textColor="@color/main_green_themes_app"
+        android:textColorHint="@color/main_green_themes_app"
+        android:textSize="16sp"
+        tools:ignore="RtlSymmetry,UnknownIdInLayout" />
 
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

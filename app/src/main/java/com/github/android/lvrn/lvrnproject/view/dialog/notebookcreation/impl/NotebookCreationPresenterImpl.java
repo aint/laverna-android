@@ -3,10 +3,10 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
-import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationDialogFragment;
@@ -58,7 +58,7 @@ public class NotebookCreationPresenterImpl implements NotebookCreationPresenter 
 
     @Override
     public boolean createNotebook(String name) {
-        notebookForm = new NotebookForm(CurrentState.profileId, false, parentId, name);
+        notebookForm = new NotebookForm(CurrentState.Companion.getProfileId(), false, parentId, name);
         Optional<String> newNotebookId = mNotebookService.create(notebookForm);
         mNotebookCreationDialogFragment.getNotebook(mNotebookService.getById(newNotebookId.get()).get());
         mNotebookCreationDialogFragment.updateRecyclerView();
@@ -88,7 +88,7 @@ public class NotebookCreationPresenterImpl implements NotebookCreationPresenter 
 
     @Override
     public void setDataToAdapter(DataPostSetAdapter<Notebook> dataPostSetAdapter) {
-        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, new PaginationArgs());
+        mNotebooks = mNotebookService.getByProfile(CurrentState.Companion.getProfileId(), new PaginationArgs());
         dataPostSetAdapter.setData(mNotebooks);
     }
 
@@ -97,7 +97,7 @@ public class NotebookCreationPresenterImpl implements NotebookCreationPresenter 
     private void initPaginationSubject() {
         mPaginationDisposable = (mPaginationSubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
-                .map(paginationArgs -> mNotebookService.getByProfile(CurrentState.profileId, paginationArgs))
+                .map(paginationArgs -> mNotebookService.getByProfile(CurrentState.Companion.getProfileId(), paginationArgs))
                 .filter(notes -> !notes.isEmpty())
                 .map(newNotes -> mNotebooks.addAll(newNotes))
                 .observeOn(AndroidSchedulers.mainThread())

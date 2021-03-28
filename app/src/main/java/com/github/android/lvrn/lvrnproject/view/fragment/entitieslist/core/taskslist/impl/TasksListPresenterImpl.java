@@ -1,10 +1,10 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl;
 
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.TaskService;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
-import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListWithSearchPresenterImpl;
@@ -35,12 +35,12 @@ public class TasksListPresenterImpl extends EntitiesListWithSearchPresenterImpl<
 
     @Override
     protected List<Task> loadMoreForPagination(PaginationArgs paginationArgs) {
-        return mTaskService.getUncompletedByProfile(CurrentState.profileId, paginationArgs);
+        return mTaskService.getUncompletedByProfile(CurrentState.Companion.getProfileId(), paginationArgs);
     }
 
     @Override
     protected List<Task> loadMoreForSearch(String query, PaginationArgs paginationArgs) {
-        return mTaskService.getUncompletedByProfileAndDescription(CurrentState.profileId, query, paginationArgs);
+        return mTaskService.getUncompletedByProfileAndDescription(CurrentState.Companion.getProfileId(), query, paginationArgs);
     }
 
     @Override

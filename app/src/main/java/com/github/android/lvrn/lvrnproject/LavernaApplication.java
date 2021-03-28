@@ -5,14 +5,12 @@ import android.app.Application;
 import com.github.android.lvrn.lvrnproject.dagger.components.AppComponent;
 import com.github.android.lvrn.lvrnproject.dagger.components.DaggerAppComponent;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
-import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
-import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
-import com.google.common.base.Optional;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -20,8 +18,6 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.github.android.lvrn.lvrnproject.util.CurrentState.profileId;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -31,9 +27,12 @@ import static com.github.android.lvrn.lvrnproject.util.CurrentState.profileId;
 public class LavernaApplication extends Application {
     private static AppComponent sAppComponent;
 
-    @Inject ProfileService profileService;
-    @Inject NotebookService notebookService;
-    @Inject NoteService noteService;
+    @Inject
+    ProfileService profileService;
+    @Inject
+    NotebookService notebookService;
+    @Inject
+    NoteService noteService;
 
     @Override
     public void onCreate() {
@@ -47,10 +46,8 @@ public class LavernaApplication extends Application {
         profileService.openConnection();
         profileService.create(new ProfileForm("default"));
         List<Profile> profiles = profileService.getAll();
-        profileId = profiles.get(0).getId();
+        CurrentState.Companion.setProfileId(profiles.get(0).getId());
         profileService.closeConnection();
-
-
 
 
 //        noteService.openConnection();
@@ -87,8 +84,6 @@ public class LavernaApplication extends Application {
 //                "[X] completed task", "htmlContent",false));
 //
 //        noteService.closeConnection();
-
-
 
 
     }

@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl;
 
+import android.view.View;
+
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
@@ -7,6 +9,7 @@ import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.EntitiesListWithSearchPresenterImpl;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -28,11 +31,20 @@ public class FavouritesListPresenterImpl extends EntitiesListWithSearchPresenter
 
     @Override
     protected List<Note> loadMoreForPagination(PaginationArgs paginationArgs) {
-        return mNoteService.getFavourites(CurrentState.profileId, paginationArgs);
+        return mNoteService.getFavourites(CurrentState.Companion.getProfileId(), paginationArgs);
     }
 
     @Override
     protected List<Note> loadMoreForSearch(String query, PaginationArgs paginationArgs) {
-        return mNoteService.getFavouritesByTitle(CurrentState.profileId, query, paginationArgs);
+        return mNoteService.getFavouritesByTitle(CurrentState.Companion.getProfileId(), query, paginationArgs);
+    }
+
+    @Override
+    public void changeNoteFavouriteStatus(Note note, int position, View view) {
+        if (note.isFavorite()) {
+            mEntities.get(position).setFavorite(false);
+            mNoteService.setNoteUnFavourite(note.getId());
+            Logger.i("Set un favourite");
+        }
     }
 }

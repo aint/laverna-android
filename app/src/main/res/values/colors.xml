@@ -3,8 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="main_activity_tool_bar_color">#36C167</color>
-    <color name="main_green_themes_app">#36C167</color>
+    <color name="main_activity_tool_bar_color">#00A693</color>
+    <color name="main_green_themes_app">#00A693</color>
     <color name="color_edit_text_title_note">#FAFAFA</color>
     <color name="single_note_fragment_view_separator_line">#616161</color>
     <color name="detail_note_fragment_view_separator_line">#aeaeae</color>
@@ -19,4 +19,6 @@
     <color name="fab_label_text_color">#000</color>
     <color name="text_view_choose_notebook">#000</color>
     <color name="btn_choose_notebook">#000</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorBackground">#eceff4</color>
 </resources>

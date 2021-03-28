@@ -4,8 +4,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
-
-private val YEAR_MONTH_DAY_DOT_PATTERN = "dd.MM.yy"
+private val YEAR_MONTH_DAY_DOT_PATTERN = "dd.MM.yy HH:mm:ss"
 
 fun convertMillisecondsToString(time: Long): String {
     val instant = Instant.ofEpochMilli(time)

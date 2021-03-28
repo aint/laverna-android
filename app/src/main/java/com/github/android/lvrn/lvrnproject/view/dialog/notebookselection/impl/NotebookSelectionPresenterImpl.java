@@ -2,13 +2,13 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
-import com.github.android.lvrn.lvrnproject.util.CurrentState;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
 
         mPaginationDisposable = (paginationReplaySubject = ReplaySubject.create())
                 .observeOn(Schedulers.io())
-                .map(paginationArgs -> mNotebookService.getByProfile(CurrentState.profileId, paginationArgs))
+                .map(paginationArgs -> mNotebookService.getByProfile(CurrentState.Companion.getProfileId(), paginationArgs))
                 .filter(notebooks -> !notebooks.isEmpty())
                 .map(newNotebooks -> mNotebooks.addAll(newNotebooks))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -73,7 +73,7 @@ class NotebookSelectionPresenterImpl implements NotebookSelectionPresenter {
 
     @Override
     public List<Notebook> getNotebooksForAdapter() {
-        mNotebooks = mNotebookService.getByProfile(CurrentState.profileId, new PaginationArgs());
+        mNotebooks = mNotebookService.getByProfile(CurrentState.Companion.getProfileId(), new PaginationArgs());
         return mNotebooks;
     }
 }

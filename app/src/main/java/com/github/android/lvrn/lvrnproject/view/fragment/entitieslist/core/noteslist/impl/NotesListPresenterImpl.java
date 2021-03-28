@@ -30,12 +30,12 @@ public class NotesListPresenterImpl extends EntitiesListWithSearchPresenterImpl<
 
     @Override
     protected List<Note> loadMoreForPagination(PaginationArgs paginationArgs) {
-        return mNoteService.getByProfile(CurrentState.profileId, paginationArgs);
+        return mNoteService.getByProfile(CurrentState.Companion.getProfileId(), paginationArgs);
     }
 
     @Override
     protected List<Note> loadMoreForSearch(String query, PaginationArgs paginationArgs) {
-        return mNoteService.getByTitle(CurrentState.profileId, query, paginationArgs);
+        return mNoteService.getByTitle(CurrentState.Companion.getProfileId(), query, paginationArgs);
     }
 
     @Override

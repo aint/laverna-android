@@ -5,9 +5,11 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.databinding.ItemNoteBinding;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 
 import java.util.List;
@@ -21,8 +23,11 @@ public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAd
 
     private List<Note> mNotes;
 
-    public FavouritesListAdapter(FavouritesListFragment allNotesFragment) {
+    private FavouritesListPresenter mFavouriteListPresenter;
+
+    public FavouritesListAdapter(FavouritesListFragment allNotesFragment, FavouritesListPresenter favouritesListPresenter) {
         mAllNotesFragment = allNotesFragment;
+        mFavouriteListPresenter = favouritesListPresenter;
     }
 
     @Override
@@ -32,10 +37,19 @@ public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAd
 
     @Override
     public void onBindViewHolder(FavouriteViewHolder holder, int position) {
-        holder.itemNoteBinding.tvTitleNote.setText(mNotes.get(position).getTitle());
-        holder.itemNoteBinding.tvPromptTextNote.setText(mNotes.get(position).getContent());
-
-        holder.itemView.setOnClickListener(v -> mAllNotesFragment.showSelectedNote(mNotes.get(position)));
+        Note note = mNotes.get(position);
+        holder.itemNoteBinding.tvTitleNote.setText(note.getTitle());
+        holder.itemNoteBinding.tvPromptTextNote.setText(note.getContent());
+        holder.itemView.setOnClickListener(v -> mAllNotesFragment.showSelectedNote(note));
+        holder.itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
+        holder.itemNoteBinding.imBtnFavorite.setOnClickListener(view -> {
+            mFavouriteListPresenter.changeNoteFavouriteStatus(note, position, view);
+            mNotes.remove(note);
+            notifyItemRemoved(position);
+            if (mNotes.isEmpty()){
+                mAllNotesFragment.showEmptyScreen();
+            }
+        });
     }
 
     @Override
@@ -48,7 +62,6 @@ public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAd
         mNotes = data;
     }
 
-    //TODO: maybe create one class for it.
     class FavouriteViewHolder extends RecyclerView.ViewHolder {
 
         ItemNoteBinding itemNoteBinding;

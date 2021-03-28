@@ -15,6 +15,8 @@ import com.github.valhallalabs.laverna.persistent.entity.Note;
 
 import java.util.List;
 
+import static com.github.android.lvrn.lvrnproject.view.util.TimeUtilKt.convertMillisecondsToString;
+
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>
@@ -41,16 +43,17 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
     @Override
     public void onBindViewHolder(NoteViewHolder holder, int position) {
         Note note = mNotes.get(position);
+        ItemNoteBinding itemNoteBinding = holder.itemNoteBinding;
 
         if (note.isFavorite()) {
-            holder.itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
-        } else holder.itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_white_24dp);
+            itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
+        } else itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_white_24dp);
 
-        holder.itemNoteBinding.tvTitleNote.setText(mNotes.get(position).getTitle());
-        holder.itemNoteBinding.tvPromptTextNote.setText(mNotes.get(position).getContent());
+        itemNoteBinding.tvTitleNote.setText(note.getTitle());
+        itemNoteBinding.tvPromptTextNote.setText(note.getContent());
         holder.itemView.setOnClickListener(v -> mAllNotesFragment.showSelectedNote(note));
-        holder.itemNoteBinding.imBtnFavorite.setOnClickListener(view -> mNoteListPresenter.changeNoteFavouriteStatus(note, position, view));
-
+        itemNoteBinding.imBtnFavorite.setOnClickListener(view -> mNoteListPresenter.changeNoteFavouriteStatus(note, position, view));
+        itemNoteBinding.tvDateCreatedNote.setText(convertMillisecondsToString(note.getCreationTime()));
     }
 
     @Override
