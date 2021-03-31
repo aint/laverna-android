@@ -1,8 +1,12 @@
 package com.github.valhallalabs.laverna.service
 
+import com.github.android.lvrn.lvrnproject.dagger.modules.PresenterModule
+import com.github.android.lvrn.lvrnproject.dagger.modules.RepositoryModule
+import com.github.android.lvrn.lvrnproject.dagger.modules.ServiceModule
 import com.github.valhallalabs.laverna.service.cloud.json.NoteJson
 import com.github.valhallalabs.laverna.service.cloud.json.NotebookJson
 import com.github.valhallalabs.laverna.service.cloud.json.TagJson
+import dagger.Component
 
 interface CloudService {
 

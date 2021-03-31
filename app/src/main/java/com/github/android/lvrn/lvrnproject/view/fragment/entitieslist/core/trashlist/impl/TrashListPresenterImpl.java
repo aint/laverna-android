@@ -10,6 +10,8 @@ import com.github.valhallalabs.laverna.persistent.entity.Note;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
@@ -17,6 +19,7 @@ public class TrashListPresenterImpl extends EntitiesListWithSearchPresenterImpl<
 
     private NoteService mNoteService;
 
+    @Inject
     public TrashListPresenterImpl(NoteService entityService) {
         super(entityService);
         mNoteService = entityService;

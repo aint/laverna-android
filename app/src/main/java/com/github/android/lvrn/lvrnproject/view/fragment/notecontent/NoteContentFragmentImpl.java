@@ -46,6 +46,7 @@ public class NoteContentFragmentImpl extends Fragment {
 
     @Inject
     NotebookService mNotebookService;
+
     private Note mSelectNote;
     private String mNoteBookName;
 

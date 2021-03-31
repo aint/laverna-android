@@ -11,6 +11,8 @@ import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TasksTable.COLUMN_DESCRIPTION;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TasksTable.COLUMN_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TasksTable.COLUMN_IS_COMPLETED;
@@ -24,6 +26,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 
 public class TaskRepositoryImpl extends ProfileDependedRepositoryImpl<Task> implements TaskRepository {
 
+    @Inject
     public TaskRepositoryImpl() {
         super(TABLE_NAME);
     }

@@ -10,6 +10,8 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.Entit
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
@@ -18,6 +20,7 @@ public class NotebooksListPresenterImpl extends EntitiesListWithSearchPresenterI
 
     private NotebookService mNotebookService;
 
+    @Inject
     public NotebooksListPresenterImpl(NotebookService notebookService) {
         super(notebookService);
         mNotebookService = notebookService;

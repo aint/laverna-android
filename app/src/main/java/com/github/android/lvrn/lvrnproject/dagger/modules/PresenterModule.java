@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.dagger.modules;
 
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
-import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.TaskService;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListPresenterImpl;
@@ -16,42 +15,32 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.tasks
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListPresenterImpl;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
+ * @author Bei Anrii <bei.andrii.dev@gmail.com>
  */
 @Module
-public class PresenterModule {
+public abstract class PresenterModule {
 
-    @Provides
-    static FavouritesListPresenter provideFavouritesListPresenter(NoteService noteService) {
-        return new FavouritesListPresenterImpl(noteService);
-    }
+    @Binds
+    abstract FavouritesListPresenter bindFavouritesListPresenter(FavouritesListPresenterImpl favouritesListPresenter);
 
-    @Provides
-    static NotebookChildrenPresenter provideNotebookChildrenPresenter(NotebookService notebookService, NoteService noteService) {
-        return new NotebookChildrenPresenterImpl(notebookService, noteService);
-    }
+    @Binds
+    abstract NotebookChildrenPresenter bindNotebookChildrenPresenter(NotebookChildrenPresenterImpl notebookChildrenPresenter);
 
-    @Provides
-    static NotebooksListPresenter provideNotebooksListPresenter(NotebookService notebookService) {
-        return new NotebooksListPresenterImpl(notebookService);
-    }
+    @Binds
+    abstract NotebooksListPresenter bindNotebooksListPresenter(NotebooksListPresenterImpl notebooksListPresenter);
 
-    @Provides
-    static NotesListPresenter provideNotesListPresenter(NoteService noteService) {
-        return new NotesListPresenterImpl(noteService);
-    }
+    @Binds
+    abstract NotesListPresenter bindNotesListPresenter(NotesListPresenterImpl notesListPresenter);
 
-    @Provides
-    static TasksListPresenter provideTasksListPresenter(TaskService taskService, NoteService noteService) {
-        return new TasksListPresenterImpl(taskService, noteService);
-    }
+    @Binds
+    abstract TasksListPresenter bindTasksListPresenter(TasksListPresenterImpl tasksListPresenter);
 
-    @Provides
-    static TrashListPresenter provideTrashListPresenter(NoteService noteService) {
-        return new TrashListPresenterImpl(noteService);
-    }
+    @Binds
+    abstract TrashListPresenter bindTrashListPresenter(TrashListPresenterImpl trashListPresenter);
 }

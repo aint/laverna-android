@@ -12,6 +12,8 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.ProfilesTable.COLUMN_ID;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.ProfilesTable.COLUMN_PROFILE_NAME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.ProfilesTable.TABLE_NAME;
@@ -22,6 +24,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 
 public class ProfileRepositoryImpl extends BasicRepositoryImpl<Profile> implements ProfileRepository {
 
+    @Inject
     public ProfileRepositoryImpl() {
         super(TABLE_NAME);
     }

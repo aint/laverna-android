@@ -15,6 +15,8 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
@@ -23,6 +25,7 @@ public class NotesListPresenterImpl extends EntitiesListWithSearchPresenterImpl<
 
     private NoteService mNoteService;
 
+    @Inject
     public NotesListPresenterImpl(NoteService entityService) {
         super(entityService);
         mNoteService = entityService;

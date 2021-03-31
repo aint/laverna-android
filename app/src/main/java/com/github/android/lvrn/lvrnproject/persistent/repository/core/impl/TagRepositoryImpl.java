@@ -12,6 +12,8 @@ import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TagsTable.COLUMN_COUNT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TagsTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.TagsTable.COLUMN_ID;
@@ -25,6 +27,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 
 public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implements TagRepository {
 
+    @Inject
     public TagRepositoryImpl() {
         super(TABLE_NAME);
     }

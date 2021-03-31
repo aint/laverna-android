@@ -13,6 +13,8 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CONTENT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTable.COLUMN_HTML_CONTENT;
@@ -33,6 +35,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 public class NoteRepositoryImpl extends TrashDependedRepositoryImpl<Note> implements NoteRepository {
     private static final String TAG = "NoteRepoImpl";
 
+    @Inject
     public NoteRepositoryImpl() {
         super(TABLE_NAME);
     }

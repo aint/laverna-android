@@ -17,6 +17,7 @@ public class DatabaseManager {
 
     @Nullable
     private static DatabaseManager sInstance;
+    
 
     private LavernaDbHelper sDatabaseHelper;
 

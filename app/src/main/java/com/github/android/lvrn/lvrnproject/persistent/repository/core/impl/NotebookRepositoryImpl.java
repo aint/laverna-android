@@ -11,6 +11,8 @@ import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_COUNT;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_CREATION_TIME;
 import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotebooksTable.COLUMN_ID;
@@ -27,6 +29,7 @@ import static com.github.android.lvrn.lvrnproject.persistent.database.LavernaCon
 
 public class NotebookRepositoryImpl extends ProfileDependedRepositoryImpl<Notebook> implements NotebookRepository {
 
+    @Inject
     public NotebookRepositoryImpl() {
         super(TABLE_NAME);
     }

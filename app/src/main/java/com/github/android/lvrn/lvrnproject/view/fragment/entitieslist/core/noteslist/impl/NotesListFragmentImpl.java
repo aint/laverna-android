@@ -39,6 +39,7 @@ import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConst
  */
 
 public class NotesListFragmentImpl extends Fragment implements NotesListFragment {
+
     @Inject
     NotesListPresenter mNotesListPresenter;
 

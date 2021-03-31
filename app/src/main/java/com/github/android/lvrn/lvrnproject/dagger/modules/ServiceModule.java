@@ -18,47 +18,35 @@ import com.github.android.lvrn.lvrnproject.service.core.impl.ProfileServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.core.impl.TagServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.core.impl.TaskServiceImpl;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
+ * @author Bei Anrii <bei.andrii.dev@gmail.com>
  */
 
-@Module
-public class ServiceModule {
+@Module(includes = RepositoryModule.class)
+public abstract class ServiceModule {
 
     @NonNull
-    @Provides
-    static NotebookService provideNotebooksService(NotebookRepository notebookRepository, ProfileService profileService) {
-        return new NotebookServiceImpl(notebookRepository, profileService);
-    }
+    @Binds
+    abstract NotebookService bindNotebooksService(NotebookServiceImpl notebookService);
 
     @NonNull
-    @Provides
-    static NoteService provideNoteService(NoteRepository noteRepository,
-                                          TaskService taskService,
-                                          TagService tagService,
-                                          ProfileService profileService,
-                                          NotebookService notebookService) {
-        return new NoteServiceImpl(noteRepository, taskService, tagService, profileService, notebookService);
-    }
+    @Binds
+    abstract NoteService bindNoteService(NoteServiceImpl noteService);
 
     @NonNull
-    @Provides
-    static ProfileService provideProfilesService(ProfileRepository profileRepository) {
-        return new ProfileServiceImpl(profileRepository);
-    }
+    @Binds
+    abstract ProfileService bindProfilesService(ProfileServiceImpl profileService);
 
     @NonNull
-    @Provides
-    static TagService provideTagsService(TagRepository tagRepository, ProfileService profileService) {
-        return new TagServiceImpl(tagRepository, profileService);
-    }
+    @Binds
+    abstract TagService bindTagsService(TagServiceImpl tagService);
 
     @NonNull
-    @Provides
-    static TaskService provideTasksService(TaskRepository taskRepository, ProfileService profileService) {
-        return new TaskServiceImpl(taskRepository, profileService);
-    }
+    @Binds
+    abstract TaskService bindTasksService(TaskServiceImpl taskService);
 }
