@@ -16,7 +16,7 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNo
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNotesAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenPresenter;
-import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragment;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.orhanobut.logger.Logger;
@@ -124,7 +124,7 @@ public class NotebookChildrenFragmentImpl extends Fragment implements NotebookCh
 
     @Override
     public void showSelectedNote(Note note) {
-        NoteContentFragmentImpl noteContentFragment = new NoteContentFragmentImpl();
+        NoteContentFragment noteContentFragment = new NoteContentFragment();
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_NOTE_OBJECT_KEY, note);

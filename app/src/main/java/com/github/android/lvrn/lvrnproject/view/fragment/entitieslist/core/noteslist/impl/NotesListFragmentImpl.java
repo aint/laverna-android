@@ -24,7 +24,7 @@ import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBindi
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter;
-import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragment;
 import com.github.valhallalabs.laverna.activity.MainActivity;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.orhanobut.logger.Logger;
@@ -114,7 +114,7 @@ public class NotesListFragmentImpl extends Fragment implements NotesListFragment
 
     @Override
     public void showSelectedNote(Note note) {
-        NoteContentFragmentImpl noteContentFragmentImpl = new NoteContentFragmentImpl();
+        NoteContentFragment noteContentFragmentImpl = new NoteContentFragment();
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_NOTE_OBJECT_KEY, note);

@@ -23,7 +23,7 @@ import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBindi
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TasksListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListPresenter;
-import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl;
+import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragment;
 import com.github.valhallalabs.laverna.activity.MainActivity;
 import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.orhanobut.logger.Logger;
@@ -112,7 +112,7 @@ public class TasksListFragmentImpl extends Fragment implements TasksListFragment
 
     @Override
     public void openRelatedNote(Task task) {
-        NoteContentFragmentImpl noteContentFragmentImpl = new NoteContentFragmentImpl();
+        NoteContentFragment noteContentFragmentImpl = new NoteContentFragment();
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_NOTE_OBJECT_KEY, mTasksListPresenter.getNoteByTask(task));

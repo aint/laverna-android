@@ -14,7 +14,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteb
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl
-import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragmentImpl
+import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragment
 import com.github.valhallalabs.laverna.activity.MainActivity
 import dagger.Component
 
@@ -25,7 +25,7 @@ interface AppComponent {
 
     fun inject(notesListFragment: NotesListFragmentImpl?)
 
-    fun inject(noteContentFragment: NoteContentFragmentImpl?)
+    fun inject(noteContentFragment: NoteContentFragment?)
 
     fun inject(tagEditingDialogFragment: TagEditingDialogFragmentImpl?)
 

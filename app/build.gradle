@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "org.sonarqube"
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 
 android {
@@ -95,6 +96,9 @@ dependencies {
 
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
+
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.4"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.4"
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.assertj:assertj-core:2.6.0'
