@@ -44,6 +44,10 @@ android {
     viewBinding {
         enabled = true
     }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 sonarqube {
@@ -99,6 +103,8 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.4"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.4"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.assertj:assertj-core:2.6.0'

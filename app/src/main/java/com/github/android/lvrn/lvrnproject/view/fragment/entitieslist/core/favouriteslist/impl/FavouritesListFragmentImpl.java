@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBinding;
+import com.github.android.lvrn.lvrnproject.view.activity.notedetail.NoteDetailActivity;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.FavouritesListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter;
@@ -108,17 +109,7 @@ public class FavouritesListFragmentImpl extends Fragment implements FavouritesLi
 
     @Override
     public void showSelectedNote(Note note) {
-        NoteContentFragment noteContentFragmentImpl = new NoteContentFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(BUNDLE_NOTE_OBJECT_KEY, note);
-        noteContentFragmentImpl.setArguments(bundle);
-
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.constraint_container, noteContentFragmentImpl, TAG_NOTE_CONTENT_FRAGMENT)
-                .addToBackStack(null)
-                .commit();
+        NoteDetailActivity.Start.onStart(getActivity(),note);
     }
 
     @Override

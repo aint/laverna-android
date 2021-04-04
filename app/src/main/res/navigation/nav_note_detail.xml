@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_note_detail"
+    app:startDestination="@id/noteContentFragment">
+
+    <fragment
+        android:id="@+id/noteContentFragment"
+        android:name="com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragment"
+        android:label="NoteContentFragment" >
+        <action
+            android:id="@+id/action_noteContentFragment_to_noteDetailsFragment"
+            app:destination="@id/noteDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteDetailsFragment"
+        android:name="com.github.android.lvrn.lvrnproject.view.fragment.notedetails.NoteDetailsFragment"
+        android:label="NoteDetailsFragment" />
+</navigation>

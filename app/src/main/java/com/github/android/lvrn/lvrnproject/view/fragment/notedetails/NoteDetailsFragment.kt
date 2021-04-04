@@ -6,19 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.github.android.lvrn.lvrnproject.databinding.FragmentNoteDetailsBinding
-import com.github.android.lvrn.lvrnproject.view.util.consts.BUNDLE_NOTEBOOK_NAME_KEY
-import com.github.android.lvrn.lvrnproject.view.util.consts.BUNDLE_NOTE_CREATED_KEY
-import com.github.android.lvrn.lvrnproject.view.util.consts.BUNDLE_NOTE_UPDATED_KEY
+import com.github.android.lvrn.lvrnproject.view.activity.notedetail.NoteViewModel
 import com.github.android.lvrn.lvrnproject.view.util.convertMillisecondsToString
+import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class NoteDetailsFragment : Fragment(){
+class NoteDetailsFragment : Fragment() {
 
     private var fragmentNoteDetailsBinding: FragmentNoteDetailsBinding? = null
+    private val viewModel: NoteViewModel by activityViewModels()
+    private var mSelectNote: Note? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentNoteDetailsBinding = FragmentNoteDetailsBinding.inflate(inflater, container, false)
-        setUpToolbar()
+        mSelectNote = viewModel.getNote().value
         getParcelableDataAndSetInView()
         return fragmentNoteDetailsBinding?.getRoot()
     }
@@ -36,18 +38,11 @@ class NoteDetailsFragment : Fragment(){
     }
 
     /**
-     * A method which sets defined view of main toolbar
-     */
-    private fun setUpToolbar() {
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-    }
-
-    /**
      * A method which gets data from fragment argument bundles and sets their in defined views
      */
     private fun getParcelableDataAndSetInView() {
-        fragmentNoteDetailsBinding!!.tvUpdateDate.text = convertMillisecondsToString(requireArguments().getLong(BUNDLE_NOTE_UPDATED_KEY))
-        fragmentNoteDetailsBinding!!.tvCreateDate.text = convertMillisecondsToString(requireArguments().getLong(BUNDLE_NOTE_CREATED_KEY))
-        fragmentNoteDetailsBinding!!.tvNotebookNameDetailNote.text = requireArguments().getString(BUNDLE_NOTEBOOK_NAME_KEY)
+        fragmentNoteDetailsBinding!!.tvUpdateDate.text = convertMillisecondsToString(mSelectNote!!.updateTime)
+        fragmentNoteDetailsBinding!!.tvCreateDate.text = convertMillisecondsToString(mSelectNote!!.creationTime)
+        fragmentNoteDetailsBinding!!.tvNotebookNameDetailNote.text = viewModel.getNotebook().value?.name
     }
 }

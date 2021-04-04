@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBinding;
+import com.github.android.lvrn.lvrnproject.view.activity.notedetail.NoteDetailActivity;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TasksListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListPresenter;
@@ -112,17 +113,7 @@ public class TasksListFragmentImpl extends Fragment implements TasksListFragment
 
     @Override
     public void openRelatedNote(Task task) {
-        NoteContentFragment noteContentFragmentImpl = new NoteContentFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(BUNDLE_NOTE_OBJECT_KEY, mTasksListPresenter.getNoteByTask(task));
-        noteContentFragmentImpl.setArguments(bundle);
-
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.constraint_container, noteContentFragmentImpl, TAG_NOTE_CONTENT_FRAGMENT)
-                .addToBackStack(null)
-                .commit();
+        NoteDetailActivity.Start.onStart(getActivity(),mTasksListPresenter.getNoteByTask(task));
     }
 
     @Override

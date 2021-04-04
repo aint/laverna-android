@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.noteeditor.impl.NoteEditorActivityImpl" />
+        <activity android:name=".view.activity.notedetail.NoteDetailActivity"/>
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"
