@@ -14,6 +14,8 @@ import com.github.valhallalabs.laverna.persistent.entity.Note;
 
 import java.util.List;
 
+import static com.github.android.lvrn.lvrnproject.view.util.TimeUtilKt.convertMillisecondsToString;
+
 /**
  * @author Andrii Bei <psihey1@gmail.com>
  */
@@ -40,6 +42,7 @@ public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAd
         Note note = mNotes.get(position);
         holder.itemNoteBinding.tvTitleNote.setText(note.getTitle());
         holder.itemNoteBinding.tvPromptTextNote.setText(note.getContent());
+        holder.itemNoteBinding.tvDateCreatedNote.setText(convertMillisecondsToString(note.getCreationTime()));
         holder.itemView.setOnClickListener(v -> mAllNotesFragment.showSelectedNote(note));
         holder.itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
         holder.itemNoteBinding.imBtnFavorite.setOnClickListener(view -> {
