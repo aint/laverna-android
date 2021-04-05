@@ -42,7 +42,7 @@ class NoteContentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mSelectNote = viewModel.getNote().value
+        mSelectNote = viewModel.note.value
         setDataAndSetInView()
         fragmentNotebookContentBinding!!.imBtnInformation.setOnClickListener { view1 -> startNoteDetailFragment() }
         fragmentNotebookContentBinding!!.imBtnArrowBackSingleNote!!.setOnClickListener { view1 -> backToPreviousFragment() }

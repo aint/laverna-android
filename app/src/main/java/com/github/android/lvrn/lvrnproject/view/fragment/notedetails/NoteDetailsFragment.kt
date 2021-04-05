@@ -20,7 +20,7 @@ class NoteDetailsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentNoteDetailsBinding = FragmentNoteDetailsBinding.inflate(inflater, container, false)
-        mSelectNote = viewModel.getNote().value
+        mSelectNote = viewModel.note.value
         getParcelableDataAndSetInView()
         return fragmentNoteDetailsBinding?.getRoot()
     }
@@ -43,6 +43,6 @@ class NoteDetailsFragment : Fragment() {
     private fun getParcelableDataAndSetInView() {
         fragmentNoteDetailsBinding!!.tvUpdateDate.text = convertMillisecondsToString(mSelectNote!!.updateTime)
         fragmentNoteDetailsBinding!!.tvCreateDate.text = convertMillisecondsToString(mSelectNote!!.creationTime)
-        fragmentNoteDetailsBinding!!.tvNotebookNameDetailNote.text = viewModel.getNotebook().value?.name
+        fragmentNoteDetailsBinding!!.tvNotebookNameDetailNote.text = viewModel.notebook.value?.name
     }
 }

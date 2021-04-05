@@ -1,5 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.activity.notedetail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.valhallalabs.laverna.persistent.entity.Note
@@ -7,23 +8,19 @@ import com.github.valhallalabs.laverna.persistent.entity.Notebook
 
 class NoteViewModel : ViewModel() {
 
-    private var note = MutableLiveData<Note>()
-    private var notebook = MutableLiveData<Notebook>()
+    private var _note = MutableLiveData<Note>()
+    val note : LiveData<Note> = _note
 
-    fun getNote(): MutableLiveData<Note> {
-        return note
-    }
+    private var _notebook = MutableLiveData<Notebook>()
+    val notebook : LiveData<Notebook> = _notebook
+
 
     fun setNote(note: Note) {
-        this.note.value = note
-    }
-
-    fun getNotebook(): MutableLiveData<Notebook> {
-        return notebook
+        this._note.value = note
     }
 
     fun setNotebook(notebook: Notebook) {
-        this.notebook.value = notebook
+        this._notebook.value = notebook
     }
 
 }
