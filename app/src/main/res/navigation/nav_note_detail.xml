@@ -10,7 +10,11 @@
         android:label="NoteContentFragment" >
         <action
             android:id="@+id/action_noteContentFragment_to_noteDetailsFragment"
-            app:destination="@id/noteDetailsFragment" />
+            app:destination="@id/noteDetailsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/noteDetailsFragment"
