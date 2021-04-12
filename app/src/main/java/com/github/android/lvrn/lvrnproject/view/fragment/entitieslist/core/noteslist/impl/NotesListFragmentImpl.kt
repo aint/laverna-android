@@ -5,11 +5,14 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.android.lvrn.lvrnproject.LavernaApplication
 import com.github.android.lvrn.lvrnproject.R
 import com.github.android.lvrn.lvrnproject.databinding.FragmentEntitiesListBinding
@@ -29,7 +32,7 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
 
     val TOOLBAR_TITLE = "All Notes"
 
-    private var mNotesRecyclerViewAdapter: NotesListAdapter? = null
+    private lateinit var mNotesRecyclerViewAdapter: NotesListAdapter;
 
     private var mSearchView: SearchView? = null
 
@@ -38,7 +41,7 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
     private lateinit var mFragmentEntitiesListBinding: FragmentEntitiesListBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mFragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater,container,false)
+        mFragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater, container, false)
         LavernaApplication.getsAppComponent().inject(this)
         setUpToolbar()
         initRecyclerView()
@@ -81,7 +84,7 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
     }
 
     override fun updateRecyclerView() {
-        mNotesRecyclerViewAdapter!!.notifyDataSetChanged()
+        mNotesRecyclerViewAdapter.notifyDataSetChanged()
         Logger.d("Recycler view is updated")
     }
 
@@ -125,13 +128,43 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
      * A method which initializes recycler view with data
      */
     private fun initRecyclerView() {
-        val recyclerViewAllEntities = mFragmentEntitiesListBinding!!.recyclerViewAllEntities
+        val recyclerViewAllEntities = mFragmentEntitiesListBinding.recyclerViewAllEntities
         recyclerViewAllEntities.setHasFixedSize(true)
-        recyclerViewAllEntities.layoutManager = LinearLayoutManager(context)
+        recyclerViewAllEntities.layoutManager = LinearLayoutManager(activity)
         mNotesRecyclerViewAdapter = NotesListAdapter(this, mNotesListPresenter!!)
         mNotesListPresenter!!.setDataToAdapter(mNotesRecyclerViewAdapter)
         recyclerViewAllEntities.adapter = mNotesRecyclerViewAdapter
         mNotesListPresenter!!.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
+        initItemSwipeListener(recyclerViewAllEntities)
+    }
+
+    private fun initItemSwipeListener(recyclerViewAllEntities: RecyclerView) {
+        val itemSwipe = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                showDeletingDialog(viewHolder)
+            }
+        }
+        val swap = ItemTouchHelper(itemSwipe)
+        swap.attachToRecyclerView(recyclerViewAllEntities)
+    }
+
+    private fun showDeletingDialog(viewHolder: RecyclerView.ViewHolder) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.dialog_delete_note_title))
+        builder.setMessage(getString(R.string.dialog_delete_note_text))
+        builder.setPositiveButton(getString(R.string.dialog_delete_note_confirm_btn)) { dialogInterface, i ->
+            val position = viewHolder.adapterPosition
+            mNotesListPresenter?.removeNote(position)
+            mNotesRecyclerViewAdapter.notifyItemRemoved(position)
+        }
+        builder.setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
+            mNotesRecyclerViewAdapter.notifyItemChanged(viewHolder.adapterPosition)
+        }
+        builder.show()
     }
 
     /**

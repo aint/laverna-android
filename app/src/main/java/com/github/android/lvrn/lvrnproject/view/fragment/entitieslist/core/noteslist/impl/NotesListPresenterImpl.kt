@@ -36,4 +36,9 @@ class NotesListPresenterImpl @Inject constructor(var noteService: NoteService) :
         Logger.i("Set favourite")
         (view as ImageButton).setImageResource(R.drawable.ic_star_black_24dp)
     }
+
+    override fun removeNote(position: Int) {
+        noteService.moveToTrash(mEntities[position].id)
+    }
+
 }

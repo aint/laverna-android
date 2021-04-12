@@ -74,6 +74,10 @@
     <string name="hint_enter_your_notebook_name">Enter your notebook name</string>
     <string name="hint_dialog_notebook_selection_notebook_not_choose">Notebook not chosen</string>
     <string name="favorite_notes_empty_text">There are no favourites notes</string>
+    <string name="dialog_delete_note_title">Delete note</string>
+    <string name="dialog_delete_note_text">Are you sure want to delete note?</string>
+    <string name="dialog_delete_note_confirm_btn">Confirm</string>
+    <string name="dialog_delete_note_cancel_btn">Cancel</string>
 
 
 </resources>
