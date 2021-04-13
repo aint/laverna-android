@@ -9,11 +9,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.github.android.lvrn.lvrnproject.R
 import com.github.android.lvrn.lvrnproject.databinding.ActivityNoteDetailBinding
+import com.github.android.lvrn.lvrnproject.view.activity.BaseActivity
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
 
 
-class NoteDetailActivity : AppCompatActivity() {
+class NoteDetailActivity : BaseActivity() {
 
     object Start {
         @JvmStatic
@@ -21,7 +22,7 @@ class NoteDetailActivity : AppCompatActivity() {
             val intent: Intent = Intent(context, NoteDetailActivity::class.java).apply {
                 putExtra("NOTE_DETAIL_KEY", note)
             }
-            context.startActivity(intent);
+            context.startActivity(intent)
         }
     }
 
@@ -30,6 +31,7 @@ class NoteDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overrideStartAnimation()
         binding = ActivityNoteDetailBinding.inflate(layoutInflater);
         setContentView(binding.root)
         val parcelableExtra = intent.getParcelableExtra<Note>("NOTE_DETAIL_KEY")
@@ -39,6 +41,7 @@ class NoteDetailActivity : AppCompatActivity() {
                 .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
+
 
 
 }

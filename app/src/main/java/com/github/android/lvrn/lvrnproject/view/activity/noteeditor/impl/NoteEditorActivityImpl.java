@@ -10,13 +10,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TabHost;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.github.android.lvrn.lvrnproject.LavernaApplication;
 import com.github.android.lvrn.lvrnproject.R;
 import com.github.android.lvrn.lvrnproject.databinding.ActivityNoteEditorBinding;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
+import com.github.android.lvrn.lvrnproject.view.activity.BaseActivity;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorPresenter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.impl.NotebookSelectionDialogFragmentImpl;
@@ -30,7 +30,7 @@ import javax.inject.Inject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEditorActivity {
+public class NoteEditorActivityImpl extends BaseActivity implements NoteEditorActivity {
 
     @Inject
     NoteService noteService;
@@ -54,6 +54,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overrideStartAnimation();
         activityNoteEditorBinding = ActivityNoteEditorBinding.inflate(getLayoutInflater());
         setContentView(activityNoteEditorBinding.getRoot());
         LavernaApplication.getsAppComponent().inject(this);
@@ -162,6 +163,7 @@ public class NoteEditorActivityImpl extends AppCompatActivity implements NoteEdi
         activityNoteEditorBinding.toolbarMain.setNavigationOnClickListener(v -> {
             this.startActivity(new Intent(this, MainActivity.class));
             this.finish();
+            overrideFinishAnimation();
         });
     }
 

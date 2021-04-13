@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.dropbox.core.android.Auth
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -179,12 +180,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     private fun menuStartSelectFragment(fragment: Fragment, tag: String) {
         if (mSavedInstanceState == null) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.constraint_container, fragment, tag)
-//                    .addToBackStack(tag)
-                    .commit()
+            fragmentManager.commit {
+                setCustomAnimations(
+                        R.anim.enter_from_top,
+                        R.anim.exit_to_bottom,
+                        R.anim.enter_from_top,
+                        R.anim.exit_to_bottom
+                )
+                replace(R.id.constraint_container, fragment, tag)
+            }
         }
-
     }
 
     fun startNoteEditorActivity() {
