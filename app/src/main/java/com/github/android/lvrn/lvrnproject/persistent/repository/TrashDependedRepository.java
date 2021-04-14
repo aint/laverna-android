@@ -47,4 +47,13 @@ public interface TrashDependedRepository<T extends TrashDependedEntity> extends 
      * @return a boolean result of an operation.
      */
     boolean restoreFromTrash(@NonNull String entityId);
+
+
+    /**
+     * A method which removes entity for permanent
+     * @param entityId an id of entity to restore from trash.
+     * @return a boolean result of an operation.
+     */
+    boolean removeForPermanent(@NonNull String entityId);
+
 }

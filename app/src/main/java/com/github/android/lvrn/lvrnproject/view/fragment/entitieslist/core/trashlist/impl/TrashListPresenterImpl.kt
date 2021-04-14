@@ -9,7 +9,7 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.impl.Entit
 import com.github.valhallalabs.laverna.persistent.entity.Note
 import javax.inject.Inject
 
-class TrashListPresenterImpl @Inject constructor( var noteService: NoteService) : EntitiesListWithSearchPresenterImpl<Note, NoteForm>(noteService), TrashListPresenter {
+class TrashListPresenterImpl @Inject constructor(var noteService: NoteService) : EntitiesListWithSearchPresenterImpl<Note, NoteForm>(noteService), TrashListPresenter {
 
     override fun loadMoreForPagination(paginationArgs: PaginationArgs): MutableList<Note> {
         return noteService.getTrashByProfile(profileId!!, paginationArgs)
@@ -19,12 +19,12 @@ class TrashListPresenterImpl @Inject constructor( var noteService: NoteService) 
         return noteService.getTrashByTitle(profileId!!, query, paginationArgs)
     }
 
-    override fun removeNoteForever() {
-        //TODO: mNoteService.remove(NoteId);
+    override fun removeNoteForever(noteId: String) {
+        noteService.removeForPermanent(noteId)
     }
 
-    override fun restoreNote() {
-        //TODO: mNoteService.restoreFromTrash(noteId);
+    override fun restoreNote(noteId: String) {
+        noteService.restoreFromTrash(noteId)
     }
 
 }

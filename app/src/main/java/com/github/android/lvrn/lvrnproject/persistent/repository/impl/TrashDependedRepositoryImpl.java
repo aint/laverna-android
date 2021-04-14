@@ -55,7 +55,15 @@ public abstract class TrashDependedRepositoryImpl<T extends TrashDependedEntity>
         return super.rawUpdateQuery(query);
     }
 
+    @Override
+    public boolean removeForPermanent(@NonNull String entityId) {
+        String query = "DELETE FROM " + mTableName
+                + " WHERE " + COLUMN_ID + "='" + entityId + "'";
+        return super.rawUpdateQuery(query);
+    }
+
     protected String getTrashClause(boolean isTrash) {
         return " AND " + COLUMN_TRASH + "=" + (isTrash ? "1" : "0");
     }
+
 }

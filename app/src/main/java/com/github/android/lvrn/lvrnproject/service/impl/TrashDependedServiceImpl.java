@@ -46,4 +46,9 @@ public abstract class TrashDependedServiceImpl <T1 extends TrashDependedEntity, 
     public boolean restoreFromTrash(@NonNull String entityId) {
         return mTrashDependedRepository.restoreFromTrash(entityId);
     }
+
+    @Override
+    public boolean removeForPermanent(@NonNull String entityId) {
+        return mTrashDependedRepository.removeForPermanent(entityId);
+    }
 }

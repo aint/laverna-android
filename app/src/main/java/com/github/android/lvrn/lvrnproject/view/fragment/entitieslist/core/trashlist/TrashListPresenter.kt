@@ -6,7 +6,7 @@ import com.github.valhallalabs.laverna.persistent.entity.Note
 
 interface TrashListPresenter : EntitiesListWithSearchPresenter<Note, NoteForm> {
 
-    fun removeNoteForever()
+    fun removeNoteForever(noteId: String)
 
-    fun restoreNote()
+    fun restoreNote(noteId: String)
 }
