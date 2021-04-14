@@ -132,5 +132,6 @@ dependencies {
     androidTestImplementation 'com.squareup.assertj:assertj-android:1.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
 }
 

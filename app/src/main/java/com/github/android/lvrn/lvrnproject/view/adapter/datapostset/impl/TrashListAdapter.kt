@@ -4,19 +4,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.github.android.lvrn.lvrnproject.R
-import com.github.android.lvrn.lvrnproject.databinding.ItemNoteBinding
+import com.github.android.lvrn.lvrnproject.databinding.ItemTrashBinding
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListFragment
+import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.TrashListPresenter
 import com.github.android.lvrn.lvrnproject.view.util.convertMillisecondsToString
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class TrashListAdapter(var trashListFragment: TrashListFragment) : RecyclerView.Adapter<TrashListAdapter.TrashViewHolder>(), DataPostSetAdapter<Note> {
+class TrashListAdapter(var trashListFragment: TrashListFragment, var trashListPresenter: TrashListPresenter) : RecyclerView.Adapter<TrashListAdapter.TrashViewHolder>(), DataPostSetAdapter<Note> {
 
-    var notes: List<Note>? = null
+    var notes: MutableList<Note>? = null
+    private val viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrashViewHolder {
-        return TrashViewHolder(ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return TrashViewHolder(ItemTrashBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -25,21 +28,33 @@ class TrashListAdapter(var trashListFragment: TrashListFragment) : RecyclerView.
 
     override fun onBindViewHolder(holder: TrashViewHolder, position: Int) {
         val note: Note = notes!!.get(position)
-        val itemNoteBinding: ItemNoteBinding = holder.itemNoteBinding
-        itemNoteBinding.tvTitleNote.text = note.title
-        itemNoteBinding.tvPromptTextNote.text = note.content
-        holder.itemView.setOnClickListener { v: View? -> trashListFragment.showSelectedNote(note) }
-        if (note.isFavorite) {
-            itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp)
-        } else {
-            itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_white_24dp)
+        val itemTrashBinding: ItemTrashBinding = holder.itemTrashBinding
+        itemTrashBinding.tvTitleNote.text = note.title
+        itemTrashBinding.tvPromptTextNote.text = note.content
+        itemTrashBinding.cardViewNotes.setOnClickListener { trashListFragment.showSelectedNote(note) }
+        itemTrashBinding.deleteLayout.setOnClickListener{
+            trashListPresenter.removeNoteForever(note.id)
+            notes!!.remove(note)
+            notifyItemRemoved(position)
         }
-        itemNoteBinding.tvDateCreatedNote.text = convertMillisecondsToString(note.creationTime)
+        itemTrashBinding.restoreLayout.setOnClickListener{
+            trashListPresenter.restoreNote(note.id)
+            notes!!.remove(note)
+            notifyItemRemoved(position)
+        }
+        if (note.isFavorite) {
+            itemTrashBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp)
+        } else {
+            itemTrashBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_white_24dp)
+        }
+        itemTrashBinding.tvDateCreatedNote.text = convertMillisecondsToString(note.creationTime)
+        viewBinderHelper.setOpenOnlyOne(true)
+        viewBinderHelper.bind(itemTrashBinding.swipeRevealLayout, note.id)
     }
 
     override fun setData(data: MutableList<Note>?) {
         notes = data
     }
 
-    class TrashViewHolder(var itemNoteBinding: ItemNoteBinding) : RecyclerView.ViewHolder(itemNoteBinding.root)
+    class TrashViewHolder(var itemTrashBinding: ItemTrashBinding) : RecyclerView.ViewHolder(itemTrashBinding.root)
 }

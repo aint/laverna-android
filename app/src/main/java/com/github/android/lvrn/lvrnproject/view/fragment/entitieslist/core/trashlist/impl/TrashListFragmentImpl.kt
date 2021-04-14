@@ -120,7 +120,7 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
         val recyclerViewAllEntities: RecyclerView = fragmentEntitiesListBinding.recyclerViewAllEntities
         recyclerViewAllEntities.setHasFixedSize(true)
         recyclerViewAllEntities.layoutManager = LinearLayoutManager(context)
-        notesRecyclerViewAdapter = TrashListAdapter(this)
+        notesRecyclerViewAdapter = TrashListAdapter(this, trashListPresenter!!)
         trashListPresenter?.setDataToAdapter(notesRecyclerViewAdapter)
         recyclerViewAllEntities.adapter = notesRecyclerViewAdapter
         trashListPresenter?.subscribeRecyclerViewForPagination(recyclerViewAllEntities)

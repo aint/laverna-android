@@ -50,7 +50,7 @@ public abstract class TrashDependedRepositoryImpl<T extends TrashDependedEntity>
     public boolean restoreFromTrash(@NonNull String entityId) {
         String query = "UPDATE " + mTableName
                 + " SET "
-                + COLUMN_TRASH + "=" + 0 + "'"
+                + COLUMN_TRASH + "=" + 0
                 + " WHERE " + COLUMN_ID + "='" + entityId + "'";
         return super.rawUpdateQuery(query);
     }
