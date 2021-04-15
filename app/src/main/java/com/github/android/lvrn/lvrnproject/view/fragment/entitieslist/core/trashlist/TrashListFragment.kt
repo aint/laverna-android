@@ -8,4 +8,6 @@ interface TrashListFragment : EntitiesListWithSearchFragment {
     override fun getSearchQuery(): String
 
     fun showSelectedNote(note: Note)
+
+    fun removeNoteForever(position: Int)
 }

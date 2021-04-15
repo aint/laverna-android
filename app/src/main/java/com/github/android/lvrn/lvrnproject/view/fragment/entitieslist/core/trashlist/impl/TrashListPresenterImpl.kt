@@ -19,12 +19,17 @@ class TrashListPresenterImpl @Inject constructor(var noteService: NoteService) :
         return noteService.getTrashByTitle(profileId!!, query, paginationArgs)
     }
 
-    override fun removeNoteForever(noteId: String) {
-        noteService.removeForPermanent(noteId)
+    override fun removeNoteForever(position: Int) {
+        noteService.removeForPermanent(mEntities.get(position).id)
+        mEntities.removeAt(position)
+        mEntitiesListFragment.updateRecyclerView()
     }
 
-    override fun restoreNote(noteId: String) {
-        noteService.restoreFromTrash(noteId)
+    override fun restoreNote(position: Int) {
+        noteService.restoreFromTrash(mEntities.get(position).id)
+        mEntities.removeAt(position)
+        mEntitiesListFragment.updateRecyclerView()
     }
+
 
 }

@@ -145,24 +145,22 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                showDeletingDialog(viewHolder)
+                showRemoveDialog(viewHolder.adapterPosition)
             }
         }
         val swap = ItemTouchHelper(itemSwipe)
         swap.attachToRecyclerView(recyclerViewAllEntities)
     }
 
-    private fun showDeletingDialog(viewHolder: RecyclerView.ViewHolder) {
+    fun showRemoveDialog(position: Int) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(getString(R.string.dialog_delete_note_title))
         builder.setMessage(getString(R.string.dialog_delete_note_text))
         builder.setPositiveButton(getString(R.string.dialog_delete_note_confirm_btn)) { dialogInterface, i ->
-            val position = viewHolder.adapterPosition
-            mNotesListPresenter?.removeNote(position)
-            mNotesRecyclerViewAdapter.notifyItemRemoved(position)
+            mNotesListPresenter!!.removeNote(position)
         }
         builder.setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
-            mNotesRecyclerViewAdapter.notifyItemChanged(viewHolder.adapterPosition)
+            mNotesRecyclerViewAdapter.notifyDataSetChanged()
         }
         builder.show()
     }

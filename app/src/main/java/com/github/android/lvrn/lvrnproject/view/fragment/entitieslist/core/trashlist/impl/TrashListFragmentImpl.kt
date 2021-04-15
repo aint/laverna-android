@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
@@ -37,7 +38,7 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
     private lateinit var fragmentEntitiesListBinding: FragmentEntitiesListBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater,container,false)
+        fragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater, container, false)
         LavernaApplication.getsAppComponent().inject(this)
         setUpToolbar()
         initRecyclerView()
@@ -80,6 +81,19 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
 
     override fun showSelectedNote(note: Note) {
         onStart(requireContext(), note)
+    }
+
+    override fun removeNoteForever(position: Int) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.dialog_delete_note_title))
+        builder.setMessage(getString(R.string.dialog_delete_note_text))
+        builder.setPositiveButton(getString(R.string.dialog_delete_note_forever_text)) { dialogInterface, i ->
+            trashListPresenter!!.removeNoteForever(position)
+        }
+        builder.setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
+            notesRecyclerViewAdapter.notifyDataSetChanged()
+        }
+        builder.show()
     }
 
     override fun updateRecyclerView() {
@@ -125,6 +139,7 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
         recyclerViewAllEntities.adapter = notesRecyclerViewAdapter
         trashListPresenter?.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
     }
+
 
     /**
      * A method which sets defined view of toolbar

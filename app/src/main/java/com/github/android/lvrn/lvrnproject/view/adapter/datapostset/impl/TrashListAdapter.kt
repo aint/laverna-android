@@ -33,14 +33,10 @@ class TrashListAdapter(var trashListFragment: TrashListFragment, var trashListPr
         itemTrashBinding.tvPromptTextNote.text = note.content
         itemTrashBinding.cardViewNotes.setOnClickListener { trashListFragment.showSelectedNote(note) }
         itemTrashBinding.deleteLayout.setOnClickListener{
-            trashListPresenter.removeNoteForever(note.id)
-            notes!!.remove(note)
-            notifyItemRemoved(position)
+            trashListFragment.removeNoteForever(position)
         }
         itemTrashBinding.restoreLayout.setOnClickListener{
-            trashListPresenter.restoreNote(note.id)
-            notes!!.remove(note)
-            notifyItemRemoved(position)
+            trashListPresenter.restoreNote(position)
         }
         if (note.isFavorite) {
             itemTrashBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp)

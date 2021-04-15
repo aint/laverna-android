@@ -31,7 +31,6 @@ class NotesListAdapter(val allNotesFragment: NotesListFragment, val noteListPres
         } else {
             itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_white_24dp)
         }
-
         itemNoteBinding.tvTitleNote.text = note.title
         itemNoteBinding.tvPromptTextNote.text = note.content
         holder.itemView.setOnClickListener { allNotesFragment.showSelectedNote(note) }
