@@ -44,6 +44,7 @@ public class FavouritesListPresenterImpl extends EntitiesListWithSearchPresenter
         if (note.isFavorite()) {
             mEntities.get(position).setFavorite(false);
             mNoteService.setNoteUnFavourite(note.getId());
+            mEntitiesListFragment.updateRecyclerView();
             Logger.i("Set un favourite");
         }
     }

@@ -84,16 +84,23 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
     }
 
     override fun removeNoteForever(position: Int) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(getString(R.string.dialog_delete_note_title))
-        builder.setMessage(getString(R.string.dialog_delete_note_text))
-        builder.setPositiveButton(getString(R.string.dialog_delete_note_forever_text)) { dialogInterface, i ->
-            trashListPresenter!!.removeNoteForever(position)
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.dialog_delete_note_title))
+            setMessage(getString(R.string.dialog_delete_note_text))
+            setPositiveButton(getString(R.string.dialog_delete_note_forever_text)) { dialogInterface, i ->
+                trashListPresenter!!.removeNoteForever(position)
+            }
+            setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
+                notesRecyclerViewAdapter.notifyDataSetChanged()
+            }
+            show()
         }
-        builder.setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
-            notesRecyclerViewAdapter.notifyDataSetChanged()
-        }
-        builder.show()
+    }
+
+    override fun showEmptyListView() {
+        val tvEmptyState = fragmentEntitiesListBinding.tvEmptyState!!
+        tvEmptyState.text = getText(R.string.trash_notes_empty_text)
+        tvEmptyState.visibility = View.VISIBLE
     }
 
     override fun updateRecyclerView() {
@@ -138,6 +145,9 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
         trashListPresenter?.setDataToAdapter(notesRecyclerViewAdapter)
         recyclerViewAllEntities.adapter = notesRecyclerViewAdapter
         trashListPresenter?.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
+        if (notesRecyclerViewAdapter.itemCount == 0) {
+            showEmptyListView()
+        }
     }
 
 

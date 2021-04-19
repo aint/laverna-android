@@ -10,4 +10,6 @@ interface TrashListFragment : EntitiesListWithSearchFragment {
     fun showSelectedNote(note: Note)
 
     fun removeNoteForever(position: Int)
+
+    fun showEmptyListView()
 }

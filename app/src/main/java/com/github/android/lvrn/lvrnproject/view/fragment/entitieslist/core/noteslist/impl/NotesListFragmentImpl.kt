@@ -153,16 +153,17 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
     }
 
     fun showRemoveDialog(position: Int) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(getString(R.string.dialog_delete_note_title))
-        builder.setMessage(getString(R.string.dialog_delete_note_text))
-        builder.setPositiveButton(getString(R.string.dialog_delete_note_confirm_btn)) { dialogInterface, i ->
-            mNotesListPresenter!!.removeNote(position)
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.dialog_delete_note_title))
+            setMessage(getString(R.string.dialog_delete_note_text))
+            setPositiveButton(getString(R.string.dialog_delete_note_confirm_btn)) { dialogInterface, i ->
+                mNotesListPresenter!!.removeNote(position)
+            }
+            setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
+                mNotesRecyclerViewAdapter.notifyDataSetChanged()
+            }
+            show()
         }
-        builder.setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
-            mNotesRecyclerViewAdapter.notifyDataSetChanged()
-        }
-        builder.show()
     }
 
     /**

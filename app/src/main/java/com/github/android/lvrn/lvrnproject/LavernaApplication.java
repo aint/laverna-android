@@ -54,14 +54,14 @@ public class LavernaApplication extends Application {
 //        notebookService.openConnection();
 //        for(int i = 1; i <= 3; i++) {
 //
-//            Optional<String> optionalStringID = notebookService.create(new NotebookForm(profileId, false, null, "notebook" + i));
+//            Optional<String> optionalStringID = notebookService.create(new NotebookForm(CurrentState.Companion.getProfileId(), false, null, "notebook" + i));
 //            for(int j = 1; j <=20; j++) {
-//                Optional<String> otherString = notebookService.create(new NotebookForm(profileId, false, optionalStringID.get(), "inner noteboook for " + i + " num " + j));
+//                Optional<String> otherString = notebookService.create(new NotebookForm(CurrentState.Companion.getProfileId(), false, optionalStringID.get(), "inner noteboook for " + i + " num " + j));
 //                for(int k = 1; k <= 20; k++) {
-//                    notebookService.create(new NotebookForm(profileId, false, otherString.get(), "inner noteboook for " + i +" for " + j + " num " + k));
-//                    noteService.create(new NoteForm(profileId, false, otherString.get(), "note " + i + " " + j + " " + k, "content", "content", false));
+//                    notebookService.create(new NotebookForm(CurrentState.Companion.getProfileId(), false, otherString.get(), "inner noteboook for " + i +" for " + j + " num " + k));
+//                    noteService.create(new NoteForm(CurrentState.Companion.getProfileId(), false, otherString.get(), "note " + i + " " + j + " " + k, "content", "content", false));
 //                }
-//                noteService.create(new NoteForm(profileId, false, optionalStringID.get(), "note " + i + " " + j, "content", "content", false));
+//                noteService.create(new NoteForm(CurrentState.Companion.getProfileId(), false, optionalStringID.get(), "note " + i + " " + j, "content", "content", false));
 //            }
 //
 //
@@ -72,13 +72,13 @@ public class LavernaApplication extends Application {
 ////
 //        noteService.openConnection();
 //        for (int i = 0; i < 50; i++) {
-//            noteService.create(new NoteForm(profileId, true, null, "note" + i, "dfsdf", "dfsdf", true));
-//            noteService.create(new NoteForm(profileId, false, null, "lol note" + i, "lol dfsdf", "lol dfsdf", false));
-//            noteService.create(new NoteForm(profileId, false, null, "kek note" + i, "lol dfsdf", "lol dfsdf", true));
+//            noteService.create(new NoteForm(CurrentState.Companion.getProfileId(), true, null, "note" + i, "dfsdf", "dfsdf", true));
+//            noteService.create(new NoteForm(CurrentState.Companion.getProfileId(), false, null, "lol note" + i, "lol dfsdf", "lol dfsdf", false));
+//            noteService.create(new NoteForm(CurrentState.Companion.getProfileId(), false, null, "kek note" + i, "lol dfsdf", "lol dfsdf", true));
 //        }
 //        noteService.closeConnection();
 //        noteService.openConnection();
-//        noteService.create(new NoteForm(profileId, false, "0", "title 1", "content\n" +
+//        noteService.create(new NoteForm(CurrentState.Companion.getProfileId(), false, "0", "title 1", "content\n" +
 //                "[] first task\n" +
 //                "[] second task\n" +
 //                "[X] completed task", "htmlContent",false));

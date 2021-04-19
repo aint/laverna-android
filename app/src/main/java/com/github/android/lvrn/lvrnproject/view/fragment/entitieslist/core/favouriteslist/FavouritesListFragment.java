@@ -11,5 +11,5 @@ public interface FavouritesListFragment extends EntitiesListWithSearchFragment {
 
     void showSelectedNote(Note note);
 
-    void showEmptyScreen();
+    void showEmptyListView();
 }

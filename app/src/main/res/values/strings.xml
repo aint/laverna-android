@@ -79,6 +79,7 @@
     <string name="dialog_delete_note_forever_text">The note will be removed for ever!</string>
     <string name="dialog_delete_note_confirm_btn">Confirm</string>
     <string name="dialog_delete_note_cancel_btn">Cancel</string>
+    <string name="trash_notes_empty_text">There are no trash notes</string>
 
 
 </resources>

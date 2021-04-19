@@ -50,7 +50,7 @@ public class FavouritesListAdapter extends RecyclerView.Adapter<FavouritesListAd
             mNotes.remove(note);
             notifyItemRemoved(position);
             if (mNotes.isEmpty()){
-                mAllNotesFragment.showEmptyScreen();
+                mAllNotesFragment.showEmptyListView();
             }
         });
     }

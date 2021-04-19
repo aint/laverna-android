@@ -34,9 +34,11 @@ class TrashListAdapter(var trashListFragment: TrashListFragment, var trashListPr
         itemTrashBinding.cardViewNotes.setOnClickListener { trashListFragment.showSelectedNote(note) }
         itemTrashBinding.deleteLayout.setOnClickListener{
             trashListFragment.removeNoteForever(position)
+            showEmptyViewState()
         }
         itemTrashBinding.restoreLayout.setOnClickListener{
             trashListPresenter.restoreNote(position)
+            showEmptyViewState()
         }
         if (note.isFavorite) {
             itemTrashBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp)
@@ -50,6 +52,12 @@ class TrashListAdapter(var trashListFragment: TrashListFragment, var trashListPr
 
     override fun setData(data: MutableList<Note>?) {
         notes = data
+    }
+
+    private fun showEmptyViewState() {
+        if (notes!!.size == 0) {
+            trashListFragment.showEmptyListView()
+        }
     }
 
     class TrashViewHolder(var itemTrashBinding: ItemTrashBinding) : RecyclerView.ViewHolder(itemTrashBinding.root)
