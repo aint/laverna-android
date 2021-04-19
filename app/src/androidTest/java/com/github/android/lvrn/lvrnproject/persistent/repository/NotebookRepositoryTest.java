@@ -1,16 +1,16 @@
 package com.github.android.lvrn.lvrnproject.persistent.repository;
 
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.filters.MediumTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.MediumTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
-import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NotebookRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.google.common.base.Optional;
 
 import org.junit.After;
@@ -46,7 +46,7 @@ public class NotebookRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
 
         ProfileRepositoryImpl profilesRepository = new ProfileRepositoryImpl();
@@ -61,34 +61,34 @@ public class NotebookRepositoryTest {
         notebook1 = new Notebook(
                 "id_1",
                 "profile_id_1",
+                false,
                 null,
                 "notebook_name_1",
                 1111,
                 2222,
-                0,
-                false
+                0
         );
 
         notebook2 = new Notebook(
                 "id_2",
                 "profile_id_1",
+                false,
                 notebook1.getId(),
                 "notebook_name_2",
                 1111,
                 2222,
-                0,
-                false
+                0
         );
 
         notebook3 = new Notebook(
                 "id_3",
                 "profile_id_2",
+                false,
                 null,
                 "notebook_name_3",
                 1111,
                 2222,
-                0,
-                false
+                0
         );
 
         notebooks = new ArrayList<>();

@@ -41,7 +41,7 @@ public class ProfileRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
         profileRepository = new ProfileRepositoryImpl();
 

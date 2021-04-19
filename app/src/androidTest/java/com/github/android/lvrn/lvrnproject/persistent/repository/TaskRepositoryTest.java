@@ -5,7 +5,7 @@ import androidx.test.filters.MediumTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TaskRepository;
@@ -47,7 +47,7 @@ public class TaskRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
         profile = new Profile("profile_id_1", "profile1");
 
@@ -59,7 +59,7 @@ public class TaskRepositoryTest {
 
         NoteRepositoryImpl notesRepository = new NoteRepositoryImpl();
         notesRepository.openDatabaseConnection();
-        notesRepository.add(new Note("node_id_1", profile.getId(), null, "title", 1111, 2222, "dfsdf", "dfsdf", true, false));
+        notesRepository.add(new Note("node_id_1", profile.getId(), false, null, "title", 1111, 2222, "dfsdf", "dfsdf", true));
         notesRepository.closeDatabaseConnection();
 
         taskRepository = new TaskRepositoryImpl();

@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
 data class Tag(
         override val id: String,
         override val profileId: String,
-        val name: String,
+        var name: String,
         /**
          * A date of the model's creation in milliseconds.
          */

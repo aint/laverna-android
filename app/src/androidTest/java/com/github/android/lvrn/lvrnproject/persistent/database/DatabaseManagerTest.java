@@ -27,7 +27,7 @@ public class DatabaseManagerTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
         mDataBaseManager = DatabaseManager.getInstance();
     }
 

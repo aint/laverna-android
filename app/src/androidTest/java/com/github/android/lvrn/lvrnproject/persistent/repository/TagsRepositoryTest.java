@@ -5,7 +5,7 @@ import androidx.test.filters.MediumTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.entity.Note;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.valhallalabs.laverna.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagRepository;
@@ -47,7 +47,7 @@ public class TagsRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getTargetContext());
+        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
         ProfileRepositoryImpl profilesRepository = new ProfileRepositoryImpl();
         profilesRepository.openDatabaseConnection();
@@ -138,7 +138,7 @@ public class TagsRepositoryTest {
 
         NoteRepositoryImpl notesRepository = new NoteRepositoryImpl();
         notesRepository.openDatabaseConnection();
-        Note note1 = new Note("note_id_1","profile_id_1", null, "title", 1111, 2222, "dfdf", "dfdf", true, false);
+        Note note1 = new Note("note_id_1","profile_id_1", false,null, "title", 1111, 2222, "dfdf", "dfdf", true);
         notesRepository.add(note1);
         notesRepository.addTagToNote(note1.getId(), tag1.getId());
         notesRepository.addTagToNote(note1.getId(), tag2.getId());

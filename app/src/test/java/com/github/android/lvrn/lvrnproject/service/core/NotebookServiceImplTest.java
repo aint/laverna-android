@@ -1,11 +1,11 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
-import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.service.core.impl.NotebookServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.google.common.base.Optional;
 
 import org.junit.Before;
@@ -48,7 +48,7 @@ public class NotebookServiceImplTest {
         MockitoAnnotations.initMocks(this);
         notebookService = new NotebookServiceImpl(notebookRepository, profileService);
         notebookForm = new NotebookForm(profileId, isTrash, parentId, name);
-        notebook = new Notebook(notebookId, profileId, parentId, name, System.currentTimeMillis(), System.currentTimeMillis(), 0, isTrash);
+        notebook = new Notebook(notebookId, profileId, isTrash, parentId, name, System.currentTimeMillis(), System.currentTimeMillis(), 0);
     }
 
     @Test

@@ -11,17 +11,17 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Notebook(
         override val id: String,
-        override val profileId: String,
+        override var profileId: String,
         override val isTrash: Boolean = false,
         /**
          * An id of a notebook, which the notebook is belonged as a child. In case, if the note doesn't
          * belong to any parent notebook, then parentId equals to "0".
          */
-        val parentId: String?,
+        var parentId: String?,
         /**
          * Notebook's name.
          */
-        val name: String,
+        var name: String,
         /**
          * A date of the model's creation in milliseconds.
          */

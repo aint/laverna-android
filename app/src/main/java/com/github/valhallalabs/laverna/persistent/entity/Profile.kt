@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Profile(
-        override val id: String,
+        override var id: String,
         val name: String
 ) : Entity() {
 

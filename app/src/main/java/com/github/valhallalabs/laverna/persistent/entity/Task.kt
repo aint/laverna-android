@@ -17,7 +17,7 @@ data class Task(
          */
         val noteId: String,
 
-        val description: String,
+        var description: String,
 
         val isCompleted: Boolean
 ) : ProfileDependedEntity() {
