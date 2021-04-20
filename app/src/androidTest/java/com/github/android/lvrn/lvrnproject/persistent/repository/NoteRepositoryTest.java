@@ -110,8 +110,7 @@ public class NoteRepositoryTest {
         );
 
         notes = new ArrayList<>();
-        Arrays.asList(note1, note2, note3).forEach(note -> notes.add(note));
-
+        notes.addAll(Arrays.asList(note1, note2, note3));
         noteRepository.openDatabaseConnection();
     }
 
@@ -240,6 +239,72 @@ public class NoteRepositoryTest {
         List<Note> result2 = noteRepository.getByTitle(profile.getId(), "title_1", new PaginationArgs());
 
         assertThat(result2).hasSize(1);
+    }
+
+    @Test
+    public void repositoryShouldMoveToTrashEntity() {
+        noteRepository.add(note1);
+        noteRepository.add(note2);
+        noteRepository.moveToTrash(note1.getId());
+        noteRepository.moveToTrash(note2.getId());
+        List<Note> notesListExpectedInTrash = noteRepository.getTrashByProfile(profile.getId(), new PaginationArgs());
+        assertThat(notesListExpectedInTrash).isNotNull();
+        assertThat(notesListExpectedInTrash.size()).isEqualTo(2);
+        assertThat(notesListExpectedInTrash.get(0).isTrash()).isEqualTo(true);
+
+        notes.remove(note3);
+        assertThat((Object) notesListExpectedInTrash).isEqualToComparingFieldByField(notes);
+    }
+
+    @Test
+    public void repositoryShouldRestoreEntityFromTrash() {
+        note1.setTrash(true);
+        note2.setTrash(true);
+        noteRepository.add(note1);
+        noteRepository.add(note2);
+        noteRepository.restoreFromTrash(note1.getId());
+        List<Note> notesListExpectedInTrash = noteRepository.getTrashByProfile(profile.getId(), new PaginationArgs());
+        assertThat(notesListExpectedInTrash).isNotNull();
+        assertThat(notesListExpectedInTrash.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void repositoryShouldRemoveForeverEntity() {
+        note1.setTrash(true);
+        note2.setTrash(true);
+        note3.setTrash(true);
+        noteRepository.add(note1);
+        noteRepository.add(note2);
+        noteRepository.add(note3);
+        noteRepository.removeForPermanent(note1.getId());
+        noteRepository.removeForPermanent(note3.getId());
+
+        List<Note> notesListExpectedInTrash = noteRepository.getTrashByProfile(profile.getId(), new PaginationArgs());
+        assertThat(notesListExpectedInTrash).isNotNull();
+        assertThat(notesListExpectedInTrash.size()).isEqualTo(1);
+
+        List<Note> notesListExpectedByProfile = noteRepository.getByProfile(profile.getId(), new PaginationArgs());
+        assertThat(notesListExpectedByProfile).isNotNull();
+        assertThat(notesListExpectedByProfile.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void repositoryShouldSetNoteAsFavourite() {
+        noteRepository.add(note1);
+        noteRepository.add(note2);
+        noteRepository.add(note3);
+
+        noteRepository.changeNoteFavouriteStatus(note1.getId(), true);
+        noteRepository.changeNoteFavouriteStatus(note2.getId(), true);
+
+        List<Note> notesListExpectedFavourites = noteRepository.getFavourites(profile.getId(), new PaginationArgs());
+        assertThat(notesListExpectedFavourites).isNotNull();
+        assertThat(notesListExpectedFavourites.size()).isEqualTo(2);
+
+        noteRepository.changeNoteFavouriteStatus(note1.getId(), false);
+        List<Note> notesListExpectedFavouritesUpdated = noteRepository.getFavourites(profile.getId(), new PaginationArgs());
+        assertThat(notesListExpectedFavouritesUpdated).isNotNull();
+        assertThat(notesListExpectedFavouritesUpdated.size()).isEqualTo(1);
     }
 
     @After

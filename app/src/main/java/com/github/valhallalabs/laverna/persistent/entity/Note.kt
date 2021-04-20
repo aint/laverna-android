@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
 data class Note(
         override val id: String,
         override val profileId: String,
-        override val isTrash: Boolean,
+        override var isTrash: Boolean,
         /**
          * An id of a notebook, to which the note belongs. If the note doesn't belong to any
          * notebook, then notebookId equals "0".

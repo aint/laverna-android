@@ -1,12 +1,12 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
-import com.github.valhallalabs.laverna.persistent.entity.Note;
-import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.android.lvrn.lvrnproject.service.core.impl.NoteServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
+import com.github.valhallalabs.laverna.persistent.entity.Note;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.google.common.base.Optional;
 
 import org.junit.Before;
@@ -65,16 +65,16 @@ public class NoteServiceImplTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         noteService = new NoteServiceImpl(noteRepository, taskService, tagService, profileService, notebookService);
-        noteForm = new NoteForm(profileId,isTrash,notebookId,title,content,htmlContent,isFavourite);
-        note = new Note(noteId,profileId,notebookId,title,System.currentTimeMillis(),System.currentTimeMillis(),content,htmlContent,isFavourite,isTrash);
-        notebook = new Notebook(notebookId,profileId,parentId,notebookName,System.currentTimeMillis(),System.currentTimeMillis(),counter,isTrash);
-        profile = new Profile(profileId,profileName);
+        noteForm = new NoteForm(profileId, isTrash, notebookId, title, content, htmlContent, isFavourite);
+        note = new Note(noteId, profileId, isTrash, notebookId, title, System.currentTimeMillis(), System.currentTimeMillis(), content, htmlContent, isFavourite);
+        notebook = new Notebook(notebookId, profileId, isTrash, parentId, notebookName, System.currentTimeMillis(), System.currentTimeMillis(), counter);
+        profile = new Profile(profileId, profileName);
         paginationArgs = new PaginationArgs();
 
     }
 
     @Test
-    public void create(){
+    public void create() {
         when(noteRepository.add(any())).thenReturn(true);
         when(profileService.getById(profileId)).thenReturn(Optional.of(profile));
         when(notebookService.getById(notebookId)).thenReturn(Optional.of(notebook));
@@ -84,12 +84,12 @@ public class NoteServiceImplTest {
     }
 
     @Test
-    public void update(){
+    public void update() {
         when(noteRepository.update(any())).thenReturn(true);
         when(noteRepository.getById(noteId)).thenReturn(Optional.of(note));
         when(notebookService.getById(notebookId)).thenReturn(Optional.of(notebook));
 
-        boolean result = noteService.update(noteId,noteForm);
+        boolean result = noteService.update(noteId, noteForm);
         assertThat(result).isTrue();
     }
 
@@ -103,45 +103,45 @@ public class NoteServiceImplTest {
     }
 
     @Test
-    public void getTrashByTitle(){
+    public void getTrashByTitle() {
         final List<Note> expected = new ArrayList<>();
-        when(noteRepository.getTrashByTitle(profileId,title,paginationArgs)).thenReturn(expected);
+        when(noteRepository.getTrashByTitle(profileId, title, paginationArgs)).thenReturn(expected);
 
         List<Note> result = noteService.getTrashByTitle(profileId, title, paginationArgs);
         assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void getByNotebook(){
+    public void getByNotebook() {
         final List<Note> expected = new ArrayList<>();
-        when(noteRepository.getByNotebook(notebookId,paginationArgs)).thenReturn(expected);
+        when(noteRepository.getByNotebook(notebookId, paginationArgs)).thenReturn(expected);
 
         List<Note> result = noteService.getByNotebook(notebookId, paginationArgs);
         assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void getFavourites(){
+    public void getFavourites() {
         final List<Note> expected = new ArrayList<>();
-        when(noteRepository.getFavourites(profileId,paginationArgs)).thenReturn(expected);
+        when(noteRepository.getFavourites(profileId, paginationArgs)).thenReturn(expected);
 
         List<Note> result = noteService.getFavourites(profileId, paginationArgs);
         assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void getFavouritesByTitle(){
+    public void getFavouritesByTitle() {
         final List<Note> expected = new ArrayList<>();
-        when(noteRepository.getFavouritesByTitle(profileId,title,paginationArgs)).thenReturn(expected);
+        when(noteRepository.getFavouritesByTitle(profileId, title, paginationArgs)).thenReturn(expected);
 
-        List<Note> result = noteService.getFavouritesByTitle(profileId,title, paginationArgs);
+        List<Note> result = noteService.getFavouritesByTitle(profileId, title, paginationArgs);
         assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void getByTag(){
+    public void getByTag() {
         final List<Note> expected = new ArrayList<>();
-        when(noteRepository.getByTag(tagId,paginationArgs)).thenReturn(expected);
+        when(noteRepository.getByTag(tagId, paginationArgs)).thenReturn(expected);
 
         List<Note> result = noteService.getByTag(tagId, paginationArgs);
         assertThat(result).isEqualTo(expected);
