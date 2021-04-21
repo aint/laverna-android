@@ -8,9 +8,12 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
+import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
+import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
+import com.google.common.base.Optional;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -68,8 +71,8 @@ public class LavernaApplication extends Application {
 //        }
 //        notebookService.closeConnection();
 //        noteService.closeConnection();
+
 //
-////
 //        noteService.openConnection();
 //        for (int i = 0; i < 50; i++) {
 //            noteService.create(new NoteForm(CurrentState.Companion.getProfileId(), true, null, "note" + i, "dfsdf", "dfsdf", true));
