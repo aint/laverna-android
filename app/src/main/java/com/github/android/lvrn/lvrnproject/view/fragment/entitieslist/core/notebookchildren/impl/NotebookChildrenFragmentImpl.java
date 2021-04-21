@@ -17,7 +17,6 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNo
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.ChildNotesAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenPresenter;
-import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragment;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.orhanobut.logger.Logger;
@@ -25,9 +24,7 @@ import com.orhanobut.logger.Logger;
 import javax.inject.Inject;
 
 import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTEBOOK_OBJECT_KEY;
-import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_OBJECT_KEY;
 import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTEBOOK_CHILDREN_FRAGMENT;
-import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTE_CONTENT_FRAGMENT;
 
 
 /**
