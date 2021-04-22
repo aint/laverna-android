@@ -68,7 +68,7 @@ public class LavernaApplication extends Application {
 //        }
 //        notebookService.closeConnection();
 //        noteService.closeConnection();
-
+//
 //
 //        noteService.openConnection();
 //        for (int i = 0; i < 50; i++) {

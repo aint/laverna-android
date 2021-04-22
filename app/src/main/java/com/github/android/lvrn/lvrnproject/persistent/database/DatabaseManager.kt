@@ -13,6 +13,10 @@ class DatabaseManager private constructor(val context: Context) {
         private var databaseHelper: LavernaDbHelper? = null
         private var database: SQLiteDatabase? = null
 
+        /**
+         * A method which initializes a database manager and a database helper.
+         * @param context application context.
+         */
         @Synchronized
         fun initializeInstance(context: Context) {
             instance
@@ -21,6 +25,11 @@ class DatabaseManager private constructor(val context: Context) {
             Logger.i("DatabaseManager is initialized")
         }
 
+        /**
+         * A method which returns an instance of database manager. In case if instance is null, will
+         * throw {@link IllegalStateException}.
+         * @return a instance of database manager.
+         */
         @Synchronized
         fun getInstance(): DatabaseManager? {
             if (instance == null) {
@@ -33,6 +42,11 @@ class DatabaseManager private constructor(val context: Context) {
 
     }
 
+    /**
+     * A method which opens a writable database in case if it haven't been opened before. Increase
+     * the counter of connections.
+     * @return a writable database instance.
+     */
     @Synchronized
     fun openConnection(): SQLiteDatabase? {
         openCounter++
@@ -44,6 +58,10 @@ class DatabaseManager private constructor(val context: Context) {
         return database
     }
 
+    /**
+     * A method which closes a writable database in case if only one connection is used at the
+     * moment. Decrease the counter of connections.
+     */
     @Synchronized
     fun closeConnection() {
         if (openCounter == 1) {
@@ -54,7 +72,11 @@ class DatabaseManager private constructor(val context: Context) {
         Logger.d("Close a connection to the database. Number of connections: %d", openCounter)
     }
 
+    /**
+     * A method which closes all existed connections.
+     */
     @Synchronized
+    @Deprecated("")
     fun closeAllConnections() {
         if (database != null && database!!.isOpen) {
             database!!.close()
@@ -64,6 +86,10 @@ class DatabaseManager private constructor(val context: Context) {
         Logger.w("All connections is closed already")
     }
 
+    /**
+     * A method which removes instance of database manager and deletes database.
+     * TODO: find out shall we need to use the method anywhere.
+     */
     @Deprecated("")
     fun removeInstance() {
         if (instance != null) {
@@ -75,6 +101,9 @@ class DatabaseManager private constructor(val context: Context) {
         Logger.w("DatabaseManager's instance is already removed")
     }
 
+    /**
+     * @return a number of opened connections.
+     */
     fun getConnectionsCount(): Int {
         return openCounter
     }
