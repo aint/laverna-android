@@ -90,7 +90,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
 //            Logger.init().methodCount(2);
             return false;
         }
-        mDatabase = DatabaseManager.getInstance().openConnection();
+        mDatabase = DatabaseManager.Companion.getInstance().openConnection();
         Logger.i("Connection is opened");
         return true;
     }
@@ -103,7 +103,7 @@ public abstract class BasicRepositoryImpl<T extends Entity>  implements BasicRep
 //            Logger.init().methodCount(2);
             return false;
         }
-        DatabaseManager.getInstance().closeConnection();
+        DatabaseManager.Companion.getInstance().closeConnection();
         mDatabase = null;
         Logger.i("Connection is closed");
         return true;

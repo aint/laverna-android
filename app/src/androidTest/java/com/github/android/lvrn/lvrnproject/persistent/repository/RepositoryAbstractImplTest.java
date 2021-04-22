@@ -2,9 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.os.Parcel;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.MediumTest;
@@ -13,9 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.BasicRepositoryImpl;
 import com.github.valhallalabs.laverna.persistent.entity.base.Entity;
-import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +31,7 @@ public class RepositoryAbstractImplTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        DatabaseManager.Companion.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
         repository = new BasicRepositoryImpl("test_table") {
 
@@ -74,7 +70,7 @@ public class RepositoryAbstractImplTest {
 
     @After
     public void finish() {
-        DatabaseManager.removeInstance();
+        DatabaseManager.Companion.getInstance().removeInstance();
         repository = null;
     }
 }

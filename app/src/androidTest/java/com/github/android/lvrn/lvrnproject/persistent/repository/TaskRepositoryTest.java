@@ -47,7 +47,7 @@ public class TaskRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        DatabaseManager.Companion.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
         profile = new Profile("profile_id_1", "profile1");
 
@@ -172,6 +172,6 @@ public class TaskRepositoryTest {
     @After
     public void finish() {
         taskRepository.closeDatabaseConnection();
-        DatabaseManager.removeInstance();
+        DatabaseManager.Companion.getInstance().removeInstance();
     }
 }

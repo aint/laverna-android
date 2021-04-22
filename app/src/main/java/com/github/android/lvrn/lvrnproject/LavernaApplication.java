@@ -8,12 +8,9 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
-import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
-import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
-import com.google.common.base.Optional;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -42,7 +39,7 @@ public class LavernaApplication extends Application {
         super.onCreate();
         Logger.addLogAdapter(new AndroidLogAdapter());
         AndroidThreeTen.init(this);
-        DatabaseManager.initializeInstance(this);
+        DatabaseManager.Companion.initializeInstance(this);
         sAppComponent = DaggerAppComponent.create();
         sAppComponent.inject(this);
         //TODO: temporary, remove later.

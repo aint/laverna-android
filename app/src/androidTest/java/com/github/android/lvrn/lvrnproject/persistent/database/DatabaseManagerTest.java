@@ -27,8 +27,8 @@ public class DatabaseManagerTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
-        mDataBaseManager = DatabaseManager.getInstance();
+        DatabaseManager.Companion.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        mDataBaseManager = DatabaseManager.Companion.getInstance();
     }
 
     @Test
@@ -66,6 +66,6 @@ public class DatabaseManagerTest {
     public void finish() {
         mDataBaseManager.closeAllConnections();
         mDataBaseManager = null;
-        DatabaseManager.removeInstance();
+        DatabaseManager.Companion.getInstance().removeInstance();
     }
 }

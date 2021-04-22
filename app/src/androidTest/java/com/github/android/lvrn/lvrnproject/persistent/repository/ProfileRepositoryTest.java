@@ -41,7 +41,7 @@ public class ProfileRepositoryTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        DatabaseManager.Companion.initializeInstance(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
         profileRepository = new ProfileRepositoryImpl();
 
@@ -107,6 +107,6 @@ public class ProfileRepositoryTest {
     @After
     public void finish() {
         profileRepository.closeDatabaseConnection();
-        DatabaseManager.removeInstance();
+        DatabaseManager.Companion.getInstance().removeInstance();
     }
 }
