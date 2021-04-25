@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import androidx.annotation.NonNull;
 
-import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.NotesTagsTable;
+import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract;
 import com.github.valhallalabs.laverna.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagRepository;
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.ProfileDependedRepositoryImpl;
@@ -67,10 +67,10 @@ public class TagRepositoryImpl extends ProfileDependedRepositoryImpl<Tag> implem
     @Override
     public List<Tag> getByNote(@NonNull String noteId) {
         String query = "SELECT * FROM " + TABLE_NAME
-                + " INNER JOIN " + NotesTagsTable.TABLE_NAME
-                + " ON " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_TAG_ID
+                + " INNER JOIN " + LavernaContract.NotesTagsTable.TABLE_NAME
+                + " ON " + LavernaContract.NotesTagsTable.TABLE_NAME + "." + LavernaContract.NotesTagsTable.COLUMN_TAG_ID
                 + " = " + TABLE_NAME + "." + COLUMN_ID
-                + " WHERE " + NotesTagsTable.TABLE_NAME + "." + NotesTagsTable.COLUMN_NOTE_ID
+                + " WHERE " + LavernaContract.NotesTagsTable.TABLE_NAME + "." + LavernaContract.NotesTagsTable.COLUMN_NOTE_ID
                 + " = '" + noteId + "'";
         return getByRawQuery(query);
     }
