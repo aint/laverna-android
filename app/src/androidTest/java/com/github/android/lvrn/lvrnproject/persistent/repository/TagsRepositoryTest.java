@@ -8,10 +8,6 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.valhallalabs.laverna.persistent.entity.Tag;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagRepository;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NoteRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.TagRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.google.common.base.Optional;
 

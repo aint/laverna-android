@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.valhallalabs.laverna.persistent.entity.Tag;
 import com.github.valhallalabs.laverna.persistent.entity.Task;
-import com.github.android.lvrn.lvrnproject.persistent.repository.core.NoteRepository;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;

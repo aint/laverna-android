@@ -3,8 +3,8 @@ package com.github.android.lvrn.lvrnproject.service.core.impl;
 import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileRepository;
+import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.service.impl.BasicServiceImpl;

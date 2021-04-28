@@ -9,7 +9,6 @@ import androidx.test.filters.MediumTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
-import com.github.android.lvrn.lvrnproject.persistent.repository.impl.BasicRepositoryImpl;
 import com.github.valhallalabs.laverna.persistent.entity.base.Entity;
 
 import org.junit.After;
