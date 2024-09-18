@@ -1,7 +1,8 @@
 package com.github.valhallalabs.laverna.persistent.entity
 
+import android.os.Parcelable
 import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -32,7 +33,7 @@ data class Notebook(
         val updateTime: Long,
         //TODO: unknown field. Find out what to do with it
         val count: Int = 0
-) : TrashDependedEntity() {
+) : TrashDependedEntity(), Parcelable {
 
     override fun toString(): String {
         return "Notebook{" + super.toString() +

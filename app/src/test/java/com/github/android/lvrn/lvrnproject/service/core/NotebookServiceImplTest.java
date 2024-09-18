@@ -1,11 +1,11 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
 import com.github.android.lvrn.lvrnproject.service.core.impl.NotebookServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
-import com.google.common.base.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;

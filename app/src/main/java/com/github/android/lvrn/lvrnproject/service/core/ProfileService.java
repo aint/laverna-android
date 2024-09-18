@@ -5,9 +5,9 @@ import androidx.annotation.NonNull;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.BasicService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
-import com.google.common.base.Optional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>

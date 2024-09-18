@@ -5,8 +5,9 @@ import androidx.test.filters.MediumTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
-import com.google.common.base.Optional;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,6 +16,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

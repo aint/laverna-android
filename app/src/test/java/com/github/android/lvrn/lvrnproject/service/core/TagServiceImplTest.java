@@ -1,11 +1,11 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.TagRepository;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.valhallalabs.laverna.persistent.entity.Tag;
 import com.github.android.lvrn.lvrnproject.service.core.impl.TagServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.TagForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.google.common.base.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;

@@ -8,7 +8,6 @@ import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager.C
 import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.LavernaBaseTable
 import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository
 import com.github.valhallalabs.laverna.persistent.entity.base.Entity
-import com.google.common.base.Optional
 import com.orhanobut.logger.Logger
 import java.util.*
 
@@ -56,7 +55,7 @@ abstract class BasicRepositoryImpl<T : Entity>(val tableName: String) : BasicRep
         Logger.d("Table name: %s\nOperation: getById\nId: %s\nCursor: %s", tableName, id, cursor != null)
         return if (cursor != null && cursor.moveToFirst()) {
             Optional.of(toEntity(cursor))
-        } else Optional.absent()
+        } else Optional.empty()
     }
 
     override fun openDatabaseConnection(): Boolean {

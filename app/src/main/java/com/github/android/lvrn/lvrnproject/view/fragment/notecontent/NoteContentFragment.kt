@@ -82,10 +82,10 @@ class NoteContentFragment : Fragment() {
      * A method which gets data from bundle and set them in defined view element
      */
     private fun setDataAndSetInView() {
-        if (mSelectNote?.notebookId != null && !mSelectNote!!.notebookId.isEmpty()) {
+        if (mSelectNote?.notebookId != null && mSelectNote!!.notebookId!!.isNotEmpty()) {
             mNotebookService!!.openConnection()
             //TODO: clean it, use ifPresent method on Optional.
-            val selectNotebook: Notebook = mNotebookService!!.getById(mSelectNote!!.notebookId).get()
+            val selectNotebook: Notebook = mNotebookService!!.getById(mSelectNote!!.notebookId!!).get()
             mNotebookService!!.closeConnection()
             mNoteBookName = selectNotebook.name
             fragmentNotebookContentBinding!!.tvNameNoteBook!!.text = mNoteBookName

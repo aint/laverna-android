@@ -19,10 +19,10 @@ import com.github.android.lvrn.lvrnproject.service.impl.TrashDependedServiceImpl
 import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.valhallalabs.laverna.persistent.entity.Note;
-import com.google.common.base.Optional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -64,7 +64,7 @@ public class NoteServiceImpl extends TrashDependedServiceImpl<Note, NoteForm> im
             parseContent(noteForm.getProfileId(), noteId, noteForm.getContent());
             return Optional.of(noteId);
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.github.android.lvrn.lvrnproject.persistent.repository
 
 import androidx.annotation.NonNull
 import com.github.valhallalabs.laverna.persistent.entity.base.Entity
-import com.google.common.base.Optional
+import java.util.Optional
 
 interface BasicRepository<T : Entity> {
 
@@ -11,21 +11,21 @@ interface BasicRepository<T : Entity> {
      * @param entity an object which extends the Laverna's entity class.
      * @return a boolean result of an insertion.
      */
-    fun add(@NonNull entity: T): Boolean
+    fun add(entity: T): Boolean
 
     /**
      * A method which removes an entity from a database by its id.
      * @param id an id of the Laverna's entity class.
      * @return a boolean result of a removing
      */
-    fun remove(@NonNull id: String): Boolean
+    fun remove(id: String): Boolean
 
     /**
      * A method which retrieves an entity from a database by its id.
      * @param id an id of the required entity.
      * @return an {@code Optional} object which may contain the required entity.
      */
-    fun getById(@NonNull id: String): Optional<T>
+    fun getById( id: String): Optional<T>
 
     /**
      * A method which opens a database connection.

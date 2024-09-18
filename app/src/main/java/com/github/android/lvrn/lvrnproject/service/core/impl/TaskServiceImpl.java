@@ -10,9 +10,9 @@ import com.github.android.lvrn.lvrnproject.service.core.TaskService;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.google.common.base.Optional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -37,7 +37,7 @@ public class TaskServiceImpl extends ProfileDependedServiceImpl<Task, TaskForm> 
         if(validateForCreate(taskForm.getProfileId(), taskForm.getDescription()) && mTaskRepository.add(taskForm.toEntity(taskId))) {
             return Optional.of(taskId);
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     @Override

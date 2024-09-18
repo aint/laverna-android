@@ -1,7 +1,8 @@
 package com.github.valhallalabs.laverna.persistent.entity
 
+import android.os.Parcelable
 import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -23,7 +24,7 @@ data class Tag(
         val updateTime: Long,
         //TODO: unknown field. Find out what to do with it.
         val count: Int
-) : ProfileDependedEntity() {
+) : ProfileDependedEntity(), Parcelable {
 
     override fun toString(): String {
         return "Tag{" + super.toString() +

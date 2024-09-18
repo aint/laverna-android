@@ -12,7 +12,7 @@ data class NoteJson (
         val taskCompleted: Int?,
         val created: Long,
         val updated: Long,
-        val notebookId: String,
+        val notebookId: String?,
         val isFavorite: Boolean,
         val trash: Boolean,
         val tags: List<Any>?,

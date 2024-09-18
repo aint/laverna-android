@@ -1,7 +1,8 @@
 package com.github.valhallalabs.laverna.persistent.entity
 
+import android.os.Parcelable
 import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -17,7 +18,7 @@ data class Note(
          * An id of a notebook, to which the note belongs. If the note doesn't belong to any
          * notebook, then notebookId equals "0".
          */
-        var notebookId: String,
+        var notebookId: String?,
         /**
          * A note's title.
          */
@@ -42,7 +43,7 @@ data class Note(
          * Marks weather this note is favorite or not.
          */
         var isFavorite: Boolean
-) : TrashDependedEntity() {
+) : TrashDependedEntity(), Parcelable {
 
     override fun toString(): String {
         return "Note{" + super.toString() +

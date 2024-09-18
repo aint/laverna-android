@@ -8,9 +8,9 @@ import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.ProfileForm;
 import com.github.android.lvrn.lvrnproject.service.impl.BasicServiceImpl;
-import com.google.common.base.Optional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -36,7 +36,7 @@ public class ProfileServiceImpl extends BasicServiceImpl<Profile, ProfileForm> i
                 && mProfileRepository.add(new Profile(profileId, profileForm.getName()))) {
             return Optional.of(profileId);
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     @NonNull

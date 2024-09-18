@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 
 class NoteViewModelFactory(val context: Context) : ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return super.create(modelClass) as T
     }
 

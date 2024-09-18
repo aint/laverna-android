@@ -5,10 +5,12 @@ import androidx.test.filters.MediumTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.github.android.lvrn.lvrnproject.persistent.database.DatabaseManager;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.NotebookRepositoryImpl;
+import com.github.android.lvrn.lvrnproject.persistent.repository.core.impl.ProfileRepositoryImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
-import com.google.common.base.Optional;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +20,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

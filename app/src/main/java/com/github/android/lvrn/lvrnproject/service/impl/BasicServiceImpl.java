@@ -6,7 +6,8 @@ import com.github.android.lvrn.lvrnproject.persistent.repository.BasicRepository
 import com.github.android.lvrn.lvrnproject.service.BasicService;
 import com.github.android.lvrn.lvrnproject.service.form.Form;
 import com.github.valhallalabs.laverna.persistent.entity.base.Entity;
-import com.google.common.base.Optional;
+
+import java.util.Optional;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>

@@ -31,7 +31,13 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteb
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl.NotesListFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.impl.TasksListFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trashlist.impl.TrashListFragmentImpl
-import com.github.android.lvrn.lvrnproject.view.util.consts.*
+import com.github.android.lvrn.lvrnproject.view.util.consts.DIALOG_OPEN_FROM_MAIN_ACTIVITY
+import com.github.android.lvrn.lvrnproject.view.util.consts.TAG_FAVOURITES_FRAGMENT
+import com.github.android.lvrn.lvrnproject.view.util.consts.TAG_NOTEBOOK_CREATE_FRAGMENT
+import com.github.android.lvrn.lvrnproject.view.util.consts.TAG_NOTEBOOK_FRAGMENT
+import com.github.android.lvrn.lvrnproject.view.util.consts.TAG_NOTES_LIST_FRAGMENT
+import com.github.android.lvrn.lvrnproject.view.util.consts.TAG_TASK_FRAGMENT
+import com.github.android.lvrn.lvrnproject.view.util.consts.TAG_TRASH_FRAGMENT
 import com.github.valhallalabs.laverna.service.DropboxClientFactory
 import com.github.valhallalabs.laverna.service.DropboxService
 import com.github.valhallalabs.laverna.service.SyncService
@@ -41,8 +47,6 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.tool_bar_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -80,12 +84,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setOrientationByUserDeviceConfiguration()
 
 
-        mDrawerLayout = drawer_layout
-        mToolBar = toolbar
-        floatingActionsMenu = floating_action_menu_all_notes
+        mDrawerLayout = binding.drawerLayout
+        mToolBar = binding.toolbar
+        floatingActionsMenu = binding.floatingActionMenuAllNotes
 
         setSupportActionBar(mToolBar)
-        val mToggle = ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val mToggle = ActionBarDrawerToggle(
+            this,
+            mDrawerLayout,
+            mToolBar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         mDrawerLayout.addDrawerListener(mToggle)
         mToggle.syncState()
         (findViewById<View>(R.id.nav_view) as NavigationView).setNavigationItemSelectedListener(this)
@@ -127,21 +137,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val favouritesListFragment = FavouritesListFragmentImpl()
             menuStartSelectFragment(favouritesListFragment, TAG_FAVOURITES_FRAGMENT)
         } else if (R.id.nav_item_sync == id) {
-            var accessToken = getSharedPreferences("dropbox-sample", Context.MODE_PRIVATE).getString("access-token", null)
+            var accessToken = getSharedPreferences(
+                "dropbox-sample",
+                Context.MODE_PRIVATE
+            ).getString("access-token", null)
             if (accessToken == null) {
                 Logger.w("accessToken is null")
                 accessToken = Auth.getOAuth2Token()
                 getSharedPreferences("dropbox-sample", Context.MODE_PRIVATE)
-                        .edit()
-                        .putString("access-token", accessToken)
-                        .apply()
+                    .edit()
+                    .putString("access-token", accessToken)
+                    .apply()
                 Logger.w("accessToken %s saved to pref", accessToken)
             }
 
             Observable.defer { accessToken?.let { syncData(it).toObservable<Any>() } }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
 
         }
         mDrawerLayout.closeDrawer(GravityCompat.START)
@@ -152,9 +165,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun syncData(accessToken: String): Completable {
         DropboxClientFactory.init(accessToken)
         val objectMapper = ObjectMapper().registerModule(KotlinModule())
-        val dropboxService = DropboxService(noteService, notebookService, tagService, profileService, objectMapper)
+        val dropboxService =
+            DropboxService(noteService, notebookService, tagService, profileService, objectMapper)
 
-        val syncService = SyncService(dropboxService, profileService, notebookService, noteService, tagService)
+        val syncService =
+            SyncService(dropboxService, profileService, notebookService, noteService, tagService)
         syncService.pullData()
 //        syncService.pushData()
 
@@ -182,10 +197,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (mSavedInstanceState == null) {
             fragmentManager.commit {
                 setCustomAnimations(
-                        R.anim.enter_from_top,
-                        R.anim.exit_to_bottom,
-                        R.anim.enter_from_top,
-                        R.anim.exit_to_bottom
+                    R.anim.enter_from_top,
+                    R.anim.exit_to_bottom,
+                    R.anim.enter_from_top,
+                    R.anim.exit_to_bottom
                 )
                 replace(R.id.constraint_container, fragment, tag)
             }
@@ -199,12 +214,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun openNotebooksCreationDialog() {
         val fragmentTransaction = supportFragmentManager
-                .beginTransaction()
-                .addToBackStack(null)
+            .beginTransaction()
+            .addToBackStack(null)
 
         NotebookCreationDialogFragmentImpl
-                .newInstance(DIALOG_OPEN_FROM_MAIN_ACTIVITY)
-                .show(fragmentTransaction, TAG_NOTEBOOK_CREATE_FRAGMENT)
+            .newInstance(DIALOG_OPEN_FROM_MAIN_ACTIVITY)
+            .show(fragmentTransaction, TAG_NOTEBOOK_CREATE_FRAGMENT)
 
         floatingActionsMenu.collapse()
     }

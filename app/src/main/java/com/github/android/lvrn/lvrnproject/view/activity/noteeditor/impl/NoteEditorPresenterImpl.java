@@ -4,14 +4,14 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.github.android.lvrn.lvrnproject.R;
-import com.github.android.lvrn.lvrnproject.util.CurrentState;
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.core.NoteService;
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorActivity;
 import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.NoteEditorPresenter;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser;
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.impl.MarkdownParserImpl;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.orhanobut.logger.Logger;
 
@@ -95,9 +95,9 @@ class NoteEditorPresenterImpl implements NoteEditorPresenter {
     @Override
     public void setNotebook(Notebook notebook) {
         mNotebook = notebook;
-        if (notebook != null){
+        if (notebook != null) {
             mNotebookId = notebook.getId();
-        } else  mNotebookId = null;
+        } else mNotebookId = null;
         System.out.println(mNotebookId);
     }
 

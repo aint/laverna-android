@@ -36,10 +36,13 @@ class NoteDetailActivity : BaseActivity() {
         setContentView(binding.root)
         val parcelableExtra = intent.getParcelableExtra<Note>("NOTE_DETAIL_KEY")
         val noteViewModel = ViewModelProviders.of(this, NoteViewModelFactory(this)).get(NoteViewModel::class.java)
-        noteViewModel.setNote(parcelableExtra)
-        val navHostFragment = supportFragmentManager
+        parcelableExtra?.let {
+            noteViewModel.setNote(parcelableExtra)
+            val navHostFragment = supportFragmentManager
                 .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+            navController = navHostFragment.navController
+        }
+
     }
 
 

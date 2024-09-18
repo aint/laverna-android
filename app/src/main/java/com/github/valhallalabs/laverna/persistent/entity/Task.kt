@@ -1,7 +1,8 @@
 package com.github.valhallalabs.laverna.persistent.entity
 
+import android.os.Parcelable
 import com.github.valhallalabs.laverna.persistent.entity.base.ProfileDependedEntity
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
@@ -20,7 +21,7 @@ data class Task(
         var description: String,
 
         val isCompleted: Boolean
-) : ProfileDependedEntity() {
+) : ProfileDependedEntity(), Parcelable {
 
     override fun toString(): String {
         return "Task{" + super.toString() +

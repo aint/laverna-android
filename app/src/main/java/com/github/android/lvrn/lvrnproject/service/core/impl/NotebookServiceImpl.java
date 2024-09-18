@@ -11,9 +11,9 @@ import com.github.android.lvrn.lvrnproject.service.core.ProfileService;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.service.impl.ProfileDependedServiceImpl;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.google.common.base.Optional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -40,7 +40,7 @@ public class NotebookServiceImpl extends ProfileDependedServiceImpl<Notebook, No
                 && mNotebookRepository.add(notebookForm.toEntity(notebookId))) {
             return Optional.of(notebookId);
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     @Override

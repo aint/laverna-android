@@ -8,8 +8,8 @@ import com.github.android.lvrn.lvrnproject.persistent.database.LavernaContract.P
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.ProfileRepository
 import com.github.android.lvrn.lvrnproject.persistent.repository.impl.BasicRepositoryImpl
 import com.github.valhallalabs.laverna.persistent.entity.Profile
-import com.google.common.base.Optional
 import com.orhanobut.logger.Logger
+import java.util.Optional
 import javax.inject.Inject
 
 class ProfileRepositoryImpl @Inject constructor() : BasicRepositoryImpl<Profile>(TABLE_NAME), ProfileRepository {
@@ -39,6 +39,6 @@ class ProfileRepositoryImpl @Inject constructor() : BasicRepositoryImpl<Profile>
         Logger.d("Table name: %s\nOperation: getByName\nName: %s\nCursor: %s", TABLE_NAME, name, cursor != null)
         return if (cursor != null && cursor.moveToFirst()) {
             Optional.of(toEntity(cursor))
-        } else Optional.absent()
+        } else Optional.empty()
     }
 }

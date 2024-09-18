@@ -12,9 +12,9 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
-import com.google.common.base.Optional;
 
 import java.util.List;
+import java.util.Optional;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -60,8 +60,11 @@ public class NotebookCreationPresenterImpl implements NotebookCreationPresenter 
     public boolean createNotebook(String name) {
         notebookForm = new NotebookForm(CurrentState.Companion.getProfileId(), false, parentId, name);
         Optional<String> newNotebookId = mNotebookService.create(notebookForm);
-        mNotebookCreationDialogFragment.getNotebook(mNotebookService.getById(newNotebookId.get()).get());
-        mNotebookCreationDialogFragment.updateRecyclerView();
+        if (newNotebookId.isPresent()){
+            mNotebookCreationDialogFragment.getNotebook(mNotebookService.getById(newNotebookId.get()).get());
+            mNotebookCreationDialogFragment.updateRecyclerView();
+        }
+
         return  newNotebookId.isPresent();
     }
 
