@@ -24,9 +24,14 @@ class SyncService(
             profileService.openConnection()
             val profileId = profileService.getByName(profileName)
                 .map { p -> p!!.id }
-                .orElseGet { profileService.create(ProfileForm(profileName)).get() }
+                ?.orElseGet { profileService.create(ProfileForm(profileName)).get() }
+
             Logger.w("PROFILE name = %s, id = %s", profileName, profileId)
             profileService.closeConnection()
+
+            if (profileId == null) {
+                throw IllegalStateException()
+            }
 
 
             notebookService.openConnection()
@@ -78,7 +83,7 @@ class SyncService(
 
     fun pushData() {
         profileService.openConnection()
-        profileService.all.forEach { profile ->
+        profileService.getAll().forEach { profile ->
             val profileId = profile.id
             val profileName = profile.name
 

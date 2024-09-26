@@ -11,11 +11,11 @@ import javax.inject.Inject
 
 class TrashListPresenterImpl @Inject constructor(var noteService: NoteService) : EntitiesListWithSearchPresenterImpl<Note, NoteForm>(noteService), TrashListPresenter {
 
-    override fun loadMoreForPagination(paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun loadMoreForPagination(paginationArgs: PaginationArgs): List<Note> {
         return noteService.getTrashByProfile(profileId!!, paginationArgs)
     }
 
-    override fun loadMoreForSearch(query: String, paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun loadMoreForSearch(query: String, paginationArgs: PaginationArgs): List<Note> {
         return noteService.getTrashByTitle(profileId!!, query, paginationArgs)
     }
 

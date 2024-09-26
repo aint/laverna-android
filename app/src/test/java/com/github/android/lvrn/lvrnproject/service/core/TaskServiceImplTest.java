@@ -3,7 +3,6 @@ package com.github.android.lvrn.lvrnproject.service.core;
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.TaskRepository;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;
 import com.github.valhallalabs.laverna.persistent.entity.Task;
-import com.github.android.lvrn.lvrnproject.service.core.impl.TaskServiceImpl;
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 

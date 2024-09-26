@@ -23,7 +23,7 @@ import io.reactivex.subjects.ReplaySubject;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class EntitiesListPresenterImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm> implements EntitiesListPresenter<T1, T2> {
+public abstract class EntitiesListPresenterImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm<?>> implements EntitiesListPresenter<T1, T2> {
     private ProfileDependedService<T1,T2> mEntityService;
 
     protected EntitiesListFragment mEntitiesListFragment;

@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form> implements BasicService<T1, T2> {
+public abstract class BasicServiceImpl<T1 extends Entity, T2 extends Form<?>> implements BasicService<T1, T2> {
 
     private final BasicRepository<T1> basicRepository;
 

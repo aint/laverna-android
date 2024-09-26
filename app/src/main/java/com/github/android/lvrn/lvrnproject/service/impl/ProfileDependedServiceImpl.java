@@ -16,7 +16,7 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm>
+public abstract class ProfileDependedServiceImpl<T1 extends ProfileDependedEntity, T2 extends ProfileDependedForm<?>>
         extends BasicServiceImpl<T1, T2> implements ProfileDependedService<T1, T2> {
 
     private final ProfileDependedRepository<T1> mProfileDependedRepository;

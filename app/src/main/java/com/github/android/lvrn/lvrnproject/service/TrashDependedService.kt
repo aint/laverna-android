@@ -1,18 +1,10 @@
-package com.github.android.lvrn.lvrnproject.service;
+package com.github.android.lvrn.lvrnproject.service
 
-import androidx.annotation.NonNull;
+import com.github.android.lvrn.lvrnproject.service.form.TrashDependedForm
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs
+import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity
 
-import com.github.android.lvrn.lvrnproject.service.form.TrashDependedForm;
-import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.github.valhallalabs.laverna.persistent.entity.base.TrashDependedEntity;
-
-import java.util.List;
-
-/**
- * @author Vadim Boitsov <vadimboitsov1@gmail.com>
- */
-
-public interface TrashDependedService <T1 extends TrashDependedEntity, T2 extends TrashDependedForm> extends ProfileDependedService<T1, T2> {
+interface TrashDependedService <T1 : TrashDependedEntity, T2 : TrashDependedForm<*>> : ProfileDependedService<T1, T2> {
 
     /**
      * A method which retrieves an amount of entities from required position by a profile id which
@@ -21,8 +13,7 @@ public interface TrashDependedService <T1 extends TrashDependedEntity, T2 extend
      * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    @NonNull
-    List<T1> getByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
+    override fun getByProfile(profileId: String, paginationArgs: PaginationArgs): List<T1>
 
     /**
      * A method which retrieves an amount of entities from required position by a profile id which
@@ -31,27 +22,26 @@ public interface TrashDependedService <T1 extends TrashDependedEntity, T2 extend
      * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    @NonNull
-    List<T1> getTrashByProfile(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
+    fun getTrashByProfile(profileId: String, paginationArgs: PaginationArgs): List<T1>
 
     /**
      * A method which changes entity's trash status on true.
      * @param entityId an id of entity to move to trash.
      * @return a boolean result of an operation.
      */
-    boolean moveToTrash(@NonNull String entityId);
+    fun moveToTrash(entityId: String): Boolean
 
     /**
      * A method which changes entity's trash status on false.
      * @param entityId an id of entity to restore from trash.
      * @return a boolean result of an operation.
      */
-    boolean restoreFromTrash(@NonNull String entityId);
+    fun restoreFromTrash(entityId: String): Boolean
 
     /**
      * A method which removes entity for permanent
      * @param entityId an id of entity to restore from trash.
      * @return a boolean result of an operation.
      */
-    boolean removeForPermanent(@NonNull String entityId);
+    fun removeForPermanent(entityId: String): Boolean
 }

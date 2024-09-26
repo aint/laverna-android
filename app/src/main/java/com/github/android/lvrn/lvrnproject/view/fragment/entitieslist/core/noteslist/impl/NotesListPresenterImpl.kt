@@ -15,11 +15,11 @@ import javax.inject.Inject
 
 class NotesListPresenterImpl @Inject constructor(var noteService: NoteService) : EntitiesListWithSearchPresenterImpl<Note, NoteForm>(noteService), NotesListPresenter {
 
-    override fun loadMoreForPagination(paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun loadMoreForPagination(paginationArgs: PaginationArgs): List<Note> {
         return noteService.getByProfile(profileId!!, paginationArgs)
     }
 
-    override fun loadMoreForSearch(query: String, paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun loadMoreForSearch(query: String, paginationArgs: PaginationArgs): List<Note> {
         return noteService.getByTitle(profileId!!, query, paginationArgs)
     }
 

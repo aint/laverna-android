@@ -1,21 +1,14 @@
-package com.github.android.lvrn.lvrnproject.service.core;
+package com.github.android.lvrn.lvrnproject.service.core
 
-import androidx.annotation.NonNull;
+import com.github.android.lvrn.lvrnproject.service.TrashDependedService
+import com.github.android.lvrn.lvrnproject.service.form.NoteForm
+import com.github.android.lvrn.lvrnproject.util.PaginationArgs
+import com.github.valhallalabs.laverna.persistent.entity.Note
 
-import com.github.android.lvrn.lvrnproject.service.TrashDependedService;
-import com.github.android.lvrn.lvrnproject.service.form.NoteForm;
-import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
-import com.github.valhallalabs.laverna.persistent.entity.Note;
+interface NoteService : TrashDependedService<Note, NoteForm> {
 
-import java.util.List;
 
-/**
- * @author Vadim Boitsov <vadimboitsov1@gmail.com>
- */
-
-public interface NoteService extends TrashDependedService<Note, NoteForm> {
-
-    void save(@NonNull Note note);
+    fun save(note: Note)
 
     /**
      * A method which retrieves an amount of entities from a start position by a title.
@@ -25,8 +18,7 @@ public interface NoteService extends TrashDependedService<Note, NoteForm> {
      * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    @NonNull
-    List<Note> getByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
+    fun getByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): List<Note>
 
     /**
      * A method which retrieves an amount of trash entities from a start position by a title
@@ -36,8 +28,11 @@ public interface NoteService extends TrashDependedService<Note, NoteForm> {
      * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    @NonNull
-    List<Note> getTrashByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
+    fun getTrashByTitle(
+        profileId: String,
+        title: String,
+        paginationArgs: PaginationArgs,
+    ): List<Note>
 
     /**
      * A method which retrieves an amount of entities from a start position by a notebook id.
@@ -46,8 +41,7 @@ public interface NoteService extends TrashDependedService<Note, NoteForm> {
      * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    @NonNull
-    List<Note> getByNotebook(@NonNull String notebookId, @NonNull PaginationArgs paginationArgs);
+    fun getByNotebook(notebookId: String, paginationArgs: PaginationArgs): List<Note>
 
     /**
      * A method which retrieves an amount of favourite entities from a start position.
@@ -56,8 +50,7 @@ public interface NoteService extends TrashDependedService<Note, NoteForm> {
      * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    @NonNull
-    List<Note> getFavourites(@NonNull String profileId, @NonNull PaginationArgs paginationArgs);
+    fun getFavourites(profileId: String, paginationArgs: PaginationArgs): List<Note>
 
     /**
      * A method which retrieves an amount of favourite entities from a start position by a title.
@@ -67,8 +60,11 @@ public interface NoteService extends TrashDependedService<Note, NoteForm> {
      * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    @NonNull
-    List<Note> getFavouritesByTitle(@NonNull String profileId, @NonNull String title, @NonNull PaginationArgs paginationArgs);
+    fun getFavouritesByTitle(
+        profileId: String,
+        title: String,
+        paginationArgs: PaginationArgs,
+    ): List<Note>
 
     /**
      * A method which retrieves an amount of entities from a start position by a tag id.
@@ -77,10 +73,9 @@ public interface NoteService extends TrashDependedService<Note, NoteForm> {
      * @param paginationArgs arguments of pagination such as offset and limit.
      * @return a list of entities.
      */
-    @NonNull
-    List<Note> getByTag(@NonNull String tagId, @NonNull PaginationArgs paginationArgs);
+    fun getByTag(tagId: String, paginationArgs: PaginationArgs): List<Note>
 
-    boolean setNoteFavourite(String entityId);
+    fun setNoteFavourite(entityId: String): Boolean
 
-    boolean setNoteUnFavourite(String entityId);
+    fun setNoteUnFavourite(entityId: String): Boolean
 }
