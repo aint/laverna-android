@@ -1,12 +1,8 @@
-[![Build Status](https://travis-ci.org/aint/laverna-android.svg?branch=develop)](https://travis-ci.org/aint/laverna-android)
-[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/vboitsov/laverna-android/issues) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
-
 ## Introduction
 
 **Laverna Android** is a companion note-taking application for [Laverna](https://github.com/Laverna/laverna) (web app) designed for Android. It's built to help to become Laverna a full-blown open source alternative to _Evernote_.
 
-The application supports Android 5.0 Lollipop (API 21) and above.
+The application supports Android 8.0 Lollipop (API 26) and above.
 
 ### Screenshot:
 
