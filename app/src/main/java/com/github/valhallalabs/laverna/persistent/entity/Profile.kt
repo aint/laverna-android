@@ -12,7 +12,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Profile(
     override var id: String,
-    val name: String,
+    val name: String
 ) : Entity(), Parcelable {
 
     override fun toString(): String {

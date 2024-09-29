@@ -15,11 +15,11 @@ import java.util.List;
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
  */
 
-public abstract class TrashDependedServiceImpl <T1 extends TrashDependedEntity, T2 extends TrashDependedForm<?>>
+public abstract class TrashDependedServiceImpl<T1 extends TrashDependedEntity, T2 extends TrashDependedForm<?>>
         extends ProfileDependedServiceImpl<T1, T2> implements TrashDependedService<T1, T2> {
 
     private final TrashDependedRepository<T1> mTrashDependedRepository;
-    
+
     public TrashDependedServiceImpl(@NonNull TrashDependedRepository<T1> trashDependedRepository, @NonNull ProfileService profileService) {
         super(trashDependedRepository, profileService);
         mTrashDependedRepository = trashDependedRepository;

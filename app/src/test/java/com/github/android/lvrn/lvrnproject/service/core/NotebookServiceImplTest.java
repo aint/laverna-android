@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.service.core;
 
 import com.github.android.lvrn.lvrnproject.persistent.repository.core.NotebookRepository;
-import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.valhallalabs.laverna.persistent.entity.Profile;

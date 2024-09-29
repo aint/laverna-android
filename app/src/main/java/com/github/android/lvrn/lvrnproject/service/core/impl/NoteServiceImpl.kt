@@ -11,7 +11,9 @@ import com.github.android.lvrn.lvrnproject.service.form.NoteForm
 import com.github.android.lvrn.lvrnproject.service.form.TagForm
 import com.github.android.lvrn.lvrnproject.service.form.TaskForm
 import com.github.android.lvrn.lvrnproject.service.impl.TrashDependedServiceImpl
-import com.github.android.lvrn.lvrnproject.service.util.NoteTextParser
+import com.github.android.lvrn.lvrnproject.service.util.parseSingleQuotes
+import com.github.android.lvrn.lvrnproject.service.util.parseTags
+import com.github.android.lvrn.lvrnproject.service.util.parseTasks
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs
 import com.github.valhallalabs.laverna.persistent.entity.Note
 import com.github.valhallalabs.laverna.persistent.entity.Tag
@@ -31,14 +33,13 @@ class NoteServiceImpl @Inject constructor(
 
     override fun create(noteForm: NoteForm): Optional<String> {
         val noteId = UUID.randomUUID().toString()
-        noteForm.content = NoteTextParser.parseSingleQuotes(noteForm.content)
         if (validateForCreate(
                 noteForm.profileId,
                 noteForm.notebookId,
                 noteForm.title
             ) && mNoteRepository.add(noteForm.toEntity(noteId))
         ) {
-            parseContent(noteForm.profileId, noteId, noteForm.content)
+            parseContent(noteForm.profileId, noteId, parseSingleQuotes(noteForm.content))
             return Optional.of(noteId)
         }
         return Optional.empty()
@@ -93,12 +94,11 @@ class NoteServiceImpl @Inject constructor(
     }
 
     override fun update(id: String, noteForm: NoteForm): Boolean {
-        noteForm.content = NoteTextParser.parseSingleQuotes(noteForm.content)
         if (validateForUpdate(noteForm.notebookId, noteForm.title) && mNoteRepository.update(
                 noteForm.toEntity(id)
             )
         ) {
-            parseContent(mNoteRepository.getById(id).get().profileId, id, noteForm.content)
+            parseContent(mNoteRepository.getById(id).get().profileId, id, parseSingleQuotes(noteForm.content))
             return true
         }
         return false
@@ -111,8 +111,8 @@ class NoteServiceImpl @Inject constructor(
      * @param content a text content from a note.
      */
     private fun parseContent(profileId: String, noteId: String, content: String) {
-        parseTasks(profileId, noteId, content)
-        parseTags(profileId, noteId, content)
+        parseCurrentTasks(profileId, noteId, content)
+        parseCurrentTags(profileId, noteId, content)
     }
 
     /**
@@ -122,13 +122,13 @@ class NoteServiceImpl @Inject constructor(
      * @param noteId an id of note.
      * @param content a text content from a note.
      */
-    private fun parseTags(profileId: String, noteId: String, content: String) {
-        val tagNames = NoteTextParser.parseTags(content)
+    private fun parseCurrentTags(profileId: String, noteId: String, content: String) {
+        val tagNames = parseTags(content)
         mTagService.openConnection()
         mTagService.getByNote(noteId).forEach(Consumer<Tag> { tag: Tag ->
             removeTagsFromNote(
                 tag,
-                tagNames,
+                tagNames.toMutableSet(),
                 noteId
             )
         })
@@ -181,13 +181,13 @@ class NoteServiceImpl @Inject constructor(
      * @param noteId an id of note.
      * @param content a text content from a note.
      */
-    private fun parseTasks(profileId: String, noteId: String, content: String) {
-        val tasksFromNote = NoteTextParser.parseTasks(content)
+    private fun parseCurrentTasks(profileId: String, noteId: String, content: String) {
+        val tasksFromNote = parseTasks(content)
         mTaskService.openConnection()
         mTaskService.getByNote(noteId).forEach(Consumer<Task> { task: Task ->
             updateOrRemoveExistedTasks(
                 task,
-                tasksFromNote
+                tasksFromNote.toMutableMap()
             )
         })
         tasksFromNote.forEach { (description: String?, status: Boolean?) ->
@@ -231,7 +231,7 @@ class NoteServiceImpl @Inject constructor(
      * @param title a title of an entity.
      * @return a boolean result of a validation.
      */
-    private fun validateForCreate(profileId: String, notebookId: String, title: String): Boolean {
+    private fun validateForCreate(profileId: String, notebookId: String?, title: String): Boolean {
         return super.checkProfileExistence(profileId) && checkNotebookExistence(notebookId) && !TextUtils.isEmpty(
             title
         )
@@ -243,7 +243,7 @@ class NoteServiceImpl @Inject constructor(
      * @param title a title of an entity.
      * @return a boolean result of a validation.
      */
-    private fun validateForUpdate(notebookId: String, title: String): Boolean {
+    private fun validateForUpdate(notebookId: String?, title: String): Boolean {
         return checkNotebookExistence(notebookId) && !TextUtils.isEmpty(title)
     }
 

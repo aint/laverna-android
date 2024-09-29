@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 class ProfileServiceImpl @Inject constructor(val mProfileRepository : ProfileRepository) : BasicServiceImpl<Profile, ProfileForm>(mProfileRepository), ProfileService {
 
-    override fun create(profileForm: ProfileForm): Optional<String> {
+    override fun create(form: ProfileForm): Optional<String> {
         val profileId = UUID.randomUUID().toString()
-        if (!TextUtils.isEmpty(profileForm.name)
-            && mProfileRepository.add(Profile(profileId, profileForm.name))
+        if (!TextUtils.isEmpty(form.name)
+            && mProfileRepository.add(Profile(profileId, form.name))
         ) {
             return Optional.of(profileId)
         }

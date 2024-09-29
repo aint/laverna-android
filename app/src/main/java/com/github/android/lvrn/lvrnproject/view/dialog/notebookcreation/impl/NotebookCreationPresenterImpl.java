@@ -1,17 +1,18 @@
 package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService;
-import com.github.android.lvrn.lvrnproject.util.CurrentState;
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.service.form.NotebookForm;
+import com.github.android.lvrn.lvrnproject.util.CurrentState;
 import com.github.android.lvrn.lvrnproject.util.PaginationArgs;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationDialogFragment;
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter;
 import com.github.android.lvrn.lvrnproject.view.listener.RecyclerViewOnScrollListener;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,12 +61,12 @@ public class NotebookCreationPresenterImpl implements NotebookCreationPresenter 
     public boolean createNotebook(String name) {
         notebookForm = new NotebookForm(CurrentState.Companion.getProfileId(), false, parentId, name);
         Optional<String> newNotebookId = mNotebookService.create(notebookForm);
-        if (newNotebookId.isPresent()){
+        if (newNotebookId.isPresent()) {
             mNotebookCreationDialogFragment.getNotebook(mNotebookService.getById(newNotebookId.get()).get());
             mNotebookCreationDialogFragment.updateRecyclerView();
         }
 
-        return  newNotebookId.isPresent();
+        return newNotebookId.isPresent();
     }
 
     @Override
@@ -94,7 +95,6 @@ public class NotebookCreationPresenterImpl implements NotebookCreationPresenter 
         mNotebooks = mNotebookService.getByProfile(CurrentState.Companion.getProfileId(), new PaginationArgs());
         dataPostSetAdapter.setData(mNotebooks);
     }
-
 
 
     private void initPaginationSubject() {

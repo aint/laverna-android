@@ -81,7 +81,7 @@ class NotebookServiceImpl @Inject constructor(
      * @param name a name of an entity.
      * @return a boolean result of a validation.
      */
-    private fun validateForUpdate(parentNotebookId: String, name: String): Boolean {
+    private fun validateForUpdate(parentNotebookId: String?, name: String): Boolean {
         return checkNotebookExistence(parentNotebookId) && !TextUtils.isEmpty(name)
     }
 
