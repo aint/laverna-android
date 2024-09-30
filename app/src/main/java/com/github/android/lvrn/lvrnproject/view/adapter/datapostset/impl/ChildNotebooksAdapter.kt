@@ -27,8 +27,8 @@ class ChildNotebooksAdapter(var notebookChildrenFragment: NotebookChildrenFragme
         return notebookList.size
     }
 
-    override fun setData(data: MutableList<Notebook>?) {
-        notebookList = data!!
+    override fun setData(data: List<Notebook>) {
+        notebookList = data.toMutableList()
     }
 
     class ChildNotebooksViewHolder(var itemNotebookBinding: ItemNotebookBinding) : RecyclerView.ViewHolder(itemNotebookBinding.root)

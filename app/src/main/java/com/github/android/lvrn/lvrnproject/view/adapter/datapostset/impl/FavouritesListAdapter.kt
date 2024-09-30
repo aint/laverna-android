@@ -42,8 +42,8 @@ class FavouritesListAdapter(var favouritesListFragment: FavouritesListFragment,
         return notes.size
     }
 
-    override fun setData(data: MutableList<Note>?) {
-        notes = data!!
+    override fun setData(data: List<Note>) {
+        notes = data.toMutableList()
     }
 
     class FavouriteViewHolder(var itemNoteBinding: ItemNoteBinding) : RecyclerView.ViewHolder(itemNoteBinding.root)

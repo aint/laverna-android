@@ -2,8 +2,8 @@ package com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter;
+import com.github.valhallalabs.laverna.persistent.entity.Notebook;
 
 /**
  * @author Andrii Bei <psihey1@gmail.com>

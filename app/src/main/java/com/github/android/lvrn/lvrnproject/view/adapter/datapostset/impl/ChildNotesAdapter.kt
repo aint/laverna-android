@@ -27,8 +27,8 @@ class ChildNotesAdapter(var notebookChildrenFragment: NotebookChildrenFragment) 
         return notes.size
     }
 
-    override fun setData(data: MutableList<Note>?) {
-        notes = data!!
+    override fun setData(data: List<Note>) {
+        notes = data.toMutableList()
     }
 
     class ChildNoteViewHolder(var itemNoteBinding: ItemNoteBinding) : RecyclerView.ViewHolder(itemNoteBinding.root)

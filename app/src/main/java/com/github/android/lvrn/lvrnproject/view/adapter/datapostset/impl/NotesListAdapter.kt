@@ -38,8 +38,8 @@ class NotesListAdapter(val allNotesFragment: NotesListFragment, val noteListPres
         itemNoteBinding.tvDateCreatedNote.text = convertMillisecondsToString(note.creationTime)
     }
 
-    override fun setData(data: MutableList<Note>?) {
-        notes = data
+    override fun setData(data: List<Note>) {
+        notes = data.toMutableList()
     }
 
     class NoteViewHolder(val itemNoteBinding: ItemNoteBinding) : RecyclerView.ViewHolder(itemNoteBinding.root)

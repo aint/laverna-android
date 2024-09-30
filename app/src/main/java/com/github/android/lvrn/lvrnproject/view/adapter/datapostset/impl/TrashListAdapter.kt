@@ -50,8 +50,8 @@ class TrashListAdapter(var trashListFragment: TrashListFragment, var trashListPr
         viewBinderHelper.bind(itemTrashBinding.swipeRevealLayout, note.id)
     }
 
-    override fun setData(data: MutableList<Note>?) {
-        notes = data
+    override fun setData(data: List<Note>) {
+        notes = data.toMutableList()
     }
 
     private fun showEmptyViewState() {

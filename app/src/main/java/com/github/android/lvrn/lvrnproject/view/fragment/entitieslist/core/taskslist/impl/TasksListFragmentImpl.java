@@ -24,15 +24,11 @@ import com.github.android.lvrn.lvrnproject.view.activity.notedetail.NoteDetailAc
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.TasksListAdapter;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment;
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListPresenter;
-import com.github.android.lvrn.lvrnproject.view.fragment.notecontent.NoteContentFragment;
 import com.github.valhallalabs.laverna.activity.MainActivity;
 import com.github.valhallalabs.laverna.persistent.entity.Task;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
-
-import static com.github.android.lvrn.lvrnproject.view.util.consts.BundleKeysConstKt.BUNDLE_NOTE_OBJECT_KEY;
-import static com.github.android.lvrn.lvrnproject.view.util.consts.FragmentConstKt.TAG_NOTE_CONTENT_FRAGMENT;
 
 /**
  * @author Vadim Boitsov <vadimboitsov1@gmail.com>
