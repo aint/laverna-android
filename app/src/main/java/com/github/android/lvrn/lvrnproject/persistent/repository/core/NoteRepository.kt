@@ -13,7 +13,7 @@ interface NoteRepository : TrashDependedRepository<Note> {
      * @param tagId an id of the tag.
      * @return a result of an insertion.
      */
-    fun addTagToNote(@NonNull noteId: String, @NonNull tagId: String): Boolean
+    fun addTagToNote(noteId: String, tagId: String): Boolean
 
     /**
      * A method which destroys a relation between a note and an tag.
@@ -21,7 +21,7 @@ interface NoteRepository : TrashDependedRepository<Note> {
      * @param tagId an id of the tag.
      * @return a result of a removing.
      */
-    fun removeTagFromNote(@NonNull noteId: String, @NonNull tagId: String): Boolean
+    fun removeTagFromNote(noteId: String, tagId: String): Boolean
 
     /**
      * A method which retrieves an amount of entities from a start position by a title.
@@ -30,7 +30,7 @@ interface NoteRepository : TrashDependedRepository<Note> {
      * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
-    fun getByTitle(@NonNull profileId: String, @NonNull title: String, @NonNull paginationArgs: PaginationArgs): MutableList<Note>
+    fun getByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): List<Note>
 
     /**
      * A method which retrieves an amount of trash entities from a start position by a title.
@@ -39,7 +39,7 @@ interface NoteRepository : TrashDependedRepository<Note> {
      * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
-    fun getTrashByTitle(@NonNull profileId: String, @NonNull title: String, @NonNull paginationArgs: PaginationArgs): MutableList<Note>
+    fun getTrashByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): List<Note>
 
     /**
      * A method which retrieves an amount of favourite notes from a start position.
@@ -47,7 +47,7 @@ interface NoteRepository : TrashDependedRepository<Note> {
      * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
-    fun getFavourites(@NonNull profileId: String, @NonNull paginationArgs: PaginationArgs): MutableList<Note>
+    fun getFavourites(profileId: String, paginationArgs: PaginationArgs): List<Note>
 
     /**
      * A method which retrieves an amount of favourite notes from a start position by a title.
@@ -56,7 +56,7 @@ interface NoteRepository : TrashDependedRepository<Note> {
      * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
-    fun getFavouritesByTitle(@NonNull profileId: String, @NonNull title: String, @NonNull paginationArgs: PaginationArgs): MutableList<Note>
+    fun getFavouritesByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): List<Note>
 
     /**
      * A method which retrieves an amount of entities from a start position by a notebook id.
@@ -64,7 +64,7 @@ interface NoteRepository : TrashDependedRepository<Note> {
      * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
-    fun getByNotebook(@NonNull notebookId: String, @NonNull paginationArgs: PaginationArgs): MutableList<Note>
+    fun getByNotebook(notebookId: String, paginationArgs: PaginationArgs): List<Note>
 
     /**
      * A method which retrieves an amount of entities from a start position by a tag id.
@@ -72,7 +72,7 @@ interface NoteRepository : TrashDependedRepository<Note> {
      * @param paginationArgs a limit and a offset of a pagination.
      * @return a list of entities.
      */
-    fun getByTag(@NonNull tagId: String, @NonNull paginationArgs: PaginationArgs): MutableList<Note>
+    fun getByTag(tagId: String, paginationArgs: PaginationArgs): List<Note>
 
-    fun changeNoteFavouriteStatus(@NonNull entityId: String, isFavourite: Boolean): Boolean
+    fun changeNoteFavouriteStatus(entityId: String, isFavourite: Boolean): Boolean
 }

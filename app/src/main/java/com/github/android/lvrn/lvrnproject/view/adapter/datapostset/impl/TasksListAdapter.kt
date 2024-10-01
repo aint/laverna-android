@@ -12,7 +12,7 @@ import com.github.valhallalabs.laverna.persistent.entity.Task
 class TasksListAdapter(private val mTaskListFragment: TasksListFragment) :
     RecyclerView.Adapter<TasksListAdapter.TaskViewHolder>(), DataPostSetAdapter<Task> {
 
-    private var mTasks: List<Task>? = null
+    private var mTasks: List<Task> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(
@@ -25,25 +25,24 @@ class TasksListAdapter(private val mTaskListFragment: TasksListFragment) :
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.itemTaskBinding.textViewTaskDescription.setText(mTasks!![position].description)
+        holder.itemTaskBinding.textViewTaskDescription.text = mTasks[position].description
         holder.itemView.setOnClickListener { v: View? ->
             mTaskListFragment.openRelatedNote(
-                mTasks!![position]
+                mTasks[position]
             )
         }
     }
 
     override fun getItemCount(): Int {
-        return mTasks!!.size
+        return mTasks.size
     }
 
     override fun setData(data: List<Task>) {
         mTasks = data
     }
 
-    class TaskViewHolder(itemTaskBinding: ItemTaskBinding) :
+    class TaskViewHolder(var itemTaskBinding: ItemTaskBinding) :
         RecyclerView.ViewHolder(itemTaskBinding.getRoot()) {
-        var itemTaskBinding: ItemTaskBinding = itemTaskBinding
     }
 
 }

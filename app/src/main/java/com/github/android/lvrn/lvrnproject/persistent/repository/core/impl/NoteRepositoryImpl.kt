@@ -89,27 +89,27 @@ class NoteRepositoryImpl @Inject constructor() : TrashDependedRepositoryImpl<Not
         return result
     }
 
-    override fun getFavourites(profileId: String, paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun getFavourites(profileId: String, paginationArgs: PaginationArgs): List<Note> {
         return super.getByIdCondition(ProfileDependedTable.COLUMN_PROFILE_ID, profileId, getIsFavouriteClause(true) + getTrashClause(false), paginationArgs)
     }
 
-    override fun getFavouritesByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun getFavouritesByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): List<Note> {
         return super.getByName(COLUMN_TITLE, profileId, title, getIsFavouriteClause(true) + getTrashClause(false), paginationArgs)
     }
 
-    override fun getByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun getByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): List<Note> {
         return super.getByName(COLUMN_TITLE, profileId, title, getTrashClause(false), paginationArgs)
     }
 
-    override fun getTrashByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun getTrashByTitle(profileId: String, title: String, paginationArgs: PaginationArgs): List<Note> {
         return super.getByName(COLUMN_TITLE, profileId, title, getTrashClause(true), paginationArgs)
     }
 
-    override fun getByNotebook(notebookId: String, paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun getByNotebook(notebookId: String, paginationArgs: PaginationArgs): List<Note> {
         return getByIdCondition(COLUMN_NOTEBOOK_ID, notebookId, paginationArgs)
     }
 
-    override fun getByTag(tagId: String, paginationArgs: PaginationArgs): MutableList<Note> {
+    override fun getByTag(tagId: String, paginationArgs: PaginationArgs): List<Note> {
         val query = ("SELECT *"
                 + " FROM " + TABLE_NAME
                 + " INNER JOIN " + NotesTagsTable.TABLE_NAME

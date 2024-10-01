@@ -8,9 +8,9 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class ChildNotesAdapter(var notebookChildrenFragment: NotebookChildrenFragment) : RecyclerView.Adapter<ChildNotesAdapter.ChildNoteViewHolder>(), DataPostSetAdapter<Note> {
+class ChildNotesAdapter(private var notebookChildrenFragment: NotebookChildrenFragment) : RecyclerView.Adapter<ChildNotesAdapter.ChildNoteViewHolder>(), DataPostSetAdapter<Note> {
 
-    lateinit var notes: MutableList<Note>
+    private var notes: List<Note> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildNoteViewHolder {
         return ChildNoteViewHolder(ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -28,7 +28,7 @@ class ChildNotesAdapter(var notebookChildrenFragment: NotebookChildrenFragment) 
     }
 
     override fun setData(data: List<Note>) {
-        notes = data.toMutableList()
+        notes = data
     }
 
     class ChildNoteViewHolder(var itemNoteBinding: ItemNoteBinding) : RecyclerView.ViewHolder(itemNoteBinding.root)

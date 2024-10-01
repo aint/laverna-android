@@ -33,8 +33,6 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
 
     private var mSearchView: SearchView? = null
 
-    private var mMenuSearch: MenuItem? = null
-
     private lateinit var fragmentEntitiesListBinding: FragmentEntitiesListBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,7 +57,7 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_entities_list, menu)
-        mMenuSearch = menu.findItem(R.id.item_action_search)
+       val  mMenuSearch = menu.findItem(R.id.item_action_search)
         //        menuSync = menu.findItem(R.id.item_action_sync);
 //        menuAbout = menu.findItem(R.id.item_about);
 //        menuSortBy = menu.findItem(R.id.item_sort_by);

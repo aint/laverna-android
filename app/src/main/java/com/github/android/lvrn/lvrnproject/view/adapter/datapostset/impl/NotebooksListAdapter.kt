@@ -8,9 +8,9 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.NotebooksListFragment
 import com.github.valhallalabs.laverna.persistent.entity.Notebook
 
-class NotebooksListAdapter(var notebooksListFragment: NotebooksListFragment) : RecyclerView.Adapter<NotebooksListAdapter.NotebookViewHolder>(), DataPostSetAdapter<Notebook> {
+class NotebooksListAdapter(private var notebooksListFragment: NotebooksListFragment) : RecyclerView.Adapter<NotebooksListAdapter.NotebookViewHolder>(), DataPostSetAdapter<Notebook> {
 
-    lateinit var notebooks: List<Notebook>
+    private var notebooks: List<Notebook> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotebookViewHolder {
         return NotebookViewHolder(ItemNotebookBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -26,7 +26,7 @@ class NotebooksListAdapter(var notebooksListFragment: NotebooksListFragment) : R
     }
 
     override fun setData(data: List<Notebook>) {
-        notebooks = data.toMutableList()
+        notebooks = data
     }
 
     class NotebookViewHolder(var itemNotebookBinding: ItemNotebookBinding) : RecyclerView.ViewHolder(itemNotebookBinding.root)

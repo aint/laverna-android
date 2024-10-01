@@ -7,7 +7,7 @@ import com.github.android.lvrn.lvrnproject.databinding.ItemTagBinding
 import com.github.valhallalabs.laverna.persistent.entity.Tag
 
 //TODO: FIX!
-class TagsListAdapter(val mDataSet : List<Tag>) : RecyclerView.Adapter<TagsListAdapter.TagEditingViewHolder>() {
+class TagsListAdapter(private val mDataSet : List<Tag>) : RecyclerView.Adapter<TagsListAdapter.TagEditingViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagEditingViewHolder {
         return TagEditingViewHolder(
@@ -21,15 +21,14 @@ class TagsListAdapter(val mDataSet : List<Tag>) : RecyclerView.Adapter<TagsListA
 
     //TODO change after implements DAO
     override fun onBindViewHolder(holder: TagEditingViewHolder, position: Int) {
-        holder.itemTagBinding.checkedTextViewTags.setText(mDataSet.get(position).name)
+        holder.itemTagBinding.checkedTextViewTags.text = mDataSet[position].name
     }
 
     override fun getItemCount(): Int {
         return mDataSet.size
     }
 
-    class TagEditingViewHolder(itemTagBinding: ItemTagBinding) :
+    class TagEditingViewHolder(var itemTagBinding: ItemTagBinding) :
         RecyclerView.ViewHolder(itemTagBinding.getRoot()) {
-        var itemTagBinding: ItemTagBinding = itemTagBinding
     }
 }

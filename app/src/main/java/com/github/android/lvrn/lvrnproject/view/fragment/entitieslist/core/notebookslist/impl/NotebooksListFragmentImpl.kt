@@ -42,7 +42,7 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
 
     private var mSearchView: SearchView? = null
 
-    private var mMenuSearch: MenuItem? = null
+    private lateinit var mMenuSearch: MenuItem
 
     private var mFragmentEntitiesListBinding: FragmentEntitiesListBinding? = null
     private var mRecyclerViewAllEntities: RecyclerView? = null
@@ -53,7 +53,7 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mFragmentEntitiesListBinding =
             FragmentEntitiesListBinding.inflate(inflater, container, false)
         LavernaApplication.getsAppComponent().inject(this)
@@ -86,7 +86,7 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
 //        menuSettings = menu.findItem(R.id.item_settings);
         mSearchView = MenuItemCompat.getActionView(mMenuSearch) as SearchView
 
-        mNotebooksListPresenter!!.subscribeSearchView(mMenuSearch)
+        mNotebooksListPresenter.subscribeSearchView(mMenuSearch)
 
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -94,8 +94,8 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mNotebooksListPresenter!!.disposePagination()
-        mNotebooksListPresenter!!.disposeSearch()
+        mNotebooksListPresenter.disposePagination()
+        mNotebooksListPresenter.disposeSearch()
     }
 
     override fun updateRecyclerView() {
@@ -118,9 +118,7 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
         mSearchView!!.queryHint = getString(R.string.fragment_all_notes_menu_search_query_hint)
         mSearchView!!.requestFocus()
         var bottomUnderline: Drawable? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            bottomUnderline = resources.getDrawable(R.drawable.search_view_bottom_underline, null)
-        }
+        bottomUnderline = resources.getDrawable(R.drawable.search_view_bottom_underline, null)
         mSearchView!!.background = bottomUnderline
     }
 
@@ -161,10 +159,10 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
         mRecyclerViewAllEntities!!.layoutManager = LinearLayoutManager(context)
 
         mNotebooksRecyclerViewAdapter = NotebooksListAdapter(this)
-        mNotebooksListPresenter!!.setDataToAdapter(mNotebooksRecyclerViewAdapter!!)
+        mNotebooksListPresenter.setDataToAdapter(mNotebooksRecyclerViewAdapter!!)
         mRecyclerViewAllEntities!!.adapter = mNotebooksRecyclerViewAdapter
 
-        mNotebooksListPresenter!!.subscribeRecyclerViewForPagination(mRecyclerViewAllEntities!!)
+        mNotebooksListPresenter.subscribeRecyclerViewForPagination(mRecyclerViewAllEntities!!)
     }
 
     /**

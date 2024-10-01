@@ -12,5 +12,5 @@ interface EntitiesListWithSearchPresenter<T1 : ProfileDependedEntity, T2 : Profi
     EntitiesListPresenter<T1, T2>, MenuItemCompat.OnActionExpandListener {
     fun disposeSearch()
 
-    fun subscribeSearchView(searchItem: MenuItem?)
+    fun subscribeSearchView(searchItem: MenuItem)
 }

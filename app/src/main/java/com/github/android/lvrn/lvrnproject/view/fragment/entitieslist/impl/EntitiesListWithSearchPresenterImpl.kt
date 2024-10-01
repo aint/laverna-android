@@ -29,7 +29,7 @@ abstract class EntitiesListWithSearchPresenterImpl<T1 : ProfileDependedEntity, T
 
     private var mFoundedPaginationSubject: ReplaySubject<PaginationArgs>? = null
 
-    override fun subscribeSearchView(searchItem: MenuItem?) {
+    override fun subscribeSearchView(searchItem: MenuItem) {
         MenuItemCompat.setOnActionExpandListener(searchItem, this)
         val searchView = MenuItemCompat.getActionView(searchItem) as SearchView
         initSearchSubject(searchView)
@@ -70,21 +70,17 @@ abstract class EntitiesListWithSearchPresenterImpl<T1 : ProfileDependedEntity, T
     }
 
     private fun initSearchSubject(searchView: SearchView) {
-        var searchQuerySubject: ReplaySubject<String?>?
+        var searchQuerySubject: ReplaySubject<String>
 
         mSearchDisposable =
             ReplaySubject.create<String>().also { searchQuerySubject = it }
                 .debounce(400, TimeUnit.MILLISECONDS)
                 .map { title: String -> loadMoreForSearch(title, PaginationArgs()) }
-                .map { firstFoundedNotes: List<T1> ->
-                    this.addFirstFoundedItemsToList(
-                        firstFoundedNotes
-                    )
-                }
+                .map {items -> addFirstFoundedItemsToList(items) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { aBoolean: Boolean? -> mEntitiesListFragment?.updateRecyclerView() },
+                    { mEntitiesListFragment?.updateRecyclerView() },
                     { throwable: Throwable? ->
                         Logger.e(
                             throwable,
@@ -105,15 +101,15 @@ abstract class EntitiesListWithSearchPresenterImpl<T1 : ProfileDependedEntity, T
                         paginationArgs
                     )
                 }
-                .filter { notes: List<T1> -> !notes.isEmpty() }
+                .filter { notes: List<T1> -> notes.isNotEmpty() }
                 .map<Boolean> { newNotes: List<T1> ->
-                    mEntities!!.addAll(
+                    mEntities.addAll(
                         newNotes
                     )
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { aBoolean: Boolean? -> mEntitiesListFragment?.updateRecyclerView() },
+                    { mEntitiesListFragment?.updateRecyclerView() },
                     { throwable: Throwable? ->
                         Logger.e(
                             throwable,

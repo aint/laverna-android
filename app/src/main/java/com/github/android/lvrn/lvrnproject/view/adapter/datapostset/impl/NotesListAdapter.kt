@@ -11,20 +11,20 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notes
 import com.github.android.lvrn.lvrnproject.view.util.convertMillisecondsToString
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class NotesListAdapter(val allNotesFragment: NotesListFragment, val noteListPresenter: NotesListPresenter) : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>(), DataPostSetAdapter<Note> {
+class NotesListAdapter(private val allNotesFragment: NotesListFragment, private val noteListPresenter: NotesListPresenter) : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>(), DataPostSetAdapter<Note> {
 
-    private var notes: List<Note>? = null
+    private var notes: List<Note> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount(): Int {
-        return notes?.size ?: 0
+        return notes.size
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        val note: Note = notes!![position]
+        val note: Note = notes[position]
         val itemNoteBinding: ItemNoteBinding = holder.itemNoteBinding
         if (note.isFavorite) {
             itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp)
@@ -39,7 +39,7 @@ class NotesListAdapter(val allNotesFragment: NotesListFragment, val noteListPres
     }
 
     override fun setData(data: List<Note>) {
-        notes = data.toMutableList()
+        notes = data
     }
 
     class NoteViewHolder(val itemNoteBinding: ItemNoteBinding) : RecyclerView.ViewHolder(itemNoteBinding.root)

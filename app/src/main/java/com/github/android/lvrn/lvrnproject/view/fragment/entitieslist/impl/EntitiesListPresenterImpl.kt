@@ -52,7 +52,7 @@ abstract class EntitiesListPresenterImpl<T1 : ProfileDependedEntity, T2 : Profil
     override fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView) {
         initPaginationSubject()
         mRecyclerViewOnScrollLister = RecyclerViewOnScrollListener(mPaginationSubject)
-        recyclerView!!.addOnScrollListener(mRecyclerViewOnScrollLister!!)
+        recyclerView.addOnScrollListener(mRecyclerViewOnScrollLister!!)
     }
 
     override fun disposePagination() {
@@ -63,13 +63,14 @@ abstract class EntitiesListPresenterImpl<T1 : ProfileDependedEntity, T2 : Profil
 
     override fun setDataToAdapter(dataPostSetAdapter: DataPostSetAdapter<T1>) {
         mEntities = loadMoreForPagination(PaginationArgs()).toMutableList()
-        dataPostSetAdapter.setData(mEntities!!)
+        dataPostSetAdapter.setData(mEntities)
     }
 
     protected fun addFirstFoundedItemsToList(firstFoundedNotes: List<T1>): Boolean {
+        Logger.d(firstFoundedNotes)
         mRecyclerViewOnScrollLister!!.resetListener()
-        mEntities!!.clear()
-        mEntities!!.addAll(firstFoundedNotes)
+        mEntities.clear()
+        mEntities.addAll(firstFoundedNotes)
         return true
     }
 
@@ -84,13 +85,13 @@ abstract class EntitiesListPresenterImpl<T1 : ProfileDependedEntity, T2 : Profil
                 }
                 .filter { notes: List<T1> -> !notes.isEmpty() }
                 .map { newNotes: List<T1>? ->
-                    mEntities!!.addAll(
+                    mEntities.addAll(
                         newNotes!!
                     )
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { aBoolean: Boolean? -> mEntitiesListFragment!!.updateRecyclerView() },
+                    { mEntitiesListFragment!!.updateRecyclerView() },
                     { throwable: Throwable? ->
                         Logger.e(
                             throwable,

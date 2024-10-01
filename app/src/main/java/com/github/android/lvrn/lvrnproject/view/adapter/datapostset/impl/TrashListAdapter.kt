@@ -13,9 +13,9 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trash
 import com.github.android.lvrn.lvrnproject.view.util.convertMillisecondsToString
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class TrashListAdapter(var trashListFragment: TrashListFragment, var trashListPresenter: TrashListPresenter) : RecyclerView.Adapter<TrashListAdapter.TrashViewHolder>(), DataPostSetAdapter<Note> {
+class TrashListAdapter(private var trashListFragment: TrashListFragment, private var trashListPresenter: TrashListPresenter) : RecyclerView.Adapter<TrashListAdapter.TrashViewHolder>(), DataPostSetAdapter<Note> {
 
-    var notes: MutableList<Note>? = null
+    private var notes: List<Note> = emptyList()
     private val viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrashViewHolder {
@@ -23,11 +23,11 @@ class TrashListAdapter(var trashListFragment: TrashListFragment, var trashListPr
     }
 
     override fun getItemCount(): Int {
-        return notes?.size ?: 0
+        return notes.size
     }
 
     override fun onBindViewHolder(holder: TrashViewHolder, position: Int) {
-        val note: Note = notes!!.get(position)
+        val note: Note = notes.get(position)
         val itemTrashBinding: ItemTrashBinding = holder.itemTrashBinding
         itemTrashBinding.tvTitleNote.text = note.title
         itemTrashBinding.tvPromptTextNote.text = note.content
@@ -51,11 +51,11 @@ class TrashListAdapter(var trashListFragment: TrashListFragment, var trashListPr
     }
 
     override fun setData(data: List<Note>) {
-        notes = data.toMutableList()
+        notes = data
     }
 
     private fun showEmptyViewState() {
-        if (notes!!.size == 0) {
+        if (notes.isEmpty()) {
             trashListFragment.showEmptyListView()
         }
     }

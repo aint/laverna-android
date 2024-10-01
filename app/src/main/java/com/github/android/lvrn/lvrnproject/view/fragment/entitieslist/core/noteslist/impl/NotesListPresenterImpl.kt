@@ -13,7 +13,8 @@ import com.github.valhallalabs.laverna.persistent.entity.Note
 import com.orhanobut.logger.Logger
 import javax.inject.Inject
 
-class NotesListPresenterImpl @Inject constructor(var noteService: NoteService) : EntitiesListWithSearchPresenterImpl<Note, NoteForm>(noteService), NotesListPresenter {
+class NotesListPresenterImpl @Inject constructor(var noteService: NoteService) :
+    EntitiesListWithSearchPresenterImpl<Note, NoteForm>(noteService), NotesListPresenter {
 
     override fun loadMoreForPagination(paginationArgs: PaginationArgs): List<Note> {
         return noteService.getByProfile(profileId!!, paginationArgs)

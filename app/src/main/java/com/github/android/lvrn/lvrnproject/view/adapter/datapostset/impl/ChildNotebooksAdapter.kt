@@ -8,13 +8,20 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment
 import com.github.valhallalabs.laverna.persistent.entity.Notebook
 
-class ChildNotebooksAdapter(var notebookChildrenFragment: NotebookChildrenFragment)
-    : RecyclerView.Adapter<ChildNotebooksAdapter.ChildNotebooksViewHolder>(), DataPostSetAdapter<Notebook> {
+class ChildNotebooksAdapter(private var notebookChildrenFragment: NotebookChildrenFragment) :
+    RecyclerView.Adapter<ChildNotebooksAdapter.ChildNotebooksViewHolder>(),
+    DataPostSetAdapter<Notebook> {
 
-    lateinit var notebookList: MutableList<Notebook>
+    private var notebookList: List<Notebook> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildNotebooksViewHolder {
-        return ChildNotebooksViewHolder(ItemNotebookBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ChildNotebooksViewHolder(
+            ItemNotebookBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ChildNotebooksViewHolder, position: Int) {
@@ -28,8 +35,9 @@ class ChildNotebooksAdapter(var notebookChildrenFragment: NotebookChildrenFragme
     }
 
     override fun setData(data: List<Notebook>) {
-        notebookList = data.toMutableList()
+        notebookList = data
     }
 
-    class ChildNotebooksViewHolder(var itemNotebookBinding: ItemNotebookBinding) : RecyclerView.ViewHolder(itemNotebookBinding.root)
+    class ChildNotebooksViewHolder(var itemNotebookBinding: ItemNotebookBinding) :
+        RecyclerView.ViewHolder(itemNotebookBinding.root)
 }

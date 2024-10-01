@@ -39,8 +39,6 @@ class TasksListFragmentImpl : Fragment(), TasksListFragment {
 
     private var mSearchView: SearchView? = null
 
-    private var mMenuSearch: MenuItem? = null
-
     private var mFragmentEntitiesListBinding: FragmentEntitiesListBinding? = null
 
     //    TODO: introduce in future milestones
@@ -73,7 +71,7 @@ class TasksListFragmentImpl : Fragment(), TasksListFragment {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_entities_list, menu)
 
-        mMenuSearch = menu.findItem(R.id.item_action_search)
+       val mMenuSearch = menu.findItem(R.id.item_action_search)
 
         //        TODO: introduce in future milestones
 //        menuSync = menu.findItem(R.id.item_action_sync);

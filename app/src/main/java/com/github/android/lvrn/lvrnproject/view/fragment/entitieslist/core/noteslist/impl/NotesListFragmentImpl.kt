@@ -27,16 +27,14 @@ import javax.inject.Inject
 
 class NotesListFragmentImpl : Fragment(), NotesListFragment {
 
-    @set:Inject
-    var mNotesListPresenter: NotesListPresenter? = null
+    @Inject
+    lateinit var mNotesListPresenter: NotesListPresenter
 
     val TOOLBAR_TITLE = "All Notes"
 
-    private lateinit var mNotesRecyclerViewAdapter: NotesListAdapter;
+    private lateinit var mNotesRecyclerViewAdapter: NotesListAdapter
 
     private var mSearchView: SearchView? = null
-
-    private var mMenuSearch: MenuItem? = null
 
     private lateinit var mFragmentEntitiesListBinding: FragmentEntitiesListBinding
 
@@ -62,21 +60,21 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_entities_list, menu)
-        mMenuSearch = menu.findItem(R.id.item_action_search)
+        val mMenuSearch = menu.findItem(R.id.item_action_search)
         //        TODO: introduce in future milestones
 //        menuSync = menu.findItem(R.id.item_action_sync);
 //        menuAbout = menu.findItem(R.id.item_about);
 //        menuSortBy = menu.findItem(R.id.item_sort_by);
 //        menuSettings = menu.findItem(R.id.item_settings);
         mSearchView = MenuItemCompat.getActionView(mMenuSearch) as SearchView
-        mNotesListPresenter!!.subscribeSearchView(mMenuSearch)
+        mNotesListPresenter.subscribeSearchView(mMenuSearch)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mNotesListPresenter!!.disposePagination()
-        mNotesListPresenter!!.disposeSearch()
+        mNotesListPresenter.disposePagination()
+        mNotesListPresenter.disposeSearch()
     }
 
     override fun showSelectedNote(note: Note) {
@@ -86,6 +84,7 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
     override fun updateRecyclerView() {
         mNotesRecyclerViewAdapter.notifyDataSetChanged()
         Logger.d("Recycler view is updated")
+        Logger.d(mNotesRecyclerViewAdapter)
     }
 
     override fun switchToNormalMode() {
@@ -118,9 +117,7 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
         mSearchView!!.queryHint = getString(R.string.fragment_all_notes_menu_search_query_hint)
         mSearchView!!.requestFocus()
         var bottomUnderline: Drawable? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            bottomUnderline = resources.getDrawable(R.drawable.search_view_bottom_underline, null)
-        }
+        bottomUnderline = resources.getDrawable(R.drawable.search_view_bottom_underline, null)
         mSearchView!!.background = bottomUnderline
     }
 
@@ -132,9 +129,9 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
         recyclerViewAllEntities.setHasFixedSize(true)
         recyclerViewAllEntities.layoutManager = LinearLayoutManager(activity)
         mNotesRecyclerViewAdapter = NotesListAdapter(this, mNotesListPresenter!!)
-        mNotesListPresenter!!.setDataToAdapter(mNotesRecyclerViewAdapter)
+        mNotesListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter)
         recyclerViewAllEntities.adapter = mNotesRecyclerViewAdapter
-        mNotesListPresenter!!.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
+        mNotesListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
         initItemSwipeListener(recyclerViewAllEntities)
     }
 
@@ -157,7 +154,7 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
             setTitle(getString(R.string.dialog_delete_note_title))
             setMessage(getString(R.string.dialog_delete_note_text))
             setPositiveButton(getString(R.string.dialog_delete_note_confirm_btn)) { dialogInterface, i ->
-                mNotesListPresenter!!.removeNote(position)
+                mNotesListPresenter.removeNote(position)
             }
             setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
                 mNotesRecyclerViewAdapter.notifyDataSetChanged()

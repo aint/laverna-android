@@ -11,11 +11,12 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favou
 import com.github.android.lvrn.lvrnproject.view.util.convertMillisecondsToString
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class FavouritesListAdapter(var favouritesListFragment: FavouritesListFragment,
-                            var favouritesListPresenter: FavouritesListPresenter
+class FavouritesListAdapter(
+    private var favouritesListFragment: FavouritesListFragment,
+    private var favouritesListPresenter: FavouritesListPresenter
 ) : RecyclerView.Adapter<FavouritesListAdapter.FavouriteViewHolder>(), DataPostSetAdapter<Note> {
 
-    lateinit var notes: MutableList<Note>
+    private var notes: MutableList<Note> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteViewHolder {
         return FavouriteViewHolder(ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -43,7 +44,7 @@ class FavouritesListAdapter(var favouritesListFragment: FavouritesListFragment,
     }
 
     override fun setData(data: List<Note>) {
-        notes = data.toMutableList()
+        notes = data as MutableList<Note>
     }
 
     class FavouriteViewHolder(var itemNoteBinding: ItemNoteBinding) : RecyclerView.ViewHolder(itemNoteBinding.root)

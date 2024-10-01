@@ -14,7 +14,7 @@ class NotebookCreationAdapter(val mNotebookCreationPresenter: NotebookCreationPr
     RecyclerView.Adapter<NotebookCreationAdapter.NotebookViewHolder>(),
     DataPostSetAdapter<Notebook> {
 
-    private var mNotebook: List<Notebook>? = null
+    private var mNotebook: List<Notebook> = emptyList()
 
     private var mSelectedItem = -1
 
@@ -32,7 +32,7 @@ class NotebookCreationAdapter(val mNotebookCreationPresenter: NotebookCreationPr
         if (mSelectedItem == position) holder.itemView.setBackgroundColor(Color.parseColor("#000000"))
         else holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"))
 
-        holder.itemNotebookCreateBinding.textViewNotebookName.text = mNotebook!![position].name
+        holder.itemNotebookCreateBinding.textViewNotebookName.text = mNotebook[position].name
 
         holder.itemView.setOnClickListener { v: View? ->
             if (mSelectedItem == position) {
@@ -40,22 +40,21 @@ class NotebookCreationAdapter(val mNotebookCreationPresenter: NotebookCreationPr
                 mNotebookCreationPresenter.getNotebookId(null)
             } else {
                 mSelectedItem = position
-                mNotebookCreationPresenter.getNotebookId(mNotebook!![position].id)
+                mNotebookCreationPresenter.getNotebookId(mNotebook[position].id)
             }
             notifyDataSetChanged()
         }
     }
 
     override fun getItemCount(): Int {
-        return mNotebook!!.size
+        return mNotebook.size
     }
 
     override fun setData(data: List<Notebook>) {
         mNotebook = data
     }
 
-    class NotebookViewHolder(itemNotebookCreateBinding: ItemNotebookCreateBinding) :
+    class NotebookViewHolder(var itemNotebookCreateBinding: ItemNotebookCreateBinding) :
         RecyclerView.ViewHolder(itemNotebookCreateBinding.getRoot()) {
-        var itemNotebookCreateBinding: ItemNotebookCreateBinding = itemNotebookCreateBinding
     }
 }
