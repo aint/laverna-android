@@ -40,7 +40,7 @@ class NotesListPresenterImpl @Inject constructor(var noteService: NoteService) :
     override fun removeNote(position: Int) {
         noteService.moveToTrash(mEntities[position].id)
         mEntities.removeAt(position)
-        mEntitiesListFragment.updateRecyclerView()
+        mEntitiesListFragment?.updateRecyclerView()
     }
 
 
