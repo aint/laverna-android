@@ -41,8 +41,8 @@ internal class NotebookSelectionPresenterImpl @Inject constructor(val mNotebookS
         mNotebookService.closeConnection()
     }
 
-    override fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView?) {
-        var paginationReplaySubject: ReplaySubject<PaginationArgs?>?
+    override fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView) {
+        var paginationReplaySubject: ReplaySubject<PaginationArgs>
 
         mPaginationDisposable =
             ReplaySubject.create<PaginationArgs>().also { paginationReplaySubject = it }
@@ -63,7 +63,7 @@ internal class NotebookSelectionPresenterImpl @Inject constructor(val mNotebookS
                     { aBoolean: Boolean? -> mNotebookSelectionDialogFragment!!.updateRecyclerView() },
                     { throwable: Throwable? -> })
 
-        recyclerView!!.addOnScrollListener(RecyclerViewOnScrollListener(paginationReplaySubject))
+        recyclerView.addOnScrollListener(RecyclerViewOnScrollListener(paginationReplaySubject))
     }
 
     override fun disposePagination() {

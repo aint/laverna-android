@@ -84,7 +84,6 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
     override fun updateRecyclerView() {
         mNotesRecyclerViewAdapter.notifyDataSetChanged()
         Logger.d("Recycler view is updated")
-        Logger.d(mNotesRecyclerViewAdapter)
     }
 
     override fun switchToNormalMode() {

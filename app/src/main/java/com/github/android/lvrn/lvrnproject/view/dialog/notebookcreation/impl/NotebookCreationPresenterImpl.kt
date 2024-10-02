@@ -49,8 +49,8 @@ class NotebookCreationPresenterImpl @Inject constructor(val mNotebookService: No
         mNotebookService.closeConnection()
     }
 
-    override fun createNotebook(name: String?): Boolean {
-        notebookForm = NotebookForm(profileId!!, false, parentId, name!!)
+    override fun createNotebook(name: String): Boolean {
+        notebookForm = NotebookForm(profileId!!, false, parentId, name)
         val newNotebookId = mNotebookService.create(
             notebookForm!!
         )
@@ -64,9 +64,10 @@ class NotebookCreationPresenterImpl @Inject constructor(val mNotebookService: No
         return newNotebookId.isPresent
     }
 
-    override fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView?) {
+    override fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView) {
         initPaginationSubject()
-        recyclerView!!.addOnScrollListener(RecyclerViewOnScrollListener(mPaginationSubject))
+        mPaginationSubject?.let { RecyclerViewOnScrollListener(it) }
+            ?.let { recyclerView.addOnScrollListener(it) }
     }
 
     override fun disposePaginationAndSearch() {
@@ -89,10 +90,12 @@ class NotebookCreationPresenterImpl @Inject constructor(val mNotebookService: No
 
     private fun initPaginationSubject() {
         mPaginationDisposable =
-            ReplaySubject.create<PaginationArgs>().also { mPaginationSubject = it }
+            ReplaySubject.create<PaginationArgs>().also {
+                mPaginationSubject = it
+            }
                 .observeOn(Schedulers.io())
                 .map { paginationArgs: PaginationArgs? ->
-                    mNotebookService!!.getByProfile(
+                    mNotebookService.getByProfile(
                         profileId!!, paginationArgs!!
                     )
                 }

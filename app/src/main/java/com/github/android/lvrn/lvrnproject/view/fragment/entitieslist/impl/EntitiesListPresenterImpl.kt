@@ -51,7 +51,7 @@ abstract class EntitiesListPresenterImpl<T1 : ProfileDependedEntity, T2 : Profil
 
     override fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView) {
         initPaginationSubject()
-        mRecyclerViewOnScrollLister = RecyclerViewOnScrollListener(mPaginationSubject)
+        mRecyclerViewOnScrollLister = mPaginationSubject?.let { RecyclerViewOnScrollListener(it) }
         recyclerView.addOnScrollListener(mRecyclerViewOnScrollLister!!)
     }
 

@@ -12,9 +12,9 @@ interface NotebookCreationPresenter {
 
     fun unbindView()
 
-    fun createNotebook(name: String?): Boolean
+    fun createNotebook(name: String): Boolean
 
-    fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView?)
+    fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView)
 
     fun disposePaginationAndSearch()
 

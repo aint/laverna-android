@@ -52,7 +52,7 @@ abstract class EntitiesListWithSearchPresenterImpl<T1 : ProfileDependedEntity, T
      */
     override fun onMenuItemActionExpand(item: MenuItem): Boolean {
         (mEntitiesListFragment as EntitiesListWithSearchFragment).switchToSearchMode()
-        mRecyclerViewOnScrollLister?.changeSubject(mFoundedPaginationSubject)
+        mFoundedPaginationSubject?.let { mRecyclerViewOnScrollLister?.changeSubject(it) }
         return true
     }
 
@@ -63,7 +63,7 @@ abstract class EntitiesListWithSearchPresenterImpl<T1 : ProfileDependedEntity, T
      */
     override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
         (mEntitiesListFragment as EntitiesListWithSearchFragment).switchToNormalMode()
-        mRecyclerViewOnScrollLister?.changeSubject(mPaginationSubject)
+        mPaginationSubject?.let { mRecyclerViewOnScrollLister?.changeSubject(it) }
         addFirstFoundedItemsToList(loadMoreForPagination(PaginationArgs()))
         mEntitiesListFragment?.updateRecyclerView()
         return true

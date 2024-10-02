@@ -11,7 +11,7 @@ interface NotebookSelectionPresenter {
 
     fun unbindView()
 
-    fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView?)
+    fun subscribeRecyclerViewForPagination(recyclerView: RecyclerView)
 
     fun disposePagination()
 
