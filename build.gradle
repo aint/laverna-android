@@ -8,12 +8,11 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
 
-    ext.kotlin_version = "1.8.20"
-    def nav_version = '2.4.1'
+    ext.kotlin_version = "2.0.0"
+    def nav_version = '2.5.0'
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+        classpath 'com.android.tools.build:gradle:8.7.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }
