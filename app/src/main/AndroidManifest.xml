@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.noteeditor.impl.NoteEditorActivityImpl" />
+        <activity android:name=".view.activity.noteeditor.impl.NoteEditorActivity" />
         <activity android:name=".view.activity.notedetail.NoteDetailActivity"/>
         <activity
             android:name="com.dropbox.core.android.AuthActivity"

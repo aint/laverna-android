@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.android.lvrn.lvrnproject.LavernaApplication
 import com.github.android.lvrn.lvrnproject.databinding.DialogFragmentNotebookSelectionBinding
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
-import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl
+import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivity
 import com.github.android.lvrn.lvrnproject.view.adapter.NotebookSelectionAdapter
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookselection.NotebookSelectionDialogFragment
@@ -90,12 +90,12 @@ class NotebookSelectionDialogFragmentImpl : DialogFragment(), NotebookSelectionD
     }
 
     fun acceptChanges() {
-        (activity as NoteEditorActivityImpl?)!!.setNoteNotebooks(mSelectedNotebook)
+        (activity as NoteEditorActivity?)!!.setNoteNotebooks(mSelectedNotebook)
         dialog!!.dismiss()
     }
 
     fun resetChanges() {
-        (activity as NoteEditorActivityImpl?)!!.setNoteNotebooks(null)
+        (activity as NoteEditorActivity?)!!.setNoteNotebooks(null)
         dialog!!.dismiss()
     }
 

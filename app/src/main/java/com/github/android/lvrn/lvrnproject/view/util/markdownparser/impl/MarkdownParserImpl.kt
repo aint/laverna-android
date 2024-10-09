@@ -34,6 +34,8 @@ import com.github.android.lvrn.lvrnproject.view.util.consts.WebViewStyleConst.DO
 import com.github.android.lvrn.lvrnproject.view.util.consts.WebViewStyleConst.HIGHLIGHT_JS_SCRIPT
 import com.github.android.lvrn.lvrnproject.view.util.markdownparser.MarkdownParser
 import com.orhanobut.logger.Logger
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.commonmark.Extension
 import org.commonmark.ext.autolink.AutolinkExtension
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
@@ -45,11 +47,12 @@ import org.jsoup.nodes.Document
 import java.util.Arrays
 import java.util.function.Consumer
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 /**
  * @author Vadim Boitsov <vadimboitsov1></vadimboitsov1>@gmail.com>
  */
-class MarkdownParserImpl : MarkdownParser {
+class MarkdownParserImpl @Inject constructor() : MarkdownParser {
     private val parser: Parser
 
     private val renderer: HtmlRenderer
@@ -57,6 +60,15 @@ class MarkdownParserImpl : MarkdownParser {
     init {
         parser = getParser()
         renderer = htmlRender
+    }
+
+    override fun getParsedHtmlFlow(text: String): Flow<String> {
+        return flow {
+            Logger.d("Raw text:\n %s", text)
+            var textHtml = parseMarkdown(text)
+            textHtml = additionalReplaces(textHtml)
+            Logger.d("After parse:\n %s", textHtml)
+        }
     }
 
     override fun getParsedHtml(text: String): String {

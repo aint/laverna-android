@@ -12,7 +12,7 @@ import com.github.android.lvrn.lvrnproject.LavernaApplication
 import com.github.android.lvrn.lvrnproject.R
 import com.github.android.lvrn.lvrnproject.databinding.DialogFragmentNotebookCreateBinding
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
-import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl
+import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivity
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl.NotebookCreationAdapter
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationDialogFragment
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter
@@ -113,7 +113,7 @@ class NotebookCreationDialogFragmentImpl : DialogFragment(), NotebookCreationDia
             return
         }
         if (mNotebookCreationPresenter!!.createNotebook(nameNotebook)) {
-            (activity as NoteEditorActivityImpl?)!!.setNoteNotebooks(notebook)
+            (activity as NoteEditorActivity?)!!.setNoteNotebooks(notebook)
             Snackbar.make(
                 requireActivity().findViewById(R.id.relative_layout_container_activity_note_editor),
                 "Notebook $nameNotebook has created ",

@@ -8,18 +8,18 @@ import dagger.Module
 @Module
 abstract class RepositoryModule {
     @Binds
-    abstract fun bindNotebooksRepository(notebookRepository: NotebookRepositoryImpl?): NotebookRepository
+    abstract fun bindNotebooksRepository(notebookRepository: NotebookRepositoryImpl): NotebookRepository
 
     @Binds
-    abstract fun bindNotesRepository(noteRepository: NoteRepositoryImpl?): NoteRepository
+    abstract fun bindNotesRepository(noteRepository: NoteRepositoryImpl): NoteRepository
 
     @Binds
-    abstract fun bindProfilesRepository(profileRepository: ProfileRepositoryImpl?): ProfileRepository
+    abstract fun bindProfilesRepository(profileRepository: ProfileRepositoryImpl): ProfileRepository
 
     @Binds
-    abstract fun bindTagsRepository(tagRepository: TagRepositoryImpl?): TagRepository
+    abstract fun bindTagsRepository(tagRepository: TagRepositoryImpl): TagRepository
 
     @Binds
-    abstract fun bindTasksRepository(taskRepository: TaskRepositoryImpl?): TaskRepository
+    abstract fun bindTasksRepository(taskRepository: TaskRepositoryImpl): TaskRepository
 
 }

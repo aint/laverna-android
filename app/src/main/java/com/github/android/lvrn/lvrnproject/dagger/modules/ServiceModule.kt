@@ -18,17 +18,17 @@ import dagger.Module
 abstract class ServiceModule {
 
     @Binds
-    abstract fun bindNotebooksService(notebookService: NotebookServiceImpl?): NotebookService
+    abstract fun bindNotebooksService(notebookService: NotebookServiceImpl): NotebookService
 
     @Binds
-    abstract fun bindNoteService(noteService: NoteServiceImpl?): NoteService
+    abstract fun bindNoteService(noteService: NoteServiceImpl): NoteService
 
     @Binds
-    abstract fun bindProfilesService(profileService: ProfileServiceImpl?): ProfileService
+    abstract fun bindProfilesService(profileService: ProfileServiceImpl): ProfileService
 
     @Binds
-    abstract fun bindTagsService(tagService: TagServiceImpl?): TagService
+    abstract fun bindTagsService(tagService: TagServiceImpl): TagService
 
     @Binds
-    abstract fun bindTasksService(taskService: TaskServiceImpl?): TaskService
+    abstract fun bindTasksService(taskService: TaskServiceImpl): TaskService
 }

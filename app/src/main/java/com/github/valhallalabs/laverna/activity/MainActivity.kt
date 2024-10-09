@@ -24,7 +24,7 @@ import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.core.NotebookService
 import com.github.android.lvrn.lvrnproject.service.core.ProfileService
 import com.github.android.lvrn.lvrnproject.service.core.TagService
-import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivityImpl
+import com.github.android.lvrn.lvrnproject.view.activity.noteeditor.impl.NoteEditorActivity
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationDialogFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListFragmentImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl.NotebooksListFragmentImpl
@@ -208,7 +208,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun startNoteEditorActivity() {
-        startActivity(Intent(this, NoteEditorActivityImpl::class.java))
+        startActivity(Intent(this, NoteEditorActivity::class.java))
         finish()
     }
 

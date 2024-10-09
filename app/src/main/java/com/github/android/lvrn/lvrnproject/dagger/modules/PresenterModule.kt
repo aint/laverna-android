@@ -28,11 +28,11 @@ abstract class PresenterModule {
     abstract fun bindNotebooksListPresenter(notebooksListPresenter : NotebooksListPresenterImpl) : NotebooksListPresenter
 
     @Binds
-    abstract fun bindNotesListPresenter(notesListPresenter: NotesListPresenterImpl?): NotesListPresenter
+    abstract fun bindNotesListPresenter(notesListPresenter: NotesListPresenterImpl): NotesListPresenter
 
     @Binds
-    abstract fun bindTasksListPresenter(tasksListPresenter: TasksListPresenterImpl?): TasksListPresenter
+    abstract fun bindTasksListPresenter(tasksListPresenter: TasksListPresenterImpl): TasksListPresenter
 
     @Binds
-    abstract fun bindTrashListPresenter(trashListPresenter: TrashListPresenterImpl?): TrashListPresenter
+    abstract fun bindTrashListPresenter(trashListPresenter: TrashListPresenterImpl): TrashListPresenter
 }

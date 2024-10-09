@@ -19,9 +19,9 @@ import javax.inject.Inject
  * @author Andrii Bei <psihey1></psihey1>@gmail.com>
  */
 class TagEditingDialogFragmentImpl : DialogFragment() {
-    @JvmField
+
     @Inject
-    var mTagService: TagService? = null
+    lateinit var mTagService: TagService
     private val mTagListDate: MutableList<Tag> = ArrayList()
     private var dialogFragmentTagEditingBinding: DialogFragmentTagEditingBinding? = null
 
@@ -56,8 +56,8 @@ class TagEditingDialogFragmentImpl : DialogFragment() {
     }
 
     private fun initTagData() {
-        mTagService!!.openConnection()
-        mTagListDate.addAll(mTagService!!.getByNote(requireArguments().getString(BUNDLE_NOTE_ID_KEY)!!))
-        mTagService!!.closeConnection()
+        mTagService.openConnection()
+        mTagListDate.addAll(mTagService.getByNote(requireArguments().getString(BUNDLE_NOTE_ID_KEY)!!))
+        mTagService.closeConnection()
     }
 }
