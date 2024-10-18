@@ -25,12 +25,11 @@ import javax.inject.Inject
 /**
  * @author Andrii Bei <psihey1></psihey1>@gmail.com>
  */
-class NotebookCreationDialogFragmentImpl : DialogFragment(), NotebookCreationDialogFragment {
+class NotebookCreationDialogFragmentImpl : DialogFragment(), NotebookCreationDialogFragment,
+    NotebookCreationAdapter.NotebookCreationAdapterListener{
 
     @Inject
-    lateinit var mNotebookService: NotebookService
-
-    private var mNotebookCreationPresenter: NotebookCreationPresenter? = null
+    lateinit var mNotebookCreationPresenter: NotebookCreationPresenter
 
     private var mNotebookAdapter: NotebookCreationAdapter? = null
 
@@ -48,7 +47,6 @@ class NotebookCreationDialogFragmentImpl : DialogFragment(), NotebookCreationDia
         dialogFragmentNotebookCreateBinding =
             DialogFragmentNotebookCreateBinding.inflate(inflater, container, false)
         LavernaApplication.getsAppComponent().inject(this)
-        mNotebookCreationPresenter = NotebookCreationPresenterImpl(mNotebookService)
         initRecyclerView()
         previousFragmentName = requireArguments().getString(BUNDLE_DIALOG_NOTEBOOK_CREATE_KEY)
 
@@ -71,17 +69,17 @@ class NotebookCreationDialogFragmentImpl : DialogFragment(), NotebookCreationDia
 
     override fun onResume() {
         super.onResume()
-        mNotebookCreationPresenter!!.bindView(this)
+        mNotebookCreationPresenter.bindView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mNotebookCreationPresenter!!.unbindView()
+        mNotebookCreationPresenter.unbindView()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mNotebookCreationPresenter!!.disposePaginationAndSearch()
+        mNotebookCreationPresenter.disposePaginationAndSearch()
     }
 
     override fun updateRecyclerView() {
@@ -96,7 +94,7 @@ class NotebookCreationDialogFragmentImpl : DialogFragment(), NotebookCreationDia
         val nameNotebook =
             dialogFragmentNotebookCreateBinding!!.editTextNotebookName.text.toString()
         if (TextUtils.equals(previousFragmentName, DIALOG_OPEN_FROM_MAIN_ACTIVITY)) {
-            if (mNotebookCreationPresenter!!.createNotebook(nameNotebook)) {
+            if (mNotebookCreationPresenter.createNotebook(nameNotebook)) {
                 Snackbar.make(
                     requireActivity().findViewById(R.id.coordinator_layout_main_activity),
                     "Notebook $nameNotebook has created ",
@@ -112,7 +110,7 @@ class NotebookCreationDialogFragmentImpl : DialogFragment(), NotebookCreationDia
             ).show()
             return
         }
-        if (mNotebookCreationPresenter!!.createNotebook(nameNotebook)) {
+        if (mNotebookCreationPresenter.createNotebook(nameNotebook)) {
             (activity as NoteEditorActivity?)!!.setNoteNotebooks(notebook)
             Snackbar.make(
                 requireActivity().findViewById(R.id.relative_layout_container_activity_note_editor),
@@ -133,13 +131,16 @@ class NotebookCreationDialogFragmentImpl : DialogFragment(), NotebookCreationDia
             dialogFragmentNotebookCreateBinding!!.recyclerViewNotebookCreate
         recyclerViewNotebookCreate.layoutManager = layoutManager
 
-        mNotebookAdapter = NotebookCreationAdapter(mNotebookCreationPresenter!!)
-        mNotebookCreationPresenter!!.setDataToAdapter(mNotebookAdapter!!)
+        mNotebookAdapter = NotebookCreationAdapter(this)
+        mNotebookCreationPresenter.setDataToAdapter(mNotebookAdapter!!)
 
         recyclerViewNotebookCreate.adapter = mNotebookAdapter
-        mNotebookCreationPresenter!!.subscribeRecyclerViewForPagination(recyclerViewNotebookCreate)
+        mNotebookCreationPresenter.subscribeRecyclerViewForPagination(recyclerViewNotebookCreate)
     }
 
+    override fun getNotebookId(notebookId: String?) {
+        mNotebookCreationPresenter.setNotebookId(notebookId)
+    }
 
     companion object {
         @JvmStatic

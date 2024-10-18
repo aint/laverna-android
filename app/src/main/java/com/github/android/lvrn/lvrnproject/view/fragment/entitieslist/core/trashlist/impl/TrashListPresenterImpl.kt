@@ -20,16 +20,13 @@ class TrashListPresenterImpl @Inject constructor(var noteService: NoteService) :
     }
 
     override fun removeNoteForever(position: Int) {
-        noteService.removeForPermanent(mEntities.get(position).id)
+        noteService.removeForPermanent(mEntities[position].id)
         mEntities.removeAt(position)
-        mEntitiesListFragment?.updateRecyclerView()
     }
 
     override fun restoreNote(position: Int) {
-        noteService.restoreFromTrash(mEntities.get(position).id)
+        noteService.restoreFromTrash(mEntities[position].id)
         mEntities.removeAt(position)
-        mEntitiesListFragment?.updateRecyclerView()
     }
-
 
 }

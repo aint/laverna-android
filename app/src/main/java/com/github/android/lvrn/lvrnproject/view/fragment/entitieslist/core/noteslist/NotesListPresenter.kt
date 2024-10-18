@@ -7,7 +7,7 @@ import com.github.valhallalabs.laverna.persistent.entity.Note
 
 interface NotesListPresenter : EntitiesListWithSearchPresenter<Note, NoteForm> {
 
-    fun changeNoteFavouriteStatus(note: Note, position: Int, view: View)
+    fun changeNoteFavouriteStatus(note: Note)
 
     fun removeNote(position: Int)
 }

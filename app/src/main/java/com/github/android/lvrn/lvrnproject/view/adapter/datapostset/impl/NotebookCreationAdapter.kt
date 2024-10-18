@@ -10,9 +10,13 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter
 import com.github.valhallalabs.laverna.persistent.entity.Notebook
 
-class NotebookCreationAdapter(val mNotebookCreationPresenter: NotebookCreationPresenter) :
+class NotebookCreationAdapter(val notebookCreationAdapterListener: NotebookCreationAdapterListener) :
     RecyclerView.Adapter<NotebookCreationAdapter.NotebookViewHolder>(),
     DataPostSetAdapter<Notebook> {
+
+    interface NotebookCreationAdapterListener{
+        fun getNotebookId(notebookId: String?)
+    }
 
     private var mNotebook: List<Notebook> = emptyList()
 
@@ -37,10 +41,10 @@ class NotebookCreationAdapter(val mNotebookCreationPresenter: NotebookCreationPr
         holder.itemView.setOnClickListener { v: View? ->
             if (mSelectedItem == position) {
                 mSelectedItem = -1
-                mNotebookCreationPresenter.getNotebookId(null)
+                notebookCreationAdapterListener.getNotebookId(null)
             } else {
                 mSelectedItem = position
-                mNotebookCreationPresenter.getNotebookId(mNotebook[position].id)
+                notebookCreationAdapterListener.getNotebookId(mNotebook[position].id)
             }
             notifyDataSetChanged()
         }

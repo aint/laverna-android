@@ -26,11 +26,10 @@ class FavouritesListPresenterImpl @Inject constructor(private val mNoteService: 
         return mNoteService.getFavouritesByTitle(profileId!!, query, paginationArgs)
     }
 
-    override fun changeNoteFavouriteStatus(note: Note, position: Int, view: View) {
+    override fun changeNoteFavouriteStatus(note: Note) {
         if (note.isFavorite) {
-            mEntities!![position].isFavorite = false
+            note.isFavorite = false
             mNoteService.setNoteUnFavourite(note.id)
-            mEntitiesListFragment!!.updateRecyclerView()
             Logger.i("Set un favourite")
         }
     }

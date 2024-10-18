@@ -1,12 +1,10 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl
 
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -30,10 +28,11 @@ import javax.inject.Inject
 /**
  * @author Andrii Bei <psihey1></psihey1>@gmail.com>
  */
-class FavouritesListFragmentImpl : Fragment(), FavouritesListFragment {
+class FavouritesListFragmentImpl : Fragment(), FavouritesListFragment,
+    FavouritesListAdapter.FavouriteAdapterListener {
 
     @Inject
-    lateinit var  mFavouritesListPresenter: FavouritesListPresenter
+    lateinit var mFavouritesListPresenter: FavouritesListPresenter
 
     private var mFavouritesRecyclerViewAdapter: FavouritesListAdapter? = null
 
@@ -47,7 +46,7 @@ class FavouritesListFragmentImpl : Fragment(), FavouritesListFragment {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         mFragmentEntitiesListBinding =
             FragmentEntitiesListBinding.inflate(inflater, container, false)
@@ -59,38 +58,36 @@ class FavouritesListFragmentImpl : Fragment(), FavouritesListFragment {
 
     override fun onResume() {
         super.onResume()
-        if (mFavouritesListPresenter != null) {
-            mFavouritesListPresenter!!.bindView(this)
-        }
+        mFavouritesListPresenter.bindView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mFavouritesListPresenter!!.unbindView()
+        mFavouritesListPresenter.unbindView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_entities_list, menu)
-       val mMenuSearch = menu.findItem(R.id.item_action_search)
+        val mMenuSearch = menu.findItem(R.id.item_action_search)
         //        TODO: introduce in future milestones
 //        menuSync = menu.findItem(R.id.item_action_sync);
 //        menuAbout = menu.findItem(R.id.item_about);
 //        menuSortBy = menu.findItem(R.id.item_sort_by);
 //        menuSettings = menu.findItem(R.id.item_settings);
         mSearchView = MenuItemCompat.getActionView(mMenuSearch) as SearchView
-        mFavouritesListPresenter!!.subscribeSearchView(mMenuSearch)
+        mFavouritesListPresenter.subscribeSearchView(mMenuSearch)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mFavouritesListPresenter!!.disposePagination()
-        mFavouritesListPresenter!!.disposeSearch()
+        mFavouritesListPresenter.disposePagination()
+        mFavouritesListPresenter.disposeSearch()
     }
 
     override fun updateRecyclerView() {
-        mFavouritesRecyclerViewAdapter!!.notifyDataSetChanged()
+        mFavouritesRecyclerViewAdapter?.notifyDataSetChanged()
         Logger.d("Recycler view is updated")
     }
 
@@ -113,9 +110,7 @@ class FavouritesListFragmentImpl : Fragment(), FavouritesListFragment {
         mSearchView!!.queryHint = getString(R.string.fragment_all_notes_menu_search_query_hint)
         mSearchView!!.requestFocus()
         var bottomUnderline: Drawable? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            bottomUnderline = resources.getDrawable(R.drawable.search_view_bottom_underline, null)
-        }
+        bottomUnderline = resources.getDrawable(R.drawable.search_view_bottom_underline, null)
         mSearchView!!.background = bottomUnderline
     }
 
@@ -133,6 +128,12 @@ class FavouritesListFragmentImpl : Fragment(), FavouritesListFragment {
         mFragmentEntitiesListBinding!!.tvEmptyState!!.visibility = View.VISIBLE
     }
 
+    override fun changeNoteFavouriteStatus(
+        note: Note,
+    ) {
+        mFavouritesListPresenter.changeNoteFavouriteStatus(note)
+    }
+
     /**
      * A method which initializes recycler view with data
      */
@@ -142,11 +143,11 @@ class FavouritesListFragmentImpl : Fragment(), FavouritesListFragment {
 
         recyclerViewAllEntities.layoutManager = LinearLayoutManager(context)
 
-        mFavouritesRecyclerViewAdapter = FavouritesListAdapter(this, mFavouritesListPresenter!!)
-        mFavouritesListPresenter!!.setDataToAdapter(mFavouritesRecyclerViewAdapter!!)
+        mFavouritesRecyclerViewAdapter = FavouritesListAdapter(this)
+        mFavouritesListPresenter.setDataToAdapter(mFavouritesRecyclerViewAdapter!!)
         recyclerViewAllEntities.adapter = mFavouritesRecyclerViewAdapter
 
-        mFavouritesListPresenter!!.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
+        mFavouritesListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
         if (mFavouritesRecyclerViewAdapter!!.itemCount == 0) {
             showEmptyListView()
         }

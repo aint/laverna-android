@@ -1,8 +1,5 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.impl
 
-import android.view.View
-import android.widget.ImageButton
-import com.github.android.lvrn.lvrnproject.R
 import com.github.android.lvrn.lvrnproject.service.core.NoteService
 import com.github.android.lvrn.lvrnproject.service.form.NoteForm
 import com.github.android.lvrn.lvrnproject.util.CurrentState.Companion.profileId
@@ -24,24 +21,21 @@ class NotesListPresenterImpl @Inject constructor(var noteService: NoteService) :
         return noteService.getByTitle(profileId!!, query, paginationArgs)
     }
 
-    override fun changeNoteFavouriteStatus(note: Note, position: Int, view: View) {
+    override fun changeNoteFavouriteStatus(note: Note) {
         if (note.isFavorite) {
-            mEntities[position].isFavorite = false
+            note.isFavorite = false
             noteService.setNoteUnFavourite(note.id)
             Logger.i("Set un favourite")
-            (view as ImageButton).setImageResource(R.drawable.ic_star_white_24dp)
-            return
+        } else {
+            note.isFavorite = true
+            noteService.setNoteFavourite(note.id)
+            Logger.i("Set favourite")
         }
-        mEntities[position].isFavorite = true
-        noteService.setNoteFavourite(note.id)
-        Logger.i("Set favourite")
-        (view as ImageButton).setImageResource(R.drawable.ic_star_black_24dp)
     }
 
     override fun removeNote(position: Int) {
         noteService.moveToTrash(mEntities[position].id)
         mEntities.removeAt(position)
-        mEntitiesListFragment?.updateRecyclerView()
     }
 
 

@@ -9,8 +9,12 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.taskslist.TasksListFragment
 import com.github.valhallalabs.laverna.persistent.entity.Task
 
-class TasksListAdapter(private val mTaskListFragment: TasksListFragment) :
+class TasksListAdapter(private val tasksAdapterListener: TasksAdapterListener) :
     RecyclerView.Adapter<TasksListAdapter.TaskViewHolder>(), DataPostSetAdapter<Task> {
+
+    interface TasksAdapterListener{
+        fun openRelatedNote(task: Task)
+    }
 
     private var mTasks: List<Task> = emptyList()
 
@@ -27,7 +31,7 @@ class TasksListAdapter(private val mTaskListFragment: TasksListFragment) :
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.itemTaskBinding.textViewTaskDescription.text = mTasks[position].description
         holder.itemView.setOnClickListener { v: View? ->
-            mTaskListFragment.openRelatedNote(
+            tasksAdapterListener.openRelatedNote(
                 mTasks[position]
             )
         }

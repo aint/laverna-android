@@ -9,5 +9,5 @@ import com.github.valhallalabs.laverna.persistent.entity.Note
  * @author Vadim Boitsov <vadimboitsov1></vadimboitsov1>@gmail.com>
  */
 interface FavouritesListPresenter : EntitiesListWithSearchPresenter<Note, NoteForm> {
-    fun changeNoteFavouriteStatus(note: Note, position: Int, view: View)
+    fun changeNoteFavouriteStatus(note: Note)
 }

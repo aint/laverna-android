@@ -30,10 +30,10 @@ import javax.inject.Inject
 /**
  * @author Vadim Boitsov <vadimboitsov1></vadimboitsov1>@gmail.com>
  */
-class TasksListFragmentImpl : Fragment(), TasksListFragment {
-    @JvmField
+class TasksListFragmentImpl : Fragment(), TasksListFragment, TasksListAdapter.TasksAdapterListener {
+
     @Inject
-    var mTasksListPresenter: TasksListPresenter? = null
+    lateinit var mTasksListPresenter: TasksListPresenter
 
     private var mTasksRecyclerViewAdapter: TasksListAdapter? = null
 
@@ -58,14 +58,12 @@ class TasksListFragmentImpl : Fragment(), TasksListFragment {
 
     override fun onResume() {
         super.onResume()
-        if (mTasksListPresenter != null) {
-            mTasksListPresenter!!.bindView(this)
-        }
+        mTasksListPresenter.bindView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mTasksListPresenter!!.unbindView()
+        mTasksListPresenter.unbindView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -80,15 +78,15 @@ class TasksListFragmentImpl : Fragment(), TasksListFragment {
 //        menuSettings = menu.findItem(R.id.item_settings);
         mSearchView = MenuItemCompat.getActionView(mMenuSearch) as SearchView
 
-        mTasksListPresenter!!.subscribeSearchView(mMenuSearch)
+        mTasksListPresenter.subscribeSearchView(mMenuSearch)
 
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mTasksListPresenter!!.disposePagination()
-        mTasksListPresenter!!.disposeSearch()
+        mTasksListPresenter.disposePagination()
+        mTasksListPresenter.disposeSearch()
     }
 
     override fun updateRecyclerView() {
@@ -96,8 +94,8 @@ class TasksListFragmentImpl : Fragment(), TasksListFragment {
         Logger.d("Recycler view is updated")
     }
 
-    override fun openRelatedNote(task: Task?) {
-        onStart(requireActivity(), mTasksListPresenter!!.getNoteByTask(task)!!)
+    override fun openRelatedNote(task: Task) {
+        onStart(requireActivity(), mTasksListPresenter.getNoteByTask(task)!!)
     }
 
     override fun getSearchQuery(): String {
@@ -139,10 +137,10 @@ class TasksListFragmentImpl : Fragment(), TasksListFragment {
         recyclerViewAllEntities.layoutManager = LinearLayoutManager(context)
 
         mTasksRecyclerViewAdapter = TasksListAdapter(this)
-        mTasksListPresenter!!.setDataToAdapter(mTasksRecyclerViewAdapter!!)
+        mTasksListPresenter.setDataToAdapter(mTasksRecyclerViewAdapter!!)
         recyclerViewAllEntities.adapter = mTasksRecyclerViewAdapter
 
-        mTasksListPresenter!!.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
+        mTasksListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
     }
 
     /**

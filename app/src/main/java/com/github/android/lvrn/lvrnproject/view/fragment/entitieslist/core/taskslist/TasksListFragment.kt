@@ -7,5 +7,5 @@ import com.github.valhallalabs.laverna.persistent.entity.Task
  * @author Vadim Boitsov <vadimboitsov1></vadimboitsov1>@gmail.com>
  */
 interface TasksListFragment : EntitiesListWithSearchFragment {
-    fun openRelatedNote(task: Task?)
+    fun openRelatedNote(task: Task)
 }

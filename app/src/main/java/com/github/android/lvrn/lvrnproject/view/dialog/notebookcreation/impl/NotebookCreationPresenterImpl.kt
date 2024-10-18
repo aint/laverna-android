@@ -76,7 +76,7 @@ class NotebookCreationPresenterImpl @Inject constructor(val mNotebookService: No
         }
     }
 
-    override fun getNotebookId(notebookId: String?) {
+    override fun setNotebookId(notebookId: String?) {
         if (!TextUtils.isEmpty(notebookId)) {
             parentId = notebookId
         }

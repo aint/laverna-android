@@ -2,7 +2,6 @@ package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.note
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
@@ -25,7 +24,7 @@ import com.github.valhallalabs.laverna.persistent.entity.Note
 import com.orhanobut.logger.Logger
 import javax.inject.Inject
 
-class NotesListFragmentImpl : Fragment(), NotesListFragment {
+class NotesListFragmentImpl : Fragment(), NotesListFragment, NotesListAdapter.NoteAdapterListener {
 
     @Inject
     lateinit var mNotesListPresenter: NotesListPresenter
@@ -38,8 +37,13 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
 
     private lateinit var mFragmentEntitiesListBinding: FragmentEntitiesListBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mFragmentEntitiesListBinding = FragmentEntitiesListBinding.inflate(inflater, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        mFragmentEntitiesListBinding =
+            FragmentEntitiesListBinding.inflate(inflater, container, false)
         LavernaApplication.getsAppComponent().inject(this)
         setUpToolbar()
         initRecyclerView()
@@ -48,14 +52,12 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
 
     override fun onResume() {
         super.onResume()
-        if (mNotesListPresenter != null) {
-            mNotesListPresenter!!.bindView(this)
-        }
+        mNotesListPresenter.bindView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mNotesListPresenter!!.unbindView()
+        mNotesListPresenter.unbindView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -79,6 +81,10 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
 
     override fun showSelectedNote(note: Note) {
         onStart(requireActivity(), note)
+    }
+
+    override fun changeNoteFavouriteStatus(note: Note) {
+        mNotesListPresenter.changeNoteFavouriteStatus(note)
     }
 
     override fun updateRecyclerView() {
@@ -127,7 +133,7 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
         val recyclerViewAllEntities = mFragmentEntitiesListBinding.recyclerViewAllEntities
         recyclerViewAllEntities.setHasFixedSize(true)
         recyclerViewAllEntities.layoutManager = LinearLayoutManager(activity)
-        mNotesRecyclerViewAdapter = NotesListAdapter(this, mNotesListPresenter!!)
+        mNotesRecyclerViewAdapter = NotesListAdapter(this)
         mNotesListPresenter.setDataToAdapter(mNotesRecyclerViewAdapter)
         recyclerViewAllEntities.adapter = mNotesRecyclerViewAdapter
         mNotesListPresenter.subscribeRecyclerViewForPagination(recyclerViewAllEntities)
@@ -136,7 +142,11 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
 
     private fun initItemSwipeListener(recyclerViewAllEntities: RecyclerView) {
         val itemSwipe = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder,
+            ): Boolean {
                 return false
             }
 
@@ -154,6 +164,7 @@ class NotesListFragmentImpl : Fragment(), NotesListFragment {
             setMessage(getString(R.string.dialog_delete_note_text))
             setPositiveButton(getString(R.string.dialog_delete_note_confirm_btn)) { dialogInterface, i ->
                 mNotesListPresenter.removeNote(position)
+                mNotesRecyclerViewAdapter.notifyDataSetChanged()
             }
             setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
                 mNotesRecyclerViewAdapter.notifyDataSetChanged()

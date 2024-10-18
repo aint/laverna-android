@@ -13,7 +13,19 @@ import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.trash
 import com.github.android.lvrn.lvrnproject.view.util.convertMillisecondsToString
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class TrashListAdapter(private var trashListFragment: TrashListFragment, private var trashListPresenter: TrashListPresenter) : RecyclerView.Adapter<TrashListAdapter.TrashViewHolder>(), DataPostSetAdapter<Note> {
+class TrashListAdapter(private var trashAdapterListener: TrashAdapterListener)
+    : RecyclerView.Adapter<TrashListAdapter.TrashViewHolder>(), DataPostSetAdapter<Note> {
+
+    interface TrashAdapterListener{
+
+        fun showSelectedNote(note: Note)
+
+        fun removeNoteForever(position: Int)
+
+        fun showEmptyListView()
+
+        fun restoreNote(position: Int)
+    }
 
     private var notes: List<Note> = emptyList()
     private val viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
@@ -31,13 +43,13 @@ class TrashListAdapter(private var trashListFragment: TrashListFragment, private
         val itemTrashBinding: ItemTrashBinding = holder.itemTrashBinding
         itemTrashBinding.tvTitleNote.text = note.title
         itemTrashBinding.tvPromptTextNote.text = note.content
-        itemTrashBinding.cardViewNotes.setOnClickListener { trashListFragment.showSelectedNote(note) }
+        itemTrashBinding.cardViewNotes.setOnClickListener { trashAdapterListener.showSelectedNote(note) }
         itemTrashBinding.deleteLayout.setOnClickListener{
-            trashListFragment.removeNoteForever(position)
+            trashAdapterListener.removeNoteForever(position)
             showEmptyViewState()
         }
         itemTrashBinding.restoreLayout.setOnClickListener{
-            trashListPresenter.restoreNote(position)
+            trashAdapterListener.restoreNote(position)
             showEmptyViewState()
         }
         if (note.isFavorite) {
@@ -56,7 +68,7 @@ class TrashListAdapter(private var trashListFragment: TrashListFragment, private
 
     private fun showEmptyViewState() {
         if (notes.isEmpty()) {
-            trashListFragment.showEmptyListView()
+            trashAdapterListener.showEmptyListView()
         }
     }
 

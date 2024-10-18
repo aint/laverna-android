@@ -22,10 +22,10 @@ import com.github.valhallalabs.laverna.persistent.entity.Note
 import com.orhanobut.logger.Logger
 import javax.inject.Inject
 
-class TrashListFragmentImpl : Fragment(), TrashListFragment {
+class TrashListFragmentImpl : Fragment(), TrashListFragment, TrashListAdapter.TrashAdapterListener {
 
     @set:Inject
-    var trashListPresenter: TrashListPresenter? = null
+    lateinit var trashListPresenter: TrashListPresenter
 
     val TOOLBAR_TITLE = "Trash"
 
@@ -45,14 +45,12 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
 
     override fun onResume() {
         super.onResume()
-        if (trashListPresenter != null) {
-            trashListPresenter?.bindView(this)
-        }
+        trashListPresenter.bindView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        trashListPresenter?.unbindView()
+        trashListPresenter.unbindView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -63,14 +61,14 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
 //        menuSortBy = menu.findItem(R.id.item_sort_by);
 //        menuSettings = menu.findItem(R.id.item_settings);
         mSearchView = MenuItemCompat.getActionView(mMenuSearch) as SearchView
-        trashListPresenter?.subscribeSearchView(mMenuSearch)
+        trashListPresenter.subscribeSearchView(mMenuSearch)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        trashListPresenter?.disposePagination()
-        trashListPresenter?.disposeSearch()
+        trashListPresenter.disposePagination()
+        trashListPresenter.disposeSearch()
     }
 
     override fun getSearchQuery(): String {
@@ -86,7 +84,8 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
             setTitle(getString(R.string.dialog_delete_note_title))
             setMessage(getString(R.string.dialog_delete_note_text))
             setPositiveButton(getString(R.string.dialog_delete_note_forever_text)) { dialogInterface, i ->
-                trashListPresenter!!.removeNoteForever(position)
+                trashListPresenter.removeNoteForever(position)
+                notesRecyclerViewAdapter.notifyDataSetChanged()
             }
             setNegativeButton(getString(R.string.dialog_delete_note_cancel_btn)) { dialogInterface, i ->
                 notesRecyclerViewAdapter.notifyDataSetChanged()
@@ -99,6 +98,11 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
         val tvEmptyState = fragmentEntitiesListBinding.tvEmptyState!!
         tvEmptyState.text = getText(R.string.trash_notes_empty_text)
         tvEmptyState.visibility = View.VISIBLE
+    }
+
+    override fun restoreNote(position: Int) {
+       trashListPresenter.restoreNote(position)
+        notesRecyclerViewAdapter.notifyDataSetChanged()
     }
 
     override fun updateRecyclerView() {
@@ -126,9 +130,7 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
         mSearchView!!.queryHint = getString(R.string.fragment_all_notes_menu_search_query_hint)
         mSearchView!!.requestFocus()
         var bottomUnderline: Drawable? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            bottomUnderline = resources.getDrawable(R.drawable.search_view_bottom_underline, null)
-        }
+        bottomUnderline = resources.getDrawable(R.drawable.search_view_bottom_underline, null)
         mSearchView!!.background = bottomUnderline
     }
 
@@ -139,7 +141,7 @@ class TrashListFragmentImpl : Fragment(), TrashListFragment {
         val recyclerViewAllEntities: RecyclerView = fragmentEntitiesListBinding.recyclerViewAllEntities
         recyclerViewAllEntities.setHasFixedSize(true)
         recyclerViewAllEntities.layoutManager = LinearLayoutManager(context)
-        notesRecyclerViewAdapter = TrashListAdapter(this, trashListPresenter!!)
+        notesRecyclerViewAdapter = TrashListAdapter(this)
         trashListPresenter?.setDataToAdapter(notesRecyclerViewAdapter)
         recyclerViewAllEntities.adapter = notesRecyclerViewAdapter
         trashListPresenter?.subscribeRecyclerViewForPagination(recyclerViewAllEntities)

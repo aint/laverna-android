@@ -8,7 +8,11 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class ChildNotesAdapter(private var notebookChildrenFragment: NotebookChildrenFragment) : RecyclerView.Adapter<ChildNotesAdapter.ChildNoteViewHolder>(), DataPostSetAdapter<Note> {
+class ChildNotesAdapter(private var notebookChildrenListener: NotebookChildrenListener) : RecyclerView.Adapter<ChildNotesAdapter.ChildNoteViewHolder>(), DataPostSetAdapter<Note> {
+
+    interface NotebookChildrenListener{
+        fun showSelectedNote(note: Note)
+    }
 
     private var notes: List<Note> = emptyList()
 
@@ -20,7 +24,7 @@ class ChildNotesAdapter(private var notebookChildrenFragment: NotebookChildrenFr
         val note = notes[position]
         holder.itemNoteBinding.tvTitleNote.text = note.title
         holder.itemNoteBinding.tvPromptTextNote.text = note.content
-        holder.itemView.setOnClickListener { notebookChildrenFragment.showSelectedNote(note) }
+        holder.itemView.setOnClickListener { notebookChildrenListener.showSelectedNote(note) }
     }
 
     override fun getItemCount(): Int {

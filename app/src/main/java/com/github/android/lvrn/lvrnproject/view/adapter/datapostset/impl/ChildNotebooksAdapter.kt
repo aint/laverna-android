@@ -8,9 +8,13 @@ import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetA
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenFragment
 import com.github.valhallalabs.laverna.persistent.entity.Notebook
 
-class ChildNotebooksAdapter(private var notebookChildrenFragment: NotebookChildrenFragment) :
+class ChildNotebooksAdapter(private var childNotebooksAdapterListener: ChildNotebooksAdapterListener) :
     RecyclerView.Adapter<ChildNotebooksAdapter.ChildNotebooksViewHolder>(),
     DataPostSetAdapter<Notebook> {
+
+    interface ChildNotebooksAdapterListener{
+        fun openNotebook(notebook: Notebook)
+    }
 
     private var notebookList: List<Notebook> = emptyList()
 
@@ -27,7 +31,7 @@ class ChildNotebooksAdapter(private var notebookChildrenFragment: NotebookChildr
     override fun onBindViewHolder(holder: ChildNotebooksViewHolder, position: Int) {
         val notebook = notebookList[position]
         holder.itemNotebookBinding.textViewNotebookName.text = notebook.name
-        holder.itemView.setOnClickListener { notebookChildrenFragment.openNotebook(notebook) }
+        holder.itemView.setOnClickListener { childNotebooksAdapterListener.openNotebook(notebook) }
     }
 
     override fun getItemCount(): Int {

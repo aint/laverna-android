@@ -6,17 +6,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.android.lvrn.lvrnproject.R
 import com.github.android.lvrn.lvrnproject.databinding.ItemNoteBinding
 import com.github.android.lvrn.lvrnproject.view.adapter.datapostset.DataPostSetAdapter
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListFragment
-import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.noteslist.NotesListPresenter
 import com.github.android.lvrn.lvrnproject.view.util.convertMillisecondsToString
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
-class NotesListAdapter(private val allNotesFragment: NotesListFragment, private val noteListPresenter: NotesListPresenter) : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>(), DataPostSetAdapter<Note> {
+class NotesListAdapter(val listener: NoteAdapterListener) :
+    RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>(), DataPostSetAdapter<Note> {
+
+    interface NoteAdapterListener {
+        fun showSelectedNote(note: Note)
+        fun changeNoteFavouriteStatus(note: Note)
+    }
 
     private var notes: List<Note> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        return NoteViewHolder(ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return NoteViewHolder(
+            ItemNoteBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -33,8 +43,11 @@ class NotesListAdapter(private val allNotesFragment: NotesListFragment, private 
         }
         itemNoteBinding.tvTitleNote.text = note.title
         itemNoteBinding.tvPromptTextNote.text = note.content
-        holder.itemView.setOnClickListener { allNotesFragment.showSelectedNote(note) }
-        itemNoteBinding.imBtnFavorite.setOnClickListener { view -> noteListPresenter.changeNoteFavouriteStatus(note, position, view) }
+        holder.itemView.setOnClickListener { listener.showSelectedNote(note) }
+        itemNoteBinding.imBtnFavorite.setOnClickListener {
+            listener.changeNoteFavouriteStatus(note)
+            notifyItemChanged(position)
+        }
         itemNoteBinding.tvDateCreatedNote.text = convertMillisecondsToString(note.creationTime)
     }
 
@@ -42,7 +55,8 @@ class NotesListAdapter(private val allNotesFragment: NotesListFragment, private 
         notes = data
     }
 
-    class NoteViewHolder(val itemNoteBinding: ItemNoteBinding) : RecyclerView.ViewHolder(itemNoteBinding.root)
+    class NoteViewHolder(val itemNoteBinding: ItemNoteBinding) :
+        RecyclerView.ViewHolder(itemNoteBinding.root)
 
 }
 

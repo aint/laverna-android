@@ -18,7 +18,7 @@ interface NotebookCreationPresenter {
 
     fun disposePaginationAndSearch()
 
-    fun getNotebookId(notebookId: String?)
+    fun setNotebookId(notebookId: String?)
 
     fun setDataToAdapter(dataPostSetAdapter: DataPostSetAdapter<Notebook>)
 }

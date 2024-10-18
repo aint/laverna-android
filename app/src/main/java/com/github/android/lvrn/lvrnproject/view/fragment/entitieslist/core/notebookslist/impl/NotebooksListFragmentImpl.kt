@@ -1,7 +1,6 @@
 package com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookslist.impl
 
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -32,7 +31,8 @@ import javax.inject.Inject
 /**
  * @author Vadim Boitsov <vadimboitsov1></vadimboitsov1>@gmail.com>
  */
-class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
+class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment,
+    NotebooksListAdapter.NotebooksAdapterListener {
 
 
     @Inject
@@ -52,7 +52,7 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         mFragmentEntitiesListBinding =
             FragmentEntitiesListBinding.inflate(inflater, container, false)
@@ -64,14 +64,12 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
 
     override fun onResume() {
         super.onResume()
-        if (mNotebooksListPresenter != null) {
-            mNotebooksListPresenter!!.bindView(this)
-        }
+        mNotebooksListPresenter.bindView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mNotebooksListPresenter!!.unbindView()
+        mNotebooksListPresenter.unbindView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -132,12 +130,12 @@ class NotebooksListFragmentImpl : Fragment(), NotebooksListFragment {
     }
 
     override fun openNotebook(notebook: Notebook) {
-        val notebookChildrenFragment = NotebookChildrenFragmentImpl()
-
-        val bundle = Bundle()
-        bundle.putParcelable(BUNDLE_NOTEBOOK_OBJECT_KEY, notebook)
-        notebookChildrenFragment.arguments = bundle
-
+        val bundle = Bundle().apply {
+            putParcelable(BUNDLE_NOTEBOOK_OBJECT_KEY, notebook)
+        }
+        val notebookChildrenFragment = NotebookChildrenFragmentImpl().apply {
+            arguments = bundle
+        }
         requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(

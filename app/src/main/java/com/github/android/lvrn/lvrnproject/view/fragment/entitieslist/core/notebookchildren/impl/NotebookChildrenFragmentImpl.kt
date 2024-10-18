@@ -24,7 +24,8 @@ import javax.inject.Inject
 /**
  * @author Andrii Bei <psihey1></psihey1>@gmail.com>
  */
-class NotebookChildrenFragmentImpl : Fragment(), NotebookChildrenFragment {
+class NotebookChildrenFragmentImpl : Fragment(), NotebookChildrenFragment,
+    ChildNotesAdapter.NotebookChildrenListener, ChildNotebooksAdapter.ChildNotebooksAdapterListener {
 
     @Inject
     lateinit var mNotebookChildrenPresenter: NotebookChildrenPresenter
@@ -36,7 +37,7 @@ class NotebookChildrenFragmentImpl : Fragment(), NotebookChildrenFragment {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         mFragmentNotebookContentBinding =
             FragmentNotebookContentBinding.inflate(inflater, container, false)
@@ -48,28 +49,30 @@ class NotebookChildrenFragmentImpl : Fragment(), NotebookChildrenFragment {
 
     override fun onResume() {
         super.onResume()
-        if (mNotebookChildrenPresenter != null) {
-            mNotebookChildrenPresenter?.getNotebooksListPresenter()?.bindView(this)
-            mNotebookChildrenPresenter?.getNotesListPresenter()?.bindView(this)
-        }
+        mNotebookChildrenPresenter.getNotebooksListPresenter().bindView(this)
+        mNotebookChildrenPresenter.getNotesListPresenter().bindView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mNotebookChildrenPresenter?.getNotebooksListPresenter()?.unbindView()
-        mNotebookChildrenPresenter?.getNotesListPresenter()?.unbindView()
+        mNotebookChildrenPresenter.getNotebooksListPresenter().unbindView()
+        mNotebookChildrenPresenter.getNotesListPresenter().unbindView()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mNotebookChildrenPresenter?.getNotebooksListPresenter()?.disposePagination()
-        mNotebookChildrenPresenter?.getNotesListPresenter()?.disposePagination()
+        mNotebookChildrenPresenter.getNotebooksListPresenter().disposePagination()
+        mNotebookChildrenPresenter.getNotesListPresenter().disposePagination()
     }
 
     private fun initListPresenters() {
         val bundle = arguments
         if (bundle != null) {
-            mNotebookChildrenPresenter?.initializeListsPresenters(bundle.getParcelable(BUNDLE_NOTEBOOK_OBJECT_KEY))
+            mNotebookChildrenPresenter.initializeListsPresenters(
+                bundle.getParcelable(
+                    BUNDLE_NOTEBOOK_OBJECT_KEY
+                )
+            )
         }
     }
 
@@ -88,10 +91,10 @@ class NotebookChildrenFragmentImpl : Fragment(), NotebookChildrenFragment {
         recyclerViewNotes.layoutManager = LinearLayoutManager(context)
 
         mChildNotesAdapter = ChildNotesAdapter(this)
-        mNotebookChildrenPresenter?.getNotesListPresenter()?.setDataToAdapter(mChildNotesAdapter!!)
+        mNotebookChildrenPresenter.getNotesListPresenter().setDataToAdapter(mChildNotesAdapter!!)
         recyclerViewNotes.adapter = mChildNotesAdapter
 
-        mNotebookChildrenPresenter?.getNotesListPresenter()?.subscribeRecyclerViewForPagination(
+        mNotebookChildrenPresenter.getNotesListPresenter().subscribeRecyclerViewForPagination(
             recyclerViewNotes
         )
     }
@@ -103,10 +106,11 @@ class NotebookChildrenFragmentImpl : Fragment(), NotebookChildrenFragment {
         recyclerViewNotebooks.layoutManager = LinearLayoutManager(context)
 
         mChildNotebooksAdapter = ChildNotebooksAdapter(this)
-        mNotebookChildrenPresenter?.getNotebooksListPresenter()?.setDataToAdapter(mChildNotebooksAdapter!!)
+        mNotebookChildrenPresenter.getNotebooksListPresenter()
+            .setDataToAdapter(mChildNotebooksAdapter!!)
         recyclerViewNotebooks.adapter = mChildNotebooksAdapter
 
-        mNotebookChildrenPresenter?.getNotebooksListPresenter()?.subscribeRecyclerViewForPagination(
+        mNotebookChildrenPresenter.getNotebooksListPresenter().subscribeRecyclerViewForPagination(
             recyclerViewNotebooks
         )
     }

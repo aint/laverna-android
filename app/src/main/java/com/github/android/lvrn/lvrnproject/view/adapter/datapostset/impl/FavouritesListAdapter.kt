@@ -1,6 +1,7 @@
 package com.github.android.lvrn.lvrnproject.view.adapter.datapostset.impl
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.android.lvrn.lvrnproject.R
@@ -12,9 +13,16 @@ import com.github.android.lvrn.lvrnproject.view.util.convertMillisecondsToString
 import com.github.valhallalabs.laverna.persistent.entity.Note
 
 class FavouritesListAdapter(
-    private var favouritesListFragment: FavouritesListFragment,
-    private var favouritesListPresenter: FavouritesListPresenter
+    private val favouriteAdapterListener: FavouriteAdapterListener
 ) : RecyclerView.Adapter<FavouritesListAdapter.FavouriteViewHolder>(), DataPostSetAdapter<Note> {
+
+    interface FavouriteAdapterListener{
+        fun showSelectedNote(note: Note)
+
+        fun showEmptyListView()
+
+        fun changeNoteFavouriteStatus(note: Note)
+    }
 
     private var notes: MutableList<Note> = mutableListOf()
 
@@ -29,14 +37,14 @@ class FavouritesListAdapter(
         holder.itemNoteBinding.tvDateCreatedNote.text = convertMillisecondsToString(note.creationTime)
         holder.itemNoteBinding.imBtnFavorite.setImageResource(R.drawable.ic_star_black_24dp)
         holder.itemNoteBinding.imBtnFavorite.setOnClickListener {
-            favouritesListPresenter.changeNoteFavouriteStatus(note, position, it)
+            favouriteAdapterListener.changeNoteFavouriteStatus(note)
             notes.remove(note)
             notifyItemRemoved(position)
             if (notes.isEmpty()) {
-                favouritesListFragment.showEmptyListView()
+                favouriteAdapterListener.showEmptyListView()
             }
         }
-        holder.itemView.setOnClickListener { favouritesListFragment.showSelectedNote(note) }
+        holder.itemView.setOnClickListener { favouriteAdapterListener.showSelectedNote(note) }
     }
 
     override fun getItemCount(): Int {

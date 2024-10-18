@@ -1,5 +1,7 @@
 package com.github.android.lvrn.lvrnproject.dagger.modules
 
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.NotebookCreationPresenter
+import com.github.android.lvrn.lvrnproject.view.dialog.notebookcreation.impl.NotebookCreationPresenterImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.FavouritesListPresenter
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.favouriteslist.impl.FavouritesListPresenterImpl
 import com.github.android.lvrn.lvrnproject.view.fragment.entitieslist.core.notebookchildren.NotebookChildrenPresenter
@@ -35,4 +37,7 @@ abstract class PresenterModule {
 
     @Binds
     abstract fun bindTrashListPresenter(trashListPresenter: TrashListPresenterImpl): TrashListPresenter
+
+    @Binds
+    abstract fun bindNotebookCreationPresenter(notebookCreationPresenter: NotebookCreationPresenterImpl) : NotebookCreationPresenter
 }
